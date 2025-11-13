@@ -1,0 +1,114 @@
+<div class="cart-page">
+  <div class="container">
+    <h1 class="page-title">{{ 'shopping_cart' | translate }}</h1>
+
+    @if (cart().items.length === 0) {
+    <div class="empty-cart">
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <circle cx="8" cy="21" r="1"></circle>
+        <circle cx="19" cy="21" r="1"></circle>
+        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+      </svg>
+      <h2>{{ 'empty_cart' | translate }}</h2>
+      <p>{{ 'add_products_to_get_started' | translate }}</p>
+      <a routerLink="/products" class="btn-primary">{{ 'continue_shopping' | translate }}</a>
+    </div>
+    } @else {
+    <div class="cart-layout">
+      <!-- Cart Items -->
+      <div class="cart-items">
+        @for (item of cart().items; track $index) {
+        <div class="cart-item">
+          <div class="item-image">
+            <img [src]="item.productImage" [alt]="item.productName" />
+          </div>
+
+          <div class="item-details">
+            <h3 class="item-name">{{ item.productName }}</h3>
+            <div class="item-options">
+              @if (item.size) {
+              <span class="option-badge">{{ item.size }}</span>
+              }
+              @if (item.color) {
+              <span class="option-badge">{{ item.color }}</span>
+              }
+            </div>
+            <p class="item-price-mobile">${{ formatPrice(item.productPrice) }} each</p>
+          </div>
+
+          <div class="item-actions">
+            <div class="quantity-selector">
+              <button (click)="decreaseQuantity($index)">-</button>
+              <span>{{ item.quantity }}</span>
+              <button (click)="increaseQuantity($index)">+</button>
+            </div>
+
+            <p class="item-price">${{ calculateItemTotal(item.productPrice, item.quantity) }}</p>
+
+            <button class="remove-btn" (click)="removeItem(item.id)" aria-label="Remove item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h2>{{ 'order_summary' | translate }}</h2>
+
+        <div class="summary-row">
+          <span>{{ 'subtotal' | translate }} ({{ cart().totalItems }} {{ 'items' | translate }})</span>
+          <span>${{ cart().subtotal.toFixed(2) }}</span>
+        </div>
+
+        <div class="summary-row">
+          <span>{{ 'shipping' | translate }}</span>
+          <span>
+            @if (cart().shipping === 0) {
+            <span class="free">{{ 'free' | translate }}</span>
+            } @else {
+            ${{ cart().shipping.toFixed(2) }}
+            }
+          </span>
+        </div>
+
+        <div class="summary-row">
+          <span>{{ 'tax' | translate }}</span>
+          <span>${{ cart().tax.toFixed(2) }}</span>
+        </div>
+
+        @if (cart().subtotal < 100 && cart().subtotal> 0) {
+          <div class="shipping-notice">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            {{ 'add' | translate }} ${{ (100 - cart().subtotal).toFixed(2) }} {{ 'more_for_free_shipping' | translate }}
+          </div>
+          }
+
+          <div class="summary-total">
+            <span>{{ 'total' | translate }}</span>
+            <span>${{ cart().total.toFixed(2) }}</span>
+          </div>
+
+          <a routerLink="/checkout" class="btn-checkout">
+            {{ 'proceed_to_checkout' | translate }}
+          </a>
+
+          <a routerLink="/products" class="btn-continue">
+            {{ 'continue_shopping' | translate }}
+          </a>
+      </div>
+    </div>
+    }
+  </div>
+</div>

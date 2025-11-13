@@ -1,20 +1,199 @@
-# PinkyClothingShop
+# PINKY Clothing Shop 👕
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.5.
+A modern, fully responsive e-commerce application built with Angular 18+ and integrated with a Node.js/Express/MySQL backend.
 
-## Development server
+## ✨ Features
 
-To start a local development server, run:
+### 🔐 Authentication & User Management
 
-```bash
-ng serve
+- JWT-based authentication
+- Login/Register with validation
+- User profile management
+- Protected routes with auth guards
+
+### 🏠 Homepage
+
+- Dynamic product display from backend
+- Featured products showcase
+- Category browsing
+- Real-time product updates
+
+### 👕 Product Management
+
+- Grid layout with responsive design
+- Backend-powered filtering (category, price, stock)
+- Real-time search
+- Product details with images
+
+### 🛒 Shopping Cart
+
+- Backend-synchronized cart
+- Real-time quantity updates
+- Persistent cart across sessions
+- Stock validation
+
+### � Checkout & Orders
+
+- Complete checkout process
+- Order creation and tracking
+- Order history
+- Status updates
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- Angular CLI (v18+)
+- Backend server running (see backend README)
+
+### Installation
+
+1. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+2. **Configure environment**
+
+   Update `src/environments/environment.ts` with your backend URL:
+
+   ```typescript
+   export const environment = {
+     production: false,
+     apiUrl: "http://localhost:3000/api",
+   };
+   ```
+
+3. **Start development server**
+
+   ```bash
+   npm start
+   ```
+
+   Navigate to `http://localhost:4200/`
+
+## � Project Structure
+
+```
+src/app/
+├── components/       # Reusable components (header, footer, product-card)
+├── pages/           # Page components (home, products, cart, checkout, login)
+├── services/        # API services (auth, product, cart, order)
+├── models/          # TypeScript interfaces
+├── interceptors/    # HTTP interceptors (auth token injection)
+└── environments/    # Environment configurations
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🔧 API Integration
 
-## Code scaffolding
+### Services Overview
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **AuthService**: Login, register, profile management, JWT handling
+- **ProductService**: Fetch products, filtering, search, categories
+- **CartService**: Add/remove items, update quantities, sync with backend
+- **OrderService**: Create orders, view history, track status
+
+### Authentication Flow
+
+1. Login/Register → Receive JWT token
+2. Token stored in localStorage
+3. Auth interceptor adds token to all requests
+4. Backend validates token on protected routes
+
+## 🎯 Key Features
+
+### Real-time Cart Management
+
+- Cart synced with backend on every operation
+- Stock validation before adding items
+- Persistent across sessions
+
+### Advanced Product Filtering
+
+```typescript
+// Filter by category, price range, search query
+productService.getAllProducts({
+  category: "T-Shirts",
+  minPrice: 20,
+  maxPrice: 50,
+  search: "cotton",
+  inStock: true,
+});
+```
+
+### Order Management
+
+- Create orders from cart items
+- Automatic stock reduction
+- Cart cleared after checkout
+- View order history with details
+
+## 📱 Responsive Design
+
+Fully responsive design with breakpoints:
+
+- Mobile: < 768px
+- Tablet: 768px - 1024px
+- Desktop: > 1024px
+
+## 🔒 Security
+
+- JWT authentication
+- HTTP-only auth interceptor
+- Input validation
+- CORS protection
+- XSS prevention
+
+## 🛠️ Available Scripts
+
+```bash
+npm start          # Start dev server
+npm run build      # Build for production
+npm test           # Run tests
+npm run lint       # Lint code
+```
+
+## 🌐 Backend Integration
+
+Ensure the backend is running before starting the frontend:
+
+```bash
+# In backend directory
+npm run dev
+```
+
+Demo credentials:
+
+- Email: `pinky@example.com`
+- Password: `password123`
+
+## 📦 Building for Production
+
+```bash
+npm run build
+```
+
+Output will be in the `dist/` directory.
+
+## 🐛 Troubleshooting
+
+### Connection Issues
+
+- Verify backend is running on port 3000
+- Check `environment.ts` has correct API URL
+- Ensure CORS is configured in backend
+
+### Authentication Problems
+
+- Clear localStorage and try again
+- Check token in DevTools → Application → Local Storage
+- Verify backend JWT configuration
+
+## 📄 License
+
+ISC
 
 ```bash
 ng generate component component-name

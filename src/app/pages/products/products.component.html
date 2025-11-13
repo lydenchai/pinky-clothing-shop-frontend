@@ -1,0 +1,150 @@
+<div class="products-page">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>{{ 'all_products' | translate }}</h1>
+      <p>{{ 'discover_our_latest_collection' | translate }}</p>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <button class="filter-toggle-btn" (click)="toggleFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+        {{ 'filters' | translate }}
+      </button>
+
+      <div class="results-count">
+        {{ filteredProducts().length }} {{ filteredProducts().length === 1 ? ('product' | translate) : ('products' |
+        translate) }} {{ 'found' | translate }}
+      </div>
+
+      <div class="sort-dropdown">
+        <label>{{ 'sort_by' | translate }}:</label>
+        <select [(ngModel)]="sortBy" (change)="onSortChange()">
+          <option value="featured">{{ 'featured' | translate }}</option>
+          <option value="price-low">{{ 'price_low_to_high' | translate }}</option>
+          <option value="price-high">{{ 'price_high_to_low' | translate }}</option>
+          <option value="name">{{ 'name_a_to_z' | translate }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Filters Sidebar -->
+      <aside class="filters-sidebar" [class.show]="showFilters">
+        <div class="filters-header">
+          <h3>{{ 'filters' | translate }}</h3>
+          <div class="header-actions">
+            <button class="clear-btn" (click)="clearFilters()">{{ 'clear_all' | translate }}</button>
+            <button class="close-filters-btn" (click)="toggleFilters()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-group">
+          <h4>{{ 'category' | translate }}</h4>
+          <div class="filter-options">
+            @for (category of availableCategories; track category) {
+            <label class="filter-option">
+              <input type="radio" name="category" [checked]="filters().category === category"
+                (change)="setCategory(category)" />
+              <span>{{ category | translate }}</span>
+            </label>
+            }
+          </div>
+        </div>
+
+        <!-- In Stock Filter -->
+        <div class="filter-group">
+          <h4>{{ 'availability' | translate }}</h4>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input type="checkbox" [checked]="filters().inStock" (change)="toggleInStock()" />
+              <span>{{ 'in_stock_only' | translate }}</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Price Range -->
+        <div class="filter-group">
+          <h4>{{ 'price_range' | translate }}</h4>
+          <div class="price-range">
+            <div class="price-inputs">
+              <div class="price-input-wrapper">
+                <span class="price-prefix">$</span>
+                <input type="number" [value]="filters().minPrice || ''"
+                  (input)="onMinPriceChange($any($event.target).value)" placeholder="0" min="0" step="1" />
+              </div>
+              <span class="separator">-</span>
+              <div class="price-input-wrapper">
+                <span class="price-prefix">$</span>
+                <input type="number" [value]="filters().maxPrice || ''"
+                  (input)="onMaxPriceChange($any($event.target).value)" placeholder="1000" min="0" step="1" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Products Grid -->
+      <main class="products-main">
+        @if (filteredProducts().length > 0) {
+        <div class="products-grid">
+          @for (product of filteredProducts(); track product.id) {
+          <app-product-card [product]="product" />
+          }
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <button class="pagination-btn" [disabled]="!pagination().hasPreviousPage" (click)="previousPage()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            {{ 'previous' | translate }}
+          </button>
+
+          <div class="pagination-info">
+            <span class="page-numbers">
+              {{ 'page' | translate }} {{ pagination().currentPage }} {{ 'of' | translate }} {{ pagination().totalPages
+              }}
+            </span>
+            <span class="item-count">
+              ({{ pagination().totalItems }} {{ 'items_total' | translate }})
+            </span>
+          </div>
+
+          <button class="pagination-btn" [disabled]="!pagination().hasNextPage" (click)="nextPage()">
+            {{ 'next' | translate }}
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+        } @else {
+        <div class="no-results">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <h3>{{ 'no_products' | translate }}</h3>
+          <p>{{ 'try_adjusting_filters' | translate }}</p>
+          <button class="btn-primary" (click)="clearFilters()">{{ 'clear_filters' | translate }}</button>
+        </div>
+        }
+      </main>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: #fbfbfd;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+}
+
+.auth-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f5f5f7;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: #1d1d1f;
+    text-align: center;
+    letter-spacing: -0.015em;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #86868b;
+    margin: 0 0 2rem 0;
+    font-size: 1.0625rem;
+  }
+}
+
+.error-message {
+  background: #fff3f3;
+  color: #ff3b30;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+  border: 1px solid #ffdddb;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #1d1d1f;
+    font-size: 0.875rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    font-size: 1.0625rem;
+    transition: all 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #0071e3;
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+    }
+
+    &::placeholder {
+      color: #86868b;
+    }
+  }
+}
+
+.btn-submit {
+  width: 100%;
+  background: #0071e3;
+  color: white;
+  padding: 0.875rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+
+  &:hover:not(:disabled) {
+    background: #0077ed;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.toggle-text {
+  text-align: center;
+  color: #86868b;
+  margin: 0;
+  font-size: 0.9375rem;
+
+  a {
+    color: #0071e3;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,0 +1,147 @@
+@if (product(); as prod) {
+<div class="product-detail">
+  <div class="container">
+    <div class="product-layout">
+      <!-- Image Gallery -->
+      <div class="gallery">
+        <div class="main-image">
+          <img [src]="selectedImage() || prod.imageUrl" [alt]="prod.name" />
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <div class="breadcrumb">
+          <a routerLink="/">{{ 'home' | translate }}</a> /
+          <a routerLink="/products" [queryParams]="{category: prod.category }">{{ prod.category | translate}}</a> /
+          {{ prod.name }}
+        </div>
+
+        <h1 class="product-name">{{ prod.name }}</h1>
+
+        <div class="product-pricing">
+          <span class="price">${{ getPrice() }}</span>
+          @if (prod.stock > 0) {
+          <span class="stock-badge in-stock">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            {{ 'in_stock' | translate }}
+          </span>
+          } @else {
+          <span class="stock-badge out-of-stock">{{ 'out_of_stock' | translate }}</span>
+          }
+        </div>
+
+        <p class="product-description">{{ prod.description }}</p>
+
+        <!-- Color Selection -->
+        @if (getColorsArray().length > 0) {
+        <div class="selection-group">
+          <label>{{ 'color' | translate }}: <strong>{{ selectedColor() }}</strong></label>
+          <div class="color-options">
+            @for (color of getColorsArray(); track color) {
+            <button class="color-btn" [class.active]="selectedColor() === color" [style.background-color]="color"
+              [title]="color" (click)="selectColor(color)">
+              @if (selectedColor() === color) {
+              <span class="check">✓</span>
+              }
+            </button>
+            }
+          </div>
+        </div>
+        }
+
+        <!-- Size Selection -->
+        @if (getSizesArray().length > 0) {
+        <div class="selection-group">
+          <label>{{ 'size' | translate }}: <strong>{{ selectedSize() }}</strong></label>
+          <div class="size-options">
+            @for (size of getSizesArray(); track size) {
+            <button class="size-btn" [class.active]="selectedSize() === size" (click)="selectSize(size)">
+              {{ size }}
+            </button>
+            }
+          </div>
+        </div>
+        }
+
+        <!-- Quantity -->
+        <div class="selection-group">
+          <label>{{ 'quantity' | translate }}:</label>
+          <div class="quantity-selector">
+            <button (click)="decreaseQuantity()">-</button>
+            <span>{{ quantity() }}</span>
+            <button (click)="increaseQuantity()">+</button>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+          <button class="btn-add-to-cart" (click)="addToCart()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <circle cx="8" cy="21" r="1"></circle>
+              <circle cx="19" cy="21" r="1"></circle>
+              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+            </svg>
+            {{ 'add_to_cart' | translate }}
+          </button>
+        </div>
+
+        @if (addedToCart()) {
+        <div class="success-message">
+          ✓ {{ 'added_to_cart_successfully' | translate }}
+        </div>
+        }
+
+        <!-- Product Features -->
+        <div class="product-features">
+          <div class="feature">
+            <div class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+            </div>
+            <div>
+              <strong>{{ 'free_shipping' | translate }}</strong>
+              <p>{{ 'on_orders_over_100' | translate }}</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 14 4 9 9 4"></polyline>
+                <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+              </svg>
+            </div>
+            <div>
+              <strong>{{ 'easy_returns' | translate }}</strong>
+              <p>{{ 'within_30_days' | translate }}</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+            </div>
+            <div>
+              <strong>{{ 'secure_payment' | translate }}</strong>
+              <p>{{ 'secure_transactions' | translate }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

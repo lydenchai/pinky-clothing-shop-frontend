@@ -1,0 +1,27 @@
+<div class="orders-page">
+  <h1>{{ 'my_orders' | translate }}</h1>
+  @if (orders.length === 0) {
+    <p>{{ 'no_orders_yet' | translate }}</p>
+  } @else {
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>{{ 'order_number' | translate }}</th>
+          <th>{{ 'date' | translate }}</th>
+          <th>{{ 'status' | translate }}</th>
+          <th>{{ 'total' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (order of orders; track order.id) {
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.createdAt | date:'mediumDate' }}</td>
+          <td>{{ order.status }}</td>
+          <td>${{ order.totalAmount.toFixed(2) }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

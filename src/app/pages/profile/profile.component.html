@@ -1,0 +1,18 @@
+<div class="profile-page">
+  <h1>{{ 'my_profile' | translate }}</h1>
+  @if (user()) {
+    <div class="profile-info">
+      <p><strong>{{ 'name' | translate }}:</strong> {{ user()!.firstName }} {{ user()!.lastName }}</p>
+      <p><strong>{{ 'email' | translate }}:</strong> {{ user()!.email }}</p>
+      @if (user()!.phone) {
+        <p><strong>{{ 'phone' | translate }}:</strong> {{ user()!.phone }}</p>
+      }
+      @if (user()!.address) {
+        <p><strong>{{ 'address' | translate }}:</strong> {{ user()!.address }}, {{ user()!.city }}, {{ user()!.country }} {{ user()!.postalCode }}</p>
+      }
+      <p><strong>{{ 'member_since' | translate }}:</strong> {{ user()!.createdAt | date:'mediumDate' }}</p>
+    </div>
+  } @else {
+    <p>{{ 'not_logged_in' | translate }}</p>
+  }
+</div>

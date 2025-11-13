@@ -1,0 +1,85 @@
+<div class="login-page">
+  <div class="container">
+    <div class="auth-card">
+      <h1>{{ isLogin() ? ('welcome_back' | translate) : ('create_account' | translate) }}</h1>
+      <p class="subtitle">{{ isLogin() ? ('sign_in_to_your_account' | translate) : ('join_pinky_today' | translate) }}
+      </p>
+
+      @if (errorMessage()) {
+      <div class="error-message">
+        {{ errorMessage() }}
+      </div>
+      }
+
+      @if (isLogin()) {
+      <!-- Login Form -->
+      <form class="auth-form" (ngSubmit)="login()">
+        <div class="form-group">
+          <label>{{ 'email' | translate }}</label>
+          <input type="email" [(ngModel)]="loginForm.email" name="email" required placeholder="you@example.com"
+            [disabled]="isLoading()" />
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'password' | translate }}</label>
+          <input type="password" [(ngModel)]="loginForm.password" name="password" required placeholder="••••••••"
+            [disabled]="isLoading()" />
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="isLoading()">
+          {{ isLoading() ? ('signing_in' | translate) : ('sign_in' | translate) }}
+        </button>
+
+        <p class="toggle-text">
+          {{ 'do_not_have_account' | translate }}
+          <a (click)="toggleMode()">{{ 'sign_up' | translate }}</a>
+        </p>
+      </form>
+      } @else {
+      <!-- Register Form -->
+      <form class="auth-form" (ngSubmit)="register()">
+        <div class="form-row">
+          <div class="form-group">
+            <label> {{ 'first_name' | translate }}</label>
+            <input type="text" [(ngModel)]="registerForm.firstName" name="firstName" required placeholder="Lyden"
+              [disabled]="isLoading()" />
+          </div>
+
+          <div class="form-group">
+            <label> {{ 'last_name' | translate }}</label>
+            <input type="text" [(ngModel)]="registerForm.lastName" name="lastName" required placeholder="Chai"
+              [disabled]="isLoading()" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label> {{ 'email' | translate }}</label>
+          <input type="email" [(ngModel)]="registerForm.email" name="email" required placeholder="you@example.com"
+            [disabled]="isLoading()" />
+        </div>
+
+        <div class="form-group">
+          <label> {{ 'password' | translate }}</label>
+          <input type="password" [(ngModel)]="registerForm.password" name="password" required placeholder="••••••••"
+            [disabled]="isLoading()" />
+        </div>
+
+        <div class="form-group">
+          <label> {{ 'confirm_password' | translate }}</label>
+          <input type="password" [(ngModel)]="registerForm.confirmPassword" name="confirmPassword" required
+            placeholder="••••••••" [disabled]="isLoading()" />
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="isLoading()">
+          {{ isLoading() ? 'Creating Account...' : 'Create Account' }}
+        </button>
+
+        <p class="toggle-text">
+          {{ 'already_have_account' | translate }}
+          <a (click)="toggleMode()">{{ 'sign_in' | translate }}</a>
+        </p>
+      </form>
+      }
+    </div>
+  </div>
+</div>

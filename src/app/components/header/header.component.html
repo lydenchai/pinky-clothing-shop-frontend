@@ -1,0 +1,143 @@
+<header class="header">
+  <div class="header-top">
+    <div class="container">
+      <p class="promo-text">{{ 'promo_text' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="header-main">
+    <div class="container">
+      <div class="header-content">
+        <a routerLink="/" class="logo">
+          <h1>PINKY</h1>
+          <span class="tagline">{{ 'clothing_shop' | translate }}</span>
+        </a>
+
+        <nav class="nav-desktop">
+          <a routerLink="/products" [queryParams]="{category: 'all'}" routerLinkActive="active">{{ 'all' | translate
+            }}</a>
+          <a routerLink="/products" [queryParams]="{category: 'women'}" routerLinkActive="active">{{ 'women' | translate
+            }}</a>
+          <a routerLink="/products" [queryParams]="{category: 'men'}" routerLinkActive="active">{{ 'men' | translate
+            }}</a>
+          <a routerLink="/products" [queryParams]="{category: 'kids'}" routerLinkActive="active">{{ 'kids' | translate
+            }}</a>
+        </nav>
+        <div class="header-actions">
+          <div class="lang-img" (click)="toggleLangMenu()" tabindex="0" style="position: relative;">
+            <img class="mat-icon flag" [src]="'/icons/' + currentLang() + '.webp'" [alt]="'flag ' + currentLang()" />
+            @if (langMenuOpen) {
+            <div class="lang-dropdown">
+              @for (lang of availableLangs; track $index) {
+              <div class="lang-option" (click)="onChangeLanguage(lang)" [ngClass]="{'active': currentLang() === lang}"
+                tabindex="0">
+                <img class="mat-icon me-2" [src]="'/icons/' + lang + '.webp'" />
+                <span>{{ lang | translate }}</span>
+              </div>
+              }
+            </div>
+            }
+          </div>
+
+          <a routerLink="/cart" class="icon-btn cart-btn" aria-label="Shopping cart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="21" r="1"></circle>
+              <circle cx="19" cy="21" r="1"></circle>
+              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+            </svg>
+            @if (cartItemCount() > 0) {
+            <span class="cart-badge">{{ cartItemCount() }}</span>
+            }
+          </a>
+
+          @if (isAuthenticated()) {
+          <div class="user-menu">
+            <button class="icon-btn user-btn" aria-label="Profile" (click)="toggleUserMenu()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </button>
+            @if (userMenuOpen) {
+            <div class="user-dropdown">
+              <div class="user-info">
+                <strong>{{ user()?.firstName }} {{ user()?.lastName }}</strong>
+                <span>{{ user()?.email }}</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a routerLink="/profile" class="dropdown-item" (click)="closeUserMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                {{ 'my_profile' | translate }}
+              </a>
+              <a routerLink="/orders" class="dropdown-item" (click)="closeUserMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+                {{ 'my_orders' | translate }}
+              </a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item logout-btn" (click)="logout(); closeUserMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                {{ 'logout' | translate }}
+              </button>
+            </div>
+            }
+          </div>
+          } @else {
+          <a routerLink="/login" class="icon-btn" aria-label="Login">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+          }
+          <button class="mobile-menu-btn" (click)="toggleMobileMenu()" aria-label="Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  @if (mobileMenuOpen) {
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a routerLink="/products" [queryParams]="{category: 'all'}" (click)="toggleMobileMenu()">{{ 'all_products' |
+        translate }}</a>
+      <a routerLink="/products" [queryParams]="{category: 'women'}" (click)="toggleMobileMenu()">{{ 'women' |
+        translate}}</a>
+      <a routerLink="/products" [queryParams]="{category: 'men'}" (click)="toggleMobileMenu()">{{ 'men' |
+        translate}}</a>
+      <a routerLink="/products" [queryParams]="{category: 'kids'}" (click)="toggleMobileMenu()">{{ 'kids' |
+        translate}}</a>
+      @if (isAuthenticated()) {
+      <a routerLink="/profile" (click)="toggleMobileMenu()">{{ 'my_profile' | translate }}</a>
+      <a routerLink="/orders" (click)="toggleMobileMenu()">{{ 'my_orders' | translate }}</a>
+      <button (click)="logout(); toggleMobileMenu()">{{ 'logout' | translate }}</button>
+      } @else {
+      <a routerLink="/login" (click)="toggleMobileMenu()">{{ 'login_register' | translate }}</a>
+      }
+    </nav>
+  </div>
+  }
+</header>

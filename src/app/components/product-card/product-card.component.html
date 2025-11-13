@@ -1,0 +1,33 @@
+<div class="product-card" [routerLink]="['/products', product.id]">
+  <div class="product-image">
+    <img [src]="product.imageUrl" [alt]="product.name" loading="lazy" />
+    @if (product.stock <= 5 && product.stock> 0) {
+      <div class="stock-badge low">{{ 'only_left' | translate: {count: product.stock} }}</div>
+      }
+      @if (product.stock === 0) {
+      <div class="stock-badge out">{{ 'out_of_stock' | translate }}</div>
+      }
+  </div>
+
+  <div class="product-info">
+    <h3 class="product-name">{{ product.name }}</h3>
+
+    <p class="product-description">{{ product.description }}</p>
+
+    <div class="product-footer">
+      <span class="price">${{ getPrice() }}</span>
+
+      @if (product.stock > 0) {
+      <span class="stock-status in-stock">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        {{ 'available' | translate }}
+      </span>
+      } @else {
+      <span class="stock-status out-of-stock">{{ 'unavailable' | translate }}</span>
+      }
+    </div>
+  </div>
+</div>
