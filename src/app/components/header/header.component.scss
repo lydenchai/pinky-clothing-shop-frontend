@@ -81,7 +81,7 @@
     }
 
     &.active::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -8px;
       left: 0;
@@ -278,12 +278,12 @@
 }
 
 .flag {
-  width: 28px !important;
-  height: 24px !important;
+  width: 26px !important;
+  height: 22px !important;
 }
 
 .lang-dropdown {
-  width: 150px !important;
+  width: 130px !important;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -323,8 +323,8 @@
   }
 
   img {
-    width: 28px !important;
-    height: 24px !important;
+    width: 26px !important;
+    height: 22px !important;
   }
 }
 

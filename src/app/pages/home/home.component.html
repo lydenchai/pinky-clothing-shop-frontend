@@ -7,10 +7,6 @@
       <a routerLink="/products" class="btn-primary">{{'shop_now' | translate}}</a>
     </div>
   </section>
-    <!-- <div class="page-header">
-      <h1>{{ 'all_products' | translate }}</h1>
-      <p>{{ 'discover_our_latest_collection' | translate }}</p>
-    </div> -->
 
   <!-- Categories Section -->
   <section class="categories-section">
@@ -21,7 +17,7 @@
         <a [routerLink]="['/products']" [queryParams]="{category: category.name.toLowerCase()}" class="category-card">
           <img [src]="category.image" [alt]="category.name" loading="lazy" />
           <div class="category-overlay">
-            <h3>{{ category.name }}</h3>
+            <h3>{{ category.name | lowercase | translate}}</h3>
             <span>{{ 'explore_collections' | translate }} →</span>
           </div>
         </a>

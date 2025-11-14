@@ -57,8 +57,6 @@ export class HomeComponent implements OnInit {
         this.isLoading.set(false);
       },
       error: (error) => {
-        console.error('❌ Error loading products:', error);
-        console.error('Error details:', error.message, error.status);
         this.isLoading.set(false);
       },
     });

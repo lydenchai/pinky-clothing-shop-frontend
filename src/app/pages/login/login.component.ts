@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,11 @@ export class LoginComponent {
     lastName: '',
   };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private translate: TranslateService
+  ) {}
 
   toggleMode() {
     this.isLogin.update((v) => !v);
@@ -51,7 +55,7 @@ export class LoginComponent {
         error: (error) => {
           this.isLoading.set(false);
           this.errorMessage.set(
-            error.error?.error || 'Login failed. Please try again.'
+            error.error?.error || this.translate.instant('message.login_failed_please_try_again')
           );
         },
       });
@@ -59,7 +63,7 @@ export class LoginComponent {
 
   register() {
     if (this.registerForm.password !== this.registerForm.confirmPassword) {
-      this.errorMessage.set('Passwords do not match');
+      this.errorMessage.set(this.translate.instant('message.passwords_do_not_match'));
       return;
     }
 
@@ -81,7 +85,7 @@ export class LoginComponent {
         error: (error) => {
           this.isLoading.set(false);
           this.errorMessage.set(
-            error.error?.error || 'Registration failed. Please try again.'
+            error.error?.error || this.translate.instant('message.registration_failed_please_try_again')
           );
         },
       });

@@ -39,7 +39,7 @@
         <!-- Color Selection -->
         @if (getColorsArray().length > 0) {
         <div class="selection-group">
-          <label>{{ 'color' | translate }}: <strong>{{ selectedColor() }}</strong></label>
+          <label>{{ 'color' | translate }}: <strong>{{ selectedColor() | lowercase | translate }}</strong></label>
           <div class="color-options">
             @for (color of getColorsArray(); track color) {
             <button class="color-btn" [class.active]="selectedColor() === color" [style.background-color]="color"

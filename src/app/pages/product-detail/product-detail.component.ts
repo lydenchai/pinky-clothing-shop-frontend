@@ -5,7 +5,7 @@ import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { DialogService } from '../../services/dialog.service';
 import { Product } from '../../types/product.model';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-detail',
@@ -28,7 +28,8 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -89,18 +90,23 @@ export class ProductDetailComponent implements OnInit {
 
   addToCart() {
     const prod = this.product();
-    if (!prod) {
-      console.error('No product loaded');
-      return;
-    }
+    if (!prod) return;
 
     if (!this.selectedSize()) {
-      this.dialogService.warning('Please select a size before adding to cart');
+      this.dialogService.warning(
+        this.translate.instant(
+          'message.please_select_a_size_before_adding_to_cart'
+        )
+      );
       return;
     }
 
     if (!this.selectedColor()) {
-      this.dialogService.warning('Please select a color before adding to cart');
+      this.dialogService.warning(
+        this.translate.instant(
+          'message.please_select_a_color_before_adding_to_cart'
+        )
+      );
       return;
     }
 
@@ -114,23 +120,33 @@ export class ProductDetailComponent implements OnInit {
       .subscribe({
         next: (item) => {
           this.addedToCart.set(true);
-          this.dialogService.success('Item added to cart successfully!');
+          this.dialogService.success(
+            this.translate.instant('message.item_added_to_cart_successfully')
+          );
           setTimeout(() => this.addedToCart.set(false), 3000);
         },
         error: (error) => {
-          console.error('Error adding to cart:', error);
           if (error.status === 401) {
             this.dialogService
-              .error('Please login to add items to your cart')
+              .error(
+                this.translate.instant(
+                  'message.please_login_to_add_items_to_your_cart'
+                )
+              )
               .then(() => {
                 this.router.navigate(['/login']);
               });
           } else if (error.status === 400) {
             this.dialogService.error(
-              error.error?.error || 'Unable to add item to cart'
+              error.error?.error ||
+                this.translate.instant('message.unable_to_add_item_to_cart')
             );
           } else {
-            this.dialogService.error('An error occurred. Please try again.');
+            this.dialogService.error(
+              this.translate.instant(
+                'message.an_error_occurred_please_try_again'
+              )
+            );
           }
         },
       });

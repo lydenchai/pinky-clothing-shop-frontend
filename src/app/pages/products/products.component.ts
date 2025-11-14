@@ -53,14 +53,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Load categories
-    // this.productService.getCategories().subscribe({
-    //   next: (categories) => {
-    //     this.availableCategories = categories;
-    //   },
-    // });
-
-    // Get category and search from query params and reset other filters
     this.route.queryParams.subscribe(() => {
       // Reset pagination
       this.pagination.set({
@@ -93,7 +85,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.applySort(products);
       },
       error: (error) => {
-        console.error('Error loading products:', error);
+        throw error;
       },
     });
   }

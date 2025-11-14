@@ -14,15 +14,20 @@
         </a>
 
         <nav class="nav-desktop">
-          <a routerLink="/products" [queryParams]="{category: 'all'}" routerLinkActive="active">{{ 'all' | translate
-            }}</a>
-          <a routerLink="/products" [queryParams]="{category: 'women'}" routerLinkActive="active">{{ 'women' | translate
-            }}</a>
-          <a routerLink="/products" [queryParams]="{category: 'men'}" routerLinkActive="active">{{ 'men' | translate
-            }}</a>
-          <a routerLink="/products" [queryParams]="{category: 'kids'}" routerLinkActive="active">{{ 'kids' | translate
-            }}</a>
+          <a routerLink="/products" [queryParams]="{category: 'all'}" routerLinkActive="active">
+            {{ 'all' | translate }}
+          </a>
+          <a routerLink="/products" [queryParams]="{category: 'women'}" routerLinkActive="active">
+            {{ 'women' | translate }}
+          </a>
+          <a routerLink="/products" [queryParams]="{category: 'men'}" routerLinkActive="active">
+            {{ 'men' | translate }}
+          </a>
+          <a routerLink="/products" [queryParams]="{category: 'kids'}" routerLinkActive="active">
+            {{ 'kids' | translate }}
+          </a>
         </nav>
+
         <div class="header-actions">
           <div class="lang-img" (click)="toggleLangMenu()" tabindex="0" style="position: relative;">
             <img class="mat-icon flag" [src]="'/icons/' + currentLang() + '.webp'" [alt]="'flag ' + currentLang()" />
@@ -40,7 +45,7 @@
           </div>
 
           <a routerLink="/cart" class="icon-btn cart-btn" aria-label="Shopping cart">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="8" cy="21" r="1"></circle>
               <circle cx="19" cy="21" r="1"></circle>
@@ -54,7 +59,7 @@
           @if (isAuthenticated()) {
           <div class="user-menu">
             <button class="icon-btn user-btn" aria-label="Profile" (click)="toggleUserMenu()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
@@ -98,7 +103,7 @@
           </div>
           } @else {
           <a routerLink="/login" class="icon-btn" aria-label="Login">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>

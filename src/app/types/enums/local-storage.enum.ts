@@ -3,6 +3,7 @@ export const LocalStorageEnum = {
   RefreshToken: '_rt',
   UserId: '_uid',
   lang: 'lang',
+  Cart: '_cart',
 } as const;
 export type LocalStorageEnum =
   (typeof LocalStorageEnum)[keyof typeof LocalStorageEnum];

@@ -1,21 +1,21 @@
 <div class="checkout-page">
   <div class="container">
-    <h1 class="page-title">Checkout</h1>
+    <h1 class="page-title">{{ 'checkout' | translate }}</h1>
 
     @if (orderPlaced()) {
     <div class="success-modal">
       <div class="success-content">
         <div class="success-icon">✓</div>
-        <h2>Order Placed Successfully!</h2>
-        <p>Thank you for your purchase. Your order will be processed shortly.</p>
+        <h2>{{ 'order_placed_successfully' | translate }}</h2>
+        <p>{{ 'thank_you_for_your_purchase' | translate }}</p>
       </div>
     </div>
     }
 
     @if (cart().items.length === 0 && !orderPlaced()) {
     <div class="empty-message">
-      <p>Your cart is empty.</p>
-      <a routerLink="/products" class="btn-primary">Continue Shopping</a>
+      <p>{{ 'empty_cart' | translate }}</p>
+      <a routerLink="/products" class="btn-primary">{{ 'continue_shopping' | translate }}</a>
     </div>
     } @else if (!orderPlaced()) {
     <div class="checkout-layout">
@@ -23,27 +23,27 @@
       <form class="checkout-form" (ngSubmit)="placeOrder()">
         <!-- Contact Information -->
         <section class="form-section">
-          <h2>Contact Information</h2>
+          <h2>{{ 'contact_information' | translate }}</h2>
           <div class="form-row">
             <div class="form-group">
-              <label>Email *</label>
+              <label>{{ 'email' | translate }} *</label>
               <input type="email" [(ngModel)]="checkoutForm.email" name="email" required
                 placeholder="you@example.com" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>First Name *</label>
+              <label>{{ 'first_name' | translate }} *</label>
               <input type="text" [(ngModel)]="checkoutForm.firstName" name="firstName" required placeholder="John" />
             </div>
             <div class="form-group">
-              <label>Last Name *</label>
+              <label>{{ 'last_name' | translate }} *</label>
               <input type="text" [(ngModel)]="checkoutForm.lastName" name="lastName" required placeholder="Doe" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>Phone</label>
+              <label>{{ 'phone' | translate }}</label>
               <input type="tel" [(ngModel)]="checkoutForm.phone" name="phone" placeholder="+1 (555) 000-0000" />
             </div>
           </div>
@@ -51,30 +51,30 @@
 
         <!-- Shipping Address -->
         <section class="form-section">
-          <h2>Shipping Address</h2>
+          <h2>{{ 'shipping_address' | translate }}</h2>
           <div class="form-row">
             <div class="form-group">
-              <label>Street Address *</label>
+              <label>{{ 'street_address' | translate }} *</label>
               <input type="text" [(ngModel)]="checkoutForm.address" name="address" required placeholder="123 Main St" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>City *</label>
+              <label>{{ 'city' | translate }} *</label>
               <input type="text" [(ngModel)]="checkoutForm.city" name="city" required placeholder="New York" />
             </div>
             <div class="form-group">
-              <label>State *</label>
+              <label>{{ 'state' | translate }} *</label>
               <input type="text" [(ngModel)]="checkoutForm.state" name="state" required placeholder="NY" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>ZIP Code *</label>
+              <label>{{ 'zip_code' | translate }} *</label>
               <input type="text" [(ngModel)]="checkoutForm.zipCode" name="zipCode" required placeholder="10001" />
             </div>
             <div class="form-group">
-              <label>Country *</label>
+              <label>{{ 'country' | translate }} *</label>
               <input type="text" [(ngModel)]="checkoutForm.country" name="country" required placeholder="USA" />
             </div>
           </div>
@@ -82,15 +82,15 @@
 
         <!-- Payment Method -->
         <section class="form-section">
-          <h2>Payment Method</h2>
+          <h2>{{ 'payment_method' | translate }}</h2>
           <div class="payment-options">
             <label class="payment-option">
               <input type="radio" [(ngModel)]="checkoutForm.paymentMethod" name="paymentMethod" value="credit-card" />
-              <span>💳 Credit Card</span>
+              <span>💳 {{ 'credit_card' | translate }}</span>
             </label>
             <label class="payment-option">
               <input type="radio" [(ngModel)]="checkoutForm.paymentMethod" name="paymentMethod" value="paypal" />
-              <span>PayPal</span>
+              <span>{{ 'paypal' | translate }}</span>
             </label>
           </div>
 
@@ -98,19 +98,19 @@
           <div class="card-details">
             <div class="form-row">
               <div class="form-group">
-                <label>Card Number *</label>
+                <label>{{ 'card_number' | translate }} *</label>
                 <input type="text" [(ngModel)]="checkoutForm.cardNumber" name="cardNumber" required
                   placeholder="1234 5678 9012 3456" />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label>Expiry Date *</label>
+                <label>{{ 'card_expiry' | translate }} *</label>
                 <input type="text" [(ngModel)]="checkoutForm.cardExpiry" name="cardExpiry" required
                   placeholder="MM/YY" />
               </div>
               <div class="form-group">
-                <label>CVC *</label>
+                <label>{{ 'card_cvc' | translate }} *</label>
                 <input type="text" [(ngModel)]="checkoutForm.cardCVC" name="cardCVC" required placeholder="123" />
               </div>
             </div>
@@ -119,20 +119,18 @@
         </section>
 
         <button type="submit" class="btn-place-order">
-          Place Order - ${{ formatPrice(cart().total) }}
+          {{ 'place_order' | translate }} - ${{ formatPrice(cart().total) }}
         </button>
       </form>
 
       <!-- Order Summary -->
       <div class="order-summary-sidebar">
-        <h2>Order Summary</h2>
+        <h2>{{ 'order_summary' | translate }}</h2>
 
         <div class="order-items">
           @for (item of cart().items; track $index) {
           <div class="order-item">
-            <img [src]="item.productImage || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400'"
-              [alt]="item.productName"
-              onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400'" />
+            <img [src]="item.productImage" [alt]=" item.productName" />
             <div class="item-info">
               <p class="item-name">{{ item.productName }}</p>
               <p class="item-details">
@@ -143,10 +141,10 @@
                 /
                 }
                 @if (item.color) {
-                {{ item.color }}
+                {{ item.color | lowercase | translate}}
                 }
               </p>
-              <p class="item-qty">Qty: {{ item.quantity }}</p>
+              <p class="item-qty">{{ 'quantity' | translate }}: {{ item.quantity }}</p>
             </div>
             <p class="item-price">${{ calculateItemTotal(item.productPrice, item.quantity) }}</p>
           </div>
@@ -155,25 +153,25 @@
 
         <div class="summary-totals">
           <div class="summary-row">
-            <span>Subtotal</span>
+            <span>{{ 'subtotal' | translate }}</span>
             <span>${{ formatPrice(cart().subtotal) }}</span>
           </div>
           <div class="summary-row">
-            <span>Shipping</span>
+            <span>{{ 'shipping' | translate }}</span>
             <span>
               @if (cart().shipping === 0) {
-              <span class="free">FREE</span>
+              <span class="free">{{ 'free' | translate }}</span>
               } @else {
               ${{ formatPrice(cart().shipping) }}
               }
             </span>
           </div>
           <div class="summary-row">
-            <span>Tax</span>
+            <span>{{ 'tax' | translate }}</span>
             <span>${{ formatPrice(cart().tax) }}</span>
           </div>
           <div class="summary-total">
-            <span>Total</span>
+            <span>{{ 'total' | translate }}</span>
             <span>${{ formatPrice(cart().total) }}</span>
           </div>
         </div>

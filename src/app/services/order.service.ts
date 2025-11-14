@@ -12,46 +12,42 @@ export interface CreateOrderRequest {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrderService {
   constructor(private http: HttpClient) {}
 
   createOrder(orderData: CreateOrderRequest): Observable<Order> {
-    return this.http.post<Order>(`${environment.apiUrl}/orders`, orderData)
+    return this.http
+      .post<Order>(`${environment.apiUrl}/orders`, orderData)
       .pipe(
-        catchError(error => {
-          console.error('Create order error:', error);
+        catchError((error) => {
           throw error;
         })
       );
   }
 
   getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/orders`)
-      .pipe(
-        catchError(error => {
-          console.error('Get orders error:', error);
-          throw error;
-        })
-      );
+    return this.http.get<Order[]>(`${environment.apiUrl}/orders`).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
   }
 
   getOrderById(orderId: number): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/orders/${orderId}`)
-      .pipe(
-        catchError(error => {
-          console.error('Get order error:', error);
-          throw error;
-        })
-      );
+    return this.http.get<Order>(`${environment.apiUrl}/orders/${orderId}`).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
   }
 
   updateOrderStatus(orderId: number, status: string): Observable<Order> {
-    return this.http.put<Order>(`${environment.apiUrl}/orders/${orderId}/status`, { status })
+    return this.http
+      .put<Order>(`${environment.apiUrl}/orders/${orderId}/status`, { status })
       .pipe(
-        catchError(error => {
-          console.error('Update order status error:', error);
+        catchError((error) => {
           throw error;
         })
       );

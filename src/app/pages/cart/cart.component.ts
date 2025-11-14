@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { DialogService } from '../../services/dialog.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart',
@@ -18,48 +18,38 @@ export class CartComponent {
 
   cart = this.cartService.cart;
 
+  constructor(private translate: TranslateService) {}
+
   updateQuantity(cartItemId: number, quantity: number) {
     this.cartService.updateQuantity(cartItemId, quantity).subscribe({
       error: (error) => {
-        console.error('Error updating quantity:', error);
         this.dialogService.error(
-          'Failed to update quantity. Please try again.'
+          this.translate.instant('message.failed_to_update_quantity')
         );
       },
     });
   }
 
   removeItem(cartItemId: number) {
-    console.log(
-      'Remove item called with ID:',
-      cartItemId,
-      'Type:',
-      typeof cartItemId
-    );
     this.dialogService
       .ask(
-        'Are you sure you want to remove this item from your cart?',
-        'Remove Item'
+        this.translate.instant('message.are_you_sure_remove_item'),
+        this.translate.instant('message.remove_item')
       )
       .then((confirmed) => {
         if (confirmed) {
-          console.log('User confirmed removal, calling service...');
           this.cartService.removeItem(cartItemId).subscribe({
             next: () => {
-              console.log('Item removed successfully');
-              this.dialogService.success('Item removed from cart');
+              this.dialogService.success(
+                this.translate.instant('message.item_removed_from_cart')
+              );
             },
-            error: (error) => {
-              console.error('Error removing item:', error);
-              console.error('Error status:', error.status);
-              console.error('Error message:', error.error);
+            error: () => {
               this.dialogService.error(
-                'Failed to remove item. Please try again.'
+                this.translate.instant('message.failed_to_remove_item')
               );
             },
           });
-        } else {
-          console.log('User cancelled removal');
         }
       });
   }

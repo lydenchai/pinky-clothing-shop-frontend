@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogService } from '../../services/dialog.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
 })

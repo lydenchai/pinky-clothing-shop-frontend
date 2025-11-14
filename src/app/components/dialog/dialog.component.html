@@ -33,7 +33,7 @@
         }
       </div>
       @if (config()?.title) {
-      <h2 class="dialog-title">{{ config()?.title }}</h2>
+      <h2 class="dialog-title">{{ config()?.title | translate}}</h2>
       }
       <button class="dialog-close" (click)="onCancel()" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -50,12 +50,12 @@
     <div class="dialog-footer">
       @if (config()?.showCancel) {
       <button class="dialog-button dialog-button-cancel" (click)="onCancel()">
-        {{ config()?.cancelText || 'Cancel' }}
+        {{ config()?.cancelText ||( 'cancel' | translate) }}
       </button>
       }
       <button class="dialog-button dialog-button-confirm" (click)="onConfirm()"
         [attr.data-type]="config()?.type || 'info'">
-        {{ config()?.confirmText || 'OK' }}
+        {{ config()?.confirmText || ( 'ok' | translate) }}
       </button>
     </div>
   </div>

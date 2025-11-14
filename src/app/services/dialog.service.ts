@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface DialogConfig {
   title?: string;
@@ -10,13 +11,15 @@ export interface DialogConfig {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DialogService {
   private dialogConfig = signal<DialogConfig | null>(null);
   private resolvePromise: ((value: boolean) => void) | null = null;
 
   config = this.dialogConfig.asReadonly();
+
+  constructor(private translate: TranslateService) {}
 
   show(config: DialogConfig): Promise<boolean> {
     this.dialogConfig.set(config);
@@ -38,30 +41,50 @@ export class DialogService {
   }
 
   // Convenience methods
-  success(message: string, title: string = 'Success') {
-    return this.show({ title, message, type: 'success', confirmText: 'OK' });
-  }
-
-  error(message: string, title: string = 'Error') {
-    return this.show({ title, message, type: 'error', confirmText: 'OK' });
-  }
-
-  warning(message: string, title: string = 'Warning') {
-    return this.show({ title, message, type: 'warning', confirmText: 'OK' });
-  }
-
-  info(message: string, title: string = 'Information') {
-    return this.show({ title, message, type: 'info', confirmText: 'OK' });
-  }
-
-  ask(message: string, title: string = 'Confirm'): Promise<boolean> {
+  success(message: string, title: string = 'success') {
     return this.show({
-      title,
+      title: this.translate.instant(title),
+      message,
+      type: 'success',
+      confirmText: this.translate.instant('ok'),
+    });
+  }
+
+  error(message: string, title: string = 'error') {
+    return this.show({
+      title: this.translate.instant(title),
+      message,
+      type: 'error',
+      confirmText: this.translate.instant('ok'),
+    });
+  }
+
+  warning(message: string, title: string = 'warning') {
+    return this.show({
+      title: this.translate.instant(title),
+      message,
+      type: 'warning',
+      confirmText: this.translate.instant('ok'),
+    });
+  }
+
+  info(message: string, title: string = 'information') {
+    return this.show({
+      title: this.translate.instant(title),
       message,
       type: 'info',
-      confirmText: 'Yes',
-      cancelText: 'No',
-      showCancel: true
+      confirmText: this.translate.instant('ok'),
+    });
+  }
+
+  ask(message: string, title: string = 'confirm'): Promise<boolean> {
+    return this.show({
+      title: this.translate.instant(title),
+      message,
+      type: 'info',
+      confirmText: this.translate.instant('yes'),
+      cancelText: this.translate.instant('no'),
+      showCancel: true,
     });
   }
 }

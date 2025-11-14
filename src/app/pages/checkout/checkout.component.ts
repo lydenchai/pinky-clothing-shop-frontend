@@ -6,23 +6,24 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { DialogService } from '../../services/dialog.service';
 import { CheckoutForm } from '../../types/product.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.scss'
+  styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent {
   private cartService = inject(CartService);
   private authService = inject(AuthService);
   private dialogService = inject(DialogService);
   private router = inject(Router);
-  
+
   cart = this.cartService.cart;
   user = this.authService.user;
-  
+
   checkoutForm: CheckoutForm = {
     email: '',
     firstName: '',
@@ -36,12 +37,12 @@ export class CheckoutComponent {
     paymentMethod: 'credit-card',
     cardNumber: '',
     cardExpiry: '',
-    cardCVC: ''
+    cardCVC: '',
   };
-  
+
   orderPlaced = signal(false);
 
-  constructor() {
+  constructor(private translate: TranslateService) {
     const currentUser = this.user();
     if (currentUser) {
       this.checkoutForm.email = currentUser.email;
@@ -57,28 +58,43 @@ export class CheckoutComponent {
 
   placeOrder() {
     // Validate form
-    if (!this.checkoutForm.firstName || !this.checkoutForm.lastName || !this.checkoutForm.email) {
-      this.dialogService.warning('Please fill in all required fields');
+    if (
+      !this.checkoutForm.firstName ||
+      !this.checkoutForm.lastName ||
+      !this.checkoutForm.email
+    ) {
+      this.dialogService.warning(this.translate.instant('message.please_fill_in_all_required_fields'));
       return;
     }
 
-    if (!this.checkoutForm.address || !this.checkoutForm.city || !this.checkoutForm.zipCode) {
-      this.dialogService.warning('Please complete your shipping address');
+    if (
+      !this.checkoutForm.address ||
+      !this.checkoutForm.city ||
+      !this.checkoutForm.zipCode
+    ) {
+      this.dialogService.warning(this.translate.instant('message.please_complete_your_shipping_address'));
       return;
     }
 
     if (this.checkoutForm.paymentMethod === 'credit-card') {
-      if (!this.checkoutForm.cardNumber || !this.checkoutForm.cardExpiry || !this.checkoutForm.cardCVC) {
-        this.dialogService.warning('Please complete your payment information');
+      if (
+        !this.checkoutForm.cardNumber ||
+        !this.checkoutForm.cardExpiry ||
+        !this.checkoutForm.cardCVC
+      ) {
+        this.dialogService.warning(this.translate.instant('message.please_complete_your_payment_information'));
         return;
       }
     }
 
     // In production, this would validate and process the payment
     this.orderPlaced.set(true);
-    
-    this.dialogService.success('Order placed successfully! Redirecting to home page...', 'Order Confirmed');
-    
+
+    this.dialogService.success(
+      this.translate.instant('message.order_placed_successfully'),
+      this.translate.instant('message.order_confirmed')
+    );
+
     setTimeout(() => {
       this.cartService.clearCart();
       this.router.navigate(['/']);

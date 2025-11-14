@@ -31,7 +31,7 @@
               <span class="option-badge">{{ item.size }}</span>
               }
               @if (item.color) {
-              <span class="option-badge">{{ item.color }}</span>
+              <span class="option-badge">{{ item.color | lowercase | translate }}</span>
               }
             </div>
             <p class="item-price-mobile">${{ formatPrice(item.productPrice) }} each</p>
