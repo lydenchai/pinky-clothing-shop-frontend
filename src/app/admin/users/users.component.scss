@@ -1,0 +1,21 @@
+.users-admin {
+  h2 {
+    margin-bottom: 1rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    th, td {
+      padding: 0.7rem;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+    th {
+      background: #f8f8f8;
+    }
+    tr:hover {
+      background: #f3e5f5;
+    }
+  }
+}

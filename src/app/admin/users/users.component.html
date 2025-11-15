@@ -1,0 +1,28 @@
+<div class="users-admin">
+  <h2>Customers & Admins</h2>
+  @if (!loading) {
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+  @for (user of users; track user.id) {
+          <tr>
+            <td>{{ user.firstName }} {{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+            <td>Customer</td>
+            <td>{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+  @if (loading) {
+    <div>Loading users...</div>
+  }
+</div>

@@ -16,6 +16,10 @@ export class AuthService {
   user = this.currentUser.asReadonly();
   token$ = this.tokenSubject.asObservable();
 
+  getCurrentUser(): User | null {
+    return this.currentUser();
+  }
+
   constructor(private http: HttpClient) {
     this.loadUserFromToken();
   }
