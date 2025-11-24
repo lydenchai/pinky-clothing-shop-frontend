@@ -1,6 +1,6 @@
-<app-header />
+<app-header *ngIf="showDefaultLayout()" />
 <main class="main-content">
   <router-outlet />
+  <app-footer *ngIf="showDefaultLayout()" />
 </main>
-<app-footer />
 <app-dialog />

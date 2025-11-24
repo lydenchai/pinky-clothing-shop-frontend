@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../services/order.service';
-import { Order } from '../../types/user.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { Order } from '../../types/order';
 
 @Component({
   selector: 'app-orders',

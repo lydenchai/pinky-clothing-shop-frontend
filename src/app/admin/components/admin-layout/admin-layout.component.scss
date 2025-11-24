@@ -1,0 +1,43 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-main {
+  flex: 1;
+  /* Leave space for the fixed sidebar */
+  margin-left: 220px;
+  padding: 16px;
+  /* top padding to account for fixed header */
+  background: var(--bg, #f5f7fb);
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+}
+
+/* Make sidebar start below the fixed header and add top accent */
+.admin-layout .admin-sidebar {
+  position: fixed;
+  top: var(--header-height, 72px);
+  left: 0;
+  height: calc(100vh - var(--header-height, 72px));
+  width: 220px;
+  z-index: 999;
+}
+
+/* If screen is small, collapse sidebar into top area */
+@media (max-width: 900px) {
+  .admin-main {
+    margin-left: 0;
+  }
+
+  .admin-layout .admin-sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    top: 0;
+  }
+}

@@ -1,0 +1,73 @@
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background: #ffffff;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+
+  .logo {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 20px;
+    color: #0071e3;
+    letter-spacing: 1px;
+  }
+
+  .back-store {
+    text-align: center;
+    padding: 8px;
+    margin: 12px;
+    margin-top: auto;
+    margin-bottom: 18px;
+    border-radius: 6px;
+    background: #ff2f2f;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    .mat-icon {
+      font-size: 18px;
+      margin-top: 5px;
+    }
+  }
+
+  .back-store:hover {
+    background: #e60000;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0 10px;
+    margin: 0;
+
+    li {
+      margin: 0.5rem 0;
+
+      a {
+        display: block;
+        padding: 11px;
+        color: #1d1d1f;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background 0.2s;
+
+        &.active,
+        &:hover {
+          background: #0071e3;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

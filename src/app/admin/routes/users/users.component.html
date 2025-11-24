@@ -1,0 +1,35 @@
+<div class="admin-container scroll-container">
+  <h2>Customers & Admins</h2>
+  @if (!loading) {
+  <div class="container-table content-scroll">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users; track user.id) {
+        <tr>
+          <td>{{ user.firstName }} {{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td>Customer</td>
+          <td>{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <button (click)="deleteUser(user.id)" class="btn"><mat-icon>delete_outline</mat-icon></button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  }
+  @if (loading) {
+  <div>Loading users...</div>
+  }
+</div>

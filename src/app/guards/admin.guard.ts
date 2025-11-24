@@ -1,9 +1,41 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
+  const router = inject(Router);
+
   const user = authService.getCurrentUser();
-  return !!user && user.role === 'admin';
+  // If user is already loaded, enforce role synchronously
+  if (user) {
+    return user.role === 'admin';
+  }
+
+  // If there is a token stored, attempt to load profile and decide
+  const token = authService.getToken();
+  if (!token) {
+    // No token — redirect to login (or home) and block
+    router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    return false;
+  }
+
+  // Token exists but user not yet loaded — wait for profile request
+  return authService.getProfile().pipe(
+    map((u) => {
+      if (u && u.role === 'admin') return true;
+      // Not admin — navigate away
+      router.navigate(['/']);
+      return false;
+    }),
+    catchError((err) => {
+      // On error (invalid token, network), redirect to login/home and block
+      try {
+        router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      } catch (e) {}
+      return of(false as boolean | UrlTree);
+    })
+  );
 };

@@ -1,0 +1,53 @@
+<div class="admin-container scroll-container">
+  <section class="content-header">
+    <h2>Product List</h2>
+  </section>
+  <section class="table-header form">
+    <div class="top-btn mb-3 ms-auto">
+      <button class="btn" routerLink="/admin/products/new" type="button">
+        <mat-icon>add</mat-icon>
+        <span class="ms-1">Create</span>
+      </button>
+    </div>
+  </section>
+  @if (!loading) {
+  <div class="container-table content-scroll">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products; track product.id) {
+        <tr>
+          <td>{{ ($index + 1 + ((page - 1) * limit))}}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.price | currency }}</td>
+          <td>{{ product.stock }}</td>
+          <td>
+            <a [routerLink]="['/admin/products', product.id, 'edit']" class="btn"><mat-icon>edit</mat-icon></a>
+            <button (click)="deleteProduct(product.id)" class="btn"><mat-icon>delete_outline</mat-icon></button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  @if (products.length > 0) {
+  <div class="table-footer content-footer">
+    <app-pagination [total]="totalCount ?? 0" [limit]="limit" [page]="page"
+      (changed)="getList($event)"></app-pagination>
+  </div>
+  }
+  }
+  @if (loading) {
+  <div>Loading products...</div>
+  }
+</div>

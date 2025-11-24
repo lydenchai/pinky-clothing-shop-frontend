@@ -1,0 +1,189 @@
+@use "./variables" as *;
+@use "sass:color";
+
+.admin-container {
+  padding: 10px;
+  height: calc(100vh - 40px);
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.table-header {
+  display: flex;
+  align-items: end;
+
+  .mat-form-field.mat-form-field-appearance-outline {
+    width: 270px;
+
+    .mat-form-field-wrapper {
+      margin: 0;
+      padding: 0;
+
+      .mat-form-field-infix {
+        padding: 0.4em 0;
+        border-top: 0.3em solid transparent;
+        line-height: 25px;
+        width: auto;
+      }
+
+      .mat-form-field-subscript-wrapper {
+        margin-top: 0.3em;
+        padding: 0;
+      }
+
+      .mat-select-arrow-wrapper {
+        height: 0;
+        margin-left: 5px;
+      }
+    }
+
+    .mat-form-field-prefix,
+    .mat-form-field-suffix {
+      top: 0;
+
+      >.mat-icon {
+        top: 5px;
+        position: relative;
+      }
+
+      >.mat-datepicker-toggle .mdc-icon-button {
+        top: 7px;
+        height: 35px;
+        width: 35px;
+        padding: 0;
+      }
+    }
+
+    .mat-form-field-prefix {
+      >.mat-datepicker-toggle .mdc-icon-button {
+        left: -9px;
+      }
+    }
+
+    .mat-form-field-suffix {
+      >.mat-datepicker-toggle .mdc-icon-button {
+        left: 10px;
+      }
+    }
+  }
+
+  .mat-icon {
+    font-size: 22px;
+    line-height: 20px;
+  }
+}
+
+.app-is-loading {
+  table.table {
+
+    &:has(tr:first-child:last-child):not(:has(thead)),
+    &:has(tbody:empty),
+    thead~ :not(tbody) {
+      &::after {
+        display: none !important;
+      }
+    }
+  }
+}
+
+.container-table {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0 10px 10px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+table.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  tr {
+    &:hover {
+      background-color: #f1f1f1;
+    }
+  }
+
+  tbody>tr:not(:last-child)>td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  tbody>tr:hover>td {
+    background-color: #f1f1f1;
+  }
+
+  th {
+    text-align: left;
+    color: #000;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  td {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  th,
+  td {
+    height: 40px;
+    padding: 0 10px !important;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  .right {
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  tbody>tr:last-child>td {
+    border-bottom: none !important;
+  }
+}
+
+.table-footer {
+  text-align: right;
+  padding-top: 10px;
+
+  .mat-mdc-form-field-subscript-wrapper {
+    height: 0 !important;
+    padding: 0 !important;
+  }
+
+  .mat-mdc-select-panel-above .mat-mdc-select-panel {
+    @extend .mat-mdc-select-panel;
+  }
+
+  .mdc-line-ripple::before {
+    margin-bottom: 5px;
+  }
+
+  .mdc-line-ripple::before,
+  .mdc-line-ripple::after {
+    margin-bottom: 5px;
+  }
+}
+
+.mat-mdc-card {
+  box-shadow: none;
+}
+
+.mdc-line-ripple,
+.mdc-line-ripple::before,
+.mdc-line-ripple::after {
+  bottom: -4px !important;
+  height: 2px !important;
+}

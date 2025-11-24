@@ -3,8 +3,19 @@
   display: flex;
   flex-direction: column;
   padding-top: 120px;
-  
+
   @media (max-width: 768px) {
     padding-top: 100px;
   }
+}
+
+/* When admin layout is active, hide the global header/footer as a CSS fallback */
+body.no-global-layout app-header,
+body.no-global-layout app-footer {
+  display: none !important;
+}
+
+/* Remove top padding reserved for the global header when it's hidden */
+body.no-global-layout .main-content {
+  padding-top: 0 !important;
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError } from 'rxjs';
-import { Order } from '../types/user.model';
 import { environment } from '../../environments/environment';
+import { Order } from '../types/order';
 
 export interface CreateOrderRequest {
   shippingAddress: string;

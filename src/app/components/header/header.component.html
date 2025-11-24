@@ -89,6 +89,16 @@
                 {{ 'my_orders' | translate }}
               </a>
               <div class="dropdown-divider"></div>
+              @if (isAdmin()) {
+              <button class="dropdown-item admin-btn" (click)="goToAdminDashboard()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M9 9h6v6H9z"></path>
+                </svg>
+                Admin Dashboard
+              </button>
+              }
               <button class="dropdown-item logout-btn" (click)="logout(); closeUserMenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

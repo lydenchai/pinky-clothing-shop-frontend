@@ -1,0 +1,14 @@
+<nav class="admin-sidebar">
+  <div class="logo">Pinky Admin</div>
+  <ul>
+    <li><a routerLink="/admin" [class.active]="isActive('/admin')">Dashboard</a></li>
+    <li><a routerLink="/admin/products" [class.active]="isActive('/admin/products')">Products</a></li>
+    <li><a routerLink="/admin/inventory" [class.active]="isActive('/admin/inventory')">Inventory</a></li>
+    <li><a routerLink="/admin/orders" [class.active]="isActive('/admin/orders')">Orders</a></li>
+    <li><a routerLink="/admin/users" [class.active]="isActive('/admin/users')">Customers</a></li>
+    <li><a routerLink="/admin/analytics" [class.active]="isActive('/admin/analytics')">Analytics</a></li>
+  </ul>
+  <a routerLink="/" class="back-store" aria-label="Back to store">
+    <mat-icon>arrow_back_ios</mat-icon> Back to Store
+  </a>
+</nav>

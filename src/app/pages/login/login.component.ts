@@ -48,14 +48,20 @@ export class LoginComponent {
     this.authService
       .login(this.loginForm.email, this.loginForm.password)
       .subscribe({
-        next: () => {
+        next: (response) => {
           this.isLoading.set(false);
-          this.router.navigate(['/']);
+          const role = response?.user?.role;
+          if (role === 'admin') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/']);
+          }
         },
         error: (error) => {
           this.isLoading.set(false);
           this.errorMessage.set(
-            error.error?.error || this.translate.instant('message.login_failed_please_try_again')
+            error.error?.error ||
+              this.translate.instant('message.login_failed_please_try_again')
           );
         },
       });
@@ -63,7 +69,9 @@ export class LoginComponent {
 
   register() {
     if (this.registerForm.password !== this.registerForm.confirmPassword) {
-      this.errorMessage.set(this.translate.instant('message.passwords_do_not_match'));
+      this.errorMessage.set(
+        this.translate.instant('message.passwords_do_not_match')
+      );
       return;
     }
 
@@ -85,7 +93,10 @@ export class LoginComponent {
         error: (error) => {
           this.isLoading.set(false);
           this.errorMessage.set(
-            error.error?.error || this.translate.instant('message.registration_failed_please_try_again')
+            error.error?.error ||
+              this.translate.instant(
+                'message.registration_failed_please_try_again'
+              )
           );
         },
       });

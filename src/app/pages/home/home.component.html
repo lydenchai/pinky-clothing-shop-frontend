@@ -2,23 +2,23 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1 class="hero-title">{{'discover_your_style' | translate}}</h1>
-      <p class="hero-subtitle">{{'new_collection' | translate}}</p>
-      <a routerLink="/products" class="btn-primary">{{'shop_now' | translate}}</a>
+      <h1 class="hero-title">{{ "discover_your_style" | translate }}</h1>
+      <p class="hero-subtitle">{{ "new_collection" | translate }}</p>
+      <a routerLink="/products" class="btn-primary">{{ "shop_now" | translate }}</a>
     </div>
   </section>
 
   <!-- Categories Section -->
   <section class="categories-section">
     <div class="container">
-      <h2 class="section-title">{{ 'shop_by_category' | translate }}</h2>
+      <h2 class="section-title">{{ "shop_by_category" | translate }}</h2>
       <div class="categories-grid">
         @for (category of categories; track category.name) {
-        <a [routerLink]="['/products']" [queryParams]="{category: category.name.toLowerCase()}" class="category-card">
+        <a [routerLink]="['/products']" [queryParams]="{ category: category.name.toLowerCase() }" class="category-card">
           <img [src]="category.image" [alt]="category.name" loading="lazy" />
           <div class="category-overlay">
-            <h3>{{ category.name | lowercase | translate}}</h3>
-            <span>{{ 'explore_collections' | translate }} →</span>
+            <h3>{{ category.name | lowercase | translate }}</h3>
+            <span>{{ "explore_collections" | translate }} →</span>
           </div>
         </a>
         }
@@ -30,14 +30,13 @@
   <section class="featured-section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">{{ 'featured_products' | translate }}</h2>
-        <a routerLink="/products" class="view-all">{{'view_all' | translate }} →</a>
+        <h2 class="section-title">{{ "featured_products" | translate }}</h2>
+        <a routerLink="/products" class="view-all">{{ "view_all" | translate }} →</a>
       </div>
-
       @if (isLoading()) {
-      <div class="loading">{{ 'loading_products' | translate }}</div>
+      <div class="loading">{{ "loading_products" | translate }}</div>
       } @else if (featuredProducts().length === 0) {
-      <div class="no-products">{{ 'no_products' | translate }}</div>
+      <div class="no-products">{{ "no_products" | translate }}</div>
       } @else {
       <div class="products-grid">
         @for (product of featuredProducts(); track product.id) {
@@ -51,9 +50,11 @@
   <!-- Promotional Banner -->
   <section class="promo-banner">
     <div class="promo-content">
-      <h2>{{ 'summer_sale' | translate }}</h2>
-      <p>{{ 'up_to_50_off' | translate }}</p>
-      <a routerLink="/products" class="btn-secondary">{{ 'shop_now' | translate }}</a>
+      <h2>{{ "summer_sale" | translate }}</h2>
+      <p>{{ "up_to_50_off" | translate }}</p>
+      <a routerLink="/products" class="btn-secondary">{{
+        "shop_now" | translate
+        }}</a>
     </div>
   </section>
 
@@ -61,14 +62,14 @@
   <section class="new-arrivals-section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">{{ 'new_arrivals' | translate }}</h2>
-        <a routerLink="/products" class="view-all">{{ 'view_all' | translate }} →</a>
+        <h2 class="section-title">{{ "new_arrivals" | translate }}</h2>
+        <a routerLink="/products" class="view-all">{{ "view_all" | translate }} →</a>
       </div>
 
       @if (isLoading()) {
-      <div class="loading">{{ 'loading_products' | translate }}</div>
+      <div class="loading">{{ "loading_products" | translate }}</div>
       } @else if (newArrivals().length === 0) {
-      <div class="no-products">{{ 'no_products' | translate }}</div>
+      <div class="no-products">{{ "no_products" | translate }}</div>
       } @else {
       <div class="products-grid">
         @for (product of newArrivals(); track product.id) {
@@ -93,8 +94,8 @@
               <path d="M9 6l3 3 3-3"></path>
             </svg>
           </div>
-          <h3>{{ 'free_shipping' | translate }}</h3>
-          <p>{{ 'on_orders_over_100' | translate }}</p>
+          <h3>{{ "free_shipping" | translate }}</h3>
+          <p>{{ "on_orders_over_100" | translate }}</p>
         </div>
         <div class="benefit">
           <div class="benefit-icon">
@@ -105,8 +106,8 @@
               <path d="M12 7v5l4 2"></path>
             </svg>
           </div>
-          <h3>{{ 'easy_returns' | translate }}</h3>
-          <p>{{ 'within_30_days' | translate }}</p>
+          <h3>{{ "easy_returns" | translate }}</h3>
+          <p>{{ "within_30_days" | translate }}</p>
         </div>
         <div class="benefit">
           <div class="benefit-icon">
@@ -119,8 +120,8 @@
               <path d="M16 15h.01"></path>
             </svg>
           </div>
-          <h3>{{ 'secure_payment' | translate }}</h3>
-          <p>{{ 'secure_transactions' | translate }}</p>
+          <h3>{{ "secure_payment" | translate }}</h3>
+          <p>{{ "secure_transactions" | translate }}</p>
         </div>
         <div class="benefit">
           <div class="benefit-icon">
@@ -134,8 +135,8 @@
               <path d="M15 12h.01"></path>
             </svg>
           </div>
-          <h3>{{ 'support_24_7' | translate }}</h3>
-          <p>{{ 'dedicated_service' | translate }}</p>
+          <h3>{{ "support_24_7" | translate }}</h3>
+          <p>{{ "dedicated_service" | translate }}</p>
         </div>
       </div>
     </div>

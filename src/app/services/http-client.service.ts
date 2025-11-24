@@ -1,7 +1,20 @@
-import { HttpClient, HttpErrorResponse, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core'; 
-import { catchError, filter, finalize, map, Observable, throwError } from 'rxjs';
-import { RequestParam } from '../types/request-param'; 
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpEventType,
+  HttpHeaders,
+  HttpResponse,
+} from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
+import {
+  catchError,
+  filter,
+  finalize,
+  map,
+  Observable,
+  throwError,
+} from 'rxjs';
+import { RequestParam } from '../types/request-param';
 import { environment } from '../../environments/environment';
 import { SnackbarService } from './snackbar.service';
 import { LoadingService } from './loading.service';
@@ -16,7 +29,7 @@ export class HttpClientService {
   constructor(
     private http: HttpClient,
     private loadingService: LoadingService,
-    private injector: Injector,
+    private injector: Injector
   ) {}
 
   getUrl(path: string, queryParams?: { [key: string]: any }) {
@@ -42,7 +55,7 @@ export class HttpClientService {
     }
     return this.http.get<T>(url, { params: request.data }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading)),
+      finalize(() => this.finalizeRequest(request.isLoading))
     );
   }
 
@@ -52,10 +65,12 @@ export class HttpClientService {
     if (request.isLoading) {
       this.loadingService.setLoading(true);
     }
-    return this.http.get(url, { params: request.data, responseType: 'blob' }).pipe(
-      catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading)),
-    );
+    return this.http
+      .get(url, { params: request.data, responseType: 'blob' })
+      .pipe(
+        catchError((err) => this.handleHttpError(err, request.isAlertError)),
+        finalize(() => this.finalizeRequest(request.isLoading))
+      );
   }
 
   getJSON<T>(path: string, request: RequestParam = {}) {
@@ -70,7 +85,7 @@ export class HttpClientService {
     });
     return this.http.get<T>(url, { params: request.data, headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading)),
+      finalize(() => this.finalizeRequest(request.isLoading))
     );
   }
 
@@ -86,7 +101,7 @@ export class HttpClientService {
     request.data = this.toFormData(request.data);
     return this.http.post<T>(url, request.data, { headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading)),
+      finalize(() => this.finalizeRequest(request.isLoading))
     );
   }
 
@@ -101,7 +116,7 @@ export class HttpClientService {
     });
     return this.http.post<T>(url, request.data, { headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading)),
+      finalize(() => this.finalizeRequest(request.isLoading))
     );
   }
 
@@ -117,11 +132,14 @@ export class HttpClientService {
     request.data = this.toFormData(request.data);
     return this.http.post<T>(url, request.data, { headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading)),
+      finalize(() => this.finalizeRequest(request.isLoading))
     );
   }
 
-  postFileProgress<T>(path: string, request: RequestParam): Observable<number | T> {
+  postFileProgress<T>(
+    path: string,
+    request: RequestParam
+  ): Observable<number | T> {
     const url = this.getUrl(path);
     this.clean(request.data);
     if (request.isLoading) {
@@ -132,9 +150,18 @@ export class HttpClientService {
     });
     request.data = this.toFormData(request.data);
     return this.http
-      .post<T>(url, request.data, { headers, reportProgress: true, responseType: 'json', observe: 'events' })
+      .post<T>(url, request.data, {
+        headers,
+        reportProgress: true,
+        responseType: 'json',
+        observe: 'events',
+      })
       .pipe(
-        filter((res) => res.type == HttpEventType.UploadProgress || res.type == HttpEventType.Response),
+        filter(
+          (res) =>
+            res.type == HttpEventType.UploadProgress ||
+            res.type == HttpEventType.Response
+        ),
         map((res) => {
           if (res.type == HttpEventType.UploadProgress) {
             return Math.round((res.loaded / (res.total || 0)) * 100);
@@ -143,11 +170,14 @@ export class HttpClientService {
           }
         }),
         catchError((err) => this.handleHttpError(err, request.isAlertError)),
-        finalize(() => this.finalizeRequest(request.isLoading)),
+        finalize(() => this.finalizeRequest(request.isLoading))
       );
   }
 
-  patchFileProgress<T>(path: string, request: RequestParam): Observable<number | T> {
+  patchFileProgress<T>(
+    path: string,
+    request: RequestParam
+  ): Observable<number | T> {
     const url = this.getUrl(path);
     this.clean(request.data);
     if (request.isLoading) {
@@ -158,9 +188,18 @@ export class HttpClientService {
     });
     request.data = this.toFormData(request.data);
     return this.http
-      .patch<T>(url, request.data, { headers, reportProgress: true, responseType: 'json', observe: 'events' })
+      .patch<T>(url, request.data, {
+        headers,
+        reportProgress: true,
+        responseType: 'json',
+        observe: 'events',
+      })
       .pipe(
-        filter((res) => res.type == HttpEventType.UploadProgress || res.type == HttpEventType.Response),
+        filter(
+          (res) =>
+            res.type == HttpEventType.UploadProgress ||
+            res.type == HttpEventType.Response
+        ),
         map((res) => {
           if (res.type == HttpEventType.UploadProgress) {
             return Math.round((res.loaded / (res.total || 0)) * 100);
@@ -169,7 +208,7 @@ export class HttpClientService {
           }
         }),
         catchError((err) => this.handleHttpError(err, request.isAlertError)),
-        finalize(() => this.finalizeRequest(request.isLoading)),
+        finalize(() => this.finalizeRequest(request.isLoading))
       );
   }
 
@@ -185,7 +224,7 @@ export class HttpClientService {
     });
     return this.http.patch<T>(url, request.data, { headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading)),
+      finalize(() => this.finalizeRequest(request.isLoading))
     );
   }
 
@@ -200,18 +239,24 @@ export class HttpClientService {
     });
     return this.http.delete<T>(url, { headers, params: request.data }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading)),
+      finalize(() => this.finalizeRequest(request.isLoading))
     );
   }
 
   private clean(obj: any, isCleanQuery = false) {
     for (const propName in obj) {
-      if (obj[propName] === undefined || (isCleanQuery && obj[propName] === null)) {
+      if (
+        obj[propName] === undefined ||
+        (isCleanQuery && obj[propName] === null)
+      ) {
         delete obj[propName];
       } else if (obj[propName] instanceof Date) {
         (obj[propName] as Date).setMilliseconds(0);
         obj[propName] = (obj[propName] as Date).toISOString();
-      } else if (typeof obj[propName] == 'object' && !(obj[propName] instanceof File)) {
+      } else if (
+        typeof obj[propName] == 'object' &&
+        !(obj[propName] instanceof File)
+      ) {
         this.clean(obj[propName]);
       }
     }

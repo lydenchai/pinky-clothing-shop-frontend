@@ -50,7 +50,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(() => {

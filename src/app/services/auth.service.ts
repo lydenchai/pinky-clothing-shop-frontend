@@ -1,8 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of, BehaviorSubject } from 'rxjs';
-import { User, Order, AuthResponse } from '../types/user.model';
 import { environment } from '../../environments/environment';
+import { User } from '../types/user.model';
+import { AuthResponse } from '../types/auth-response';
 
 @Injectable({
   providedIn: 'root',

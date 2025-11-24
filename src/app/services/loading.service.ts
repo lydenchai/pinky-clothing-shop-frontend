@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoadingService {
   private _isLoading = false;
@@ -10,8 +10,7 @@ export class LoadingService {
   isLoading$: Observable<boolean> = this._isLoading$;
   counter = 0;
 
-  constructor() { 
-  }
+  constructor() {}
 
   setLoading(isLoading: boolean) {
     if (isLoading) {
@@ -22,12 +21,10 @@ export class LoadingService {
     this._isLoading = this.counter > 0;
     this._isLoading$.next(this._isLoading);
   }
-  
 
   forceStop() {
     this.counter = 0;
     this._isLoading = false;
     this._isLoading$.next(this._isLoading);
   }
-
 }

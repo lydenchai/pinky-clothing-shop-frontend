@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
     this.loadProducts();

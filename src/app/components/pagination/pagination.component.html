@@ -1,0 +1,30 @@
+<div class="pagination">
+  <div class="d-flex align-items-center">
+    <button type="button" (click)="goToFirstPage()" [disabled]="controlsDisabled || page === 1">
+      <mat-icon class="first-page-icon">first_page</mat-icon>
+    </button>
+    <button type="button" (click)="goToPreviousPage()" [disabled]="controlsDisabled || page === 1">
+      <mat-icon class="previous-page-icon">chevron_left</mat-icon>
+    </button>
+    <mat-form-field appearance="outline" class="search mx-1">
+      <input matInput [formControl]="pageNumber" inputRestrict="integer" min="1" [maxlength]="pageCount"
+        (input)="onInput($event)" />
+      <span class="page-info" matSuffix>/ {{ pageCount }}</span>
+    </mat-form-field>
+    <button type="button" (click)="goToNextPage()" [disabled]="controlsDisabled || page === pageCount">
+      <mat-icon class="next-page-icon">chevron_right</mat-icon>
+    </button>
+    <button type="button" (click)="goToLastPage()" [disabled]="controlsDisabled || page === pageCount">
+      <mat-icon class="last-page-icon">last_page</mat-icon>
+    </button>
+    <mat-form-field class="select mx-1">
+      <small>Limit</small>
+      <mat-select class="mt-2" [value]="limit" (selectionChange)="onLimitChange($event.value)"
+        [disabled]="controlsDisabled">
+        @for (option of pageOptions; track $index) {
+        <mat-option [value]="option" class="mr-0">{{ option }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

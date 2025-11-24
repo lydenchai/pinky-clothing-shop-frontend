@@ -10,8 +10,23 @@ import { environment } from '../../environments/environment';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiUrl}/users`).pipe(
+  getAllUsers(
+    page = 1,
+    limit = 10
+  ): Observable<{ users: User[]; pagination: any }> {
+    return this.http
+      .get<{ users: User[]; pagination: any }>(`${environment.apiUrl}/users`, {
+        params: { page: page.toString(), limit: limit.toString() },
+      })
+      .pipe(
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/users/${id}`).pipe(
       catchError((error) => {
         throw error;
       })

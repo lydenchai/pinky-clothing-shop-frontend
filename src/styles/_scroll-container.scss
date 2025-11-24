@@ -1,0 +1,174 @@
+.scroll-container {
+    max-height: 100%;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+
+    .content-header {
+        .mat-button-base {
+            z-index: 1
+        }
+    }
+
+    .content-scroll {
+
+        &:has(tr:first-child:last-child):not(:has(thead)),
+        &:has(tbody:empty) {
+            height: 100%;
+            position: relative;
+
+            table.table {
+                position: initial;
+
+                &::after {
+                    min-height: 200px;
+                }
+
+                tr th {
+                    position: initial;
+                }
+            }
+        }
+
+        max-height: 100%;
+        overflow: auto;
+
+        table.table>tr:first-child,
+        table.table>thead {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        table.table .action {
+            position: sticky;
+            right: -10px;
+        }
+
+        .table-container-form {
+            --border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border-spacing: 0;
+            border-collapse: separate;
+            border: var(--border);
+            overflow: hidden;
+            width: 100%;
+
+            th,
+            td {
+                padding: 10px;
+
+                &.title {
+                    font-weight: bold;
+                    font-size: medium;
+                }
+
+                .header {
+                    display: flex;
+
+                    .mat-icon {
+                        margin-left: 10px;
+                        color: #CECECE;
+                    }
+
+                    input {
+                        margin-left: 10px;
+                        border: none;
+                        outline: none;
+                        flex-grow: 1
+                    }
+                }
+            }
+
+            th {
+                background-color: #3637951A;
+                color: #363795;
+
+                &:not(:last-child) {
+                    border-right: var(--border);
+                }
+            }
+
+            td {
+                text-align: center;
+
+                &:not(:last-child) {
+                    border-right: var(--border);
+                }
+
+                .delete {
+                    color: red;
+                }
+            }
+
+
+            >thead {
+                >tr {
+                    &:not(:last-child) {
+                        >th {
+                            border-bottom: var(--border);
+                        }
+
+                        >td {
+                            border-bottom: var(--border);
+                        }
+                    }
+                }
+
+                &:not(:last-child) {
+                    border-bottom: var(--border);
+                }
+            }
+
+            >tbody {
+                >tr {
+                    &:not(:last-child) {
+                        >th {
+                            border-bottom: var(--border);
+                        }
+
+                        >td {
+                            border-bottom: var(--border);
+                        }
+                    }
+                }
+
+                &:not(:last-child) {
+                    border-bottom: var(--border);
+                }
+            }
+
+            >tfoot {
+                >tr {
+                    &:not(:last-child) {
+                        >th {
+                            border-bottom: var(--border);
+                        }
+
+                        >td {
+                            border-bottom: var(--border);
+                        }
+                    }
+                }
+
+                &:not(:last-child) {
+                    border-bottom: var(--border);
+                }
+            }
+
+            >tr {
+                &:not(:last-child) {
+                    >td {
+                        border-bottom: var(--border);
+                    }
+
+                    >th {
+                        border-bottom: var(--border);
+                    }
+                }
+            }
+        }
+    }
+}

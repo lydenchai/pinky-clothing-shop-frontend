@@ -1,17 +1,10 @@
-import {
-  Component,
-  computed,
-  inject,
-  HostListener,
-  signal,
-} from '@angular/core';
-import { RouterLink, RouterLinkActive, ActivatedRoute } from '@angular/router';
+import { Component, computed, inject, HostListener, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive, ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { DialogService } from '../../services/dialog.service';
-import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { LanguageEnum } from '../../types/enums/language.enum';
@@ -34,34 +27,39 @@ import { CategoryEnum } from '../../types/enums/category.enum';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  // Services
   private cartService = inject(CartService);
   private authService = inject(AuthService);
   private dialogService = inject(DialogService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private translateService = inject(TranslateService);
+  private localStorageService = inject(LocalStorageService);
 
+  // Signals & state
   cartItemCount = computed(() => this.cartService.cart().totalItems);
   isAuthenticated = computed(() => this.authService.isAuthenticated());
-  user = this.authService.user;
-  currentCategory = 'all';
+  user = this.authService.user; // signal<User | null>
+  currentCategory = signal<string>('all');
   currentLang = signal<LanguageEnum>(LanguageEnum.EN);
-  availableLangs: LanguageEnum[] = [];
-
+  availableLangs: LanguageEnum[] = [LanguageEnum.EN, LanguageEnum.KM, LanguageEnum.FR, LanguageEnum.CH];
   CategoryEnum = CategoryEnum;
+  isAdmin = computed(() => {
+    const u = this.user();
+    return !!u && (u as any).role === 'admin';
+  });
 
-  constructor(
-    public translateService: TranslateService,
-    private localStorageService: LocalStorageService
-  ) {
-    this.router.events.subscribe(() => {
-      const url = this.router.url;
-      const match = url.match(/category=([^&]+)/);
-      this.currentCategory = match ? match[1] : 'all';
-    });
+  // UI toggles
+  mobileMenuOpen = false;
+  userMenuOpen = false;
+  langMenuOpen = false;
+  searchModalOpen = false;
+  searchQuery = '';
+  showSearchInput = false;
 
-    const savedLang = localStorageService.get(
-      LocalStorageEnum.lang
-    ) as LanguageEnum;
+  constructor() {
+    // Initialise language from local storage
+    const savedLang = this.localStorageService.get(LocalStorageEnum.lang) as LanguageEnum;
     if (savedLang && Object.values(LanguageEnum).includes(savedLang)) {
       this.currentLang.set(savedLang);
       this.translateService.use(savedLang);
@@ -70,48 +68,33 @@ export class HeaderComponent {
       this.currentLang.set(LanguageEnum.EN);
     }
 
-    this.translateService.onLangChange.subscribe((event) => {
+    // Listen for language changes
+    this.translateService.onLangChange.subscribe(event => {
       this.currentLang.set(event.lang as LanguageEnum);
-      localStorageService.set(LocalStorageEnum.lang, event.lang);
+      this.localStorageService.set(LocalStorageEnum.lang, event.lang);
     });
 
-    // this.availableLangs = this.translateService.getLangs() as LanguageEnum[];
-    this.availableLangs = [
-      LanguageEnum.EN,
-      LanguageEnum.KM,
-      LanguageEnum.FR,
-      LanguageEnum.CH,
-    ];
+    // Update current category on navigation
+    this.router.events.subscribe(() => {
+      const url = this.router.url;
+      const match = url.match(/category=([^&]+)/);
+      this.currentCategory.set(match ? match[1] : 'all');
+    });
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      this.currentCategory = params['category'] || 'all';
+    this.route.queryParams.subscribe(params => {
+      this.currentCategory.set(params['category'] || 'all');
     });
   }
 
-  mobileMenuOpen = false;
-  userMenuOpen = false;
-  searchModalOpen = false;
-  searchQuery = '';
-  showSearchInput = false;
-  langMenuOpen = false;
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const userMenu = target.closest('.user-menu');
-    const langMenu = target.closest('.lang-img');
-    // Close user menu if clicked outside
-    if (!userMenu && this.userMenuOpen) {
-      this.userMenuOpen = false;
-    }
-    // Close language menu if clicked outside
-    if (!langMenu && this.langMenuOpen) {
-      this.langMenuOpen = false;
-    }
+  // Navigation actions
+  goToAdminDashboard() {
+    this.router.navigate(['/admin']);
+    this.closeUserMenu();
   }
 
+  // UI toggle methods
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
@@ -124,15 +107,8 @@ export class HeaderComponent {
     this.userMenuOpen = false;
   }
 
-  logout() {
-    this.dialogService
-      .ask('Are you sure you want to log out?', 'Confirm Logout')
-      .then((confirmed) => {
-        if (confirmed) {
-          this.authService.logout();
-          this.dialogService.success('You have been logged out successfully');
-        }
-      });
+  toggleLangMenu() {
+    this.langMenuOpen = !this.langMenuOpen;
   }
 
   onChangeLanguage(lang: LanguageEnum) {
@@ -141,7 +117,29 @@ export class HeaderComponent {
     this.langMenuOpen = false;
   }
 
-  toggleLangMenu() {
-    this.langMenuOpen = !this.langMenuOpen;
+  // Logout
+  logout() {
+    this.dialogService
+      .ask('Are you sure you want to log out?', 'Confirm Logout')
+      .then(confirmed => {
+        if (confirmed) {
+          this.authService.logout();
+          this.dialogService.success('You have been logged out successfully');
+        }
+      });
+  }
+
+  // Click outside handling
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const userMenu = target.closest('.user-menu');
+    const langMenu = target.closest('.lang-img');
+    if (!userMenu && this.userMenuOpen) {
+      this.userMenuOpen = false;
+    }
+    if (!langMenu && this.langMenuOpen) {
+      this.langMenuOpen = false;
+    }
   }
 }
