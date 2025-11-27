@@ -13,6 +13,9 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  showLoginPassword = false;
+  showRegisterPassword = false;
+  showRegisterConfirmPassword = false;
   isLogin = signal(true);
   isLoading = signal(false);
   errorMessage = signal('');
@@ -52,7 +55,7 @@ export class LoginComponent {
           this.isLoading.set(false);
           const role = response?.user?.role;
           if (role === 'admin') {
-            this.router.navigate(['/admin']);
+            this.router.navigate(['/admin/dashboard']);
           } else {
             this.router.navigate(['/']);
           }

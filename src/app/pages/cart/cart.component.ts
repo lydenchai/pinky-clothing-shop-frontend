@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { DialogService } from '../../services/dialog.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Cart } from '../../types/cart.model';
 
 @Component({
   selector: 'app-cart',
@@ -13,12 +14,15 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './cart.component.scss',
 })
 export class CartComponent {
-  private cartService = inject(CartService);
-  private dialogService = inject(DialogService);
+  cart = signal<Cart | null>(null);
 
-  cart = this.cartService.cart;
-
-  constructor(private translate: TranslateService) {}
+  constructor(
+    private translate: TranslateService,
+    private cartService: CartService,
+    private dialogService: DialogService
+  ) {
+    this.cart.set(this.cartService.cart());
+  }
 
   updateQuantity(cartItemId: number, quantity: number) {
     this.cartService.updateQuantity(cartItemId, quantity).subscribe({
@@ -55,12 +59,20 @@ export class CartComponent {
   }
 
   increaseQuantity(index: number) {
-    const item = this.cart().items[index];
+    const cart = this.cart();
+    if (!cart || !cart.items || !cart.items[index]) {
+      return;
+    }
+    const item = cart.items[index];
     this.updateQuantity(item.id, item.quantity + 1);
   }
 
   decreaseQuantity(index: number) {
-    const item = this.cart().items[index];
+    const cart = this.cart();
+    if (!cart || !cart.items || !cart.items[index]) {
+      return;
+    }
+    const item = cart.items[index];
     if (item.quantity > 1) {
       this.updateQuantity(item.id, item.quantity - 1);
     }

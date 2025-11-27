@@ -1,48 +1,47 @@
 $screenXS: "only screen and (max-width: 575px)";
 $screenSM: "only screen and (max-width: 767px)";
 $screenMD: "only screen and (max-width: 991px)";
-$screenLG: 'only screen and (max-width: 1199px)';
+$screenLG: "only screen and (max-width: 1199px)";
 $screenXL: "only screen and (min-width: 1200px)";
 
 $top-height: 65px;
 
-$primary-color: #363795;
-$grey-color:#73777B;
-$secondary-color: #F5F5F5;
-$status-color:#0DC269;
-$white-color:  #FFFFFF;
-$black-color:  #000000;
-$active-color: #20b823;
-$inactive-color: #9C9C9C;
-$pending-color: #e58616;
-$returned-color: #CCC911;
-$rejected-color: #dd2323;
-$canceled-color: #73777B;
-$draft-color: #FFCB42;
-
+$primary-color: #0071e3;
+$grey-color: #86868b;
+$secondary-color: #f5f5f7;
+$status-color: #16a34a;
+$white-color: #ffffff;
+$black-color: #1d1d1f;
+$active-color: #22c55e;
+$inactive-color: #d2d2d7;
+$pending-color: #f59e0b;
+$returned-color: #fef3c7;
+$rejected-color: #ef4444;
+$canceled-color: #6b7280;
+$draft-color: #ffcb42;
 
 @mixin disable-select {
-    user-select: none;
-    /* supported by Chrome and Opera */
-    -webkit-user-select: none;
-    /* Safari */
-    -khtml-user-select: none;
-    /* Konqueror HTML */
-    -moz-user-select: none;
-    /* Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
 }
 
 @mixin no-result {
-    &::after {
-        content: " ";
-        width: 100%;
-        height: 370px;
-        display: block;
-        background-image: url('/assets/imgs/empty.webp');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 370px;
-    }
+  &::after {
+    content: " ";
+    width: 100%;
+    height: 370px;
+    display: block;
+    background-image: url("/assets/imgs/empty.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 370px;
+  }
 }

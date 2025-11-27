@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Order } from '../types/order';
-
-export interface CreateOrderRequest {
-  shippingAddress: string;
-  shippingCity: string;
-  shippingPostalCode: string;
-  shippingCountry: string;
-}
+import { CreateOrderRequest } from '../types/create-order-request';
+import { OrderSummaryRequest } from '../types/order-summary-request';
+import { OrderSummary } from '../types/order-summary';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +42,16 @@ export class OrderService {
   updateOrderStatus(orderId: number, status: string): Observable<Order> {
     return this.http
       .put<Order>(`${environment.apiUrl}/orders/${orderId}/status`, { status })
+      .pipe(
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+
+  getOrderSummary(summaryData: OrderSummaryRequest): Observable<OrderSummary> {
+    return this.http
+      .post<OrderSummary>(`${environment.apiUrl}/orders/summary`, summaryData)
       .pipe(
         catchError((error) => {
           throw error;

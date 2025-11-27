@@ -54,8 +54,7 @@
   "discover_our_latest_collection": "Discover our latest collection",
   "filters": "Filters",
   "found": "found",
-  "product": "product",
-  "products": "products",
+  "product": "Product",
   "sort_by": "Sort by",
   "featured": "Featured",
   "price_low_to_high": "Price: Low to High",
@@ -169,6 +168,20 @@
   "warning": "Warning",
   "information": "Information",
   "confirm": "Confirm",
+  "processing_please_wait": "Processing... Please wait",
+  "admin": "Admin",
+  "customer": "Customer",
+  "dashboard": "Dashboard",
+  "inventory": "Inventory",
+  "order": "Order",
+  "user": "User",
+  "analytic": "Analytic",
+  "back_to_store": "Back to Store",
+  "payment": "Payment",
+  "setting": "Setting",
+  "site_info": "Site Info",
+  "admin_dashboard": "Admin Dashboard",
+  "password": "Password",
   "message": {
     "item_added_to_cart_successfully": "Item added to cart successfully!",
     "please_login_to_add_items_to_your_cart": "Please login to add items to your cart",
@@ -188,6 +201,9 @@
     "are_you_sure_remove_item": "Are you sure you want to remove this item from your cart?",
     "remove_item": "Remove Item",
     "item_removed_from_cart": "Item removed from cart",
-    "failed_to_remove_item_from_cart": "Failed to remove item from cart. Please try again."
+    "failed_to_remove_item_from_cart": "Failed to remove item from cart. Please try again.",
+    "are_you_sure_you_want_to_log_out": "Are you sure you want to log out?",
+    "confirm_logout": "Confirm Logout",
+    "you_have_been_logged_out_successfully": "You have been logged out successfully"
   }
 }

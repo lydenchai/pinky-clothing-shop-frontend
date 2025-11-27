@@ -1,3 +1,5 @@
+import { Cart } from './../../types/cart.model';
+import { User } from './../../types/user.model';
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +9,9 @@ import { AuthService } from '../../services/auth.service';
 import { DialogService } from '../../services/dialog.service';
 import { CheckoutForm } from '../../types/product.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { OrderService } from '../../services/order.service';
+import { OrderSummary } from '../../types/order-summary';
+import { OrderSummaryRequest } from '../../types/order-summary-request';
 
 @Component({
   selector: 'app-checkout',
@@ -16,13 +21,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent {
-  private cartService = inject(CartService);
-  private authService = inject(AuthService);
-  private dialogService = inject(DialogService);
-  private router = inject(Router);
-
-  cart = this.cartService.cart;
-  user = this.authService.user;
+  cart = signal<Cart | null>(null);
+  user = signal<User | null>(null);
 
   checkoutForm: CheckoutForm = {
     email: '',
@@ -41,8 +41,20 @@ export class CheckoutComponent {
   };
 
   orderPlaced = signal(false);
+  orderSummary: OrderSummary | null = null;
+  summaryLoading = false;
+  summaryError: string | null = null;
+  orderResponse: any = null;
 
-  constructor(private translate: TranslateService) {
+  constructor(
+    private translate: TranslateService,
+    private cartService: CartService,
+    private authService: AuthService,
+    private dialogService: DialogService,
+    private orderService: OrderService
+  ) {
+    this.cart.set(this.cartService.cart());
+    this.user.set(this.authService.user());
     const currentUser = this.user();
     if (currentUser) {
       this.checkoutForm.email = currentUser.email;
@@ -63,7 +75,9 @@ export class CheckoutComponent {
       !this.checkoutForm.lastName ||
       !this.checkoutForm.email
     ) {
-      this.dialogService.warning(this.translate.instant('message.please_fill_in_all_required_fields'));
+      this.dialogService.warning(
+        this.translate.instant('message.please_fill_in_all_required_fields')
+      );
       return;
     }
 
@@ -72,7 +86,9 @@ export class CheckoutComponent {
       !this.checkoutForm.city ||
       !this.checkoutForm.zipCode
     ) {
-      this.dialogService.warning(this.translate.instant('message.please_complete_your_shipping_address'));
+      this.dialogService.warning(
+        this.translate.instant('message.please_complete_your_shipping_address')
+      );
       return;
     }
 
@@ -82,23 +98,62 @@ export class CheckoutComponent {
         !this.checkoutForm.cardExpiry ||
         !this.checkoutForm.cardCVC
       ) {
-        this.dialogService.warning(this.translate.instant('message.please_complete_your_payment_information'));
+        this.dialogService.warning(
+          this.translate.instant(
+            'message.please_complete_your_payment_information'
+          )
+        );
         return;
       }
     }
 
-    // In production, this would validate and process the payment
-    this.orderPlaced.set(true);
+    // Call backend for order summary/validation
+    this.summaryLoading = true;
+    this.summaryError = null;
+    const summaryReq: OrderSummaryRequest = {
+      shippingAddress: this.checkoutForm.address,
+      shippingCity: this.checkoutForm.city,
+      shippingPostalCode: this.checkoutForm.zipCode,
+      shippingCountry: this.checkoutForm.country,
+    };
+    this.orderService.getOrderSummary(summaryReq).subscribe({
+      next: (summary) => {
+        this.orderSummary = summary;
+        this.summaryLoading = false;
+      },
+      error: (err) => {
+        this.summaryError =
+          err?.error?.error ||
+          this.translate.instant('message.failed_to_prepare_order_summary');
+        this.summaryLoading = false;
+      },
+    });
+  }
 
-    this.dialogService.success(
-      this.translate.instant('message.order_placed_successfully'),
-      this.translate.instant('message.order_confirmed')
-    );
-
-    setTimeout(() => {
-      this.cartService.clearCart();
-      this.router.navigate(['/']);
-    }, 3000);
+  confirmOrder() {
+    // Actually place the order after summary confirmation
+    const orderReq = {
+      shippingAddress: this.checkoutForm.address,
+      shippingCity: this.checkoutForm.city,
+      shippingPostalCode: this.checkoutForm.zipCode,
+      shippingCountry: this.checkoutForm.country,
+    };
+    this.orderService.createOrder(orderReq).subscribe({
+      next: (order) => {
+        this.orderPlaced.set(true);
+        this.orderResponse = order;
+        this.dialogService.success(
+          this.translate.instant('message.order_placed_successfully'),
+          this.translate.instant('message.order_confirmed')
+        );
+        this.cartService.clearCart();
+      },
+      error: () => {
+        this.dialogService.error(
+          this.translate.instant('message.failed_to_place_order')
+        );
+      },
+    });
   }
 
   formatPrice(price: any): string {

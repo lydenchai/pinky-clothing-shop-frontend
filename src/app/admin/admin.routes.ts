@@ -4,12 +4,10 @@ import { adminGuard } from '../guards/admin.guard';
 export const adminRoutes: Routes = [
   {
     path: '',
-    // Parent route that provides the admin layout (sidebar + admin main)
     loadComponent: () =>
       import('./components/admin-layout/admin-layout.component').then(
         (m) => m.AdminLayoutComponent
       ),
-    // Ensure child routes are protected and layout is applied
     canActivateChild: [adminGuard],
     children: [
       {
@@ -66,6 +64,13 @@ export const adminRoutes: Routes = [
         loadComponent: () =>
           import('./routes/analytic/analytic.component').then(
             (m) => m.AnalyticComponent
+          ),
+      },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./routes/settings/admin-setting.routes').then(
+            (m) => m.adminSettingRoutes
           ),
       },
       // Fallback for admin subpaths

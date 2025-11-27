@@ -9,6 +9,8 @@ import { PaginationComponentUtil } from '../../../../../utils/pagination-compone
 import { Pagination } from '../../../../../types/pagination';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
+import { PluralPipe } from "../../../../../pipes/plural.pipe";
 
 @Component({
   selector: 'app-product-list',
@@ -21,14 +23,15 @@ import { MatButtonModule } from '@angular/material/button';
     PaginationComponent,
     MatIconModule,
     MatButtonModule,
-  ],
+    TranslateModule,
+    PluralPipe
+],
 })
 export class ProductListComponent
   extends PaginationComponentUtil
   implements OnInit
 {
   products: Product[] = [];
-  loading = true;
 
   constructor(private productService: ProductService) {
     super();
@@ -43,7 +46,6 @@ export class ProductListComponent
       .getAllProducts({ page: event.page, limit: event.limit })
       .subscribe((response) => {
         this.products = response.products;
-        this.loading = false;
         this.totalCount = response.pagination.totalItems;
         this.limit = event.limit;
         this.page = event.page;

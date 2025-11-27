@@ -55,7 +55,6 @@
   "filters": "តម្រង",
   "found": "រកឃើញ",
   "product": "ផលិតផល",
-  "products": "ផលិតផល",
   "sort_by": "តម្រៀបតាម",
   "featured": "ពិសេស",
   "price_low_to_high": "តម្លៃ៖ ពីទាបទៅខ្ពស់",
@@ -169,6 +168,20 @@
   "warning": "ការព្រមាន",
   "information": "ព័ត៌មាន",
   "confirm": "បញ្ជាក់",
+  "processing_please_wait": "កំពុងដំណើរការ... សូមរង់ចាំ",
+  "admin": "អ្នកគ្រប់គ្រង",
+  "customer": "អតិថិជន",
+  "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+  "inventory": "សារពើភ័ណ្ឌ",
+  "order": "ការកុម្មង់",
+  "user": "អ្នកប្រើប្រាស់",
+  "analytic": "វិភាគ",
+  "back_to_store": "ត្រឡប់ទៅហាង",
+  "payment": "ការទូទាត់",
+  "setting": "ការកំណត់",
+  "site_info": "ព័ត៌មានតំបន់បណ្ដាញ",
+  "admin_dashboard": "ផ្ទាំងគ្រប់គ្រងអ្នកគ្រប់គ្រង",
+  "password": "ពាក្យសម្ងាត់",
   "message": {
     "item_added_to_cart_successfully": "បានបន្ថែមទំនិញចូលក្នុងរទេះដោយជោគជ័យ!",
     "please_login_to_add_items_to_your_cart": "សូមចូលប្រើប្រាស់ដើម្បីបន្ថែមទំនិញចូលរទេះរបស់អ្នក",
@@ -188,6 +201,9 @@
     "are_you_sure_remove_item": "តើអ្នកប្រាកដថាចង់លុបទំនិញនេះចេញពីរទេះ?",
     "remove_item": "លុបទំនិញ",
     "item_removed_from_cart": "បានលុបទំនិញចេញពីរទេះ",
-    "failed_to_remove_item_from_cart": "មិនអាចលុបទំនិញចេញពីរទេះបានទេ។ សូមព្យាយាមម្តងទៀត។"
+    "failed_to_remove_item_from_cart": "មិនអាចលុបទំនិញចេញពីរទេះបានទេ។ សូមព្យាយាមម្តងទៀត។",
+    "are_you_sure_you_want_to_log_out": "តើអ្នកប្រាកដថាចង់ចាកចេញពីប្រព័ន្ធទេ?",
+    "confirm_logout": "បញ្ជាក់ការចាកចេញ",
+    "you_have_been_logged_out_successfully": "អ្នកបានចាកចេញពីប្រព័ន្ធដោយជោគជ័យ"
   }
 }

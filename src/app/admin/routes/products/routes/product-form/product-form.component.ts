@@ -8,11 +8,12 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../../../../services/product.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss'],
 })

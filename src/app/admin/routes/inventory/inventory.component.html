@@ -1,28 +1,25 @@
 <div class="admin-container scroll-container">
-  <h2>Inventory Management</h2>
-  @if (!loading) {
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Quantity</th>
-        <th>Location</th>
-        <th>Supplier</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (inventory of inventories; track inventory.id) {
-      <tr>
-        <td>{{ inventory.name }}</td>
-        <td>{{ inventory.quantity }}</td>
-        <td>{{ inventory.location }}</td>
-        <td>{{ inventory.supplier }}</td>
-      </tr>
-      }
-    </tbody>
-  </table>
-  }
-  @if (loading) {
-  <div>Loading orders...</div>
-  }
+  <h5>{{'inventory' | translate}}</h5>
+  <div class="container-table content-scroll">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Location</th>
+          <th>Supplier</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (inventory of inventories; track inventory.id) {
+        <tr>
+          <td>{{ inventory.name }}</td>
+          <td>{{ inventory.quantity }}</td>
+          <td>{{ inventory.location }}</td>
+          <td>{{ inventory.supplier }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>

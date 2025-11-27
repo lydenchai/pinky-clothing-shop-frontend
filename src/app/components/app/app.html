@@ -4,3 +4,9 @@
   <app-footer *ngIf="showDefaultLayout()" />
 </main>
 <app-dialog />
+@if (isLoading()) {
+  <div class="app-loading">
+    <img src="/imgs/loading.svg" alt="Loading..." />
+    <h2>{{ "processing_please_wait" | translate }}</h2>
+  </div>
+}

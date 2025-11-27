@@ -1,16 +1,15 @@
 <div class="admin-container scroll-container">
   <section class="content-header">
-    <h2>Product List</h2>
+    <h5>{{'product' | translate | plural}}</h5>
   </section>
   <section class="table-header form">
     <div class="top-btn mb-3 ms-auto">
-      <button class="btn" routerLink="/admin/products/new" type="button">
+      <button class="btn" mat-flat-button color="primary" class="new" routerLink="/admin/products/new" type="button">
         <mat-icon>add</mat-icon>
         <span class="ms-1">Create</span>
       </button>
     </div>
   </section>
-  @if (!loading) {
   <div class="container-table content-scroll">
     <table class="table">
       <thead>
@@ -32,8 +31,13 @@
           <td>{{ product.price | currency }}</td>
           <td>{{ product.stock }}</td>
           <td>
-            <a [routerLink]="['/admin/products', product.id, 'edit']" class="btn"><mat-icon>edit</mat-icon></a>
-            <button (click)="deleteProduct(product.id)" class="btn"><mat-icon>delete_outline</mat-icon></button>
+            <button class="btn" mat-icon-button color="primary" class="new"
+              [routerLink]="['/admin/products', product.id, 'edit']" type="button">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete" (click)="deleteProduct(product.id)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
           </td>
         </tr>
         }
@@ -45,9 +49,5 @@
     <app-pagination [total]="totalCount ?? 0" [limit]="limit" [page]="page"
       (changed)="getList($event)"></app-pagination>
   </div>
-  }
-  }
-  @if (loading) {
-  <div>Loading products...</div>
   }
 </div>

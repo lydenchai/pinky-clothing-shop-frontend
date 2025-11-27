@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="page-title">{{ 'shopping_cart' | translate }}</h1>
 
-    @if (cart().items.length === 0) {
+    @if (cart()?.items?.length === 0) {
     <div class="empty-cart">
       <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2">
@@ -18,7 +18,7 @@
     <div class="cart-layout">
       <!-- Cart Items -->
       <div class="cart-items">
-        @for (item of cart().items; track $index) {
+        @for (item of cart()?.items; track $index) {
         <div class="cart-item">
           <div class="item-image">
             <img [src]="item.productImage" [alt]="item.productName" />
@@ -63,27 +63,27 @@
         <h2>{{ 'order_summary' | translate }}</h2>
 
         <div class="summary-row">
-          <span>{{ 'subtotal' | translate }} ({{ cart().totalItems }} {{ 'items' | translate }})</span>
-          <span>${{ cart().subtotal.toFixed(2) }}</span>
+          <span>{{ 'subtotal' | translate }} ({{ cart()?.totalItems }} {{ 'items' | translate }})</span>
+          <span>${{ cart()?.subtotal?.toFixed(2) }}</span>
         </div>
 
         <div class="summary-row">
           <span>{{ 'shipping' | translate }}</span>
           <span>
-            @if (cart().shipping === 0) {
+            @if (cart()?.shipping === 0) {
             <span class="free">{{ 'free' | translate }}</span>
             } @else {
-            ${{ cart().shipping.toFixed(2) }}
+            ${{ cart()?.shipping?.toFixed(2) }}
             }
           </span>
         </div>
 
         <div class="summary-row">
           <span>{{ 'tax' | translate }}</span>
-          <span>${{ cart().tax.toFixed(2) }}</span>
+          <span>${{ cart()?.tax?.toFixed(2) }}</span>
         </div>
 
-        @if (cart().subtotal < 100 && cart().subtotal> 0) {
+        @if (cart()?.subtotal < 100 && cart()?.subtotal > 0) {
           <div class="shipping-notice">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2">
@@ -91,13 +91,13 @@
               <line x1="12" y1="16" x2="12" y2="12"></line>
               <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
-            {{ 'add' | translate }} ${{ (100 - cart().subtotal).toFixed(2) }} {{ 'more_for_free_shipping' | translate }}
+            {{ 'add' | translate }} ${{ (100 - cart()?.subtotal)?.toFixed(2) }} {{ 'more_for_free_shipping' | translate }}
           </div>
           }
 
           <div class="summary-total">
             <span>{{ 'total' | translate }}</span>
-            <span>${{ cart().total.toFixed(2) }}</span>
+            <span>${{ cart()?.total?.toFixed(2) }}</span>
           </div>
 
           <a routerLink="/checkout" class="btn-checkout">

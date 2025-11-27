@@ -1,33 +1,60 @@
 @use "./variables.scss";
 @use "./table.scss";
 @use "./scroll-container.scss";
+@use "./button.scss";
+@use "./mat-select-search.scss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css");
+
+// =========================
+// GLOBAL GENERAL STYLES
+// =========================
 
 * {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #fbfbfd;
-  color: #1d1d1f;
-  line-height: 1.47059;
-  font-weight: 400;
-  letter-spacing: -0.022em;
-}
-
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
 }
 
-/* Scrollbar Styling - Apple Style */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
+  background: #fbfbfd;
+  color: #1d1d1f;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.022em;
+  line-height: 1.47;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  transition: 0.3s ease;
+}
+
+button {
+  font-family: inherit;
+}
+
+[lang="km"],
+.khmer-font {
+  font-family: "Poppins", sans-serif !important;
+}
+
+// =========================
+// SCROLLBAR
+// =========================
+
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -46,72 +73,114 @@ body {
   background: #86868b;
 }
 
-/* Selection */
+// =========================
+// SELECTION & FOCUS
+// =========================
+
 ::selection {
   background: #0071e3;
-  color: #ffffff;
+  color: #fff;
 }
 
-/* Smooth Scroll */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Focus Styles */
 *:focus-visible {
   outline: 2px solid #0071e3;
   outline-offset: 2px;
 }
 
-/* Links */
-a {
-  color: inherit;
-  transition: color 0.3s ease;
-}
+.app-loading {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: #00000052;
+  top: 0;
+  left: 0;
+  z-index: 999999;
 
-/* Buttons */
-button {
-  font-family: inherit;
-}
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-/* Images */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-[lang="km"],
-.khmer-font {
-  font-family: "Poppins", sans-serif !important;
-}
-
-/* Global pagination / Material overrides (needed because overlay panels live outside component scope) */
-.pagination {
-  /* Align mat-form-field internals when used inside pagination */
-  mat-form-field .mat-form-field-flex {
-    height: 38px;
-    align-items: center;
-    padding: 0 6px;
+  img {
+    width: 120px;
   }
 
-  mat-form-field .mat-form-field-infix,
-  mat-form-field .mat-form-field-wrapper {
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-size: 100px auto;
+  h2 {
+    color: rgb(236, 236, 236);
+  }
+}
+
+// =========================
+// MATERIAL FORM FIELD FIXES
+// =========================
+
+$input-height: 38px;
+
+mat-form-field {
+  border-radius: 6px !important;
+  .mdc-text-field {
+    height: $input-height !important;
+    min-height: $input-height !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    background: #fff;
+  }
+
+  .mdc-notched-outline,
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    height: $input-height !important;
+    border-radius: 6px !important;
+  }
+
+  .mat-mdc-input-element {
+    height: $input-height !important;
+    padding: 0 8px !important;
+    margin: 0 !important;
     display: flex;
     align-items: center;
   }
 
-  /* Make the mat input element compact inside pagination */
-  mat-form-field .mat-input-element {
-    padding: 6px 4px;
-    height: 24px;
-    margin-top: 0 !important;
-    text-align: right;
+  .mdc-notched-outline__trailing {
+    border-left: 1px solid;
   }
 
-  /* mat-select overlay panel is appended to the global overlay container, so target it globally */
-  .mat-select-panel {
-    min-width: 90px !important;
-    max-width: 220px;
+  .mdc-notched-outline__leading {
+    border-left: unset !important;
+  }
+}
+
+.pagination {
+  .select {
+    border-radius: 6px !important;
+    .mdc-select {
+      width: 150px !important;
+      height: $input-height !important;
+      min-height: $input-height !important;
+    }
+
+    .mat-mdc-select-trigger {
+      height: $input-height !important;
+      display: flex;
+      align-items: center;
+      padding: 0 8px !important;
+    }
+
+    .mdc-line-ripple,
+    .mdc-line-ripple::before,
+    .mdc-line-ripple::after {
+      bottom: -4px !important;
+      height: 2px !important;
+    }
+  }
+
+  // Disabled state
+  mat-form-field .mdc-text-field--disabled .mat-mdc-input-element {
+    color: #a5a5a5 !important;
   }
 }

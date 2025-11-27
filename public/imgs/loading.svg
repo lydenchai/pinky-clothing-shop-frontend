@@ -1,0 +1,9 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>
+    <linearGradient id='a7'>
+        <stop offset='0' stop-color='#FFFFFF' stop-opacity='0'></stop>
+        <stop offset='1' stop-color='#FFFFFF'></stop>
+    </linearGradient>
+    <circle fill='none' stroke='url(#a7)' stroke-width='22' stroke-linecap='round' stroke-dasharray='0 270 0 44 0 44 0 44 0 44' cx='100' cy='100' r='70' transform-origin='center'>
+        <animateTransform type='rotate' attributeName='transform' calcMode='linear' dur='1.5s' values='0;360' repeatCount='indefinite'></animateTransform>
+    </circle>
+</svg>

@@ -34,7 +34,7 @@
             @if (langMenuOpen) {
             <div class="lang-dropdown">
               @for (lang of availableLangs; track $index) {
-              <div class="lang-option" (click)="onChangeLanguage(lang)" [ngClass]="{'active': currentLang() === lang}"
+              <div class="lang-option" (click)="onChangeLanguage(lang)" [class]="{'active': currentLang() === lang}"
                 tabindex="0">
                 <img class="mat-icon me-2" [src]="'/icons/' + lang + '.webp'" />
                 <span>{{ lang | translate }}</span>
@@ -43,7 +43,6 @@
             </div>
             }
           </div>
-
           <a routerLink="/cart" class="icon-btn cart-btn" aria-label="Shopping cart">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -96,7 +95,7 @@
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                   <path d="M9 9h6v6H9z"></path>
                 </svg>
-                Admin Dashboard
+                {{ 'admin_dashboard' | translate }}
               </button>
               }
               <button class="dropdown-item logout-btn" (click)="logout(); closeUserMenu()">

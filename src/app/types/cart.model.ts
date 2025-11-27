@@ -21,10 +21,10 @@ export interface CartItemRequest {
 }
 
 export interface Cart {
-  items: CartItem[];
-  totalItems: number;
-  subtotal: number;
-  shipping: number;
-  tax: number;
-  total: number;
+  items: CartItem[] | null;
+  totalItems: number | null;
+  subtotal: any;
+  shipping: number | null;
+  tax: number | null;
+  total: number | null;
 }

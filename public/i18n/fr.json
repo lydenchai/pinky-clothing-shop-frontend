@@ -55,7 +55,6 @@
   "filters": "Filtres",
   "found": "trouvé",
   "product": "produit",
-  "products": "produits",
   "sort_by": "Trier par",
   "featured": "En vedette",
   "price_low_to_high": "Prix : du plus bas au plus élevé",
@@ -169,6 +168,20 @@
   "warning": "Avertissement",
   "information": "Information",
   "confirm": "Confirmer",
+  "processing_please_wait": "Traitement en cours... Veuillez patienter",
+  "admin": "Administrateur",
+  "customer": "Client",
+  "dashboard": "Tableau de bord",
+  "inventory": "Inventaire",
+  "order": "Commande",
+  "user": "Utilisateur",
+  "analytic": "Analytique",
+  "back_to_store": "Retour au magasin",
+  "payment": "Paiement",
+  "setting": "Paramètres",
+  "site_info": "Informations du site",
+  "admin_dashboard": "Tableau de bord administrateur",
+  "password": "Mot de passe",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",
@@ -188,6 +201,9 @@
     "are_you_sure_remove_item": "Êtes-vous sûr de vouloir retirer cet article de votre panier ?",
     "remove_item": "Retirer l’article",
     "item_removed_from_cart": "Article retiré du panier",
-    "failed_to_remove_item_from_cart": "Impossible de retirer l'article du panier. Veuillez réessayer."
+    "failed_to_remove_item_from_cart": "Impossible de retirer l'article du panier. Veuillez réessayer.",
+    "are_you_sure_you_want_to_log_out": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "confirm_logout": "Confirmer la déconnexion",
+    "you_have_been_logged_out_successfully": "Vous avez été déconnecté avec succès"
   }
 }

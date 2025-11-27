@@ -6,11 +6,14 @@ import { OrderService } from '../../../services/order.service';
 import { UserService } from '../../../services/user.service';
 import { Product } from '../../../types/product.model';
 import { Order } from '../../../types/order';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })

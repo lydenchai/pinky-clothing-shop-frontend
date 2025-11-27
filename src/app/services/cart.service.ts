@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError } from 'rxjs';
 import { CartItem, Cart, CartItemRequest } from '../types/cart.model';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,25 +35,58 @@ export class CartService {
   });
 
   constructor(
+    private auth: AuthService,
     private http: HttpClient,
     private localStorage: LocalStorageService
   ) {
-    // Load cart from local storage on service initialization
-    const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
-    if (savedCart) {
-      try {
-        const items: CartItem[] = JSON.parse(savedCart);
-        this.cartItems.set(items);
-      } catch (e) {
-        // Ignore parse errors
-      }
-    }
-    // Use effect to persist cartItems changes to local storage
+    // React to login/logout using effect on signal
     effect(() => {
-      this.localStorage.set(
-        LocalStorageEnum.Cart,
-        JSON.stringify(this.cartItems())
-      );
+      const user = this.auth.user();
+      if (user) {
+        // On login: migrate local cart to backend, then clear local
+        const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
+        if (savedCart) {
+          try {
+            const items: CartItem[] = JSON.parse(savedCart);
+            items.forEach((item) => {
+              this.addToCart(
+                item.productId,
+                item.quantity,
+                item.size,
+                item.color
+              ).subscribe();
+            });
+            this.localStorage.delete(LocalStorageEnum.Cart);
+          } catch (e) {}
+        }
+        // Load backend cart
+        this.loadCart().subscribe();
+      } else {
+        // On logout: clear cart and localStorage
+        this.cartItems.set([]);
+        this.localStorage.delete(LocalStorageEnum.Cart);
+        // On service init for guest: load cart from localStorage
+        const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
+        if (savedCart) {
+          try {
+            const items: CartItem[] = JSON.parse(savedCart);
+            this.cartItems.set(items);
+          } catch (e) {}
+        }
+      }
+    });
+
+    // Persist cart changes to correct place
+    effect(() => {
+      if (this.auth.getCurrentUser()) {
+        // Optionally, sync to backend here if needed
+        // (Backend is already updated on add/update/remove)
+      } else {
+        this.localStorage.set(
+          LocalStorageEnum.Cart,
+          JSON.stringify(this.cartItems())
+        );
+      }
     });
   }
 
@@ -142,7 +176,7 @@ export class CartService {
   }
 
   getCartItemCount(): number {
-    return this.cart().totalItems;
+    return this.cart().totalItems!;
   }
 
   getCachedCart(): Cart {

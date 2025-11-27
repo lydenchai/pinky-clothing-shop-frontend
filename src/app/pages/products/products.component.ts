@@ -11,11 +11,12 @@ import {
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CategoryEnum } from '../../types/enums/category.enum';
+import { PluralPipe } from "../../pipes/plural.pipe";
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule, ProductCardComponent, TranslateModule],
+  imports: [CommonModule, FormsModule, ProductCardComponent, TranslateModule, PluralPipe],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })

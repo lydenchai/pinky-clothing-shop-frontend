@@ -1,15 +1,20 @@
 <div class="dashboard">
   <header class="dashboard-header">
     <div>
-      <h1>Admin Dashboard</h1>
+      <h5>{{'admin_dashboard' | translate}}</h5>
       <p class="muted">Overview of store performance and quick actions</p>
     </div>
     <div class="actions">
-      <a routerLink="/admin/products/new" class="btn primary">Add Product</a>
-      <a routerLink="/admin/products" class="btn">Products</a>
+      <button class="btn" mat-flat-button color="primary" class="post" routerLink="/admin/products/new" type="button">
+        <mat-icon>add</mat-icon>
+        <span class="ms-1">Product</span>
+      </button>
+      <button class="btn" mat-flat-button color="primary" class="post" routerLink="/admin/products" type="button">
+        <mat-icon>list</mat-icon>
+        <span class="ms-1">Products</span>
+      </button>
     </div>
   </header>
-
   <section class="kpis">
     <div class="kpi">
       <div class="kpi-value">{{ totalProducts }}</div>
@@ -28,7 +33,6 @@
       <div class="kpi-label">Total Sales</div>
     </div>
   </section>
-
   <section class="panels">
     <div class="panel">
       <h3>Recent Orders</h3>

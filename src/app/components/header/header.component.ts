@@ -1,5 +1,16 @@
-import { Component, computed, inject, HostListener, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  computed,
+  inject,
+  HostListener,
+  signal,
+} from '@angular/core';
+import {
+  RouterLink,
+  RouterLinkActive,
+  ActivatedRoute,
+  Router,
+} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
@@ -11,6 +22,7 @@ import { LanguageEnum } from '../../types/enums/language.enum';
 import { LocalStorageEnum } from '../../types/enums/local-storage.enum';
 import { MatMenuModule } from '@angular/material/menu';
 import { CategoryEnum } from '../../types/enums/category.enum';
+import { User } from '../../types/user.model';
 
 @Component({
   selector: 'app-header',
@@ -27,22 +39,18 @@ import { CategoryEnum } from '../../types/enums/category.enum';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  // Services
-  private cartService = inject(CartService);
-  private authService = inject(AuthService);
-  private dialogService = inject(DialogService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private translateService = inject(TranslateService);
-  private localStorageService = inject(LocalStorageService);
-
   // Signals & state
   cartItemCount = computed(() => this.cartService.cart().totalItems);
   isAuthenticated = computed(() => this.authService.isAuthenticated());
-  user = this.authService.user; // signal<User | null>
+  user = signal<User | null>(null);
   currentCategory = signal<string>('all');
   currentLang = signal<LanguageEnum>(LanguageEnum.EN);
-  availableLangs: LanguageEnum[] = [LanguageEnum.EN, LanguageEnum.KM, LanguageEnum.FR, LanguageEnum.CH];
+  availableLangs: LanguageEnum[] = [
+    LanguageEnum.EN,
+    LanguageEnum.KM,
+    LanguageEnum.FR,
+    LanguageEnum.CH,
+  ];
   CategoryEnum = CategoryEnum;
   isAdmin = computed(() => {
     const u = this.user();
@@ -57,9 +65,22 @@ export class HeaderComponent {
   searchQuery = '';
   showSearchInput = false;
 
-  constructor() {
+  constructor(
+    private cartService: CartService,
+    private authService: AuthService,
+    private dialogService: DialogService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private translateService: TranslateService,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService
+  ) {
+    this.user.set(this.authService.getCurrentUser());
+    
     // Initialise language from local storage
-    const savedLang = this.localStorageService.get(LocalStorageEnum.lang) as LanguageEnum;
+    const savedLang = this.localStorageService.get(
+      LocalStorageEnum.lang
+    ) as LanguageEnum;
     if (savedLang && Object.values(LanguageEnum).includes(savedLang)) {
       this.currentLang.set(savedLang);
       this.translateService.use(savedLang);
@@ -69,7 +90,7 @@ export class HeaderComponent {
     }
 
     // Listen for language changes
-    this.translateService.onLangChange.subscribe(event => {
+    this.translateService.onLangChange.subscribe((event) => {
       this.currentLang.set(event.lang as LanguageEnum);
       this.localStorageService.set(LocalStorageEnum.lang, event.lang);
     });
@@ -83,7 +104,7 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.currentCategory.set(params['category'] || 'all');
     });
   }
@@ -120,11 +141,11 @@ export class HeaderComponent {
   // Logout
   logout() {
     this.dialogService
-      .ask('Are you sure you want to log out?', 'Confirm Logout')
-      .then(confirmed => {
+      .ask(this.translate.instant('message.are_you_sure_you_want_to_log_out'), this.translate.instant('message.confirm_logout'))
+      .then((confirmed) => {
         if (confirmed) {
           this.authService.logout();
-          this.dialogService.success('You have been logged out successfully');
+          this.dialogService.success(this.translate.instant('message.you_have_been_logged_out_successfully'));
         }
       });
   }

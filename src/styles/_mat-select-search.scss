@@ -1,0 +1,96 @@
+.mat-select-search {
+  position: relative;
+  padding-top: 45px !important;
+
+  .mat-filter-input-container {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border: 0;
+    background-color: unset;
+    color: gray;
+    width: calc(100% + 32px);
+    height: 45px;
+    border-bottom: 1px solid #b1b1b1;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    background: white;
+
+    .mat-filter-button {
+      border-radius: 33px;
+      border: 0;
+      cursor: pointer;
+      outline: none;
+      background: transparent;
+      background-color: transparent;
+
+      /* Remove focus outline */
+      transition: background-color 0.3s;
+
+      /* Apply styles on button click (active state) */
+      &:active {
+        background-color: rgba(41, 138, 191, 0.2);
+        /* Change the background color on click */
+      }
+      mat-icon {
+        color: #298abf;
+      }
+    }
+  }
+
+  input.mat-filter-input {
+    outline: none;
+    border: 0;
+    background-color: unset;
+    color: gray;
+    width: calc(100% + 32px);
+    height: 45px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .mat-select-search-panel {
+    display: block;
+  }
+
+  [not-found] .mat-pseudo-checkbox {
+    display: none;
+  }
+}
+
+.mat-select-search-panel {
+  display: none;
+}
+.cdk-overlay-pane:not(.mat-mdc-select-panel-above) div.mat-mdc-select-panel {
+  background: white;
+}
+
+.mat-mdc-form-field-type-mat-select:not(.mat-form-field-disabled)
+  .mat-mdc-text-field-wrapper {
+  background-color: white !important;
+  color: black;
+}
+.mat-mdc-select-panel {
+  background: white !important;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-height: 250px;
+  overflow-y: auto;
+}
+// .mat-mdc-select-panel,
+// .mat-mdc-select-panel-above .mat-mdc-select-panel {
+//   min-width: 86px;
+// }

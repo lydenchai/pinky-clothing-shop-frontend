@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-analytic',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './analytic.component.html',
   styleUrls: ['./analytic.component.scss'],
 })

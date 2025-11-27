@@ -46,12 +46,12 @@
     .mat-form-field-suffix {
       top: 0;
 
-      >.mat-icon {
+      > .mat-icon {
         top: 5px;
         position: relative;
       }
 
-      >.mat-datepicker-toggle .mdc-icon-button {
+      > .mat-datepicker-toggle .mdc-icon-button {
         top: 7px;
         height: 35px;
         width: 35px;
@@ -60,13 +60,13 @@
     }
 
     .mat-form-field-prefix {
-      >.mat-datepicker-toggle .mdc-icon-button {
+      > .mat-datepicker-toggle .mdc-icon-button {
         left: -9px;
       }
     }
 
     .mat-form-field-suffix {
-      >.mat-datepicker-toggle .mdc-icon-button {
+      > .mat-datepicker-toggle .mdc-icon-button {
         left: 10px;
       }
     }
@@ -80,10 +80,9 @@
 
 .app-is-loading {
   table.table {
-
     &:has(tr:first-child:last-child):not(:has(thead)),
     &:has(tbody:empty),
-    thead~ :not(tbody) {
+    thead ~ :not(tbody) {
       &::after {
         display: none !important;
       }
@@ -92,6 +91,7 @@
 }
 
 .container-table {
+  height: auto;
   border: 1px solid rgba(0, 0, 0, 0.06);
   padding: 0 10px 10px;
   border-radius: 10px;
@@ -108,11 +108,11 @@ table.table {
     }
   }
 
-  tbody>tr:not(:last-child)>td {
+  tbody > tr:not(:last-child) > td {
     border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
   }
 
-  tbody>tr:hover>td {
+  tbody > tr:hover > td {
     background-color: #f1f1f1;
   }
 
@@ -149,14 +149,14 @@ table.table {
     padding-right: 10px;
   }
 
-  tbody>tr:last-child>td {
+  tbody > tr:last-child > td {
     border-bottom: none !important;
   }
 }
 
 .table-footer {
   text-align: right;
-  padding-top: 10px;
+  padding: 10px 0;
 
   .mat-mdc-form-field-subscript-wrapper {
     height: 0 !important;

@@ -5,11 +5,18 @@
 
 .admin-main {
   flex: 1;
-  /* Leave space for the fixed sidebar */
-  margin-left: 220px;
-  padding: 16px;
-  /* top padding to account for fixed header */
-  background: var(--bg, #f5f7fb);
+  min-height: 100vh;
+  margin-left: 250px;
+  background: var(--bg, #f5f5f7);
+  overflow: hidden;
+
+  .content {
+    padding: 12px;
+    height: calc(100vh - 65px);
+    position: relative;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+  }
 }
 
 @media (max-width: 768px) {

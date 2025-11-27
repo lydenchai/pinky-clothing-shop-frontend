@@ -25,6 +25,16 @@ export class UserService {
       );
   }
 
+  updateUserRole(id: number, role: 'admin' | 'customer'): Observable<any> {
+    return this.http
+      .patch(`${environment.apiUrl}/users/${id}/role`, { role })
+      .pipe(
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+  
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/users/${id}`).pipe(
       catchError((error) => {

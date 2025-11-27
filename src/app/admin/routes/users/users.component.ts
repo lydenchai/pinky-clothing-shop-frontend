@@ -3,36 +3,52 @@ import { UserService } from '../../../services/user.service';
 import { User } from '../../../types/user.model';
 import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { PaginationComponent } from '../../../components/pagination/pagination.component';
+import { Pagination } from '../../../types/pagination';
+import { PaginationComponentUtil } from '../../../utils/pagination-component.util';
+import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
+import { RoleEnum } from '../../../types/enums/role-enum';
+import { PluralPipe } from "../../../pipes/plural.pipe";
 
 @Component({
   selector: 'app-users-admin',
   standalone: true,
-  imports: [DatePipe, MatIconModule],
+  imports: [
+    DatePipe,
+    MatIconModule,
+    MatButtonModule,
+    PaginationComponent,
+    TranslateModule,
+    PluralPipe
+],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
-export class UsersAdminComponent implements OnInit {
+export class UsersAdminComponent
+  extends PaginationComponentUtil
+  implements OnInit
+{
   users: User[] = [];
-  loading = true;
   pagination: any;
+  RoleEnum = RoleEnum;
 
-  constructor(private userService: UserService) {}
-
-  ngOnInit() {
-    this.loadUsers();
+  constructor(private userService: UserService) {
+    super();
   }
 
-  loadUsers() {
-    this.loading = true;
+  ngOnInit() {
+    this.getList({ page: 1, limit: this.limit });
+  }
+
+  getList(event: Pagination) {
     this.userService.getAllUsers().subscribe({
-      next: (data) => {
-        this.users = data.users;
-        this.pagination = data.pagination;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading users', error);
-        this.loading = false;
+      next: (res) => {
+        this.users = res.users;
+        this.pagination = res.pagination;
+        this.totalCount = res.pagination.totalItems;
+        this.limit = event.limit;
+        this.page = event.page;
       },
     });
   }
@@ -41,7 +57,7 @@ export class UsersAdminComponent implements OnInit {
     if (confirm('Are you sure you want to delete this user?')) {
       this.userService.deleteUser(id).subscribe({
         next: () => {
-          this.loadUsers();
+          this.getList({ page: this.page, limit: this.limit });
         },
         error: (error) => {
           console.error('Error deleting user', error);

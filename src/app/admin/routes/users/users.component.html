@@ -1,6 +1,15 @@
 <div class="admin-container scroll-container">
-  <h2>Customers & Admins</h2>
-  @if (!loading) {
+  <section class="content-header">
+    <h5>{{'user' | translate | plural}}</h5>
+  </section>
+  <section class="table-header form">
+    <div class="top-btn mb-3 ms-auto">
+      <button class="btn" mat-flat-button color="primary" class="new" type="button">
+        <mat-icon>add</mat-icon>
+        <span class="ms-1">Create</span>
+      </button>
+    </div>
+  </section>
   <div class="container-table content-scroll">
     <table class="table">
       <thead>
@@ -17,19 +26,24 @@
         <tr>
           <td>{{ user.firstName }} {{ user.lastName }}</td>
           <td>{{ user.email }}</td>
-          <td>Customer</td>
-          <td>{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
           <td>
+            {{ user.role | translate}}
+          </td>
+          <td>{{ user.createdAt | date: 'dd-MM-yyyy' }}</td>
+          <td>
+            @if(user && user.role !== RoleEnum.admin) {
             <button (click)="deleteUser(user.id)" class="btn"><mat-icon>delete_outline</mat-icon></button>
+            }
           </td>
         </tr>
         }
       </tbody>
     </table>
   </div>
-
-  }
-  @if (loading) {
-  <div>Loading users...</div>
+  @if (users.length > 0) {
+  <div class="table-footer content-footer">
+    <app-pagination [total]="totalCount ?? 0" [limit]="limit" [page]="page"
+      (changed)="getList($event)"></app-pagination>
+  </div>
   }
 </div>
