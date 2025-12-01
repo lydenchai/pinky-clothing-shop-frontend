@@ -2,7 +2,7 @@ import { Injector } from '@angular/core';
 import { RequestOption } from '../types/request-option';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BaseData } from '../types/base-data';
-import { BaseDatatable } from '../types/base-datatable';
+import { BaseDataTable } from '../types/base-data-table';
 import { MongoObject } from '../types/mongo-object';
 import { HttpClientService } from './http-client.service';
 
@@ -29,7 +29,7 @@ export class BaseCrudService<T> {
     data =
       data &&
       Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== ''));
-    let result = this.httpClientService.getJSON<BaseDatatable<T & ET>>(
+    let result = this.httpClientService.getJSON<BaseDataTable<T & ET>>(
       this.path,
       {
         data,

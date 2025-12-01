@@ -12,9 +12,7 @@
     border: 1px solid #ddd;
     border-radius: 6px !important;
     cursor: pointer;
-    transition:
-      background-color 0.3s,
-      border-color 0.3s;
+    transition: background-color 0.3s, border-color 0.3s;
 
     &:disabled {
       cursor: unset !important;
@@ -59,6 +57,7 @@
 
     &.select {
       width: 70px !important;
+      background: #fff !important;
     }
   }
 

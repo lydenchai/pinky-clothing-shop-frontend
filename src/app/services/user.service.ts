@@ -34,7 +34,23 @@ export class UserService {
         })
       );
   }
-  
+
+  saveUser(user: Partial<User>): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/users`, user).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  updateUser(id: number, user: Partial<User>): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/users/${id}`, user).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/users/${id}`).pipe(
       catchError((error) => {

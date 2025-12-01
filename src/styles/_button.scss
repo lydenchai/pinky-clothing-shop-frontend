@@ -1,3 +1,4 @@
+@use "sass:math";
 @use "./variables.scss" as *;
 
 .bottom-btn {
@@ -49,11 +50,6 @@
   button {
     border-radius: 10px !important;
 
-    &.post {
-      background-color: $primary-color;
-      color: $white-color;
-    }
-
     &.default {
       padding: 6px;
       background-color: #ececec;
@@ -70,38 +66,13 @@
       }
     }
 
-    &.not-ready {
-      background-color: $pending-color;
-      color: $white-color;
-    }
-
-    &.ready-to-post {
-      background-color: $active-color;
-      color: $white-color;
-    }
-
-    &.print {
-      background-color: #48a7f8;
-      color: $white-color;
-    }
-
-    &.duplicate {
-      background-color: #6b4eff;
-      color: $white-color;
-    }
-
-    &.back {
-      border: 1px solid $rejected-color;
-      color: $rejected-color;
-    }
-
     &.cancel {
-      border: 1px solid $inactive-color;
-      color: $grey-color;
+      border: 1px solid $secondary-color;
+      color: #404446;
     }
 
     &.close {
-      background-color: $rejected-color;
+      background-color: $secondary-color;
       color: $white-color;
     }
 
@@ -110,7 +81,7 @@
       color: $primary-color !important;
 
       &:hover {
-        background-color: rgba(0, 113, 227, 0.1);
+        background-color: rgba(54, 55, 149, 0.1);
       }
     }
 
@@ -146,12 +117,12 @@
       }
     }
 
-    &.post {
-      background-color: #363795;
-      color: white;
+    &.edit {
+      background-color: $draft-color;
+      color: $white-color !important;
 
       &:hover {
-        background-color: #363795;
+        background-color: $draft-color;
       }
     }
   }
@@ -201,19 +172,12 @@
       }
     }
 
-    &.post-batch {
-      background-color: #48a7f8;
-      color: $white-color;
-    }
-    &.post-batch-history {
-      background-color: #239eab;
-      color: $white-color;
-    }
     &.new {
       background-color: $primary-color;
       color: $white-color;
     }
   }
+
   button {
     border-radius: 10px !important;
 
@@ -238,14 +202,6 @@
       }
     }
 
-    &.post-batch {
-      background-color: #48a7f8;
-      color: $white-color;
-    }
-    &.post-batch-history {
-      background-color: #239eab;
-      color: $white-color;
-    }
     &.new {
       background-color: $primary-color;
       color: $white-color;

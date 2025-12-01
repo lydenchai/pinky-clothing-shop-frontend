@@ -39,8 +39,7 @@ import { User } from '../../types/user.model';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  // Signals & state
-  cartItemCount = computed(() => this.cartService.cart().totalItems);
+  cartItemCount = computed(() => this.cartService?.cart()?.totalItems!);
   isAuthenticated = computed(() => this.authService.isAuthenticated());
   user = signal<User | null>(null);
   currentCategory = signal<string>('all');
@@ -75,8 +74,8 @@ export class HeaderComponent {
     private localStorageService: LocalStorageService,
     private translate: TranslateService
   ) {
-    this.user.set(this.authService.getCurrentUser());
-    
+    this.user.set(this.authService.getCurrentUser()!);
+
     // Initialise language from local storage
     const savedLang = this.localStorageService.get(
       LocalStorageEnum.lang
@@ -141,11 +140,18 @@ export class HeaderComponent {
   // Logout
   logout() {
     this.dialogService
-      .ask(this.translate.instant('message.are_you_sure_you_want_to_log_out'), this.translate.instant('message.confirm_logout'))
+      .ask(
+        this.translate.instant('message.are_you_sure_you_want_to_log_out'),
+        this.translate.instant('message.confirm_logout')
+      )
       .then((confirmed) => {
         if (confirmed) {
           this.authService.logout();
-          this.dialogService.success(this.translate.instant('message.you_have_been_logged_out_successfully'));
+          this.dialogService.success(
+            this.translate.instant(
+              'message.you_have_been_logged_out_successfully'
+            )
+          );
         }
       });
   }

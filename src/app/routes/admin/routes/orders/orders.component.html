@@ -1,0 +1,31 @@
+<div class="admin-container scroll-container">
+  <h5>{{'order' | translate | plural}}</h5>
+  <div class="container-table content-scroll">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{{ 'no.' | translate }}</th>
+          <th>{{ 'customer' | translate }}</th>
+          <th>{{ 'status' | translate }}</th>
+          <th>{{ 'total' | translate }}</th>
+          <th>{{ 'date' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (order of orders; track order.id) {
+        <tr>
+          <td>{{ $index + 1 }}</td>
+          <td>{{ order.userId }}</td>
+          <td>{{ order.status }}</td>
+          <td>{{ order.totalAmount }}</td>
+          <td>{{ order.createdAt | date: 'dd-MM-yyyy' }}</td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="6" class="text-center">{{ "no_data" | translate }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
