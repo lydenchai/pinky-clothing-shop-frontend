@@ -1,12 +1,16 @@
-<app-header *ngIf="showDefaultLayout()" />
+@if (showDefaultLayout()) {
+<app-header />
+}
 <main class="main-content">
   <router-outlet />
-  <app-footer *ngIf="showDefaultLayout()" />
+  @if (showDefaultLayout()) {
+  <app-footer />
+  }
 </main>
 <app-dialog />
 @if (isLoading()) {
-  <div class="app-loading">
-    <img src="/imgs/loading.svg" alt="Loading..." />
-    <h2>{{ "processing_please_wait" | translate }}</h2>
-  </div>
+<div class="app-loading">
+  <img src="/imgs/loading.svg" alt="Loading..." />
+  <h2>{{ "processing_please_wait" | translate }}</h2>
+</div>
 }

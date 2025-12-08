@@ -16,8 +16,8 @@
         <tr>
           <td>{{ $index + 1 }}</td>
           <td>{{ order.userId }}</td>
-          <td>{{ order.status }}</td>
-          <td>{{ order.totalAmount }}</td>
+          <td>{{ order.status | translate}}</td>
+          <td>${{ order.totalAmount }}</td>
           <td>{{ order.createdAt | date: 'dd-MM-yyyy' }}</td>
         </tr>
         } @empty {

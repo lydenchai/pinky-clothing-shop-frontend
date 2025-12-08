@@ -1,14 +1,16 @@
+import { OrderStatus } from './enums/order-status.enum';
 import { OrderItem } from './order-item';
 
 export interface Order {
-  id: number;
-  userId: number;
+  id: string;
+  userId: string;
   totalAmount: number;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: OrderStatus;
   shippingAddress: string;
   shippingCity: string;
   shippingPostalCode: string;
   shippingCountry: string;
   createdAt: Date;
   items?: OrderItem[];
+  total: number;
 }

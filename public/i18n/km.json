@@ -207,6 +207,12 @@
   "no.": "ល.រ",
   "_create": "បង្កើត {{param}}",
   "_update": "កែប្រែ {{param}}",
+  "_list": "បញ្ជី {{param}}",
+  "confirm_order": "បញ្ជាក់ការកុម្មង់",
+  "pending": "កំពុងរង់ចាំ",
+  "processing": "កំពុងដំណើរការ",
+  "shipped": "បានដឹកជញ្ជូន",
+  "delivered": "បានដឹកជញ្ជូនរួច",
   "message": {
     "item_added_to_cart_successfully": "បានបន្ថែមទំនិញចូលក្នុងរទេះដោយជោគជ័យ!",
     "please_login_to_add_items_to_your_cart": "សូមចូលប្រើប្រាស់ដើម្បីបន្ថែមទំនិញចូលរទេះរបស់អ្នក",

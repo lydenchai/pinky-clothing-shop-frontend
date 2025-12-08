@@ -31,7 +31,7 @@ export class OrderService {
     );
   }
 
-  getOrderById(orderId: number): Observable<Order> {
+  getOrderById(orderId: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/orders/${orderId}`).pipe(
       catchError((error) => {
         throw error;
@@ -39,7 +39,7 @@ export class OrderService {
     );
   }
 
-  updateOrderStatus(orderId: number, status: string): Observable<Order> {
+  updateOrderStatus(orderId: string, status: string): Observable<Order> {
     return this.http
       .put<Order>(`${environment.apiUrl}/orders/${orderId}/status`, { status })
       .pipe(

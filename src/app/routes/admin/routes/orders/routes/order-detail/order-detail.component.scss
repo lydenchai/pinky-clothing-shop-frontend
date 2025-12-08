@@ -1,0 +1,43 @@
+.order-detail-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 2rem;
+}
+.order-detail-info {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  > div {
+    margin-bottom: 0.5rem;
+  }
+}
+.order-detail-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  th, td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+  }
+  th {
+    background: #f7f7f7;
+    font-weight: 600;
+  }
+}
+.order-detail-summary {
+  text-align: right;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+.order-detail-loading, .order-detail-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  font-size: 1.2rem;
+  color: #b71c1c;
+}

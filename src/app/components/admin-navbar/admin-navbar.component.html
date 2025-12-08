@@ -12,9 +12,9 @@
       @if (langMenuOpen) {
       <div class="lang-dropdown">
         @for (lang of availableLangs; track $index) {
-        <div class="lang-option" (mousedown)="$event.stopPropagation(); onChangeLanguage(lang)"
-          [class.active]="currentLang() === lang" tabindex="0">
-          <img class="flag-avatar me-2" [src]="'/icons/' + lang + '.webp'" />
+        <div class="lang-option" (click)="onChangeLanguage(lang)" [class]="{'active': currentLang() === lang}"
+          tabindex="0">
+          <img class="mat-icon me-2" [src]="'/icons/' + lang + '.webp'" />
           <span>{{ lang | translate }}</span>
         </div>
         }

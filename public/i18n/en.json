@@ -207,6 +207,12 @@
   "no.": "No.",
   "_create": "Create {{param}}",
   "_update": "Update {{param}}",
+  "_list": "List {{param}}",
+  "confirm_order": "Confirm Order",
+  "pending": "Pending",
+  "processing": "Processing",
+  "shipped": "Shipped",
+  "delivered": "Delivered",
   "message": {
     "item_added_to_cart_successfully": "Item added to cart successfully!",
     "please_login_to_add_items_to_your_cart": "Please login to add items to your cart",

@@ -45,8 +45,8 @@ export class HeaderComponent {
   currentCategory = signal<string>('all');
   currentLang = signal<LanguageEnum>(LanguageEnum.EN);
   availableLangs: LanguageEnum[] = [
-    LanguageEnum.EN,
     LanguageEnum.KM,
+    LanguageEnum.EN,
     LanguageEnum.FR,
     LanguageEnum.CH,
   ];

@@ -1,24 +1,39 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
-  <div *ngIf="backendError" class="alert alert-danger mb-3">{{ backendError }}</div>
+  @if (backendError) {
+  <div class="alert alert-danger mb-3">{{ backendError }}</div>
+  }
 
   <div class="form-group">
     <label for="name">Name</label>
-    <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="submitted && userForm.get('name')?.invalid">
-    <div *ngIf="submitted && userForm.get('name')?.errors?.['required']" class="invalid-feedback">Name is required</div>
+    <input id="name" type="text" formControlName="name" class="form-control"
+      [class.is-invalid]="submitted && userForm.get('name')?.invalid">
+    @if (submitted && userForm.get('name')?.errors?.['required']) {
+    <div class="invalid-feedback">Name is required</div>
+    }
   </div>
 
   <div class="form-group">
     <label for="email">Email</label>
-    <input id="email" type="email" formControlName="email" class="form-control" [class.is-invalid]="submitted && userForm.get('email')?.invalid">
-    <div *ngIf="submitted && userForm.get('email')?.errors?.['required']" class="invalid-feedback">Email is required</div>
-    <div *ngIf="submitted && userForm.get('email')?.errors?.['email']" class="invalid-feedback">Invalid email</div>
+    <input id="email" type="email" formControlName="email" class="form-control"
+      [class.is-invalid]="submitted && userForm.get('email')?.invalid">
+    @if (submitted && userForm.get('email')?.errors?.['required']) {
+    <div class="invalid-feedback">Email is required</div>
+    }
+    @if (submitted && userForm.get('email')?.errors?.['email']) {
+    <div class="invalid-feedback">Invalid email</div>
+    }
   </div>
 
   <div class="form-group">
     <label for="password">Password</label>
-    <input id="password" type="password" formControlName="password" class="form-control" [class.is-invalid]="submitted && userForm.get('password')?.invalid">
-    <div *ngIf="submitted && userForm.get('password')?.errors?.['required']" class="invalid-feedback">Password is required</div>
-    <div *ngIf="submitted && userForm.get('password')?.errors?.['minlength']" class="invalid-feedback">Password must be at least 6 characters</div>
+    <input id="password" type="password" formControlName="password" class="form-control"
+      [class.is-invalid]="submitted && userForm.get('password')?.invalid">
+    @if (submitted && userForm.get('password')?.errors?.['required']) {
+    <div class="invalid-feedback">Password is required</div>
+    }
+    @if (submitted && userForm.get('password')?.errors?.['minlength']) {
+    <div class="invalid-feedback">Password must be at least 6 characters</div>
+    }
   </div>
 
   <div class="form-group">

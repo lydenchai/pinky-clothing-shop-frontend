@@ -17,8 +17,8 @@ export class AdminNavbarComponent {
   langMenuOpen = false;
   currentLang = signal<LanguageEnum>(LanguageEnum.EN);
   availableLangs: LanguageEnum[] = [
-    LanguageEnum.EN,
     LanguageEnum.KM,
+    LanguageEnum.EN,
     LanguageEnum.FR,
     LanguageEnum.CH,
   ];

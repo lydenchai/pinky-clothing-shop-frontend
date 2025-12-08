@@ -15,10 +15,12 @@
     <tbody>
       @for (order of orders; track order.id) {
       <tr>
-        <td>{{ order.id }}</td>
+        <td>
+          {{ $index + 1 }}
+        </td>
         <td>{{ order.createdAt | date:'mediumDate' }}</td>
-        <td>{{ order.status }}</td>
-        <td>${{ order.totalAmount.toFixed(2) }}</td>
+        <td>{{ order.status | translate}}</td>
+        <td>${{ order.totalAmount }}</td>
       </tr>
       }
     </tbody>
