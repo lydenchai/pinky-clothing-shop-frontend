@@ -60,8 +60,8 @@ export class AdminNavbarComponent {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    const langMenu = target.closest('.lang-img');
-
+    // Updated selector to match new class
+    const langMenu = target.closest('.lang-switcher');
     if (!langMenu && this.langMenuOpen) {
       this.langMenuOpen = false;
     }

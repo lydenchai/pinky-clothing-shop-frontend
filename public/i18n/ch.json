@@ -205,6 +205,8 @@
   "top_products_by_stock": "库存最多的产品",
   "overview": "商店表现和快速操作概览",
   "no.": "编号",
+  "_create": "创建 {{param}}",
+  "_update": "更新 {{param}}",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",

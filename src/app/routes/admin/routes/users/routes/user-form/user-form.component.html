@@ -1,4 +1,6 @@
-<h5>{{ isEditMode ? ('Edit User' | translate) : ('Add New User' | translate) }}</h5>
+<h5>
+  {{ isEditMode ? ('_update' | translate : { param: ('user' | translate) }) : ('_create' | translate : {param: ('user' | translate) } )}}
+</h5>
 <div class="admin-container scroll-container">
   <div class="form-container content-scroll">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">

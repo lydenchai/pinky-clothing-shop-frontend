@@ -1,19 +1,25 @@
 <nav class="admin-navbar">
-  <button class="notification-btn">
-    <mat-icon>notifications</mat-icon>
-  </button>
-  <div class="lang-img" (click)="toggleLangMenu()" tabindex="0" style="position: relative;">
-    <img class="mat-icon flag" [src]="'/icons/' + currentLang() + '.webp'" [alt]="'flag ' + currentLang()" />
-    @if (langMenuOpen) {
-    <div class="lang-dropdown">
-      @for (lang of availableLangs; track $index) {
-      <div class="lang-option" (click)="onChangeLanguage(lang)" [class]="{'active': currentLang() === lang}"
-        tabindex="0">
-        <img class="mat-icon me-2" [src]="'/icons/' + lang + '.webp'" />
-        <span>{{ lang | translate }}</span>
+  <div class="navbar-content">
+    <button class="notification-btn" mat-icon-button aria-label="Notifications">
+      <mat-icon>notifications</mat-icon>
+      @if (false) {
+      <span class="notification-badge">1</span>
+      }
+    </button>
+    <div class="lang-switcher" (click)="toggleLangMenu()" tabindex="0">
+      <img class="flag-avatar" [src]="'/icons/' + currentLang() + '.webp'" [alt]="'flag ' + currentLang()" />
+      <mat-icon class="lang-arrow">expand_more</mat-icon>
+      @if (langMenuOpen) {
+      <div class="lang-dropdown">
+        @for (lang of availableLangs; track $index) {
+        <div class="lang-option" (mousedown)="$event.stopPropagation(); onChangeLanguage(lang)"
+          [class.active]="currentLang() === lang" tabindex="0">
+          <img class="flag-avatar me-2" [src]="'/icons/' + lang + '.webp'" />
+          <span>{{ lang | translate }}</span>
+        </div>
+        }
       </div>
       }
     </div>
-    }
   </div>
 </nav>

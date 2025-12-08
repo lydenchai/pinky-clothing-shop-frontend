@@ -10,6 +10,7 @@ import { ProductService } from '../../../../../../services/product.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { SnackbarService } from '../../../../../../services/snackbar.service';
+import { PluralPipe } from "../../../../../../pipes/plural.pipe";
 
 @Component({
   selector: 'app-product-form',
@@ -19,7 +20,8 @@ import { SnackbarService } from '../../../../../../services/snackbar.service';
     RouterModule,
     TranslateModule,
     MatButtonModule,
-  ],
+    PluralPipe
+],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss'],
 })

@@ -205,6 +205,8 @@
   "top_products_by_stock": "Top Products (by stock)",
   "overview": "Overview of store performance and quick actions",
   "no.": "No.",
+  "_create": "Create {{param}}",
+  "_update": "Update {{param}}",
   "message": {
     "item_added_to_cart_successfully": "Item added to cart successfully!",
     "please_login_to_add_items_to_your_cart": "Please login to add items to your cart",
