@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { DialogService } from '../../services/dialog.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Cart } from '../../types/cart.model';
+import { Cart } from '../../types/cart';
 
 @Component({
   selector: 'app-cart',
@@ -26,6 +26,10 @@ export class CartComponent {
 
   updateQuantity(cartItemId: number, quantity: number) {
     this.cartService.updateQuantity(cartItemId, quantity).subscribe({
+      next: () => {
+        // Refresh cart signal after update
+        this.cart.set(this.cartService.cart());
+      },
       error: (error) => {
         this.dialogService.error(
           this.translate.instant('message.failed_to_update_quantity')

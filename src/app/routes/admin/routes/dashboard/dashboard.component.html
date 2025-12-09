@@ -55,7 +55,7 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ item.userId }}</td>
                 <td>{{ item.totalAmount | currency }}</td>
-                <td>{{ item.status }}</td>
+                <td>{{ item.status | translate}}</td>
                 <td>{{ item.createdAt | date: 'dd-MM-yyyy' }}</td>
                 <td><a routerLink="/admin/orders">{{ 'view' | translate }}</a></td>
               </tr>
@@ -77,7 +77,7 @@
             <img [src]="p.imageUrl" alt="{{p.name}}" />
             <div class="info">
               <div class="name">{{ p.name }}</div>
-              <div class="meta">{{ 'stock' | translate }}: {{ p.stock }} • {{ p.category }}</div>
+              <div class="meta">{{ 'stock' | translate }}: {{ p.stock }} • {{ p.category | translate}}</div>
             </div>
           </li>
           }

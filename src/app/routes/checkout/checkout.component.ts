@@ -1,13 +1,17 @@
-import { Cart } from '../../types/cart.model';
+import { Cart } from '../../types/cart';
 import { User } from '../../types/user.model';
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { RouterLink, Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { DialogService } from '../../services/dialog.service';
-import { CheckoutForm } from '../../types/product.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { OrderService } from '../../services/order.service';
 import { OrderSummary } from '../../types/order-summary';
@@ -16,7 +20,13 @@ import { OrderSummaryRequest } from '../../types/order-summary-request';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, TranslateModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    TranslateModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
@@ -51,23 +61,28 @@ export class CheckoutComponent {
     private cartService: CartService,
     private authService: AuthService,
     private dialogService: DialogService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private router: Router
   ) {
     this.cart.set(this.cartService.cart());
-    this.user.set(this.authService.user());
-    const currentUser = this.user();
-    if (currentUser) {
-      this.form.patchValue({
-        email: currentUser.email,
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        phone: currentUser.phone,
-        address: currentUser.address,
-        city: currentUser.city,
-        postalCode: currentUser.postalCode,
-        country: currentUser.country,
-      });
-    }
+    this.authService.user$.subscribe((user) => {
+      this.user.set(user);
+    });
+    this.authService.user$.subscribe((user) => {
+      this.user.set(user);
+      if (user) {
+        this.form.patchValue({
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phone: user.phone,
+          address: user.address,
+          city: user.city,
+          postalCode: user.postalCode,
+          country: user.country,
+        });
+      }
+    });
   }
 
   placeOrder() {
@@ -134,11 +149,28 @@ export class CheckoutComponent {
 
   confirmOrder() {
     // Actually place the order after summary confirmation
+    const cart = this.cart();
+    const user = this.user();
     const orderReq = {
       shippingAddress: this.form.controls.address.value,
       shippingCity: this.form.controls.city.value,
       shippingPostalCode: this.form.controls.postalCode.value,
       shippingCountry: this.form.controls.country.value,
+      items:
+        cart?.items?.map((item) => ({
+          productId: item.productId,
+          productName: item.productName,
+          productImage: item.productImage,
+          quantity: item.quantity,
+          price: item.productPrice,
+          size: item.size,
+          color: item.color,
+        })) || [],
+      userId: user?.id || null,
+      email: user?.email || this.form.controls.email.value,
+      firstName: user?.firstName || this.form.controls.firstName.value,
+      lastName: user?.lastName || this.form.controls.lastName.value,
+      phone: user?.phone || this.form.controls.phone.value,
     };
     this.orderService.createOrder(orderReq as any).subscribe({
       next: (order) => {
@@ -148,13 +180,20 @@ export class CheckoutComponent {
           this.translate.instant('message.order_placed_successfully'),
           this.translate.instant('message.order_confirmed')
         );
-        this.cartService.clearCart();
+        this.cartService.clearCart().subscribe({
+          next: () => {
+            // Optionally emit an event or use a shared service to notify cart component
+          },
+        });
         setTimeout(() => {
           this.orderPlaced.set(false);
-          this.orderResponse = null;
-          // Optionally redirect to home or orders page
-          // this.router.navigate(['/']);
-        }, 3500);
+          // Redirect to order details page if order id exists, else to order history
+          if (order?.id) {
+            this.router.navigate(['/orders', order.id]);
+          } else {
+            this.router.navigate(['/orders']);
+          }
+        }, 2000);
       },
       error: () => {
         this.dialogService.error(

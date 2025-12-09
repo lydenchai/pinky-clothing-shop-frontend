@@ -95,9 +95,8 @@
         </div>
 
         <button type="submit" class="btn-submit" [disabled]="isLoading()">
-          {{ isLoading() ? 'Creating Account...' : 'Create Account' }}
+          {{ isLoading() ? ('creating_account' | translate) : ('create_account' | translate) }}
         </button>
-
         <p class="toggle-text">
           {{ 'already_have_account' | translate }}
           <a (click)="toggleMode()">{{ 'sign_in' | translate }}</a>

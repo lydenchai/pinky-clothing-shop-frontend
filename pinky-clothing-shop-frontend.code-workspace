@@ -1,11 +1,13 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../pinky-clothing-shop-backend"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "name": "pinky-clothing-shop-backend",
+      "path": "../pinky-clothing-shop-backend"
+    },
+    {
+      "name": "pinky-clothing-shop-frontend",
+      "path": "."
+    }
+  ],
+  "settings": {}
 }

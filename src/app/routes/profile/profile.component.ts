@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
@@ -15,6 +15,8 @@ export class ProfileComponent {
   user = signal<User | null>(null);
 
   constructor(private authService: AuthService) {
-    this.user.set(this.authService.user());
+    this.authService.user$.subscribe((user) => {
+      this.user.set(user);
+    });
   }
 }

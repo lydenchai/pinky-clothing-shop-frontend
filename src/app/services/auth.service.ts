@@ -1,6 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, of, BehaviorSubject } from 'rxjs';
+import { Observable, tap, catchError, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../types/user.model';
 import { AuthResponse } from '../types/auth-response';
@@ -9,16 +9,15 @@ import { AuthResponse } from '../types/auth-response';
   providedIn: 'root',
 })
 export class AuthService {
-  private currentUser = signal<User | null>(null);
+  userSubject = new BehaviorSubject<User | null>(null);
+  user$ = this.userSubject.asObservable();
   private tokenSubject = new BehaviorSubject<string | null>(
     this.getStoredToken()
   );
-
-  user = this.currentUser.asReadonly();
   token$ = this.tokenSubject.asObservable();
 
   getCurrentUser(): User | null {
-    return this.currentUser();
+    return this.userSubject.value;
   }
 
   constructor(private http: HttpClient) {
@@ -33,6 +32,8 @@ export class AuthService {
     const token = this.getStoredToken();
     if (token) {
       this.getProfile().subscribe();
+    } else {
+      this.userSubject.next(null);
     }
   }
 
@@ -46,9 +47,10 @@ export class AuthService {
         tap((response) => {
           localStorage.setItem('authToken', response.token);
           this.tokenSubject.next(response.token);
-          this.currentUser.set(response.user);
+          this.userSubject.next(response.user);
         }),
         catchError((error) => {
+          this.userSubject.next(null);
           throw error;
         })
       );
@@ -71,7 +73,7 @@ export class AuthService {
         tap((response) => {
           localStorage.setItem('authToken', response.token);
           this.tokenSubject.next(response.token);
-          this.currentUser.set(response.user);
+          this.userSubject.next(response.user);
         }),
         catchError((error) => {
           throw error;
@@ -81,7 +83,7 @@ export class AuthService {
 
   getProfile(): Observable<User> {
     return this.http.get<User>(`${environment.apiUrl}/auth/profile`).pipe(
-      tap((user) => this.currentUser.set(user)),
+      tap((user) => this.userSubject.next(user)),
       catchError((error) => {
         this.logout();
         throw error;
@@ -93,7 +95,7 @@ export class AuthService {
     return this.http
       .put<User>(`${environment.apiUrl}/auth/profile`, userData)
       .pipe(
-        tap((user) => this.currentUser.set(user)),
+        tap((user) => this.userSubject.next(user)),
         catchError((error) => {
           throw error;
         })
@@ -103,11 +105,11 @@ export class AuthService {
   logout() {
     localStorage.removeItem('authToken');
     this.tokenSubject.next(null);
-    this.currentUser.set(null);
+    this.userSubject.next(null);
   }
 
   isAuthenticated(): boolean {
-    return this.currentUser() !== null && !!this.getStoredToken();
+    return !!this.userSubject.value && !!this.getStoredToken();
   }
 
   getToken(): string | null {

@@ -27,7 +27,7 @@ import { LocalStorageEnum } from '../../types/enums/local-storage.enum';
     HeaderComponent,
     FooterComponent,
     DialogComponent,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

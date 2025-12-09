@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  InventoryService,
-  InventoryItem,
-} from '../../../../../../services/inventory.service';
+import { InventoryService } from '../../../../../../services/inventory.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { DatePipe, CommonModule } from '@angular/common';
@@ -12,6 +9,7 @@ import { PaginationComponent } from '../../../../../../components/pagination/pag
 import { MatButtonModule } from '@angular/material/button';
 import { PaginationComponentUtil } from '../../../../../../utils/pagination-component.util';
 import { Pagination } from '../../../../../../types/pagination';
+import { InventoryItem } from '../../../../../../types/inventory-item';
 
 @Component({
   selector: 'app-inventory-list',

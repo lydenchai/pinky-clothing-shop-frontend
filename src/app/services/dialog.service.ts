@@ -1,14 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
-export interface DialogConfig {
-  title?: string;
-  message: string;
-  type?: 'success' | 'error' | 'warning' | 'info';
-  confirmText?: string;
-  cancelText?: string;
-  showCancel?: boolean;
-}
+import { DialogConfig } from '../types/dialog-config';
 
 @Injectable({
   providedIn: 'root',

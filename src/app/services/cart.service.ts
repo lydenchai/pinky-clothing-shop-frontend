@@ -3,9 +3,11 @@ import { LocalStorageService } from './local-storage.service';
 import { LocalStorageEnum } from '../types/enums/local-storage.enum';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError } from 'rxjs';
-import { CartItem, Cart, CartItemRequest } from '../types/cart.model';
+import { Cart } from '../types/cart';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
+import { CartItem } from '../types/cart-item';
+import { CartItemRequest } from '../types/cart-item-request';
 
 @Injectable({
   providedIn: 'root',
@@ -41,44 +43,45 @@ export class CartService {
   ) {
     // React to login/logout using effect on signal
     effect(() => {
-      const user = this.auth.user();
-      if (user) {
-        // On login: migrate local cart to backend, then clear local
-        const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
-        if (savedCart) {
-          try {
-            const items: CartItem[] = JSON.parse(savedCart);
-            items.forEach((item) => {
-              this.addToCart(
-                item.productId,
-                item.quantity,
-                item.size,
-                item.color
-              ).subscribe();
-            });
-            this.localStorage.delete(LocalStorageEnum.Cart);
-          } catch (e) {}
+      this.auth.user$.subscribe((user) => {
+        if (user) {
+          // On login: migrate local cart to backend, then clear local
+          const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
+          if (savedCart) {
+            try {
+              const items: CartItem[] = JSON.parse(savedCart);
+              items.forEach((item) => {
+                this.addToCart(
+                  item.productId,
+                  item.quantity,
+                  item.size,
+                  item.color
+                ).subscribe();
+              });
+              this.localStorage.delete(LocalStorageEnum.Cart);
+            } catch (e) {}
+          }
+          // Load backend cart
+          this.loadCart().subscribe();
+        } else {
+          // On logout: clear cart and localStorage
+          this.cartItems.set([]);
+          this.localStorage.delete(LocalStorageEnum.Cart);
+          // On service init for guest: load cart from localStorage
+          const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
+          if (savedCart) {
+            try {
+              const items: CartItem[] = JSON.parse(savedCart);
+              this.cartItems.set(items);
+            } catch (e) {}
+          }
         }
-        // Load backend cart
-        this.loadCart().subscribe();
-      } else {
-        // On logout: clear cart and localStorage
-        this.cartItems.set([]);
-        this.localStorage.delete(LocalStorageEnum.Cart);
-        // On service init for guest: load cart from localStorage
-        const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
-        if (savedCart) {
-          try {
-            const items: CartItem[] = JSON.parse(savedCart);
-            this.cartItems.set(items);
-          } catch (e) {}
-        }
-      }
+      });
     });
 
     // Persist cart changes to correct place
     effect(() => {
-      if (this.auth.getCurrentUser()) {
+      if (this.auth.userSubject.value) {
         // Optionally, sync to backend here if needed
         // (Backend is already updated on add/update/remove)
       } else {

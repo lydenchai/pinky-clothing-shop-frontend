@@ -6,7 +6,7 @@
     <div class="top-btn mb-3 ms-auto">
       <button mat-flat-button color="primary" class="new" routerLink="/admin/inventory/new" type="button">
         <mat-icon>add</mat-icon>
-        <span class="ms-1">Create</span>
+        <span class="ms-1">{{'create' | translate}}</span>
       </button>
     </div>
   </section>
@@ -14,12 +14,12 @@
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Product ID</th>
-          <th>Quantity</th>
-          <th>Location</th>
-          <th>Updated At</th>
-          <th>Action</th>
+          <th>{{'no.' | translate}}</th>
+          <th>{{'product_code' | translate}}</th>
+          <th>{{'quantity' | translate}}</th>
+          <th>{{'location' | translate}}</th>
+          <th>{{'updated_at' | translate}}</th>
+          <th>{{'action' | translate}}</th>
         </tr>
       </thead>
       <tbody>

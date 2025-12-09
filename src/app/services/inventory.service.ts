@@ -2,15 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { environment } from '../../environments/environment';
-
-export interface InventoryItem {
-  id: number;
-  productId: number;
-  quantity: number;
-  location?: string;
-  updatedAt?: string;
-  product?: any;
-}
+import { InventoryItem } from '../types/inventory-item';
 
 @Injectable({ providedIn: 'root' })
 export class InventoryService {

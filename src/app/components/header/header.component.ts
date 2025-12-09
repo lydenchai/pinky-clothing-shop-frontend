@@ -1,10 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  HostListener,
-  signal,
-} from '@angular/core';
+import { Component, computed, HostListener, signal } from '@angular/core';
 import {
   RouterLink,
   RouterLinkActive,
@@ -40,7 +34,7 @@ import { User } from '../../types/user.model';
 })
 export class HeaderComponent {
   cartItemCount = computed(() => this.cartService?.cart()?.totalItems!);
-  isAuthenticated = computed(() => this.authService.isAuthenticated());
+  isAuthenticated = computed(() => !!this.user());
   user = signal<User | null>(null);
   currentCategory = signal<string>('all');
   currentLang = signal<LanguageEnum>(LanguageEnum.EN);
@@ -74,8 +68,6 @@ export class HeaderComponent {
     private localStorageService: LocalStorageService,
     private translate: TranslateService
   ) {
-    this.user.set(this.authService.getCurrentUser()!);
-
     // Initialise language from local storage
     const savedLang = this.localStorageService.get(
       LocalStorageEnum.lang
@@ -103,6 +95,9 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
+    this.authService.user$.subscribe((user) => {
+      this.user.set(user);
+    });
     this.route.queryParams.subscribe((params) => {
       this.currentCategory.set(params['category'] || 'all');
     });
@@ -147,6 +142,7 @@ export class HeaderComponent {
       .then((confirmed) => {
         if (confirmed) {
           this.authService.logout();
+          this.router.navigate(['/']);
           this.dialogService.success(
             this.translate.instant(
               'message.you_have_been_logged_out_successfully'
