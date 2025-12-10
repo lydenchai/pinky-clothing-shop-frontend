@@ -11,7 +11,7 @@
       </button>
       <button class="btn" mat-flat-button color="primary" class="post" routerLink="/admin/products" type="button">
         <mat-icon>list</mat-icon>
-        <span class="ms-1">{{ 'product' | translate | plural}}</span>
+        <span class="ms-1">{{ '_list' | translate :{param: ('product' | translate)} }}</span>
       </button>
     </div>
   </header>
@@ -41,23 +41,24 @@
           <table class="table">
             <thead>
               <tr>
-                <th>{{ 'no.' | translate }}</th>
+                <th class="number">{{ 'no.' | translate }}</th>
                 <th>{{ 'customer' | translate }}</th>
                 <th>{{ 'total' | translate }}</th>
                 <th>{{ 'status' | translate }}</th>
                 <th>{{ 'date' | translate }}</th>
-                <th></th>
+                <th class="action">{{ 'action' | translate }}</th>
               </tr>
             </thead>
             <tbody>
               @for (item of recentOrders; track $index) {
               <tr>
-                <td>{{ $index + 1 }}</td>
+                <td class="number">{{ $index + 1 }}</td>
                 <td>{{ item.userId }}</td>
                 <td>{{ item.totalAmount | currency }}</td>
                 <td>{{ item.status | translate}}</td>
                 <td>{{ item.createdAt | date: 'dd-MM-yyyy' }}</td>
-                <td><a routerLink="/admin/orders">{{ 'view' | translate }}</a></td>
+                <td class="action"><a [routerLink]="['/admin/orders/', item.id]"><mat-icon>visibility</mat-icon></a>
+                </td>
               </tr>
               } @empty {
               <tr>
@@ -68,7 +69,6 @@
           </table>
         </div>
       </div>
-
       <div class="panel">
         <h3>{{ 'top_products_by_stock' | translate}}</h3>
         <ul class="top-products">
@@ -88,14 +88,4 @@
       </div>
     </section>
   </div>
-
-  <!-- <section class="links">
-    <h3>Quick Links</h3>
-    <ul>
-      <li><a routerLink="/admin/products/new">Add New Product</a></li>
-      <li><a routerLink="/admin/products">Product List</a></li>
-      <li><a routerLink="/admin/orders">Order List</a></li>
-      <li><a routerLink="/admin/users">User Management</a></li>
-    </ul>
-  </section> -->
 </div>

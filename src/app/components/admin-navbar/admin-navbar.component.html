@@ -1,11 +1,32 @@
 <nav class="admin-navbar">
   <div class="navbar-content">
-    <button class="notification-btn" mat-icon-button aria-label="Notifications">
-      <mat-icon>notifications</mat-icon>
-      @if (false) {
-      <span class="notification-badge">1</span>
+    <div class="notification-wrapper">
+      <button class="notification-btn" mat-icon-button aria-label="Notifications"
+        (click)="toggleNotificationDropdown()">
+        <mat-icon>notifications</mat-icon>
+        @if (newOrderCount() > 0) {
+        <span class="notification-badge">{{ newOrderCount() }}</span>
+        }
+      </button>
+      @if (notificationOpen()) {
+      <div class="notification-dropdown">
+        <div class="dropdown-header">New Orders</div>
+        @if (newOrders().length === 0) {
+        <div class="dropdown-empty">No new orders</div>
+        } @else {
+        <ul class="dropdown-list">
+          @for (order of newOrders(); track order.id) {
+          <li (click)="goToOrder(order.id)">
+            <span class="order-id">#{{ order.id }}</span>
+            <span class="order-customer">{{ order.userId }}</span>
+            <span class="order-date">{{ order.createdAt | date: 'dd-MM-yyyy HH:mm' }}</span>
+          </li>
+          }
+        </ul>
+        }
+      </div>
       }
-    </button>
+    </div>
     <div class="lang-switcher" (click)="toggleLangMenu()" tabindex="0">
       <img class="flag-avatar" [src]="'/icons/' + currentLang() + '.webp'" [alt]="'flag ' + currentLang()" />
       <mat-icon class="lang-arrow">expand_more</mat-icon>

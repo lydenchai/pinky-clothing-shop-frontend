@@ -14,23 +14,23 @@
     <table class="table">
       <thead>
         <tr>
-          <th>{{ 'no.' | translate }}</th>
+          <th class="number">{{ 'no.' | translate }}</th>
           <th>{{ 'name' | translate }}</th>
           <th>{{ 'category' | translate }}</th>
           <th>{{ 'price' | translate }}</th>
           <th>{{ 'stock' | translate }}</th>
-          <th>{{ 'action' | translate }}</th>
+          <th class="action">{{ 'action' | translate }}</th>
         </tr>
       </thead>
       <tbody>
         @for (product of products; track product.id) {
         <tr>
-          <td>{{ ($index + 1 + ((page - 1) * limit))}}</td>
+          <td class="number">{{ ($index + 1 + ((page - 1) * limit))}}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.category | translate}}</td>
           <td>{{ product.price | currency }}</td>
           <td>{{ product.stock }}</td>
-          <td>
+          <td class="action">
             <button class="btn" mat-icon-button color="primary" class="edit"
               [routerLink]="['/admin/products', product.id, 'edit']" type="button">
               <mat-icon>edit</mat-icon>

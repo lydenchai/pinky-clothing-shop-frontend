@@ -213,10 +213,13 @@
   "processing": "En cours",
   "shipped": "Expédié",
   "delivered": "Livré",
+  "cancelled": "Annulé",
   "product_code": "Code produit",
   "product_id": "ID produit",
   "location": "Emplacement",
   "creating_account": "Création du compte...",
+  "type": "Type",
+  "analytic_dashboard": "Tableau de bord analytique",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",

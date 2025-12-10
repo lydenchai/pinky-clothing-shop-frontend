@@ -10,7 +10,7 @@ export const adminOrderRoutes: Routes = [
   },
   {
     path: ':id',
-    loadChildren: () =>
+    loadComponent: () =>
       import('./routes/order-detail/order-detail.component').then(
         (m) => m.AdminOrderDetailComponent
       ),

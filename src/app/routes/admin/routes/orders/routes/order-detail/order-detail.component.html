@@ -1,1 +1,87 @@
-<div class="order-detail-container"></div>
+<div class="order-detail-container modern-card">
+  <div class="order-header modern-header">
+    <div class="order-title-group">
+      <h2>Order #{{ order()?.id }}</h2>
+      <span class="order-status-badge status-{{ status }}">
+        <mat-icon class="status-icon">assignment</mat-icon>
+        {{ status | translate }}
+      </span>
+    </div>
+    <div class="order-date">
+      <mat-icon class="date-icon">calendar_today</mat-icon>
+      {{ order()?.createdAt | date: 'dd-MM-yyyy HH:mm' }}
+    </div>
+  </div>
+  <div class="order-section modern-grid">
+    <div class="order-customer-info modern-section accent-customer">
+      <mat-icon class="section-icon">person</mat-icon>
+      <div>
+        <strong>Customer ID:</strong> {{ order()?.userId }}<br />
+        <span *ngIf="user()">
+          <strong>Name:</strong> {{ user()?.firstName }} {{ user()?.lastName }}<br />
+          <strong>Email:</strong> {{ user()?.email }}
+        </span>
+      </div>
+    </div>
+    <div class="order-shipping-info modern-section accent-shipping">
+      <mat-icon class="section-icon">local_shipping</mat-icon>
+      <div>
+        <strong>Shipping Address:</strong><br />
+        {{ order()?.shippingAddress }}, {{ order()?.shippingCity }}, {{ order()?.shippingPostalCode }}, {{
+        order()?.shippingCountry }}
+      </div>
+    </div>
+    <div class="order-status-info modern-section accent-status">
+      <mat-icon class="section-icon">update</mat-icon>
+      <div>
+        <strong>Status:</strong>
+        <select [(ngModel)]="status" (change)="updateStatus()">
+          @for (s of statusOptions; track $index) {
+          <option [value]="s">{{ s | translate }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="order-detail-summary modern-summary">
+    <mat-icon class="summary-icon">attach_money</mat-icon>
+    <span><strong>Total:</strong> {{ order()?.totalAmount | currency }}</span>
+  </div>
+  <h3 class="modern-items-title"><mat-icon>shopping_cart</mat-icon> Items</h3>
+  <table class="order-detail-items modern-table compact-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Product</th>
+        <th>Image</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+        <th>Size</th>
+        <th>Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if(order()?.items?.length) {
+      @for (item of order()?.items; track $index) {
+      <tr>
+        <td>{{ $index + 1 }}</td>
+        <td>
+          <a [routerLink]="['/products', item.productId]" class="product-link highlight-link">{{ item.productName }}</a>
+        </td>
+        <td><img [src]="item.productImage" alt="{{ item.productName }}" class="product-avatar" /></td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | currency }}</td>
+        <td>{{ item.price * item.quantity | currency }}</td>
+        <td>{{ item.size }}</td>
+        <td>{{ item.color }}</td>
+      </tr>
+      }
+      } @else {
+      <tr>
+        <td colspan="8" class="text-center">No items in this order.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

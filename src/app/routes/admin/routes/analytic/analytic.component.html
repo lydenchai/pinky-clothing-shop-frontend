@@ -1,28 +1,26 @@
 <div class="admin-container scroll-container">
-  <h5>Analytics Dashboard</h5>
-  <div class="chart-section">
+  <section class="content-header">
+    <h5>{{ 'analytic_dashboard' | translate }}</h5>
+  </section>
+  <section class="table-header">
+    <h6>Recent Events</h6>
     <canvas id="eventTypeChart" width="400" height="200"></canvas>
-    <div class="chart-legend">
-      <span class="legend-color"></span>
-      <span>Event Count</span>
-    </div>
-  </div>
-  <h6>Recent Events</h6>
+  </section>
   <div class="container-table content-scroll">
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Type</th>
-          <th>User ID</th>
-          <th>Data</th>
-          <th>Created At</th>
+          <th class="number">{{ 'no.' | translate }}</th>
+          <th>{{ 'type' | translate }}</th>
+          <th>{{ 'user' | translate }}</th>
+          <th>{{ 'date' | translate }}</th>
+          <th>{{ 'created_at' | translate }}</th>
         </tr>
       </thead>
       <tbody>
         @for (event of events; track $index) {
         <tr>
-          <td>{{ event.id }}</td>
+          <td class="number">{{ $index + 1 }}</td>
           <td>{{ event.type }}</td>
           <td>{{ event.userId || '-' }}</td>
           <td>{{ event.data }}</td>

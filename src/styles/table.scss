@@ -102,6 +102,7 @@
 table.table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 
   tr {
     &:hover {
@@ -135,6 +136,21 @@ table.table {
     padding: 0 10px !important;
     white-space: nowrap;
     vertical-align: middle;
+    width: auto;
+  }
+
+  th.number,
+  td.number {
+    width: 100px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+  }
+
+  th.action,
+  td.action {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
   }
 
   .center {

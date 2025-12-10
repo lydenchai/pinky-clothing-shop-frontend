@@ -18,7 +18,7 @@
           <th>{{ 'email' | translate }}</th>
           <th>{{ 'role' | translate }}</th>
           <th>{{ 'created_at' | translate }}</th>
-          <th>{{ 'action' | translate }}</th>
+          <th class="action">{{ 'action' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -30,7 +30,7 @@
             {{ user.role | translate}}
           </td>
           <td>{{ user.createdAt | date: 'dd-MM-yyyy' }}</td>
-          <td>
+          <td class="action">
             @if(user && user.role !== RoleEnum.admin) {
             <button mat-icon-button class="delete"
               (click)="deleteUser(user.id)"><mat-icon>delete_outline</mat-icon></button>

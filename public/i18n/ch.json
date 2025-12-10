@@ -213,10 +213,13 @@
   "processing": "处理中",
   "shipped": "已发货",
   "delivered": "已送达",
+  "cancelled": "已取消",
   "product_code": "产品代码",
   "product_id": "产品ID",
   "location": "位置",
   "creating_account": "正在创建账户...",
+  "type": "类型",
+  "analytic_dashboard": "分析仪表盘",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",

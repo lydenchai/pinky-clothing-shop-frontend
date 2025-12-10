@@ -4,21 +4,25 @@
     <table class="table">
       <thead>
         <tr>
-          <th>{{ 'no.' | translate }}</th>
+          <th class="number">{{ 'no.' | translate }}</th>
           <th>{{ 'customer' | translate }}</th>
           <th>{{ 'status' | translate }}</th>
           <th>{{ 'total' | translate }}</th>
           <th>{{ 'date' | translate }}</th>
+          <th class="action">{{ 'action' | translate }}</th>
         </tr>
       </thead>
       <tbody>
         @for (order of orders; track order.id) {
         <tr>
-          <td>{{ $index + 1 }}</td>
+          <td class="number">{{ $index + 1 }}</td>
           <td>{{ order.userId }}</td>
           <td>{{ order.status | translate}}</td>
           <td>${{ order.totalAmount }}</td>
           <td>{{ order.createdAt | date: 'dd-MM-yyyy' }}</td>
+          <td class="action">
+            <a mat-icon-button [routerLink]="[order.id]"><mat-icon>visibility</mat-icon></a>
+          </td>
         </tr>
         } @empty {
         <tr>

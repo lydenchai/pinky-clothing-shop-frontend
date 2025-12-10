@@ -213,10 +213,13 @@
   "processing": "កំពុងដំណើរការ",
   "shipped": "បានដឹកជញ្ជូន",
   "delivered": "បានដឹកជញ្ជូនរួច",
+  "cancelled": "បានបោះបង់",
   "product_code": "លេខកូដផលិតផល",
   "product_id": "លេខសម្គាល់ផលិតផល",
   "location": "ទីតាំង",
   "creating_account": "កំពុងបង្កើតគណនី...",
+  "type": "ប្រភេទ",
+  "analytic_dashboard": "ផ្ទាំងគ្រប់គ្រងវិភាគ",
   "message": {
     "item_added_to_cart_successfully": "បានបន្ថែមទំនិញចូលក្នុងរទេះដោយជោគជ័យ!",
     "please_login_to_add_items_to_your_cart": "សូមចូលប្រើប្រាស់ដើម្បីបន្ថែមទំនិញចូលរទេះរបស់អ្នក",

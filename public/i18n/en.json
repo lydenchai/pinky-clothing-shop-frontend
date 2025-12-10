@@ -213,10 +213,13 @@
   "processing": "Processing",
   "shipped": "Shipped",
   "delivered": "Delivered",
+  "cancelled": "Cancelled",
   "product_code": "Product Code",
   "product_id": "Product ID",
   "location": "Location",
   "creating_account": "Creating Account...",
+  "type": "Type",
+  "analytic_dashboard": "Analytic Dashboard",
   "message": {
     "item_added_to_cart_successfully": "Item added to cart successfully!",
     "please_login_to_add_items_to_your_cart": "Please login to add items to your cart",

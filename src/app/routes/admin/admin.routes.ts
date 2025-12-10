@@ -38,9 +38,9 @@ export const adminRoutes: Routes = [
       },
       {
         path: 'orders',
-        loadComponent: () =>
-          import('./routes/orders/routes/orders/orders.component').then(
-            (m) => m.OrdersAdminComponent
+        loadChildren: () =>
+          import('./routes/orders/admin-order.routes').then(
+            (m) => m.adminOrderRoutes
           ),
       },
       {
