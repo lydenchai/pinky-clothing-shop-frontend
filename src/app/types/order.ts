@@ -13,4 +13,5 @@ export interface Order {
   createdAt: Date;
   items?: OrderItem[];
   total: number;
+  paymentMethod?: string;
 }

@@ -13,9 +13,9 @@ export class InventoryService {
   getAll(
     page = 1,
     limit = 10
-  ): Observable<{ inventories: InventoryItem[]; pagination: any }> {
+  ): Observable<{ data: InventoryItem[]; pagination: any }> {
     return this.http
-      .get<{ inventories: InventoryItem[]; pagination: any }>(this.apiUrl, {
+      .get<{ data: InventoryItem[]; pagination: any }>(this.apiUrl, {
         params: { page: page.toString(), limit: limit.toString() },
       })
       .pipe(

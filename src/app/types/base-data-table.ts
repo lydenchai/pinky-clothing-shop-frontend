@@ -1,6 +1,11 @@
 export interface BaseDataTable<T = any[]> {
-  order: number;
   data: T[];
-  total: number;
-  totalCount?: number;
+  pagination: Pagination;
+}
+
+export interface Pagination {
+  page: number;
+  limit: number;
+  totalItems?: number;
+  totalPages?: number;
 }

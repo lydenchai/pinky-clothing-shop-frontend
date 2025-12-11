@@ -1,7 +1,6 @@
 <div class="checkout-page">
   <div class="container">
     <h1 class="page-title">{{ 'checkout' | translate }}</h1>
-
     @if (orderPlaced()) {
     <div class="success-modal">
       <div class="success-content">
@@ -50,7 +49,6 @@
       </div>
     </div>
     }
-
     @if (cart()?.items?.length === 0 && !orderPlaced()) {
     <div class="empty-message">
       <p>{{ 'empty_cart' | translate }}</p>
@@ -75,11 +73,11 @@
           <div class="form-row">
             <div class="form-group">
               <label>{{ 'first_name' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.firstName" name="firstName" required placeholder="John" />
+              <input type="text" [formControl]="form.controls.firstName" name="firstName" required placeholder="Lusi" />
             </div>
             <div class="form-group">
               <label>{{ 'last_name' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.lastName" name="lastName" required placeholder="Doe" />
+              <input type="text" [formControl]="form.controls.lastName" name="lastName" required placeholder="Zhao" />
             </div>
           </div>
           <div class="form-row">
@@ -103,22 +101,22 @@
           <div class="form-row">
             <div class="form-group">
               <label>{{ 'city' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.city" name="city" required placeholder="New York" />
+              <input type="text" [formControl]="form.controls.city" name="city" required placeholder="Phnom Penh" />
             </div>
             <div class="form-group">
               <label>{{ 'state' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.state" name="state" required placeholder="NY" />
+              <input type="text" [formControl]="form.controls.state" name="state" required placeholder="Sen Sok" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>{{ 'zip_code' | translate }} *</label>
+              <label>{{ 'zip_code' | translate }}</label>
               <input type="text" [formControl]="form.controls.postalCode" name="postalCode" required
                 placeholder="10001" />
             </div>
             <div class="form-group">
               <label>{{ 'country' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.country" name="country" required placeholder="USA" />
+              <input type="text" [formControl]="form.controls.country" name="country" required placeholder="Cambodia" />
             </div>
           </div>
         </section>
@@ -167,7 +165,7 @@
       } @else {
       <div class="order-summary-confirm">
         <h2>{{ 'order_summary' | translate }}</h2>
-        <div class="order-items">
+        <div class="order-items my-4">
           @for (item of orderSummary.items; track $index) {
           <div class="order-item">
             <img [src]="item.imageUrl" [alt]="item.name" />

@@ -30,7 +30,7 @@ export class UserFormComponent implements OnInit {
   submitted = false;
   backendError: string | null = null;
   isEditMode = false;
-  userId: number | null = null;
+  userId: any;
   RoleEnum = RoleEnum;
 
   constructor(
@@ -55,8 +55,8 @@ export class UserFormComponent implements OnInit {
       const id = params.get('id');
       if (id) {
         this.isEditMode = true;
-        this.userId = +id;
-        this.loadUser(this.userId);
+        this.userId = id;
+        this.loadUser(Number(this.userId));
         this.userForm.get('password')?.clearValidators();
         this.userForm.get('password')?.updateValueAndValidity();
       }
@@ -65,9 +65,9 @@ export class UserFormComponent implements OnInit {
 
   loadUser(id: number) {
     this.loading = true;
-    this.userService.getAllUsers().subscribe({
+    this.userService.getById(String(id)).subscribe({
       next: (res) => {
-        const user = res.users.find((u: User) => u.id === id);
+        const user = res.data;
         if (user) {
           this.userForm.patchValue({
             firstName: user.firstName,
@@ -104,7 +104,7 @@ export class UserFormComponent implements OnInit {
     if (this.isEditMode && this.userId) {
       // Remove password if empty
       if (!userData.password) delete userData.password;
-      this.userService.updateUser(this.userId, userData).subscribe({
+      this.userService.updateById(String(this.userId), userData).subscribe({
         next: () => {
           this.router.navigate(['/admin/users']);
         },
@@ -114,7 +114,7 @@ export class UserFormComponent implements OnInit {
         },
       });
     } else {
-      this.userService.saveUser(userData).subscribe({
+      this.userService.create(userData).subscribe({
         next: () => {
           this.router.navigate(['/admin/users']);
         },

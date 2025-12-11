@@ -220,6 +220,12 @@
   "creating_account": "正在创建账户...",
   "type": "类型",
   "analytic_dashboard": "分析仪表盘",
+  "image": "图片",
+  "order_progress": "订单进度",
+  "customer_id": "客户ID",
+  "new_orders": "新订单",
+  "no_new_orders": "没有新订单",
+  "item": "商品",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",
@@ -242,6 +248,7 @@
     "failed_to_remove_item_from_cart": "无法从购物车中移除商品，请重试。",
     "are_you_sure_you_want_to_log_out": "您确定要注销吗？",
     "confirm_logout": "确认注销",
-    "you_have_been_logged_out_successfully": "您已成功注销"
+    "you_have_been_logged_out_successfully": "您已成功注销",
+    "_are_you_sure_you_want_to_delete_this": "您确定要删除这个 {{param}} 吗？"
   }
 }

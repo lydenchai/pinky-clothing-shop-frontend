@@ -10,9 +10,9 @@
       </button>
       @if (notificationOpen()) {
       <div class="notification-dropdown">
-        <div class="dropdown-header">New Orders</div>
+        <div class="dropdown-header">{{ 'new_orders' | translate }}</div>
         @if (newOrders().length === 0) {
-        <div class="dropdown-empty">No new orders</div>
+        <div class="dropdown-empty">{{ 'no_new_orders' | translate }}</div>
         } @else {
         <ul class="dropdown-list">
           @for (order of newOrders(); track order.id) {

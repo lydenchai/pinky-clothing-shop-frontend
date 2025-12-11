@@ -3,7 +3,7 @@
     <h5>{{'inventory' | translate | plural}}</h5>
   </section>
   <section class="table-header form">
-    <div class="top-btn mb-3 ms-auto">
+    <div class="top-btn ms-auto">
       <button mat-flat-button color="primary" class="new" routerLink="/admin/inventory/new" type="button">
         <mat-icon>add</mat-icon>
         <span class="ms-1">{{'create' | translate}}</span>
@@ -14,25 +14,30 @@
     <table class="table">
       <thead>
         <tr>
-          <th>{{'no.' | translate}}</th>
+          <th class="number">{{'no.' | translate}}</th>
           <th>{{'product_code' | translate}}</th>
           <th>{{'quantity' | translate}}</th>
           <th>{{'location' | translate}}</th>
           <th>{{'updated_at' | translate}}</th>
-          <th>{{'action' | translate}}</th>
+          <th class="action">{{'action' | translate}}</th>
         </tr>
       </thead>
       <tbody>
         @for (item of inventories; track item.id) {
         <tr>
-          <td>{{ item.id }}</td>
+          <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
           <td>{{ item.productId }}</td>
           <td>{{ item.quantity }}</td>
           <td>{{ item.location }}</td>
           <td>{{ item.updatedAt | date:'short' }}</td>
-          <td>
-            <button mat-icon-button color="primary" (click)="goToEdit(item.id)"><mat-icon>edit</mat-icon></button>
-            <button mat-icon-button color="warn" (click)="deleteItem(item.id)"><mat-icon>delete</mat-icon></button>
+          <td class="action">
+            <button class="btn" mat-icon-button color="primary" class="edit"
+              [routerLink]="['/admin/inventory', item.id, 'edit']" type="button">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete" (click)="deleteItem(item.id)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
           </td>
         </tr>
         } @empty {

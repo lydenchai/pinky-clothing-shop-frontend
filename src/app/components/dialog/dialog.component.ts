@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, TranslateModule],
   templateUrl: './dialog.component.html',
-  styleUrl: './dialog.component.scss',
+  styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
   private dialogService = inject(DialogService);

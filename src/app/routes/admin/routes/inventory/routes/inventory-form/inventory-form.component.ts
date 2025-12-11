@@ -7,13 +7,17 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { InventoryService } from '../../../../../../services/inventory.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { ProductService } from '../../../../../../services/product.service';
+import { Product } from '../../../../../../types/product.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-inventory-form',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     RouterModule,
     TranslateModule,
@@ -28,10 +32,13 @@ export class InventoryFormComponent implements OnInit {
   error: string | null = null;
   isEditMode = false;
   itemId: number | null = null;
+  products: Product[] = [];
+  productsLoading = false;
 
   constructor(
     private fb: FormBuilder,
     private inventoryService: InventoryService,
+    private productService: ProductService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -50,6 +57,22 @@ export class InventoryFormComponent implements OnInit {
         this.itemId = +id;
         this.fetchItem(this.itemId);
       }
+    });
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.productsLoading = true;
+    // load a reasonable number of products for selection
+    this.productService.getAllProducts({ page: 1, limit: 200 }).subscribe({
+      next: (res) => {
+        this.products = res.data || [];
+        this.productsLoading = false;
+      },
+      error: () => {
+        this.products = [];
+        this.productsLoading = false;
+      },
     });
   }
 
@@ -70,7 +93,8 @@ export class InventoryFormComponent implements OnInit {
   onSubmit() {
     if (this.inventoryForm.invalid) return;
     this.loading = true;
-    const data = this.inventoryForm.value;
+    const raw = this.inventoryForm.value;
+    const data = { ...raw, productId: Number(raw.productId) };
     if (this.isEditMode && this.itemId) {
       this.inventoryService.update(this.itemId, data).subscribe({
         next: () => this.router.navigate(['/admin/inventory']),

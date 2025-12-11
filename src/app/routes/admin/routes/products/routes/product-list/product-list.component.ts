@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductService } from '../../../../../../services/product.service';
+import { DialogService } from '../../../../../../services/dialog.service';
 import { Product } from '../../../../../../types/product.model';
 import { PaginationComponent } from '../../../../../../components/pagination/pagination.component';
 import { PaginationComponentUtil } from '../../../../../../utils/pagination-component.util';
 import { Pagination } from '../../../../../../types/pagination';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PluralPipe } from '../../../../../../pipes/plural.pipe';
 
 @Component({
@@ -32,7 +33,11 @@ export class ProductListComponent
 {
   products: Product[] = [];
 
-  constructor(private productService: ProductService) {
+  constructor(
+    private productService: ProductService,
+    private dialogService: DialogService,
+    private translateService: TranslateService
+  ) {
     super();
   }
 
@@ -44,18 +49,30 @@ export class ProductListComponent
     this.productService
       .getAllProducts({ page: event.page, limit: event.limit })
       .subscribe((response) => {
-        this.products = response.products;
+        this.products = response.data || [];
         this.totalCount = response.pagination.totalItems;
         this.limit = event.limit;
         this.page = event.page;
       });
   }
 
-  deleteProduct(id: number) {
-    if (confirm('Are you sure you want to delete this product?')) {
+  async deleteProduct(id: number) {
+    try {
+      const confirmed = await this.dialogService.ask(
+        this.translateService.instant(
+          'message._are_you_sure_you_want_to_delete_this',
+          {
+            param: 'product',
+          }
+        ),
+        this.translateService.instant('confirm')
+      );
+      if (!confirmed) return;
       this.productService.deleteProduct(id).subscribe(() => {
         this.products = this.products.filter((p) => p.id !== id);
       });
+    } catch (err) {
+      console.error('Dialog error', err);
     }
   }
 }

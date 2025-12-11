@@ -30,7 +30,7 @@
         <div class="kpi-label">{{ 'pending_orders' | translate }}</div>
       </div>
       <div class="kpi">
-        <div class="kpi-value">{{ sales | number:'1.0-0' }}</div>
+        <div class="kpi-value">{{ salesNumber | number:'1.0-0' }}</div>
         <div class="kpi-label">{{ 'total_sales' | translate }}</div>
       </div>
     </section>
@@ -43,9 +43,9 @@
               <tr>
                 <th class="number">{{ 'no.' | translate }}</th>
                 <th>{{ 'customer' | translate }}</th>
+                <th>{{ 'date' | translate }}</th>
                 <th>{{ 'total' | translate }}</th>
                 <th>{{ 'status' | translate }}</th>
-                <th>{{ 'date' | translate }}</th>
                 <th class="action">{{ 'action' | translate }}</th>
               </tr>
             </thead>
@@ -57,7 +57,10 @@
                 <td>{{ item.totalAmount | currency }}</td>
                 <td>{{ item.status | translate}}</td>
                 <td>{{ item.createdAt | date: 'dd-MM-yyyy' }}</td>
-                <td class="action"><a [routerLink]="['/admin/orders/', item.id]"><mat-icon>visibility</mat-icon></a>
+                <td class="action">
+                  <a mat-icon-button [routerLink]="['/admin/orders/', item.id]" class="view">
+                    <mat-icon>visibility</mat-icon>
+                  </a>
                 </td>
               </tr>
               } @empty {

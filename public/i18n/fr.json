@@ -220,6 +220,12 @@
   "creating_account": "Création du compte...",
   "type": "Type",
   "analytic_dashboard": "Tableau de bord analytique",
+  "image": "Image",
+  "order_progress": "Progression de la commande",
+  "customer_id": "ID client",
+  "new_orders": "Nouvelles commandes",
+  "no_new_orders": "Aucune nouvelle commande",
+  "item": "Article",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",
@@ -242,6 +248,7 @@
     "failed_to_remove_item_from_cart": "Impossible de retirer l'article du panier. Veuillez réessayer.",
     "are_you_sure_you_want_to_log_out": "Êtes-vous sûr de vouloir vous déconnecter ?",
     "confirm_logout": "Confirmer la déconnexion",
-    "you_have_been_logged_out_successfully": "Vous avez été déconnecté avec succès"
+    "you_have_been_logged_out_successfully": "Vous avez été déconnecté avec succès",
+    "_are_you_sure_you_want_to_delete_this": "Êtes-vous sûr de vouloir supprimer ce {{param}} ?"
   }
 }

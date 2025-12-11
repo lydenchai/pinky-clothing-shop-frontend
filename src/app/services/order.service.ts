@@ -23,12 +23,14 @@ export class OrderService {
       );
   }
 
-  getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/orders`).pipe(
-      catchError((error) => {
-        throw error;
-      })
-    );
+  getOrders(): Observable<{ data: Order[]; pagination: any }> {
+    return this.http
+      .get<{ data: Order[]; pagination: any }>(`${environment.apiUrl}/orders`)
+      .pipe(
+        catchError((error) => {
+          throw error;
+        })
+      );
   }
 
   getOrderById(orderId: string): Observable<Order> {

@@ -78,9 +78,19 @@ export class AdminNavbarComponent implements OnInit, OnDestroy {
   fetchNewOrders() {
     this.orderService.getOrders().subscribe({
       next: (orders) => {
-        const pendingOrders = orders.filter((o: any) => o.status === 'pending');
-        this.newOrderCount.set(pendingOrders.length);
-        this.newOrders.set(pendingOrders.slice(0, 5));
+        const pendingOrders = orders.data.filter(
+          (o: any) => o.status === 'pending'
+        );
+        // Get viewed order IDs from localStorage
+        const viewedIds = this.localStorageService.getArray(
+          LocalStorageEnum.AdminViewedOrders
+        );
+        // Only show orders not viewed
+        const unviewedOrders = pendingOrders.filter(
+          (o: any) => !viewedIds.includes(String(o.id))
+        );
+        this.newOrderCount.set(unviewedOrders.length);
+        this.newOrders.set(unviewedOrders.slice(0, 5));
       },
       error: () => {
         this.newOrderCount.set(0);
@@ -97,7 +107,19 @@ export class AdminNavbarComponent implements OnInit, OnDestroy {
   }
 
   goToOrder(orderId: string) {
+    // Mark as viewed
+    const viewedIds = this.localStorageService.getArray(
+      LocalStorageEnum.AdminViewedOrders
+    );
+    if (!viewedIds.includes(String(orderId))) {
+      viewedIds.push(String(orderId));
+      this.localStorageService.setArray(
+        LocalStorageEnum.AdminViewedOrders,
+        viewedIds
+      );
+    }
     this.notificationOpen.set(false);
+    this.fetchNewOrders();
     this.router.navigate(['/admin/orders', orderId]);
   }
 

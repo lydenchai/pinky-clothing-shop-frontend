@@ -3,7 +3,7 @@
     <h1 class="page-title">{{ 'shopping_cart' | translate }}</h1>
 
     @if (cart()?.items?.length === 0) {
-    <div class="empty-cart">
+    <div class="empty-cart flex flex-col items-center justify-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2">
         <circle cx="8" cy="21" r="1"></circle>
@@ -83,7 +83,7 @@
           <span>${{ cart()?.tax?.toFixed(2) }}</span>
         </div>
 
-        @if (cart()?.subtotal < 100 && cart()?.subtotal > 0) {
+        @if (cart()?.subtotal < 100 && cart()?.subtotal> 0) {
           <div class="shipping-notice">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2">
@@ -91,7 +91,8 @@
               <line x1="12" y1="16" x2="12" y2="12"></line>
               <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
-            {{ 'add' | translate }} ${{ (100 - cart()?.subtotal)?.toFixed(2) }} {{ 'more_for_free_shipping' | translate }}
+            {{ 'add' | translate }} ${{ (100 - cart()?.subtotal)?.toFixed(2) }} {{ 'more_for_free_shipping' | translate
+            }}
           </div>
           }
 

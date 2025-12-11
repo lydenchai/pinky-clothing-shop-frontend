@@ -10,4 +10,5 @@ export interface User {
   postalCode?: string;
   country?: string;
   createdAt?: Date;
+  avatar?: string;
 }

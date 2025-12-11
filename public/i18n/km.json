@@ -220,6 +220,12 @@
   "creating_account": "កំពុងបង្កើតគណនី...",
   "type": "ប្រភេទ",
   "analytic_dashboard": "ផ្ទាំងគ្រប់គ្រងវិភាគ",
+  "image": "រូបភាព",
+  "order_progress": "ដំណើរការការកុម្មង់",
+  "customer_id": "លេខសម្គាល់អតិថិជន",
+  "new_orders": "ការកុម្មង់ថ្មីៗ",
+  "no_new_orders": "គ្មានការកុម្មង់ថ្មី",
+  "item": "ទំនិញ",
   "message": {
     "item_added_to_cart_successfully": "បានបន្ថែមទំនិញចូលក្នុងរទេះដោយជោគជ័យ!",
     "please_login_to_add_items_to_your_cart": "សូមចូលប្រើប្រាស់ដើម្បីបន្ថែមទំនិញចូលរទេះរបស់អ្នក",
@@ -242,6 +248,7 @@
     "failed_to_remove_item_from_cart": "មិនអាចលុបទំនិញចេញពីរទេះបានទេ។ សូមព្យាយាមម្តងទៀត។",
     "are_you_sure_you_want_to_log_out": "តើអ្នកប្រាកដថាចង់ចាកចេញពីប្រព័ន្ធទេ?",
     "confirm_logout": "បញ្ជាក់ការចាកចេញ",
-    "you_have_been_logged_out_successfully": "អ្នកបានចាកចេញពីប្រព័ន្ធដោយជោគជ័យ"
+    "you_have_been_logged_out_successfully": "អ្នកបានចាកចេញពីប្រព័ន្ធដោយជោគជ័យ",
+    "_are_you_sure_you_want_to_delete_this": "តើអ្នកប្រាកដថាចង់លុប {{param}} នេះឬទេ?"
   }
 }

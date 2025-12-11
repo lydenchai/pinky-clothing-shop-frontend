@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
@@ -11,7 +16,7 @@ import { Router } from '@angular/router';
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent {
   userForm: FormGroup;
   loading = false;
   submitted = false;
@@ -31,15 +36,11 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    // Optionally load user data for edit mode
-  }
-
   onSubmit() {
     this.submitted = true;
     this.backendError = null;
     if (this.userForm.invalid) {
-      Object.keys(this.userForm.controls).forEach(field => {
+      Object.keys(this.userForm.controls).forEach((field) => {
         const control = this.userForm.get(field);
         if (control && control.invalid) {
           control.markAsTouched({ onlySelf: true });
@@ -49,7 +50,7 @@ export class UserFormComponent implements OnInit {
     }
     this.loading = true;
     const userData = this.userForm.value;
-    this.userService.saveUser(userData).subscribe({
+    this.userService.create(userData).subscribe({
       next: () => {
         this.router.navigate(['/profile']);
       },

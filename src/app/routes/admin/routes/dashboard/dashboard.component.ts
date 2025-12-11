@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductService } from '../../../../services/product.service';
 import { OrderService } from '../../../../services/order.service';
@@ -9,19 +9,21 @@ import { Order } from '../../../../types/order';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
-import { PluralPipe } from "../../../../pipes/plural.pipe";
+import { PluralPipe } from '../../../../pipes/plural.pipe';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     MatButtonModule,
     MatIconModule,
     TranslateModule,
-    PluralPipe
-],
+    PluralPipe,
+    DecimalPipe,
+    DatePipe,
+    CurrencyPipe,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -33,6 +35,12 @@ export class DashboardComponent implements OnInit {
   totalCustomers = 0;
   newCustomers = 0;
   sales = 0;
+
+  get salesNumber(): number {
+    const n = Number(this.sales);
+    return isNaN(n) ? 0 : n;
+  }
+
   conversionRate = 0;
 
   recentOrders: Order[] = [];
@@ -47,31 +55,36 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     // Inventory
     this.productService.getAllProducts().subscribe((response) => {
-      this.totalProducts = response.products.length;
-      this.lowStockCount = response.products.filter((p) => p.stock <= 5).length;
+      this.totalProducts = response.data.length;
+      this.lowStockCount = response.data.filter((p) => p.stock <= 5).length;
     });
 
     // Orders
-    this.orderService.getOrders().subscribe((orders: Order[]) => {
-      this.pendingOrders = orders.filter((o) => o.status === 'pending').length;
-      this.completedOrders = orders.filter(
-        (o) => o.status === 'delivered'
-      ).length;
-      this.sales = orders.reduce((sum, o) => sum + o.totalAmount, 0);
-      // Recent orders (most recent 6)
-      this.recentOrders = orders
-        .slice()
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )
-        .slice(0, 6);
-    });
+    this.orderService
+      .getOrders()
+      .subscribe((response: { data: Order[]; pagination: any }) => {
+        const orders = response.data;
+        this.pendingOrders = orders.filter(
+          (o) => o.status === 'pending'
+        ).length;
+        this.completedOrders = orders.filter(
+          (o) => o.status === 'delivered'
+        ).length;
+        this.sales = orders.reduce((sum, o) => sum + o.totalAmount, 0);
+        // Recent orders (most recent 6)
+        this.recentOrders = orders
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          .slice(0, 6);
+      });
 
-    this.userService.getAllUsers(1, 100).subscribe({
+    this.userService.getMany({ page: 1, limit: 100 }).subscribe({
       next: (res) => {
-        this.totalCustomers = res.pagination?.totalItems ?? res.users.length;
-        this.newCustomers = res.users.filter((u) => {
+        this.totalCustomers = res.pagination?.totalItems ?? res.data.length;
+        this.newCustomers = res.data.filter((u) => {
           if (!u.createdAt) return false;
           const created = new Date(u.createdAt).getTime();
           const thirtyDaysAgo = Date.now() - 1000 * 60 * 60 * 24 * 30;
@@ -84,14 +97,9 @@ export class DashboardComponent implements OnInit {
       },
     });
 
-    // Analytics (stub, replace with real API when available)
-    // this.analyticsService.getKPIs().subscribe((data) => {
-    //   this.conversionRate = data.conversionRate;
-    // });
-
     // Top products by stock (placeholder for top-sold)
     this.productService.getAllProducts({ limit: 100 }).subscribe((res) => {
-      this.topProducts = res.products
+      this.topProducts = res.data
         .slice()
         .sort((a, b) => b.stock - a.stock)
         .slice(0, 6);

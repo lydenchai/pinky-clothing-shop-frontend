@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) {}
 
   ngOnInit() {
     this.loadProducts();
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     this.isLoading.set(true);
     this.productService.getAllProducts({ limit: 8 }).subscribe({
       next: (response) => {
-        this.products.set(response.products); // Show first 8 products
+        this.products.set(response.data); // Show first 8 products
         this.isLoading.set(false);
       },
       error: (error) => {

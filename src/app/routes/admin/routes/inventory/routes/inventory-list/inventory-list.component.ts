@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { InventoryService } from '../../../../../../services/inventory.service';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { DatePipe, CommonModule } from '@angular/common';
 import { PluralPipe } from '../../../../../../pipes/plural.pipe';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,23 +44,35 @@ export class InventoryListComponent
     super();
   }
 
+  private routerSub: Subscription | null = null;
+
   ngOnInit() {
     this.getList({ page: 1, limit: this.limit });
+    this.routerSub = this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((e) => {
+        const nav = e as NavigationEnd;
+        if (nav.urlAfterRedirects.startsWith('/admin/inventory')) {
+          this.getList({ page: 1, limit: this.limit });
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.routerSub?.unsubscribe();
   }
 
   getList(event: Pagination) {
-    this.loading = true;
     this.inventoryService.getAll(event.page, event.limit).subscribe({
-      next: (data) => {
-        this.inventories = data?.inventories ?? [];
-        this.totalCount = data?.pagination?.totalItems ?? 0;
+      next: (res) => {
+        this.inventories = res.data ?? [];
+        this.totalCount = res?.pagination?.totalItems ?? 0;
         this.limit = event.limit;
         this.page = event.page;
         this.loading = false;
       },
       error: (err) => {
         this.error = err?.error?.message || 'Failed to load inventory.';
-        this.loading = false;
       },
     });
   }

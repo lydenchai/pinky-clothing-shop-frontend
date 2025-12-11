@@ -6,22 +6,22 @@
         <tr>
           <th class="number">{{ 'no.' | translate }}</th>
           <th>{{ 'customer' | translate }}</th>
-          <th>{{ 'status' | translate }}</th>
-          <th>{{ 'total' | translate }}</th>
           <th>{{ 'date' | translate }}</th>
+          <th>{{ 'total' | translate }}</th>
+          <th>{{ 'status' | translate }}</th>
           <th class="action">{{ 'action' | translate }}</th>
         </tr>
       </thead>
       <tbody>
         @for (order of orders; track order.id) {
         <tr>
-          <td class="number">{{ $index + 1 }}</td>
+          <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
           <td>{{ order.userId }}</td>
           <td>{{ order.status | translate}}</td>
           <td>${{ order.totalAmount }}</td>
           <td>{{ order.createdAt | date: 'dd-MM-yyyy' }}</td>
           <td class="action">
-            <a mat-icon-button [routerLink]="[order.id]"><mat-icon>visibility</mat-icon></a>
+            <a mat-icon-button [routerLink]="[order.id]" class="view"><mat-icon>visibility</mat-icon></a>
           </td>
         </tr>
         } @empty {
@@ -32,4 +32,10 @@
       </tbody>
     </table>
   </div>
+  @if (orders.length > 0) {
+  <div class="table-footer content-footer">
+    <app-pagination [total]="totalCount ?? 0" [limit]="limit" [page]="page"
+      (changed)="getList($event)"></app-pagination>
+  </div>
+  }
 </div>

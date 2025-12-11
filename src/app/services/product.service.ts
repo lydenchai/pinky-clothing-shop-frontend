@@ -38,7 +38,7 @@ export class ProductService {
     return this.http
       .get<ProductsResponse>(`${environment.apiUrl}/products`, { params })
       .pipe(
-        tap((response) => this.products.set(response.products)),
+        tap((response) => this.products.set(response.data)),
         catchError((error) => {
           throw error;
         })
@@ -66,7 +66,7 @@ export class ProductService {
 
   searchProducts(query: string): Observable<Product[]> {
     return this.getAllProducts({ search: query }).pipe(
-      map((response) => response.products)
+      map((response) => response.data)
     );
   }
 

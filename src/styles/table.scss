@@ -97,6 +97,7 @@
   padding: 0 10px 10px;
   border-radius: 10px;
   background-color: #fff;
+  margin-top: 1rem;
 }
 
 table.table {
@@ -151,6 +152,20 @@ table.table {
     width: 150px !important;
     min-width: 150px !important;
     max-width: 150px !important;
+  }
+
+  td.action {
+    .view {
+      color: #1976d2 !important;
+    }
+
+    .edit {
+      color: #ffb300 !important;
+    }
+
+    .delete {
+      color: #ff0000 !important;
+    }
   }
 
   .center {

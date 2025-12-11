@@ -5,7 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { PluralPipe } from '../../pipes/plural.pipe';
-import { PaginationInfo, Product, ProductFilter } from '../../types/product.model';
+import {
+  PaginationInfo,
+  Product,
+  ProductFilter,
+} from '../../types/product.model';
 import { CategoryEnum } from '../../types/enums/category.enum';
 import { ProductService } from '../../services/product.service';
 
@@ -76,7 +80,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   loadProducts() {
     this.productService.getAllProducts(this.filters()).subscribe({
       next: (response) => {
-        let products = response.products;
+        let products = response.data;
         // Filter by search query if present
         const search = this.filters().search;
         if (search) {

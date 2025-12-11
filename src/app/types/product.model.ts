@@ -32,7 +32,7 @@ export interface PaginationInfo {
 }
 
 export interface ProductsResponse {
-  products: Product[];
+  data: Product[];
   pagination: PaginationInfo;
 }
 
