@@ -1,15 +1,19 @@
 @use "./variables" as *;
 @use "sass:color";
 
+/* ============
+   Layout
+   ============ */
 .admin-container {
-  padding: 10px;
+  padding: 16px;
   height: calc(100vh - 40px);
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden;
 
   h2 {
     margin-bottom: 1rem;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1d1d1f; // Apple dark text
   }
 }
 
@@ -91,81 +95,86 @@
   }
 }
 
+/* ============
+   Table Container (Apple Style)
+   ============ */
 .container-table {
-  height: auto;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 0 10px 10px;
-  border-radius: 10px;
-  background-color: #fff;
-  margin-top: 1rem;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  padding: 0 14px 14px;
+  margin-top: 1.4rem;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
+/* ============
+   Table Styling
+   ============ */
 table.table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 6px;
   table-layout: fixed;
 
-  tr {
+  tbody>tr,
+  tbody>th,
+  tbody>td {
+    height: 40px !important;
+    max-height: 40px !important;
+    min-height: 40px !important;
+    vertical-align: middle !important;
+  }
+
+  thead th {
+    color: #3a3a3c;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 10px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  tbody tr {
+    background: #ffffff;
+    transition: background 0.15s ease, transform 0.15s ease;
+
     &:hover {
-      background-color: #f1f1f1;
+      transform: scale(1.002);
     }
   }
 
-  tbody>tr:not(:last-child)>td {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-  }
-
-  tbody>tr:hover>td {
-    background-color: #f1f1f1;
-  }
-
-  th {
-    text-align: left;
-    color: #000;
-    font-size: 15px;
-    font-weight: 500;
-  }
-
-  td {
+  tbody td {
     font-size: 14px;
-    font-weight: 400;
+    color: #1d1d1f;
+    padding: 0 10px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
 
-  th,
-  td {
-    height: 40px;
-    padding: 0 10px !important;
-    white-space: nowrap;
-    vertical-align: middle;
-    width: auto;
+  tbody tr:last-child td {
+    border-bottom: none;
   }
 
   th.number,
   td.number {
     width: 100px !important;
     min-width: 100px !important;
-    max-width: 100px !important;
   }
 
   th.action,
   td.action {
     width: 150px !important;
-    min-width: 150px !important;
-    max-width: 150px !important;
   }
 
-  td.action {
-    .view {
-      color: #1976d2 !important;
-    }
+  td.action .view {
+    color: #0071e3;
+  }
 
-    .edit {
-      color: #ffb300 !important;
-    }
+  td.action .edit {
+    color: #ff9f0a;
+  }
 
-    .delete {
-      color: #ff0000 !important;
-    }
+  td.action .delete {
+    color: #ff3b30;
   }
 
   .center {
@@ -178,44 +187,18 @@ table.table {
 
   .right {
     text-align: right !important;
-    padding-right: 10px;
-  }
-
-  tbody>tr:last-child>td {
-    border-bottom: none !important;
   }
 }
 
+/* ============
+   Table Footer
+   ============ */
 .table-footer {
   text-align: right;
-  padding: 10px 0;
+  padding: 14px 6px 0;
 
   .mat-mdc-form-field-subscript-wrapper {
     height: 0 !important;
     padding: 0 !important;
   }
-
-  .mat-mdc-select-panel-above .mat-mdc-select-panel {
-    @extend .mat-mdc-select-panel;
-  }
-
-  .mdc-line-ripple::before {
-    margin-bottom: 5px;
-  }
-
-  .mdc-line-ripple::before,
-  .mdc-line-ripple::after {
-    margin-bottom: 5px;
-  }
-}
-
-.mat-mdc-card {
-  box-shadow: none;
-}
-
-.mdc-line-ripple,
-.mdc-line-ripple::before,
-.mdc-line-ripple::after {
-  bottom: -4px !important;
-  height: 2px !important;
 }

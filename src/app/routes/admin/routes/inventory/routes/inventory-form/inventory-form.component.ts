@@ -9,9 +9,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { InventoryService } from '../../../../../../services/inventory.service';
 import { ProductService } from '../../../../../../services/product.service';
 import { Product } from '../../../../../../types/product.model';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-inventory-form',
@@ -22,6 +23,7 @@ import { CommonModule } from '@angular/common';
     RouterModule,
     TranslateModule,
     MatButtonModule,
+    MatSelectModule,
   ],
   templateUrl: './inventory-form.component.html',
   styleUrls: ['./inventory-form.component.scss'],

@@ -226,6 +226,12 @@
   "new_orders": "Nouvelles commandes",
   "no_new_orders": "Aucune nouvelle commande",
   "item": "Article",
+  "street": "Rue",
+  "house": "Maison",
+  "village": "Village",
+  "commune": "Commune",
+  "district": "District",
+  "province": "Province",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",
@@ -249,6 +255,7 @@
     "are_you_sure_you_want_to_log_out": "Êtes-vous sûr de vouloir vous déconnecter ?",
     "confirm_logout": "Confirmer la déconnexion",
     "you_have_been_logged_out_successfully": "Vous avez été déconnecté avec succès",
-    "_are_you_sure_you_want_to_delete_this": "Êtes-vous sûr de vouloir supprimer ce {{param}} ?"
+    "_are_you_sure_you_want_to_delete_this": "Êtes-vous sûr de vouloir supprimer ce {{param}} ?",
+    "failed_to_place_order": "Échec de la commande. Veuillez réessayer."
   }
 }

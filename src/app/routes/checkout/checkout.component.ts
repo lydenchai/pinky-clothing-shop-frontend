@@ -39,11 +39,15 @@ export class CheckoutComponent {
     firstName: new FormControl<string | null>(''),
     lastName: new FormControl<string | null>(''),
     phone: new FormControl<string | null>(''),
-    address: new FormControl<string | null>(''),
-    city: new FormControl<string | null>(''),
-    state: new FormControl<string | null>(''),
-    postalCode: new FormControl<string | null>(''),
-    country: new FormControl<string | null>('Cambodia'),
+    address: new FormGroup({
+      street: new FormControl<string | null>(''),
+      house: new FormControl<string | null>(''),
+      village: new FormControl<string | null>(''),
+      commune: new FormControl<string | null>(''),
+      district: new FormControl<string | null>(''),
+      province: new FormControl<string | null>(''),
+      country: new FormControl<string | null>('Cambodia'),
+    }),
     paymentMethod: new FormControl<string | null>('credit-card'),
     cardNumber: new FormControl<string | null>(''),
     cardExpiry: new FormControl<string | null>(''),
@@ -76,10 +80,15 @@ export class CheckoutComponent {
           firstName: user.firstName,
           lastName: user.lastName,
           phone: user.phone,
-          address: user.address,
-          city: user.city,
-          postalCode: user.postalCode,
-          country: user.country,
+          address: {
+            street: '',
+            house: '',
+            village: '',
+            commune: '',
+            district: '',
+            province: '',
+            country: user.country || 'Cambodia',
+          },
         });
       }
     });
@@ -98,10 +107,13 @@ export class CheckoutComponent {
       return;
     }
 
+    const addressGroup = this.form.controls.address as FormGroup;
     if (
-      !this.form.controls.address.value ||
-      !this.form.controls.city.value ||
-      !this.form.controls.postalCode.value
+      !addressGroup.value.street ||
+      !addressGroup.value.village ||
+      !addressGroup.value.commune ||
+      !addressGroup.value.district ||
+      !addressGroup.value.province
     ) {
       this.dialogService.warning(
         this.translate.instant('message.please_complete_your_shipping_address')
@@ -127,11 +139,17 @@ export class CheckoutComponent {
     // Call backend for order summary/validation
     this.summaryLoading = true;
     this.summaryError = null;
-    const summaryReq: OrderSummaryRequest = {
-      shippingAddress: this.form.controls.address.value,
-      shippingCity: this.form.controls.city.value,
-      shippingPostalCode: this.form.controls.postalCode.value,
-      shippingCountry: this.form.controls.country.value!,
+    const address = this.form.controls.address.value;
+    const summaryReq: any = {
+      address: {
+        house: address.house || '',
+        street: address.street || '',
+        village: address.village || '',
+        commune: address.commune || '',
+        district: address.district || '',
+        province: address.province || '',
+        country: address.country || 'Cambodia',
+      },
     };
     this.orderService.getOrderSummary(summaryReq).subscribe({
       next: (summary) => {
@@ -151,11 +169,17 @@ export class CheckoutComponent {
     // Actually place the order after summary confirmation
     const cart = this.cart();
     const user = this.user();
-    const orderReq = {
-      shippingAddress: this.form.controls.address.value,
-      shippingCity: this.form.controls.city.value,
-      shippingPostalCode: this.form.controls.postalCode.value,
-      shippingCountry: this.form.controls.country.value,
+    const address = this.form.controls.address.value;
+    const orderReq: any = {
+      address: {
+        house: address.house || '',
+        street: address.street || '',
+        village: address.village || '',
+        commune: address.commune || '',
+        district: address.district || '',
+        province: address.province || '',
+        country: address.country || 'Cambodia',
+      },
       items:
         cart?.items?.map((item) => ({
           productId: item.productId,

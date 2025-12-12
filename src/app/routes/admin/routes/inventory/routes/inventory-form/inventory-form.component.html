@@ -6,11 +6,11 @@
         <div class="form-group col">
           <label for="productId">{{ 'product' | translate }}</label>
           @if (!productsLoading) {
-          <select id="productId" formControlName="productId" class="form-control" required>
+          <mat-select id="productId" formControlName="productId" class="form-control" required>
             @for (p of products; track $index) {
-            <option [value]="p.id">{{ p.name || ('product' | translate) + ' #' + p.id }}</option>
+            <mat-option [value]="p.id">{{ p.name || ('product' | translate) + ' #' + p.id }}</mat-option>
             }
-          </select>
+          </mat-select>
           @if (inventoryForm.get('productId')?.invalid && (inventoryForm.get('productId')?.touched ||
           inventoryForm.get('productId')?.dirty)) {
           <div class="field-error">

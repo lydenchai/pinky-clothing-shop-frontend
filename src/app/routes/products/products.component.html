@@ -7,7 +7,8 @@
     </div>
 
     <!-- Toolbar -->
-    <div class="toolbar">
+    <div
+      class="bg-white border border-[#f5f5f7] rounded-2xl p-3 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <button class="filter-toggle-btn" (click)="toggleFilters()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2">
@@ -15,20 +16,19 @@
         </svg>
         {{ 'filters' | translate }}
       </button>
-
-      <div class="results-count">
+      <div class="text-[#6b7280] font-medium">
         {{ filteredProducts().length }} {{ filteredProducts().length === 1 ? ('product' | translate) : ('products' |
         translate | plural) }} {{ 'found' | translate }}
       </div>
-
-      <div class="sort-dropdown">
-        <label>{{ 'sort_by' | translate }}:</label>
-        <select [(ngModel)]="sortBy" (change)="onSortChange()">
-          <option value="featured">{{ 'featured' | translate }}</option>
-          <option value="price-low">{{ 'price_low_to_high' | translate }}</option>
-          <option value="price-high">{{ 'price_high_to_low' | translate }}</option>
-          <option value="name">{{ 'name_a_to_z' | translate }}</option>
-        </select>
+      <div class="w-[400px] flex items-center justify-end gap-3">
+        <div class="w-[100px]">{{ 'sort_by' | translate }}:</div>
+        <mat-select id="productId" class="border-bottom p-2 w-[300px]" (valueChange)="onSortChange($event)"
+          [value]="sortBy">
+          <mat-option value="featured">{{ 'featured' | translate }}</mat-option>
+          <mat-option value="price-low">{{ 'price_low_to_high' | translate }}</mat-option>
+          <mat-option value="price-high">{{ 'price_high_to_low' | translate }}</mat-option>
+          <mat-option value="name">{{ 'name_a_to_z' | translate }}</mat-option>
+        </mat-select>
       </div>
     </div>
 
@@ -133,7 +133,7 @@
           </button>
         </div>
         } @else {
-        <div class="no-results">
+        <div class="no-results flex flex-col items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>

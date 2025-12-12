@@ -55,7 +55,7 @@
   "filters": "តម្រង",
   "found": "រកឃើញ",
   "product": "ផលិតផល",
-  "sort_by": "តម្រៀបតាម",
+  "sort_by": "តម្រៀប",
   "featured": "ពិសេស",
   "price_low_to_high": "តម្លៃ៖ ពីទាបទៅខ្ពស់",
   "price_high_to_low": "តម្លៃ៖ ពីខ្ពស់ទៅទាប",
@@ -226,6 +226,12 @@
   "new_orders": "ការកុម្មង់ថ្មីៗ",
   "no_new_orders": "គ្មានការកុម្មង់ថ្មី",
   "item": "ទំនិញ",
+  "street": "ផ្លូវលេខ",
+  "house": "ផ្ទះលេខ",
+  "village": "ភូមិ",
+  "commune": "ឃុំ/សង្កាត់",
+  "district": "ស្រុក/ខណ្ឌ",
+  "province": "ខេត្ត/ទីរាជធានី",
   "message": {
     "item_added_to_cart_successfully": "បានបន្ថែមទំនិញចូលក្នុងរទេះដោយជោគជ័យ!",
     "please_login_to_add_items_to_your_cart": "សូមចូលប្រើប្រាស់ដើម្បីបន្ថែមទំនិញចូលរទេះរបស់អ្នក",
@@ -249,6 +255,7 @@
     "are_you_sure_you_want_to_log_out": "តើអ្នកប្រាកដថាចង់ចាកចេញពីប្រព័ន្ធទេ?",
     "confirm_logout": "បញ្ជាក់ការចាកចេញ",
     "you_have_been_logged_out_successfully": "អ្នកបានចាកចេញពីប្រព័ន្ធដោយជោគជ័យ",
-    "_are_you_sure_you_want_to_delete_this": "តើអ្នកប្រាកដថាចង់លុប {{param}} នេះឬទេ?"
+    "_are_you_sure_you_want_to_delete_this": "តើអ្នកប្រាកដថាចង់លុប {{param}} នេះឬទេ?",
+    "failed_to_place_order": "បរាជ័យក្នុងការដាក់ការកុម្មង់។ សូមព្យាយាមម្តងទៀត។"
   }
 }

@@ -226,6 +226,12 @@
   "new_orders": "新订单",
   "no_new_orders": "没有新订单",
   "item": "商品",
+  "street": "街道",
+  "house": "房屋",
+  "village": "村庄",
+  "commune": "公社",
+  "district": "区",
+  "province": "省",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",
@@ -249,6 +255,7 @@
     "are_you_sure_you_want_to_log_out": "您确定要注销吗？",
     "confirm_logout": "确认注销",
     "you_have_been_logged_out_successfully": "您已成功注销",
-    "_are_you_sure_you_want_to_delete_this": "您确定要删除这个 {{param}} 吗？"
+    "_are_you_sure_you_want_to_delete_this": "您确定要删除这个 {{param}} 吗？",
+    "failed_to_place_order": "下单失败。请重试。"
   }
 }

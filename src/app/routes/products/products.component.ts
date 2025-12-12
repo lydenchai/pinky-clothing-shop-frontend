@@ -12,6 +12,7 @@ import {
 } from '../../types/product.model';
 import { CategoryEnum } from '../../types/enums/category.enum';
 import { ProductService } from '../../services/product.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-products',
@@ -22,6 +23,7 @@ import { ProductService } from '../../services/product.service';
     ProductCardComponent,
     TranslateModule,
     PluralPipe,
+    MatSelectModule,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
@@ -79,17 +81,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   loadProducts() {
     this.productService.getAllProducts(this.filters()).subscribe({
-      next: (response) => {
-        let products = response.data;
-        // Filter by search query if present
+      next: (res) => {
         const search = this.filters().search;
         if (search) {
           const q = search.toLowerCase();
-          products = products.filter((p) => p.name.toLowerCase().includes(q));
+          res.data = res.data.filter((p) => p.name.toLowerCase().includes(q));
         }
-        this.products.set(products);
-        this.pagination.set(response.pagination);
-        this.applySort(products);
+        this.products.set(res.data);
+        this.pagination.set(res.pagination);
+        this.applySort(res.data);
       },
       error: (error) => {
         throw error;
@@ -202,7 +202,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.loadProducts();
   }
 
-  onSortChange() {
+  onSortChange(value: string) {
+    this.sortBy = value;
     this.applySort(this.products());
   }
 

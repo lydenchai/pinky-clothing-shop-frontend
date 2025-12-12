@@ -17,7 +17,7 @@
     <button type="button" (click)="goToLastPage()" [disabled]="controlsDisabled || page === pageCount">
       <mat-icon class="last-page-icon">last_page</mat-icon>
     </button>
-    <mat-form-field class="select mx-1" style="border-radius: 6px !important;">
+    <mat-form-field class="select mx-1 rounded" style="border-radius: 6px !important;">
       <small>Limit</small>
       <mat-select class="mt-2" [value]="limit" (selectionChange)="onLimitChange($event.value)"
         [disabled]="controlsDisabled">
