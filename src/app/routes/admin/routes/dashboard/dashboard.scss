@@ -20,7 +20,6 @@
    background: #fff;
    padding: 16px;
    border-radius: 8px;
-   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
  }
 
  .kpi-value {
@@ -44,23 +43,10 @@
    background: #fff;
    padding: 12px;
    border-radius: 8px;
-   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
  }
 
  .panel h3 {
    margin-top: 0;
- }
-
- .table {
-   width: 100%;
-   border-collapse: collapse;
- }
-
- .table th,
- .table td {
-   padding: 8px 6px;
-   text-align: left;
-   border-bottom: 1px solid #eef2f7;
  }
 
  .top-products {
@@ -75,6 +61,10 @@
    align-items: center;
    padding: 8px 0;
    border-bottom: 1px solid #f1f5f9;
+
+   &:last-child {
+     border-bottom: none;
+   }
  }
 
  .top-products img {

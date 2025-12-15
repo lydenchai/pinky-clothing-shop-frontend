@@ -67,7 +67,6 @@ export const MENU: MenuItem[] = [
 })
 export class AdminSidebar implements OnInit {
   private router = inject(Router);
-  private sub: any;
   currentUrl = signal('');
   menu!: MenuItem[];
   lastOpenedMenuItem!: MenuItem;
@@ -79,7 +78,7 @@ export class AdminSidebar implements OnInit {
 
   ngOnInit() {
     this.currentUrl.set(this.router.url || '');
-    this.sub = this.router.events
+    this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((ev: any) => {
         this.currentUrl.set(ev.urlAfterRedirects || ev.url || '');

@@ -1,3 +1,4 @@
+
 @use "./variables.scss";
 @use "./table.scss";
 @use "./scroll-container.scss";
@@ -124,6 +125,7 @@ button {
 // =========================
 
 $input-height: 38px;
+$border-color: #dddddd;
 
 mat-form-field {
   border-radius: 6px !important;
@@ -143,6 +145,7 @@ mat-form-field {
   .mdc-notched-outline__trailing {
     height: $input-height !important;
     border-radius: 6px !important;
+    border-color: $border-color !important;
   }
 
   .mat-mdc-input-element {
@@ -154,41 +157,22 @@ mat-form-field {
   }
 
   .mdc-notched-outline__trailing {
-    border-left: 1px solid;
+    border-left: 1px solid $border-color !important;
   }
 
   .mdc-notched-outline__leading {
     border-left: unset !important;
   }
-}
 
-.pagination {
-  .select {
-    border-radius: 6px !important;
-
-    .mdc-select {
-      width: 150px !important;
-      height: $input-height !important;
-      min-height: $input-height !important;
-    }
-
-    .mat-mdc-select-trigger {
-      height: $input-height !important;
-      display: flex;
-      align-items: center;
-      padding: 0 8px !important;
-    }
-
-    .mdc-line-ripple,
-    .mdc-line-ripple::before,
-    .mdc-line-ripple::after {
-      bottom: -4px !important;
-      height: 2px !important;
-    }
+  &.mat-focused .mdc-notched-outline,
+  &:hover .mdc-notched-outline,
+  &.mat-mdc-form-field-disabled .mdc-notched-outline {
+    border-color: $border-color !important;
   }
 
-  // Disabled state
-  mat-form-field .mdc-text-field--disabled .mat-mdc-input-element {
-    color: #a5a5a5 !important;
+  &.mat-focused .mdc-notched-outline__leading,
+  &.mat-focused .mdc-notched-outline__notch,
+  &.mat-focused .mdc-notched-outline__trailing {
+    border-width: 1px !important;
   }
 }

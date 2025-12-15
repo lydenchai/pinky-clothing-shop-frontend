@@ -1,4 +1,7 @@
-<nav class="admin-navbar">
+<nav class="admin-navbar flex items-center justify-between">
+  <button type="button" mat-icon-button class="menu-extender" (click)="onToggleExtendMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
   <div class="navbar-content">
     <div class="notification-wrapper">
       <button class="notification-btn" mat-icon-button aria-label="Notifications"

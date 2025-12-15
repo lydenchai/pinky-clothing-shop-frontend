@@ -29,7 +29,7 @@
           <td>{{ item.productId }}</td>
           <td>{{ item.quantity }}</td>
           <td>{{ item.location }}</td>
-          <td>{{ item.updatedAt | date:'short' }}</td>
+          <td>{{ item.updatedAt | date: 'dd-MM-yyyy' }}</td>
           <td class="action">
             <button class="btn" mat-icon-button color="primary" class="edit"
               [routerLink]="['/admin/inventory', item.id, 'edit']" type="button">

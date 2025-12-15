@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AdminSidebar } from '../admin-sidebar/admin-sidebar';
 import { AdminNavbar } from '../admin-navbar/admin-navbar';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { LocalStorageEnum } from '../../types/enums/local-storage.enum';
 
 @Component({
   selector: 'app-admin-layout',
@@ -13,11 +15,17 @@ import { AdminNavbar } from '../admin-navbar/admin-navbar';
 })
 export class AdminLayout implements OnInit, OnDestroy {
   private _prevMainPaddingTop: string | null = null;
+  menuExtended = false;
+
+  constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
     try {
       document.body.classList.add('no-global-layout');
     } catch (e) {}
+
+    this.checkScreenAndSetSidebar();
+    window.addEventListener('resize', this.checkScreenAndSetSidebar);
 
     // Also remove the top padding reserved for the global header from the .main-content
     try {
@@ -36,6 +44,7 @@ export class AdminLayout implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    window.removeEventListener('resize', this.checkScreenAndSetSidebar);
     try {
       document.body.classList.remove('no-global-layout');
     } catch (e) {}
@@ -54,5 +63,28 @@ export class AdminLayout implements OnInit, OnDestroy {
     } catch (e) {
       // ignore
     }
+  }
+
+  private checkScreenAndSetSidebar = () => {
+    if (window.innerWidth <= 1440) {
+      this.menuExtended = false;
+    } else {
+      let extended = this.localStorageService.get(
+        LocalStorageEnum.menuExtended
+      );
+      if (extended === null) {
+        this.menuExtended = true;
+      } else {
+        this.menuExtended = extended === 'true';
+      }
+    }
+  };
+
+  onMenuExtendedChange(value: boolean) {
+    this.menuExtended = value;
+    this.localStorageService.set(
+      LocalStorageEnum.menuExtended,
+      value ? 'true' : 'false'
+    );
   }
 }

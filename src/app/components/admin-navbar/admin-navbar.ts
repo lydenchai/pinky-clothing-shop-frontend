@@ -1,3 +1,4 @@
+import { Output, EventEmitter, Input } from '@angular/core';
 import {
   Component,
   HostListener,
@@ -14,11 +15,18 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { LanguageEnum } from '../../types/enums/language.enum';
 import { LocalStorageEnum } from '../../types/enums/local-storage.enum';
 import { DatePipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-admin-navbar',
   standalone: true,
-  imports: [RouterModule, TranslateModule, MatIconModule, DatePipe],
+  imports: [
+    RouterModule,
+    TranslateModule,
+    MatIconModule,
+    DatePipe,
+    MatButtonModule,
+  ],
   templateUrl: './admin-navbar.html',
   styleUrls: ['./admin-navbar.scss'],
 })
@@ -35,6 +43,8 @@ export class AdminNavbar implements OnInit, OnDestroy {
   newOrders = signal<any[]>([]);
   notificationOpen = signal(false);
   private pollSub?: Subscription;
+  @Input() menuExtended = false;
+  @Output() menuExtendedChange = new EventEmitter<boolean>();
 
   constructor(
     public translate: TranslateService,
@@ -73,6 +83,11 @@ export class AdminNavbar implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.pollSub?.unsubscribe();
+  }
+
+  onToggleExtendMenu() {
+    this.menuExtended = !this.menuExtended;
+    this.menuExtendedChange.emit(this.menuExtended);
   }
 
   fetchNewOrders() {
