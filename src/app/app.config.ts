@@ -9,7 +9,7 @@ import {
   provideHttpClient,
   withInterceptors,
 } from '@angular/common/http';
-import { authInterceptor } from './interceptors/auth.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { routes } from './app.routes';
 import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
 import {

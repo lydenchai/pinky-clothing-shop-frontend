@@ -1,0 +1,85 @@
+<h5>
+  {{ isEditMode ? ('_update' | translate : { param: ('product' | translate) }) : ('_create' | translate : {param:
+  ('product' | translate) } )}}
+</h5>
+<div class="admin-container scroll-container">
+  <div class="form-container content-scroll">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      @if(backendError) {
+      <div class="alert alert-danger mb-3">{{ backendError }}</div>
+      }
+      <div class="form-group">
+        <label for="name">{{ 'product_name' | translate }}</label>
+        <input type="text" id="name" formControlName="name" class="form-control"
+          [class.is-invalid]="submitted && productForm.get('name')?.errors">
+        @if (submitted && productForm.get('name')?.errors?.['required']) {
+        <div class="invalid-feedback">{{ '_is_required' | translate : { param: ('product_name' | translate)} }}</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description">{{ 'description' | translate }}</label>
+        <textarea id="description" formControlName="description" class="form-control" rows="4"
+          [class.is-invalid]="submitted && productForm.get('description')?.errors"></textarea>
+        @if (submitted && productForm.get('description')?.errors?.['required']) {
+        <div class="invalid-feedback">{{ '_is_required' | translate : { param: ('description' | translate)} }}</div>
+        }
+      </div>
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="price">{{ 'price' | translate }}</label>
+          <input type="number" id="price" formControlName="price" class="form-control"
+            [class.is-invalid]="submitted && productForm.get('price')?.errors">
+          @if (submitted && productForm.get('price')?.errors?.['required']) {
+          <div class="invalid-feedback">{{ '_is_required' | translate : { param: ('price' | translate)} }}</div>
+          }
+        </div>
+        <div class="form-group col">
+          <label for="stock">{{ 'stock' | translate }}</label>
+          <input type="number" id="stock" formControlName="stock" class="form-control"
+            [class.is-invalid]="submitted && productForm.get('stock')?.errors">
+          @if (submitted && productForm.get('stock')?.errors?.['required']) {
+          <div class="invalid-feedback">{{ '_is_required' | translate : { param: ('stock' | translate)} }}</div>
+          }
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="category">{{ 'category' | translate }}</label>
+          <input type="text" id="category" formControlName="category" class="form-control"
+            [class.is-invalid]="submitted && productForm.get('category')?.errors">
+          @if (submitted && productForm.get('category')?.errors?.['required']) {
+          <div class="invalid-feedback">{{ '_is_required' | translate : { param: ('category' | translate)} }}</div>
+          }
+        </div>
+        <div class="form-group col">
+          <label for="imageUrl">{{ 'image_url' | translate }}</label>
+          <input type="text" id="imageUrl" formControlName="imageUrl" class="form-control"
+            [class.is-invalid]="submitted && productForm.get('imageUrl')?.errors">
+          @if (submitted && productForm.get('imageUrl')?.errors?.['required']) {
+          <div class="invalid-feedback">
+            {{ '_is_required' | translate : { param: ('image_url' | translate)} }}
+          </div>
+          }
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="sizes">{{ 'size' | translate | plural }} {{ 'comma_separated' | translate }}</label>
+          <input type="text" id="sizes" formControlName="sizes" class="form-control" placeholder="S, M, L, XL">
+        </div>
+        <div class="form-group col">
+          <label for="colors">{{ 'color' | translate | plural }} {{ 'comma_separated' | translate }}</label>
+          <input type="text" id="colors" formControlName="colors" class="form-control" placeholder="Red, Blue, Green">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" routerLink="/admin/products" mat-raised-button color="primary" class="cancel">{{ 'cancel'
+          | translate }}</button>
+        <button type="submit" mat-raised-button color="primary" class="save" [disabled]="loading">
+          {{ loading ? 'Saving...' : (isEditMode ? ('update' | translate) : ('create' | translate)) }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
