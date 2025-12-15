@@ -4,51 +4,41 @@ import { adminGuard } from './guards/admin.guard';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () =>
-      import('./routes/home/home.component').then((m) => m.HomeComponent),
+    loadComponent: () => import('./routes/home/home').then((m) => m.Home),
   },
   {
     path: 'products',
     loadComponent: () =>
-      import('./routes/products/products.component').then(
-        (m) => m.ProductsComponent
-      ),
+      import('./routes/products/products').then((m) => m.Products),
   },
   {
     path: 'products/:id',
     loadComponent: () =>
-      import('./routes/product-detail/product-detail.component').then(
-        (m) => m.ProductDetailComponent
+      import('./routes/product-detail/product-detail').then(
+        (m) => m.ProductDetail
       ),
   },
   {
     path: 'cart',
-    loadComponent: () =>
-      import('./routes/cart/cart.component').then((m) => m.CartComponent),
+    loadComponent: () => import('./routes/cart/cart').then((m) => m.Cart),
   },
   {
     path: 'profile',
     loadComponent: () =>
-      import('./routes/profile/profile.component').then(
-        (m) => m.ProfileComponent
-      ),
+      import('./routes/profile/profile').then((m) => m.Profile),
   },
   {
     path: 'orders',
-    loadComponent: () =>
-      import('./routes/orders/orders.component').then((m) => m.OrdersComponent),
+    loadComponent: () => import('./routes/orders/orders').then((m) => m.Orders),
   },
   {
     path: 'checkout',
     loadComponent: () =>
-      import('./routes/checkout/checkout.component').then(
-        (m) => m.CheckoutComponent
-      ),
+      import('./routes/checkout/checkout').then((m) => m.Checkout),
   },
   {
     path: 'login',
-    loadComponent: () =>
-      import('./routes/login/login.component').then((m) => m.LoginComponent),
+    loadComponent: () => import('./routes/login/login').then((m) => m.Login),
   },
 
   // Admin-side (Management Dashboard) using AdminLayout with nested child routes

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarMessageComponent } from '../components/snackbar-message/snackbar-message.component';
+import { SnackbarMessage } from '../components/snackbar-message/snackbar-message';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class SnackbarService {
   ) {
     const translated = this.translateService.instant(messageKey);
     const message = translated !== messageKey ? translated : messageKey;
-    this.snackBar.openFromComponent(SnackbarMessageComponent, {
+    this.snackBar.openFromComponent(SnackbarMessage, {
       data: { message },
       duration: type !== 'error' ? 3000 : 15000, // 10 seconds for errors
       panelClass: [`panel-${type}`],

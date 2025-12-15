@@ -4,22 +4,16 @@ export const userRoutes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./routes/user-list/user-list.component').then(
-        (m) => m.UserListComponent
-      ),
+      import('./routes/user-list/user-list').then((m) => m.UserList),
   },
   {
     path: 'new',
     loadComponent: () =>
-      import('./routes/user-form/user-form.component').then(
-        (m) => m.UserFormComponent
-      ),
+      import('./routes/user-form/user-form').then((m) => m.UserForm),
   },
   {
     path: ':id/edit',
     loadComponent: () =>
-      import('./routes/user-form/user-form.component').then(
-        (m) => m.UserFormComponent
-      ),
+      import('./routes/user-form/user-form').then((m) => m.UserForm),
   },
 ];

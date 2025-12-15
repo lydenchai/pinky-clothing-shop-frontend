@@ -7,9 +7,9 @@ import {
   NavigationCancel,
 } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
-import { DialogComponent } from '../dialog/dialog.component';
+import { Header } from '../header/header';
+import { Footer } from '../footer/footer';
+import { Dialog } from '../dialog/dialog';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { filter } from 'rxjs';
@@ -24,9 +24,9 @@ import { LocalStorageEnum } from '../../types/enums/local-storage.enum';
   imports: [
     CommonModule,
     RouterOutlet,
-    HeaderComponent,
-    FooterComponent,
-    DialogComponent,
+    Header,
+    Footer,
+    Dialog,
     TranslateModule,
   ],
   templateUrl: './app.html',

@@ -5,17 +5,15 @@ export const adminRoutes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('../../components/admin-layout/admin-layout.component').then(
-        (m) => m.AdminLayoutComponent
+      import('../../components/admin-layout/admin-layout').then(
+        (m) => m.AdminLayout
       ),
     canActivateChild: [adminGuard],
     children: [
       {
         path: '',
         loadComponent: () =>
-          import('./routes/dashboard/dashboard.component').then(
-            (m) => m.DashboardComponent
-          ),
+          import('./routes/dashboard/dashboard').then((m) => m.Dashboard),
       },
       {
         path: 'users',
@@ -46,9 +44,7 @@ export const adminRoutes: Routes = [
       {
         path: 'analytics',
         loadComponent: () =>
-          import('./routes/analytic/analytic.component').then(
-            (m) => m.AnalyticComponent
-          ),
+          import('./routes/analytic/analytic').then((m) => m.Analytic),
       },
       {
         path: 'settings',
