@@ -77,7 +77,7 @@
         <ul class="top-products">
           @for (p of topProducts; track $index) {
           <li>
-            <img [src]="p.imageUrl" alt="{{p.name}}" />
+            <img [src]="p.image" alt="{{p.name}}" />
             <div class="info">
               <div class="name">{{ p.name }}</div>
               <div class="meta">{{ 'stock' | translate }}: {{ p.stock }} • {{ p.category | translate}}</div>

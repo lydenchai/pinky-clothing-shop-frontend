@@ -1,4 +1,3 @@
-
 @use "./variables.scss";
 @use "./table.scss";
 @use "./scroll-container.scss";
@@ -19,6 +18,7 @@
 // =========================
 
 * {
+  font-family: -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
   box-sizing: border-box;
 }
 
@@ -174,5 +174,69 @@ mat-form-field {
   &.mat-focused .mdc-notched-outline__notch,
   &.mat-focused .mdc-notched-outline__trailing {
     border-width: 1px !important;
+  }
+}
+
+.form {
+  // custom disabled styles for outlined text fields
+  --mdc-outlined-text-field-disabled-outline-color: var(--mat-sys-on-surface);
+  --mdc-icon-button-disabled-icon-color: var(--mat-sys-on-surface);
+  --mdc-outlined-text-field-disabled-input-text-color: var(--mat-sys-on-surface);
+  --mat-select-disabled-trigger-text-color: var(--mat-sys-on-surface);
+
+  .mat-form-field-disabled {
+    .mat-mdc-form-field-icon-suffix {
+      width: 23px;
+      overflow: hidden;
+      --mdc-icon-button-disabled-icon-color: ;
+      visibility: hidden;
+    }
+  }
+
+  &.no-validate {
+    .field-container mat-label {
+      &.required::after {
+        display: none;
+      }
+    }
+  }
+
+  &.no-error-space {
+    .mat-mdc-form-field-subscript-wrapper {
+      height: 0 !important;
+    }
+  }
+
+  .required::after {
+    content: " *";
+    color: rgb(170, 0, 0);
+  }
+
+  .field-container {
+
+    // text-align: left;
+    mat-label {
+      display: block;
+      color: #72777a;
+      width: 100%;
+      white-space: nowrap;
+      min-height: 1.25em;
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    app-field-error {
+      display: block;
+      margin-top: -21px;
+      line-height: var(--mat-form-field-subscript-text-line-height, var(--mat-sys-body-small-line-height));
+      font-size: var(--mat-form-field-subscript-text-size, var(--mat-sys-body-small-size));
+      letter-spacing: var(--mat-form-field-subscript-text-tracking, var(--mat-sys-body-small-tracking));
+      font-weight: var(--mat-form-field-subscript-text-weight, var(--mat-sys-body-small-weight));
+    }
   }
 }

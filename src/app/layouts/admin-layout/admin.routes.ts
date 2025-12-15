@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { adminGuard } from '../../core/guards/admin.guard';
+import { AdminGuard } from '../../core/guards/admin.guard';
 
 export const adminRoutes: Routes = [
   {
@@ -8,7 +8,8 @@ export const adminRoutes: Routes = [
       import('../../layouts/admin-layout/admin-layout/admin-layout').then(
         (m) => m.AdminLayout
       ),
-    canActivateChild: [adminGuard],
+    canActivate: [AdminGuard],
+    canLoad: [AdminGuard], // Prevent loading if not admin
     children: [
       {
         path: '',

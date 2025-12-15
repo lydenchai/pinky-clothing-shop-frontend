@@ -16,6 +16,7 @@ import {
   TranslateHttpLoader,
   TRANSLATE_HTTP_LOADER_CONFIG,
 } from '@ngx-translate/http-loader';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 const httpLoaderConfig = {
   prefix: '/i18n/',
@@ -39,5 +40,6 @@ export const appConfig: ApplicationConfig = {
         deps: [HttpClient],
       },
     }),
+    provideAnimationsAsync(),
   ],
 };

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -55,7 +55,7 @@ export class Login {
           this.isLoading.set(false);
           const role = response?.user?.role;
           if (role === 'admin') {
-            this.router.navigate(['/admin/dashboard']);
+            this.router.navigate(['/admin']);
           } else {
             this.router.navigate(['/']);
           }

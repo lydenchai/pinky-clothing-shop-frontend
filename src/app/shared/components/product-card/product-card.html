@@ -1,6 +1,6 @@
 <div class="product-card" [routerLink]="['/products', product.id]">
   <div class="product-image">
-    <img [src]="product.imageUrl" [alt]="product.name" loading="lazy" />
+    <img [src]="product.image" [alt]="product.name" loading="lazy" />
     @if (product.stock <= 5 && product.stock> 0) {
       <div class="stock-badge low">{{ 'only_left' | translate: {count: product.stock} }}</div>
       }

@@ -256,6 +256,10 @@
     "confirm_logout": "确认注销",
     "you_have_been_logged_out_successfully": "您已成功注销",
     "_are_you_sure_you_want_to_delete_this": "您确定要删除这个 {{param}} 吗？",
-    "failed_to_place_order": "下单失败。请重试。"
+    "failed_to_place_order": "下单失败。请重试。",
+    "_invalid_max_value": "最大值是 {{max}}",
+    "_invalid_min_value": "最小值是 {{min}}",
+    "required": "此项为必填项。",
+    "image_upload_failed": "图片上传失败。请重试。"
   }
 }

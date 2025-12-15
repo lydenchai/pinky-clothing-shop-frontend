@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-export const adminGuard: CanActivateFn = (route, state) => {
+export const AdminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 

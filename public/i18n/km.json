@@ -256,6 +256,10 @@
     "confirm_logout": "បញ្ជាក់ការចាកចេញ",
     "you_have_been_logged_out_successfully": "អ្នកបានចាកចេញពីប្រព័ន្ធដោយជោគជ័យ",
     "_are_you_sure_you_want_to_delete_this": "តើអ្នកប្រាកដថាចង់លុប {{param}} នេះឬទេ?",
-    "failed_to_place_order": "បរាជ័យក្នុងការដាក់ការកុម្មង់។ សូមព្យាយាមម្តងទៀត។"
+    "failed_to_place_order": "បរាជ័យក្នុងការដាក់ការកុម្មង់។ សូមព្យាយាមម្តងទៀត។",
+    "_invalid_max_value": "តម្លៃអតិបរមាគឺ {{max}}",
+    "_invalid_min_value": "តម្លៃអប្បបរមាគឺ {{min}}",
+    "required": "តម្លៃនេះត្រូវតែបញ្ចូល។",
+    "image_upload_failed": "ការផ្ទុករូបភាពបានបរាជ័យ។ សូមព្យាយាមម្តងទៀត។"
   }
 }

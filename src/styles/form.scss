@@ -94,49 +94,12 @@
         color: #404446;
       }
 
-      &.close {
-        background-color: $secondary-color;
-        color: $white-color;
-      }
-
       &.save {
         border: 1px solid $primary-color;
         color: $primary-color !important;
 
         &:hover {
           background-color: rgba(54, 55, 149, 0.1);
-        }
-      }
-
-      &.save-close {
-        background-color: $primary-color;
-        color: $white-color;
-
-        &:hover {
-          background-color: $primary-color;
-        }
-      }
-
-      &.save-new {
-        background-color: $primary-color;
-        color: $white-color;
-
-        &:hover {
-          background-color: $primary-color;
-        }
-      }
-
-      &.new-post {
-        background-color: $primary-color;
-        color: $white-color;
-      }
-
-      &.edit {
-        background-color: $draft-color;
-        color: $white-color !important;
-
-        &:hover {
-          background-color: $draft-color;
         }
       }
 

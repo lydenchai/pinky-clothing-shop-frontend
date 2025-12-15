@@ -256,6 +256,10 @@
     "confirm_logout": "Confirm Logout",
     "you_have_been_logged_out_successfully": "You have been logged out successfully",
     "_are_you_sure_you_want_to_delete_this": "Are you sure you want to delete this {{param}}?",
-    "failed_to_place_order": "Failed to place order. Please try again."
+    "failed_to_place_order": "Failed to place order. Please try again.",
+    "_invalid_max_value": "Max value is {{max}}",
+    "_invalid_min_value": "Min value is {{min}}",
+    "required": "Value is required.",
+    "image_upload_failed": "Image upload failed. Please try again."
   }
 }

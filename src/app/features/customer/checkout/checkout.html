@@ -183,7 +183,7 @@
         <div class="order-items my-4">
           @for (item of orderSummary.items; track $index) {
           <div class="order-item">
-            <img [src]="item.imageUrl" [alt]="item.name" />
+            <img [src]="item.image" [alt]="item.name" />
             <div class="item-info">
               <p class="item-name">{{ item.name }}</p>
               <p class="item-qty">{{ 'quantity' | translate }}: {{ item.quantity }}</p>

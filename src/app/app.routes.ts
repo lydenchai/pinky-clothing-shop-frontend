@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -9,22 +8,18 @@ export const routes: Routes = [
         (m) => m.customerRoutes
       ),
   },
-
   {
     path: 'admin',
     loadChildren: () =>
       import('./layouts/admin-layout/admin.routes').then((m) => m.adminRoutes),
-    canActivate: [adminGuard],
   },
-
   {
     path: 'login',
-    loadComponent: () => import('./layouts/login/login').then((m) => m.Login),
+    loadComponent: () =>
+      import('./features/auth/login/login').then((m) => m.Login),
   },
-
-  // Fallback
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: '404',
   },
 ];

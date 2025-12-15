@@ -1,0 +1,9 @@
+<div class="image-upload">
+  <input type="file" accept="image/*" (change)="onFileChange($event)" [disabled]="disabled" />
+  @if (previewUrl) {
+  <div class="preview">
+    <img [src]="previewUrl" alt="Image preview" />
+    <button type="button" (click)="removeImage()">Remove</button>
+  </div>
+  }
+</div>

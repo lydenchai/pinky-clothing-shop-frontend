@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { adminGuard } from '../../core/guards/admin.guard';
 
 export const customerRoutes: Routes = [
   {
@@ -7,6 +6,11 @@ export const customerRoutes: Routes = [
     children: [
       {
         path: '',
+        redirectTo: 'home',
+        pathMatch: 'full', // redirect root to home
+      },
+      {
+        path: 'home',
         loadComponent: () =>
           import('../../features/customer/home/home').then((m) => m.Home),
       },

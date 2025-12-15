@@ -1,0 +1,10 @@
+@if (label() !== undefined) {
+@let formControl = control();
+<mat-label [class.required]="formControl ?(formControl | isRequired$ | async): false">
+  {{ label() }}
+</mat-label>
+}
+<ng-content></ng-content>
+<app-field-error [control]="control()" [errorPatternMsg]="errorPatternMsg()">
+  <mat-hint>{{ hint() }}</mat-hint>
+</app-field-error>

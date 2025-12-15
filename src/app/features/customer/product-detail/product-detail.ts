@@ -38,7 +38,7 @@ export class ProductDetail implements OnInit {
       this.productService.getProductById(productId).subscribe({
         next: (foundProduct) => {
           this.product.set(foundProduct);
-          this.selectedImage.set(foundProduct.imageUrl);
+          this.selectedImage.set(foundProduct.image);
 
           // Parse sizes and colors from comma-separated strings
           if (foundProduct.sizes) {

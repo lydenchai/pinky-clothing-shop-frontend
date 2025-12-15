@@ -256,6 +256,10 @@
     "confirm_logout": "Confirmer la déconnexion",
     "you_have_been_logged_out_successfully": "Vous avez été déconnecté avec succès",
     "_are_you_sure_you_want_to_delete_this": "Êtes-vous sûr de vouloir supprimer ce {{param}} ?",
-    "failed_to_place_order": "Échec de la commande. Veuillez réessayer."
+    "failed_to_place_order": "Échec de la commande. Veuillez réessayer.",
+    "_invalid_max_value": "La valeur maximale est {{max}}",
+    "_invalid_min_value": "La valeur minimale est {{min}}",
+    "required": "La valeur est requise.",
+    "image_upload_failed": "Échec du téléchargement de l'image. Veuillez réessayer."
   }
 }
