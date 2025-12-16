@@ -4,7 +4,7 @@
   </section>
   <section class="table-header form">
     <div class="top-btn ms-auto">
-      <button mat-flat-button color="primary" class="new" routerLink="/admin/products/new" type="button">
+      <button mat-raised-button color="primary" class="create" routerLink="create">
         <mat-icon>add</mat-icon>
         <span class="ms-1">{{ 'create' | translate }}</span>
       </button>
@@ -31,8 +31,8 @@
           <td>{{ product.price | currency }}</td>
           <td>{{ product.stock }}</td>
           <td class="action">
-            <button class="btn" mat-icon-button color="primary" class="edit"
-              [routerLink]="['/admin/products', product.id, 'edit']" type="button">
+            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[product.id, 'update']"
+              type="button">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button class="delete" (click)="deleteProduct(product.id)">

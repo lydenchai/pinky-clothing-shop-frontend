@@ -19,7 +19,7 @@
  .kpi {
    background: #fff;
    padding: 16px;
-   border-radius: 8px;
+   border-radius: 14px;
  }
 
  .kpi-value {
@@ -33,6 +33,7 @@
  }
 
  .panels {
+   width: 100%;
    display: grid;
    grid-template-columns: 2fr 1fr;
    gap: 16px;
@@ -40,9 +41,10 @@
  }
 
  .panel {
+   height: fit-content;
    background: #fff;
    padding: 12px;
-   border-radius: 8px;
+   border-radius: 14px;
  }
 
  .panel h3 {

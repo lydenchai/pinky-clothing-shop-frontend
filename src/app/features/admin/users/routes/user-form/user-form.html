@@ -3,86 +3,69 @@
   translate) } )}}
 </h5>
 <div class="admin-container scroll-container">
-  <div class="form-container content-scroll">
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <div class="form-container content-scroll form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       @if(backendError) {
       <div class="alert alert-danger mb-3">{{ backendError }}</div>
       }
-      <div class="form-row">
-        <div class="form-group col">
-          <label for="firstName">{{ 'first_name' | translate }}</label>
-          <input id="firstName" type="text" formControlName="firstName" class="form-control"
-            [class.is-invalid]="submitted && userForm.get('firstName')?.invalid">
-          @if(submitted && userForm.get('firstName')?.errors?.['required']){
-          <div class="invalid-feedback">{{ 'first_name_is_required' | translate }}</div>}
+      <div class="row mt-2">
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'first_name' | translate" [control]="form.controls.firstName">
+            <mat-form-field appearance="outline">
+              <input matInput name="firstName" [formControl]="form.controls.firstName" />
+            </mat-form-field>
+          </app-field-container>
         </div>
-        <div class="form-group col">
-          <label for="lastName">{{ 'last_name' | translate }}</label>
-          <input id="lastName" type="text" formControlName="lastName" class="form-control"
-            [class.is-invalid]="submitted && userForm.get('lastName')?.invalid">
-          @if(submitted && userForm.get('lastName')?.errors?.['required']){
-          <div class="invalid-feedback">{{ 'last_name_is_required' | translate }}</div>
-          }
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'last_name' | translate" [control]="form.controls.lastName">
+            <mat-form-field appearance="outline">
+              <input matInput name="lastName" [formControl]="form.controls.lastName" />
+            </mat-form-field>
+          </app-field-container>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="email">{{ 'email' | translate }}</label>
-        <input id="email" type="email" formControlName="email" class="form-control"
-          [class.is-invalid]="submitted &&userForm.get('email')?.invalid">
-        @if(submitted && userForm.get('email')?.errors?.['required']){
-        <div class="invalid-feedback">{{ 'email_is_required' | translate }}</div>
-        }
-        @if(submitted && userForm.get('email')?.errors?.['email']){
-        <div class="invalid-feedback">{{ 'invalid_email' | translate }}</div>
-        }
-      </div>
-      @if(!isEditMode){
-      <div class="form-group">
-        <label for="password">{{ 'password' | translate }}</label>
-        <input id="password" type="password" formControlName="password" class="form-control"
-          [class.is-invalid]="submitted && userForm.get('password')?.invalid">
-        @if(submitted && userForm.get('password')?.errors?.['required']){
-        <div class="invalid-feedback">{{ 'password_is_required' | translate }}</div>
-        }
-        @if(submitted && userForm.get('password')?.errors?.['minlength']){
-        <div class="invalid-feedback"> {{ 'password_min_length' | translate:{min:6} }} </div>
-        }
-      </div>
-      }
-      <div class="form-row">
-        <div class="form-group col">
-          <label for="phone">{{ 'phone' | translate }}</label>
-          <input id="phone" type="text" formControlName="phone" class="form-control">
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'phone' | translate" [control]="form.controls.phone">
+            <mat-form-field appearance="outline">
+              <input matInput name="phone" [formControl]="form.controls.phone" />
+            </mat-form-field>
+          </app-field-container>
         </div>
-        <div class="form-group col">
-          <label for="address">{{ 'address' | translate }}</label>
-          <input id="address" type="text" formControlName="address" class="form-control">
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'address' | translate" [control]="form.controls.address">
+            <mat-form-field appearance="outline">
+              <input matInput name="address" [formControl]="form.controls.address" />
+            </mat-form-field>
+          </app-field-container>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="role">{{ 'role' | translate }}</label>
-        <select id="role" formControlName="role" class="form-control"
-          [class.is-invalid]="submitted && userForm.get('role')?.invalid">
-          <option [value]="RoleEnum.admin">{{ 'admin' | translate }}</option>
-          <option [value]="RoleEnum.user">{{ 'customer' | translate }}</option>
-        </select>
-        @if(submitted && userForm.get('role')?.errors?.['required']){
-        <div class="invalid-feedback">
-          {{'role_is_required' | translate }}
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'role' | translate" [control]="form.controls.role">
+            <mat-form-field appearance="outline">
+              <mat-select [formControl]="form.controls.role" class="px-2">
+                @for (role of RoleEnum; track $index) {
+                <mat-option [value]="role">{{ role | translate }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        @if(!isEditMode){
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'password' | translate" [control]="form.controls.password">
+            <mat-form-field appearance="outline">
+              <input matInput name="password" [formControl]="form.controls.password" />
+            </mat-form-field>
+          </app-field-container>
         </div>
         }
-      </div>
-
-      <div class="form-actions">
-        <button type="button" routerLink="/admin/users" mat-raised-button color="primary" class="cancel">{{ 'cancel' |
-          translate }}</button>
-        <button type="submit" mat-raised-button color="primary" class="save" [disabled]="loading">
-          {{ loading ? ('Saving...' | translate) : (isEditMode ? ('update' | translate) : ('create' |
-          translate)) }}
-        </button>
       </div>
     </form>
+  </div>
+  <div class="form-actions">
+    <button type="button" routerLink="/admin/users" mat-raised-button color="primary" class="cancel">
+      {{ 'cancel' |
+      translate }}</button>
+    <button type="submit" mat-raised-button color="primary" class="save" [disabled]="loading">
+      {{ (isEditMode ? ('update' | translate) : ('create' | translate)) }}
+    </button>
   </div>
 </div>

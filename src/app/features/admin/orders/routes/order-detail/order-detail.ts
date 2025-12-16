@@ -60,23 +60,25 @@ export class AdminOrderDetail implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.orderService.getOrderById(id!).subscribe({
+    this.orderService.getById(id!).subscribe({
       next: (order) => {
-        this.order.set(order);
-        if (typeof order.status === 'string') {
-          this.status = order.status.toString().toLowerCase().trim();
-        } else if (order.status && typeof order.status === 'object') {
-          this.status = String(Object.values(order.status)[0])
+        this.order.set(order.data);
+        if (typeof order.data.status === 'string') {
+          this.status = order.data.status.toString().toLowerCase().trim();
+        } else if (order.data.status && typeof order.data.status === 'object') {
+          this.status = String(Object.values(order.data.status)[0])
             .toLowerCase()
             .trim();
         } else {
           this.status = '';
         }
         // Fetch user details
-        if (order.userId) {
+        if (order.data.userId) {
           this.userService.getMany().subscribe({
             next: (res) => {
-              const found = res.data.find((u) => u.id === Number(order.userId));
+              const found = res.data.find(
+                (u) => u.id === Number(order.data.userId)
+              );
               this.user.set(found ?? null);
             },
           });

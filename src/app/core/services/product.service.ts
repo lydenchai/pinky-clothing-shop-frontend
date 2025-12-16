@@ -1,21 +1,25 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, Injector, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap, catchError, map } from 'rxjs';
-import { environment } from '../../../environments/environment';
 import {
   Product,
   ProductFilter,
   ProductsResponse,
 } from '../types/product.model';
+import { BaseCrudService } from './base-crud.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
+export class ProductService extends BaseCrudService<Product> {
   private products = signal<Product[]>([]);
   private categories = signal<string[]>([]);
 
-  constructor(private http: HttpClient) {}
+  constructor(injector: Injector, private http: HttpClient) {
+    super(injector);
+    this.path = '/products/';
+  }
 
   getAllProducts(filter?: ProductFilter): Observable<ProductsResponse> {
     let params = new HttpParams();
@@ -45,59 +49,19 @@ export class ProductService {
       );
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${environment.apiUrl}/products/${id}`).pipe(
-      catchError((error) => {
-        throw error;
-      })
+  getCategories(): Observable<Product> {
+    return this.httpClientService.patchJSON<Product>(
+      `${this.path}/categories`,
+      {
+        data: {},
+      }
     );
-  }
-
-  getCategories(): Observable<string[]> {
-    return this.http
-      .get<string[]>(`${environment.apiUrl}/products/categories`)
-      .pipe(
-        tap((categories) => this.categories.set(categories)),
-        catchError((error) => {
-          throw error;
-        })
-      );
   }
 
   searchProducts(query: string): Observable<Product[]> {
     return this.getAllProducts({ search: query }).pipe(
       map((response) => response.data)
     );
-  }
-
-  createProduct(product: Omit<Product, 'id'>): Observable<Product> {
-    return this.http
-      .post<Product>(`${environment.apiUrl}/products`, product)
-      .pipe(
-        catchError((error) => {
-          throw error;
-        })
-      );
-  }
-
-  updateProduct(id: number, product: Partial<Product>): Observable<Product> {
-    return this.http
-      .put<Product>(`${environment.apiUrl}/products/${id}`, product)
-      .pipe(
-        catchError((error) => {
-          throw error;
-        })
-      );
-  }
-
-  deleteProduct(id: number): Observable<{ message: string }> {
-    return this.http
-      .delete<{ message: string }>(`${environment.apiUrl}/products/${id}`)
-      .pipe(
-        catchError((error) => {
-          throw error;
-        })
-      );
   }
 
   // Helper methods

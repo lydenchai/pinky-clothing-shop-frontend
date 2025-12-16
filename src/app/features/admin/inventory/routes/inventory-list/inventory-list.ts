@@ -60,18 +60,20 @@ export class InventoryList extends PaginationUtil implements OnInit {
   }
 
   getList(event: PaginationType) {
-    this.inventoryService.getAll(event.page, event.limit).subscribe({
-      next: (res) => {
-        this.inventories = res.data ?? [];
-        this.totalCount = res?.pagination?.totalItems ?? 0;
-        this.limit = event.limit;
-        this.page = event.page;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = err?.error?.message || 'Failed to load inventory.';
-      },
-    });
+    this.inventoryService
+      .getMany({ page: event.page, limit: event.limit })
+      .subscribe({
+        next: (res) => {
+          this.inventories = res.data ?? [];
+          this.totalCount = res?.pagination?.totalItems ?? 0;
+          this.limit = event.limit;
+          this.page = event.page;
+          this.loading = false;
+        },
+        error: (err) => {
+          this.error = err?.error?.message || 'Failed to load inventory.';
+        },
+      });
   }
 
   goToCreate() {
@@ -85,7 +87,7 @@ export class InventoryList extends PaginationUtil implements OnInit {
   deleteItem(id: number) {
     if (!confirm('Are you sure you want to delete this inventory item?'))
       return;
-    this.inventoryService.delete(id).subscribe({
+    this.inventoryService.delete(String(id)).subscribe({
       next: () => this.getList({ page: this.page, limit: this.limit }),
       error: (err) => {
         this.error = err?.error?.message || 'Failed to delete inventory item.';

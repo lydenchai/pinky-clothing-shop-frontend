@@ -63,9 +63,7 @@ export class ProductForm implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private snackbarService: SnackbarService,
-    private uploadService: UploadService,
-    private translateService: TranslateService
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit() {
@@ -78,8 +76,9 @@ export class ProductForm implements OnInit {
 
   loadProduct(id: number) {
     this.loading = true;
-    this.productService.getProductById(id).subscribe({
-      next: (product) => {
+    this.productService.getById(String(id)).subscribe({
+      next: (res) => {
+        const product = res.data;
         this.form.patchValue({
           name: product.name,
           description: product.description,
@@ -104,7 +103,7 @@ export class ProductForm implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSave() {
     this.submitted = true;
     this.backendError = null;
     if (this.form.invalid) {
@@ -140,19 +139,21 @@ export class ProductForm implements OnInit {
     } as any;
 
     if (this.isEditMode && this.productId) {
-      this.productService.updateProduct(this.productId, productData).subscribe({
-        next: () => {
-          this.snackbarService.openSnackbarSuccess(
-            'Product updated successfully.'
-          );
-        },
-        error: () => {
-          this.snackbarService.openSnackbarError('Failed to update product.');
-          this.loading = false;
-        },
-      });
+      this.productService
+        .updateById(String(this.productId), productData)
+        .subscribe({
+          next: () => {
+            this.snackbarService.openSnackbarSuccess(
+              'Product updated successfully.'
+            );
+          },
+          error: () => {
+            this.snackbarService.openSnackbarError('Failed to update product.');
+            this.loading = false;
+          },
+        });
     } else {
-      this.productService.createProduct(productData).subscribe({
+      this.productService.create(productData).subscribe({
         next: () => {
           this.snackbarService.openSnackbarSuccess(
             'Product created successfully.'
@@ -171,21 +172,11 @@ export class ProductForm implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.imagePreviewUrl = e.target.result;
+        const base64 = e.target.result;
+        this.imagePreviewUrl = base64;
+        this.form.patchValue({ image: base64 });
       };
       reader.readAsDataURL(file);
-      // Upload to backend
-      this.uploadService.uploadImage(file).subscribe({
-        next: (res) => {
-          this.form.patchValue({ image: res.url });
-        },
-        error: () => {
-          this.snackbarService.openSnackbarError(
-            this.translateService.instant('message.image_upload_failed')
-          );
-          this.form.patchValue({ image: '' });
-        },
-      });
     } else {
       this.imagePreviewUrl = null;
       this.form.patchValue({ image: '' });

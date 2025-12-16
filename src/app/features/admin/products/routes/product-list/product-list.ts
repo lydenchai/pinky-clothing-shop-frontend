@@ -65,7 +65,7 @@ export class ProductList extends PaginationUtil implements OnInit {
         this.translateService.instant('confirm')
       );
       if (!confirmed) return;
-      this.productService.deleteProduct(id).subscribe(() => {
+      this.productService.delete(String(id)).subscribe(() => {
         this.products = this.products.filter((p) => p.id !== id);
       });
     } catch (err) {

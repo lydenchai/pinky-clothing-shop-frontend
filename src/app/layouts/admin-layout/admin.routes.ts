@@ -19,13 +19,6 @@ export const adminRoutes: Routes = [
           ),
       },
       {
-        path: 'users',
-        loadChildren: () =>
-          import('../../features/admin/users/user.route').then(
-            (m) => m.userRoutes
-          ),
-      },
-      {
         path: 'products',
         loadChildren: () =>
           import('../../features/admin/products/product.route').then(
@@ -51,6 +44,13 @@ export const adminRoutes: Routes = [
         loadComponent: () =>
           import('../../features/admin/analytic/analytic').then(
             (m) => m.Analytic
+          ),
+      },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('../../features/admin/users/user.route').then(
+            (m) => m.userRoutes
           ),
       },
       {

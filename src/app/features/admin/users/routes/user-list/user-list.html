@@ -4,7 +4,7 @@
   </section>
   <section class="table-header form">
     <div class="top-btn ms-auto">
-      <button class="new" mat-flat-button color="primary" routerLink="/admin/users/new" type="button">
+      <button mat-raised-button color="primary" class="create" routerLink="create">
         <mat-icon>add</mat-icon>
         <span class="ms-1">{{ 'create' | translate }}</span>
       </button>
@@ -32,6 +32,10 @@
           <td>{{ user.createdAt | date: 'dd-MM-yyyy' }}</td>
           <td class="action">
             @if(user && user.role !== RoleEnum.admin) {
+            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[user.id, 'update']"
+              type="button">
+              <mat-icon>edit</mat-icon>
+            </button>
             <button mat-icon-button class="delete"
               (click)="deleteUser(user.id)"><mat-icon>delete_outline</mat-icon></button>
             }

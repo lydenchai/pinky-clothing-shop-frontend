@@ -11,10 +11,12 @@ import { RoleEnum } from '../../../../../core/types/enums/role-enum';
 import { UserService } from '../../../../../core/services/user.service';
 import { DialogService } from '../../../../../core/services/dialog.service';
 import { PaginationType } from '../../../../../core/types/pagination-type';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
-  standalone: true,
+  templateUrl: './user-list.html',
+  styleUrls: ['./user-list.scss'],
   imports: [
     DatePipe,
     MatIconModule,
@@ -22,9 +24,8 @@ import { PaginationType } from '../../../../../core/types/pagination-type';
     Pagination,
     TranslateModule,
     PluralPipe,
+    RouterModule,
   ],
-  templateUrl: './user-list.html',
-  styleUrls: ['./user-list.scss'],
 })
 export class UserList extends PaginationUtil implements OnInit {
   users: User[] = [];

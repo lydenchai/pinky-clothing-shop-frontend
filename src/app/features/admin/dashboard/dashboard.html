@@ -5,7 +5,8 @@
       <p class="muted">{{ 'overview' | translate }}</p>
     </div>
     <div class="actions">
-      <button class="btn" mat-flat-button color="primary" class="post" routerLink="/admin/products/new" type="button">
+      <button class="btn" mat-flat-button color="primary" class="post" routerLink="/admin/products/create"
+        type="button">
         <mat-icon>add</mat-icon>
         <span class="ms-1">{{ 'product' | translate }}</span>
       </button>
@@ -43,9 +44,9 @@
               <tr>
                 <th class="number">{{ 'no.' | translate }}</th>
                 <th>{{ 'customer' | translate }}</th>
-                <th>{{ 'date' | translate }}</th>
                 <th>{{ 'total' | translate }}</th>
                 <th>{{ 'status' | translate }}</th>
+                <th>{{ 'date' | translate }}</th>
                 <th class="action">{{ 'action' | translate }}</th>
               </tr>
             </thead>

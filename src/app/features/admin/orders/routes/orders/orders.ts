@@ -34,7 +34,7 @@ export class OrdersAdmin extends PaginationUtil implements OnInit {
   }
 
   ngOnInit() {
-    this.orderService.getOrders().subscribe({
+    this.orderService.getMany().subscribe({
       next: (res) => (this.orders = res.data),
       error: () => (this.orders = []),
     });
@@ -42,7 +42,7 @@ export class OrdersAdmin extends PaginationUtil implements OnInit {
   }
 
   getList(event: PaginationType) {
-    this.orderService.getOrders().subscribe({
+    this.orderService.getMany().subscribe({
       next: (res) => {
         this.orders = res.data ?? [];
         this.totalCount = res.pagination.totalItems;

@@ -1,63 +1,30 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { CreateOrderRequest } from '../types/create-order-request';
+import { Injectable, Injector } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Order } from '../types/order';
 import { OrderSummaryRequest } from '../types/order-summary-request';
-import { OrderSummary } from '../types/order-summary';
+import { BaseCrudService } from './base-crud.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OrderService {
-  constructor(private http: HttpClient) {}
-
-  createOrder(orderData: CreateOrderRequest): Observable<Order> {
-    return this.http
-      .post<Order>(`${environment.apiUrl}/orders`, orderData)
-      .pipe(
-        catchError((error) => {
-          throw error;
-        })
-      );
+export class OrderService extends BaseCrudService<Order> {
+  constructor(injector: Injector) {
+    super(injector);
+    this.path = '/orders/';
   }
 
-  getOrders(): Observable<{ data: Order[]; pagination: any }> {
-    return this.http
-      .get<{ data: Order[]; pagination: any }>(`${environment.apiUrl}/orders`)
-      .pipe(
-        catchError((error) => {
-          throw error;
-        })
-      );
-  }
-
-  getOrderById(orderId: string): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/orders/${orderId}`).pipe(
-      catchError((error) => {
-        throw error;
-      })
+  updateOrderStatus(id: string, status: string): Observable<Order> {
+    return this.httpClientService.patchJSON<Order>(
+      `${this.path}/${id}/status`,
+      {
+        data: { status },
+      }
     );
   }
 
-  updateOrderStatus(orderId: string, status: string): Observable<Order> {
-    return this.http
-      .put<Order>(`${environment.apiUrl}/orders/${orderId}/status`, { status })
-      .pipe(
-        catchError((error) => {
-          throw error;
-        })
-      );
-  }
-
-  getOrderSummary(summaryData: OrderSummaryRequest): Observable<OrderSummary> {
-    return this.http
-      .post<OrderSummary>(`${environment.apiUrl}/orders/summary`, summaryData)
-      .pipe(
-        catchError((error) => {
-          throw error;
-        })
-      );
+  getOrderSummary(summaryData: OrderSummaryRequest) {
+    return this.httpClientService.postJSON<any>(`${this.path}/summary`, {
+      data: { summaryData },
+    });
   }
 }

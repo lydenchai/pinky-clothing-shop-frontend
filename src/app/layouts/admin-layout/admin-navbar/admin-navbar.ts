@@ -91,7 +91,7 @@ export class AdminNavbar implements OnInit, OnDestroy {
   }
 
   fetchNewOrders() {
-    this.orderService.getOrders().subscribe({
+    this.orderService.getMany().subscribe({
       next: (orders) => {
         const pendingOrders = orders.data.filter(
           (o: any) => o.status === 'pending'

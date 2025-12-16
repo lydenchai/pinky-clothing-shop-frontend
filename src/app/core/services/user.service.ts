@@ -1,5 +1,4 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BaseCrudService } from './base-crud.service';
 import { User } from '../types/user.model';
 
@@ -7,7 +6,7 @@ import { User } from '../types/user.model';
   providedIn: 'root',
 })
 export class UserService extends BaseCrudService<User> {
-  constructor(injector: Injector, private http: HttpClient) {
+  constructor(injector: Injector) {
     super(injector);
     this.path = '/users/';
   }

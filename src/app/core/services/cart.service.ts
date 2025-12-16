@@ -13,10 +13,11 @@ import { CartItemRequest } from '../types/cart-item-request';
   providedIn: 'root',
 })
 export class CartService {
-  private cartItems = signal<CartItem[]>([]);
+  private cartItems = signal<any[]>([]);
 
   cart = computed<Cart>(() => {
-    const items = this.cartItems();
+    const itemsRaw = this.cartItems();
+    const items = Array.isArray(itemsRaw) ? itemsRaw : [];
     const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
     const subtotal = items.reduce(
       (sum, item) => sum + item.productPrice * item.quantity,

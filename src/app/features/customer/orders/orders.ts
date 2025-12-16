@@ -17,7 +17,7 @@ export class Orders {
   orders: Order[] = [];
 
   constructor(private orderService: OrderService) {
-    this.orderService.getOrders().subscribe({
+    this.orderService.getMany().subscribe({
       next: (res) => (this.orders = res.data),
       error: () => (this.orders = []),
     });

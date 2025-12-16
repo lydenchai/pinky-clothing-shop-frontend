@@ -13,11 +13,6 @@ export const MENU: MenuItem[] = [
     route: '/admin',
   },
   {
-    icon: 'people',
-    title: 'user',
-    route: '/admin/users',
-  },
-  {
     icon: 'inventory_2',
     title: 'product',
     route: '/admin/products',
@@ -36,6 +31,11 @@ export const MENU: MenuItem[] = [
     icon: 'analytics',
     title: 'analytic',
     route: '/admin/analytics',
+  },
+  {
+    icon: 'people',
+    title: 'user',
+    route: '/admin/users',
   },
   {
     icon: 'settings',

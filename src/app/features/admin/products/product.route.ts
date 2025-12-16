@@ -7,12 +7,12 @@ export const productRoutes: Routes = [
       import('./routes/product-list/product-list').then((m) => m.ProductList),
   },
   {
-    path: 'new',
+    path: 'create',
     loadComponent: () =>
       import('./routes/product-form/product-form').then((m) => m.ProductForm),
   },
   {
-    path: ':id/edit',
+    path: ':id/update',
     loadComponent: () =>
       import('./routes/product-form/product-form').then((m) => m.ProductForm),
   },

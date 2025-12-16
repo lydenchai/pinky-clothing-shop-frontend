@@ -4,7 +4,7 @@
 </h5>
 <div class="admin-container scroll-container">
   <div class="form-container content-scroll form">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form">
       @if(backendError) {
       <div class="alert alert-danger mb-3">{{ backendError }}</div>
       }
@@ -44,7 +44,6 @@
             </mat-form-field>
           </app-field-container>
         </div>
-
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'size' | translate | plural" [control]="form.controls.sizes">
             <mat-form-field appearance="outline">
@@ -63,20 +62,19 @@
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'image' | translate" [control]="form.controls.image">
-            <app-upload-image [previewUrl]="imagePreviewUrl" [disabled]="loading"
-              (imageSelected)="onImageSelected($event)">
+            <app-upload-image [previewUrl]="imagePreviewUrl" (imageSelected)="onImageSelected($event)">
             </app-upload-image>
           </app-field-container>
         </div>
       </div>
-      <div class="form-actions">
-        <button type="button" routerLink="/admin/products" mat-raised-button color="primary" class="cancel">
-          {{ 'cancel' | translate }}
-        </button>
-        <button type="submit" mat-raised-button color="primary" class="save" [disabled]="loading">
-          {{ isEditMode ? ('update' | translate) : ('create' | translate) }}
-        </button>
-      </div>
     </form>
+  </div>
+  <div class="form-actions">
+    <button type="button" routerLink="/admin/products" mat-raised-button color="primary" class="cancel">
+      {{ 'cancel' | translate }}
+    </button>
+    <button mat-raised-button color="primary" class="save" (click)="onSave()">
+      {{ isEditMode ? ('update' | translate) : ('create' | translate) }}
+    </button>
   </div>
 </div>

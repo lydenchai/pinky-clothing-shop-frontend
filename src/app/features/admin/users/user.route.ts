@@ -7,12 +7,12 @@ export const userRoutes: Routes = [
       import('./routes/user-list/user-list').then((m) => m.UserList),
   },
   {
-    path: 'new',
+    path: 'create',
     loadComponent: () =>
       import('./routes/user-form/user-form').then((m) => m.UserForm),
   },
   {
-    path: ':id/edit',
+    path: ':id/update',
     loadComponent: () =>
       import('./routes/user-form/user-form').then((m) => m.UserForm),
   },

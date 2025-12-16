@@ -152,7 +152,7 @@ export class Checkout {
     };
     this.orderService.getOrderSummary(summaryReq).subscribe({
       next: (summary) => {
-        this.orderSummary = summary;
+        this.orderSummary = summary.data;
         this.summaryLoading = false;
       },
       error: (err) => {
@@ -195,10 +195,10 @@ export class Checkout {
       lastName: user?.lastName || this.form.controls.lastName.value,
       phone: user?.phone || this.form.controls.phone.value,
     };
-    this.orderService.createOrder(orderReq as any).subscribe({
+    this.orderService.create(orderReq).subscribe({
       next: (order) => {
         this.orderPlaced.set(true);
-        this.orderResponse = order;
+        this.orderResponse = order.data;
         this.dialogService.success(
           this.translate.instant('message.order_placed_successfully'),
           this.translate.instant('message.order_confirmed')
@@ -211,8 +211,8 @@ export class Checkout {
         setTimeout(() => {
           this.orderPlaced.set(false);
           // Redirect to order details page if order id exists, else to order history
-          if (order?.id) {
-            this.router.navigate(['/orders', order.id]);
+          if (order?.data.id) {
+            this.router.navigate(['/orders', order.data.id]);
           } else {
             this.router.navigate(['/orders']);
           }

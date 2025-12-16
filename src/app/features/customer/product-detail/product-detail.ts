@@ -35,25 +35,21 @@ export class ProductDetail implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       const productId = +params['id'];
-      this.productService.getProductById(productId).subscribe({
-        next: (foundProduct) => {
-          this.product.set(foundProduct);
-          this.selectedImage.set(foundProduct.image);
+      this.productService.getById(String(productId)).subscribe({
+        next: (res) => {
+          this.product.set(res.data);
+          this.selectedImage.set(res.data.image);
 
           // Parse sizes and colors from comma-separated strings
-          if (foundProduct.sizes) {
-            const sizesArray = foundProduct.sizes
-              .split(',')
-              .map((s: any) => s.trim());
+          if (res.data.sizes) {
+            const sizesArray = res.data.sizes.split(',').map((s: any) => s.trim());
             if (sizesArray.length > 0) {
               this.selectedSize.set(sizesArray[0]);
             }
           }
 
-          if (foundProduct.colors) {
-            const colorsArray = foundProduct.colors
-              .split(',')
-              .map((c: any) => c.trim());
+          if (res.data.colors) {
+            const colorsArray = res.data.colors.split(',').map((c: any) => c.trim());
             if (colorsArray.length > 0) {
               this.selectedColor.set(colorsArray[0]);
             }

@@ -63,7 +63,7 @@ export class Dashboard implements OnInit {
 
     // Orders
     this.orderService
-      .getOrders()
+      .getMany()
       .subscribe((response: { data: Order[]; pagination: any }) => {
         const orders = response.data;
         this.pendingOrders = orders.filter(

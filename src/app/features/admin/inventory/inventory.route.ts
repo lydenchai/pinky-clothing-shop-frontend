@@ -9,14 +9,14 @@ export const inventoryRoutes: Routes = [
       ),
   },
   {
-    path: 'new',
+    path: 'create',
     loadComponent: () =>
       import('./routes/inventory-form/inventory-form').then(
         (m) => m.InventoryForm
       ),
   },
   {
-    path: ':id/edit',
+    path: ':id/update',
     loadComponent: () =>
       import('./routes/inventory-form/inventory-form').then(
         (m) => m.InventoryForm
