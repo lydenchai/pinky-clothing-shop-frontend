@@ -4,27 +4,27 @@
     <form [formGroup]="form">
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-4">
-          <app-field-container [label]="'product' | translate" [control]="form.controls.productId">
+          <app-field-container [label]="'product' | translate" [control]="form.controls.product_id">
             <mat-form-field appearance="outline">
-              <mat-select id="productId" [formControl]="form.controls.productId" class="form-control">
+              <mat-select id="product_id" [formControl]="form.controls.product_id" class="form-control">
                 @for (p of products; track $index) {
-                <mat-option [value]="p.id">{{ p.name || ('product' | translate) + ' #' + p.id }}</mat-option>
+                <mat-option [value]="p._id">{{ p.name || ('product' | translate) + ' #' + p._id }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-4">
-          <app-field-container [label]="'product' | translate" [control]="form.controls.productId">
+          <app-field-container [label]="'quantity' | translate" [control]="form.controls.quantity">
             <mat-form-field appearance="outline">
-              <input matInput name="name" [formControl]="form.controls.productId" />
+              <input matInput name="quantity" [formControl]="form.controls.quantity" />
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-4">
-          <app-field-container [label]="'quantity' | translate" [control]="form.controls.quantity">
+          <app-field-container [label]="'location' | translate" [control]="form.controls.location">
             <mat-form-field appearance="outline">
-              <input matInput name="name" [formControl]="form.controls.quantity" />
+              <input matInput name="location" [formControl]="form.controls.location" />
             </mat-form-field>
           </app-field-container>
         </div>

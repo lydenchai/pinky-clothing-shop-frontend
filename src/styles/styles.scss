@@ -1,4 +1,4 @@
-@use "./variables.scss";
+@use "./variables.scss" as *;
 @use "./table.scss";
 @use "./scroll-container.scss";
 @use "./button.scss";
@@ -146,6 +146,23 @@ mat-form-field {
     height: $input-height !important;
     border-radius: 6px !important;
     border-color: $border-color !important;
+  }
+
+  &.mat-focused {
+
+    .mdc-notched-outline,
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: $primary-color !important;
+      border-width: 1px !important;
+    }
+  }
+
+  &:hover:not(.mat-focused) {
+    .mdc-notched-outline {
+      border-color: $border-color !important;
+    }
   }
 
   .mat-mdc-input-element {

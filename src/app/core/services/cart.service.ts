@@ -1,26 +1,25 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
+import { Injectable, signal, computed, effect, Injector } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { CartItem } from '../types/cart-item';
 import { Cart } from '../types/cart';
 import { LocalStorageEnum } from '../types/enums/local-storage.enum';
 import { CartItemRequest } from '../types/cart-item-request';
+import { BaseCrudService } from './base-crud.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartService {
+export class CartService extends BaseCrudService<any> {
   private cartItems = signal<any[]>([]);
 
-  cart = computed<Cart>(() => {
+  cart = computed<any>(() => {
     const itemsRaw = this.cartItems();
     const items = Array.isArray(itemsRaw) ? itemsRaw : [];
     const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
     const subtotal = items.reduce(
-      (sum, item) => sum + item.productPrice * item.quantity,
+      (sum, item) => sum + (item.product_price ?? 0) * item.quantity,
       0
     );
     const shipping = subtotal > 0 ? (subtotal > 100 ? 0 : 10) : 0;
@@ -38,13 +37,16 @@ export class CartService {
   });
 
   constructor(
+    injector: Injector,
     private auth: AuthService,
-    private http: HttpClient,
     private localStorage: LocalStorageService
   ) {
+    super(injector);
+    this.path = '/cart/';
+
     // React to login/logout using effect on signal
     effect(() => {
-      this.auth.user$.subscribe((user) => {
+      this.auth.getProfile().subscribe((user) => {
         if (user) {
           // On login: migrate local cart to backend, then clear local
           const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
@@ -53,7 +55,7 @@ export class CartService {
               const items: CartItem[] = JSON.parse(savedCart);
               items.forEach((item) => {
                 this.addToCart(
-                  item.productId,
+                  item.product_id!,
                   item.quantity,
                   item.size,
                   item.color
@@ -62,8 +64,6 @@ export class CartService {
               this.localStorage.delete(LocalStorageEnum.Cart);
             } catch (e) {}
           }
-          // Load backend cart
-          this.loadCart().subscribe();
         } else {
           // On logout: clear cart and localStorage
           this.cartItems.set([]);
@@ -94,93 +94,64 @@ export class CartService {
     });
   }
 
-  loadCart(): Observable<CartItem[]> {
-    return this.http.get<CartItem[]>(`${environment.apiUrl}/cart`).pipe(
-      tap((items) => this.cartItems.set(items)),
-      catchError((error) => {
-        throw error;
-      })
-    );
-  }
-
   addToCart(
-    productId: number,
+    product_id: string,
     quantity: number,
     size?: string,
     color?: string
-  ): Observable<CartItem> {
-    const request: CartItemRequest = { productId, quantity, size, color };
-    return this.http.post<CartItem>(`${environment.apiUrl}/cart`, request).pipe(
-      tap((item) => {
-        const items = this.cartItems();
-        // Find existing item by productId, size, and color
-        const existingIndex = items.findIndex(
-          (i) =>
-            i.productId === productId && i.size === size && i.color === color
-        );
-        if (existingIndex > -1) {
-          // Replace existing item with backend response (correct quantity)
-          const updated = [...items];
-          updated[existingIndex] = item;
-          this.cartItems.set(updated);
-        } else {
-          this.cartItems.set([...items, item]);
-        }
-      }),
-      catchError((error) => {
-        throw error;
+  ): Observable<{ data: any[]; message: string }> {
+    const payload: CartItemRequest = { product_id, quantity, size, color };
+    return this.httpClientService
+      .postJSON<{ data: any[]; message: string }>(`${this.path}/add`, {
+        data: payload,
       })
-    );
+      .pipe(
+        tap((response) => {
+          if (Array.isArray(response.data)) {
+            this.cartItems.set(response.data);
+          }
+        })
+      );
   }
 
-  updateQuantity(cartItemId: number, quantity: number): Observable<CartItem> {
-    return this.http
-      .put<CartItem>(`${environment.apiUrl}/cart/${cartItemId}`, { quantity })
+  updateQuantity(cart_item_id: string, quantity: number): Observable<CartItem> {
+    return this.httpClientService
+      .patchJSON<CartItem>(`${this.path}update/${cart_item_id}`, {
+        data: { quantity },
+      })
       .pipe(
         tap((updatedItem) => {
           const items = this.cartItems();
-          const index = items.findIndex((i) => i.id === cartItemId);
+          const index = items.findIndex((i) => i._id === cart_item_id);
           if (index > -1) {
             const updated = [...items];
             updated[index] = updatedItem;
             this.cartItems.set(updated);
           }
-        }),
-        catchError((error) => {
-          throw error;
         })
       );
   }
 
-  removeItem(cartItemId: number): Observable<{ message: string }> {
-    const url = `${environment.apiUrl}/cart/${cartItemId}`;
-    return this.http.delete<{ message: string }>(url).pipe(
-      tap((response) => {
-        const items = this.cartItems();
-        this.cartItems.set(items.filter((i) => i.id !== cartItemId));
-      }),
-      catchError((error) => {
-        throw error;
-      })
+  removeItem(cart_item_id: string): Observable<{ message: string }> {
+    return this.httpClientService.deleteJSON<any>(
+      `${this.path}delete/${cart_item_id}`
     );
   }
 
   clearCart(): Observable<{ message: string }> {
-    return this.http
-      .delete<{ message: string }>(`${environment.apiUrl}/cart`)
+    return this.httpClientService
+      .deleteJSON<{ message: string }>(`${this.path}`)
       .pipe(
         tap(() => {
           this.cartItems.set([]);
           this.localStorage.delete(LocalStorageEnum.Cart);
-        }),
-        catchError((error) => {
-          throw error;
         })
       );
   }
 
   getCartItemCount(): number {
-    return this.cart().totalItems!;
+    const cart = this.cart();
+    return cart && typeof cart.totalItems === 'number' ? cart.totalItems : 0;
   }
 
   getCachedCart(): Cart {

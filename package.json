@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --no-hmr",
+    "prestart": "npm run prebuild",
+    "prebuild": "node -e \"require('fs').writeFileSync('src/custom-build-info.ts', 'export const customBuildInfo = { cacheKey: ' + Date.now() + ' };\\n')\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

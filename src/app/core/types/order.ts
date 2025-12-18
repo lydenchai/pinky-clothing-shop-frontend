@@ -2,16 +2,16 @@ import { OrderStatus } from './enums/order-status.enum';
 import { OrderItem } from './order-item';
 
 export interface Order {
-  id: string;
-  userId: string;
-  totalAmount: number;
+  _id?: string;
+  user_id?: string;
+  total_amount: number;
   status: OrderStatus;
-  shippingAddress: string;
-  shippingCity: string;
-  shippingPostalCode: string;
-  shippingCountry: string;
-  createdAt: Date;
+  shipping_address: string;
+  shipping_city: string;
+  shipping_postal_code: string;
+  shipping_country: string;
+  created_at: Date;
   items?: OrderItem[];
   total: number;
-  paymentMethod?: string;
+  payment_method?: string;
 }

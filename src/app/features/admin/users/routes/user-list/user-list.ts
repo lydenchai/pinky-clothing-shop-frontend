@@ -58,7 +58,7 @@ export class UserList extends PaginationUtil implements OnInit {
       });
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     try {
       const confirmed = await this.dialogService.ask(
         this.translateService.instant(

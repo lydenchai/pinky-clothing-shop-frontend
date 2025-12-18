@@ -22,9 +22,9 @@
         <tr>
           <td class="number">{{ $index + 1 }}</td>
           <td>{{ event.type }}</td>
-          <td>{{ event.userId || '-' }}</td>
+          <td>{{ event.user_id || '-' }}</td>
           <td>{{ event.data }}</td>
-          <td>{{ event.createdAt | date:'short' }}</td>
+          <td>{{ event.created_at | date:'short' }}</td>
         </tr>
         } @empty {
         <tr>

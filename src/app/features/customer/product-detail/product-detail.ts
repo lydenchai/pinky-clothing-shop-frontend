@@ -9,13 +9,12 @@ import { DialogService } from '../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-product-detail',
-  standalone: true,
   imports: [CommonModule, RouterLink, TranslateModule],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
 })
 export class ProductDetail implements OnInit {
-  product = signal<Product | undefined>(undefined);
+  product = signal<Product | null>(null);
   selectedImage = signal<string>('');
   selectedSize = signal<string>('');
   selectedColor = signal<string>('');
@@ -34,22 +33,26 @@ export class ProductDetail implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      const productId = +params['id'];
-      this.productService.getById(String(productId)).subscribe({
+      const product_id = params['id'];
+      this.productService.getById(product_id).subscribe({
         next: (res) => {
           this.product.set(res.data);
           this.selectedImage.set(res.data.image);
 
           // Parse sizes and colors from comma-separated strings
           if (res.data.sizes) {
-            const sizesArray = res.data.sizes.split(',').map((s: any) => s.trim());
+            const sizesArray = res.data.sizes
+              .split(',')
+              .map((s: any) => s.trim());
             if (sizesArray.length > 0) {
               this.selectedSize.set(sizesArray[0]);
             }
           }
 
           if (res.data.colors) {
-            const colorsArray = res.data.colors.split(',').map((c: any) => c.trim());
+            const colorsArray = res.data.colors
+              .split(',')
+              .map((c: any) => c.trim());
             if (colorsArray.length > 0) {
               this.selectedColor.set(colorsArray[0]);
             }
@@ -108,18 +111,34 @@ export class ProductDetail implements OnInit {
 
     this.cartService
       .addToCart(
-        prod.id,
+        prod._id!,
         this.quantity(),
         this.selectedSize(),
         this.selectedColor()
       )
       .subscribe({
-        next: (item) => {
-          this.addedToCart.set(true);
-          this.dialogService.success(
-            this.translate.instant('message.item_added_to_cart_successfully')
-          );
-          setTimeout(() => this.addedToCart.set(false), 3000);
+        next: (_cart) => {
+          // Refresh cart from backend to update signals everywhere
+          this.cartService.getMany().subscribe({
+            next: (res) => {
+              this.addedToCart.set(true);
+              this.dialogService.success(
+                this.translate.instant(
+                  'message.item_added_to_cart_successfully'
+                )
+              );
+              setTimeout(() => this.addedToCart.set(false), 3000);
+            },
+            complete: () => {
+              this.addedToCart.set(true);
+              this.dialogService.success(
+                this.translate.instant(
+                  'message.item_added_to_cart_successfully'
+                )
+              );
+              setTimeout(() => this.addedToCart.set(false), 3000);
+            },
+          });
         },
         error: (error) => {
           if (error.status === 401) {

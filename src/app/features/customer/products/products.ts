@@ -63,7 +63,6 @@ export class Products implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.queryParams.subscribe(() => {
-      // Reset pagination
       this.pagination.set({
         currentPage: 1,
         itemsPerPage: 15,
@@ -72,15 +71,15 @@ export class Products implements OnInit, OnDestroy {
         hasNextPage: false,
         hasPreviousPage: false,
       });
-
-      // Reset sort
       this.sortBy = 'featured';
+      console.log('load products');
+
       this.loadProducts();
     });
   }
 
   loadProducts() {
-    this.productService.getAllProducts(this.filters()).subscribe({
+    this.productService.getMany(this.filters()).subscribe({
       next: (res) => {
         const search = this.filters().search;
         if (search) {
@@ -90,11 +89,8 @@ export class Products implements OnInit, OnDestroy {
           );
         }
         this.products.set(res.data);
-        this.pagination.set(res.pagination);
+        // this.pagination.set(res.data.pagination);
         this.applySort(res.data);
-      },
-      error: (error) => {
-        throw error;
       },
     });
   }

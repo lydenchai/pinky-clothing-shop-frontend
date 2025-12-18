@@ -1,25 +1,30 @@
 <h5>
-  {{ isEditMode ? ('_update' | translate : { param: ('user' | translate) }) : ('_create' | translate : {param: ('user' |
-  translate) } )}}
+  {{ updateId ? ('_update' | translate : { param: ('user' | translate) }) :
+  ('_create' | translate : {param: ('user' | translate) } )}}
 </h5>
 <div class="admin-container scroll-container">
   <div class="form-container content-scroll form">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      @if(backendError) {
-      <div class="alert alert-danger mb-3">{{ backendError }}</div>
-      }
+    <form [formGroup]="form">
+      <h5>{{ "general_information" | translate }}</h5>
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-3">
-          <app-field-container [label]="'first_name' | translate" [control]="form.controls.firstName">
+          <app-field-container [label]="'first_name' | translate" [control]="form.controls.first_name">
             <mat-form-field appearance="outline">
-              <input matInput name="firstName" [formControl]="form.controls.firstName" />
+              <input matInput name="first_name" [formControl]="form.controls.first_name" />
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
-          <app-field-container [label]="'last_name' | translate" [control]="form.controls.lastName">
+          <app-field-container [label]="'last_name' | translate" [control]="form.controls.last_name">
             <mat-form-field appearance="outline">
-              <input matInput name="lastName" [formControl]="form.controls.lastName" />
+              <input matInput name="last_name" [formControl]="form.controls.last_name" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'email' | translate" [control]="form.controls.email">
+            <mat-form-field appearance="outline">
+              <input matInput name="email" [formControl]="form.controls.email" />
             </mat-form-field>
           </app-field-container>
         </div>
@@ -27,13 +32,6 @@
           <app-field-container [label]="'phone' | translate" [control]="form.controls.phone">
             <mat-form-field appearance="outline">
               <input matInput name="phone" [formControl]="form.controls.phone" />
-            </mat-form-field>
-          </app-field-container>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
-          <app-field-container [label]="'address' | translate" [control]="form.controls.address">
-            <mat-form-field appearance="outline">
-              <input matInput name="address" [formControl]="form.controls.address" />
             </mat-form-field>
           </app-field-container>
         </div>
@@ -48,7 +46,7 @@
             </mat-form-field>
           </app-field-container>
         </div>
-        @if(!isEditMode){
+        @if(!updateId){
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'password' | translate" [control]="form.controls.password">
             <mat-form-field appearance="outline">
@@ -58,14 +56,45 @@
         </div>
         }
       </div>
+      <h5>{{ "address" | translate }}</h5>
+      <div class="row mt-2">
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'postal_code' | translate" [control]="form.controls.postal_code">
+            <mat-form-field appearance="outline">
+              <input matInput name="postal_code" [formControl]="form.controls.postal_code" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'address' | translate" [control]="form.controls.address">
+            <mat-form-field appearance="outline">
+              <input matInput name="address" [formControl]="form.controls.address" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'city' | translate" [control]="form.controls.city">
+            <mat-form-field appearance="outline">
+              <input matInput name="city" [formControl]="form.controls.city" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'country' | translate" [control]="form.controls.country">
+            <mat-form-field appearance="outline">
+              <input matInput name="country" [formControl]="form.controls.country" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+      </div>
     </form>
   </div>
   <div class="form-actions">
     <button type="button" routerLink="/admin/users" mat-raised-button color="primary" class="cancel">
       {{ 'cancel' |
       translate }}</button>
-    <button type="submit" mat-raised-button color="primary" class="save" [disabled]="loading">
-      {{ (isEditMode ? ('update' | translate) : ('create' | translate)) }}
+    <button mat-raised-button color="primary" class="save" (click)="onSubmit()">
+      {{ (updateId ? ('update' | translate) : ('create' | translate)) }}
     </button>
   </div>
 </div>

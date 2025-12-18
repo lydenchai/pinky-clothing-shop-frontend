@@ -10,9 +10,9 @@ export class InventoryService extends BaseCrudService<InventoryItem> {
     this.path = '/inventory/';
   }
 
-  adjustStock(id: number, amount: number): Observable<InventoryItem> {
+  adjustStock(_id: string, amount: number): Observable<InventoryItem> {
     return this.httpClientService.patchJSON<InventoryItem>(
-      `${this.path}/${id}/adjust`,
+      `${this.path}/${_id}/adjust`,
       {
         data: { amount },
       }

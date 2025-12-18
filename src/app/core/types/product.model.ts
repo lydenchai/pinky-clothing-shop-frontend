@@ -1,5 +1,5 @@
 export interface Product {
-  id: number;
+  _id?: string;
   name: string;
   description: string;
   price: number;
@@ -8,8 +8,8 @@ export interface Product {
   stock: number;
   sizes?: string; // Comma-separated string from backend
   colors?: string; // Comma-separated string from backend
-  createdAt?: Date;
-  updatedAt?: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 export interface ProductFilter {
@@ -38,16 +38,16 @@ export interface ProductsResponse {
 
 export interface CheckoutForm {
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   phone: string;
   address: string;
   city: string;
   state: string;
-  zipCode: string;
+  zip_code: string;
   country: string;
-  paymentMethod: 'credit-card' | 'paypal' | 'cash-on-delivery';
-  cardNumber: string;
-  cardExpiry: string;
-  cardCVC: string;
+  payment_method: 'credit-card' | 'paypal' | 'cash-on-delivery';
+  card_number: string;
+  card_expiry: string;
+  card_cvc: string;
 }

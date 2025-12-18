@@ -232,6 +232,8 @@
   "commune": "公社",
   "district": "区",
   "province": "省",
+  "general_information": "一般信息",
+  "postal_code": "邮政编码",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",

@@ -35,8 +35,8 @@ export class Checkout {
 
   form = new FormGroup({
     email: new FormControl<string | null>(''),
-    firstName: new FormControl<string | null>(''),
-    lastName: new FormControl<string | null>(''),
+    first_name: new FormControl<string | null>(''),
+    last_name: new FormControl<string | null>(''),
     phone: new FormControl<string | null>(''),
     address: new FormGroup({
       street: new FormControl<string | null>(''),
@@ -68,17 +68,14 @@ export class Checkout {
     private router: Router
   ) {
     this.cart.set(this.cartService.cart());
-    this.authService.user$.subscribe((user) => {
-      this.user.set(user);
-    });
-    this.authService.user$.subscribe((user) => {
-      this.user.set(user);
-      if (user) {
+    this.authService.getProfile().subscribe((res: any) => {
+      this.user.set(res.data);
+      if (res.data) {
         this.form.patchValue({
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          phone: user.phone,
+          email: res.data.email,
+          first_name: res.data.first_name,
+          last_name: res.data.last_name,
+          phone: res.data.phone,
           address: {
             street: '',
             house: '',
@@ -86,7 +83,7 @@ export class Checkout {
             commune: '',
             district: '',
             province: '',
-            country: user.country || 'Cambodia',
+            country: res.data.country || 'Cambodia',
           },
         });
       }
@@ -96,8 +93,8 @@ export class Checkout {
   placeOrder() {
     // Validate form
     if (
-      !this.form.controls.firstName.value ||
-      !this.form.controls.lastName.value ||
+      !this.form.controls.first_name.value ||
+      !this.form.controls.last_name.value ||
       !this.form.controls.email.value
     ) {
       this.dialogService.warning(
@@ -181,18 +178,18 @@ export class Checkout {
       },
       items:
         cart?.items?.map((item) => ({
-          productId: item.productId,
-          productName: item.productName,
-          productImage: item.productImage,
+          product_id: item.product_id,
+          product_name: item.product_name,
+          product_image: item.product_image,
           quantity: item.quantity,
-          price: item.productPrice,
+          price: item.product_price,
           size: item.size,
           color: item.color,
         })) || [],
-      userId: user?.id || null,
+      user_id: user?._id || null,
       email: user?.email || this.form.controls.email.value,
-      firstName: user?.firstName || this.form.controls.firstName.value,
-      lastName: user?.lastName || this.form.controls.lastName.value,
+      first_name: user?.first_name || this.form.controls.first_name.value,
+      last_name: user?.last_name || this.form.controls.last_name.value,
       phone: user?.phone || this.form.controls.phone.value,
     };
     this.orderService.create(orderReq).subscribe({
@@ -211,8 +208,8 @@ export class Checkout {
         setTimeout(() => {
           this.orderPlaced.set(false);
           // Redirect to order details page if order id exists, else to order history
-          if (order?.data.id) {
-            this.router.navigate(['/orders', order.data.id]);
+          if (order?.data._id) {
+            this.router.navigate(['/orders', order.data._id]);
           } else {
             this.router.navigate(['/orders']);
           }

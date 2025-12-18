@@ -1,7 +1,7 @@
 <div class="orders-page">
   <h1>{{ 'my_orders' | translate }}</h1>
   @if (orders.length === 0) {
-  <p>{{ 'no_orders_yet' | translate }}</p>
+  <div class="text-[#64748b] mt-[1.5rem]">{{ 'no_orders_yet' | translate }}</div>
   } @else {
   <table class="orders-table">
     <thead>
@@ -13,14 +13,14 @@
       </tr>
     </thead>
     <tbody>
-      @for (order of orders; track order.id) {
+      @for (order of orders; track $index) {
       <tr>
         <td>
           {{ $index + 1 }}
         </td>
-        <td>{{ order.createdAt | date:'mediumDate' }}</td>
+        <td>{{ order.created_at | date:'mediumDate' }}</td>
         <td>{{ order.status | translate}}</td>
-        <td>${{ order.totalAmount }}</td>
+        <td>${{ order.total_amount }}</td>
       </tr>
       }
     </tbody>

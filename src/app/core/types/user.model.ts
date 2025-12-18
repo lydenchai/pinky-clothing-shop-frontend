@@ -1,14 +1,14 @@
 export interface User {
-  id: number;
+  _id?: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   role: 'admin' | 'customer';
   phone?: string;
   address?: string;
   city?: string;
-  postalCode?: string;
+  postal_code?: string;
   country?: string;
-  createdAt?: Date;
+  created_at?: Date;
   avatar?: string;
 }

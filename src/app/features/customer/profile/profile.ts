@@ -12,11 +12,11 @@ import { User } from '../../../core/types/user.model';
   styleUrl: './profile.scss',
 })
 export class Profile {
-  user = signal<User | null>(null);
+  user = signal<any | null>(null);
 
   constructor(private authService: AuthService) {
-    this.authService.user$.subscribe((user) => {
-      this.user.set(user);
+    this.authService.getProfile().subscribe((res: any) => {
+      this.user.set(res.data);
     });
   }
 }

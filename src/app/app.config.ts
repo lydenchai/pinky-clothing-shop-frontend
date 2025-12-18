@@ -17,10 +17,11 @@ import {
   TRANSLATE_HTTP_LOADER_CONFIG,
 } from '@ngx-translate/http-loader';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { customBuildInfo } from '../custom-build-info';
 
 const httpLoaderConfig = {
   prefix: '/i18n/',
-  suffix: '.json',
+  suffix: '.json?v=' + customBuildInfo.cacheKey,
 };
 
 const httpLoaderFactory = () => new TranslateHttpLoader();

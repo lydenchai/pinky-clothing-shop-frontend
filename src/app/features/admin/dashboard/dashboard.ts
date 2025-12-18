@@ -54,7 +54,7 @@ export class Dashboard implements OnInit {
 
   ngOnInit() {
     // Inventory
-    this.productService.getAllProducts().subscribe((response) => {
+    this.productService.getMany().subscribe((response) => {
       this.totalProducts = response.data.length;
       this.lowStockCount = response.data.filter(
         (p: any) => p.stock <= 5
@@ -72,13 +72,14 @@ export class Dashboard implements OnInit {
         this.completedOrders = orders.filter(
           (o) => o.status === 'delivered'
         ).length;
-        this.sales = orders.reduce((sum, o) => sum + o.totalAmount, 0);
+        this.sales = orders.reduce((sum, o) => sum + o.total_amount, 0);
         // Recent orders (most recent 6)
         this.recentOrders = orders
           .slice()
           .sort(
             (a, b) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+              new Date(b.created_at).getTime() -
+              new Date(a.created_at).getTime()
           )
           .slice(0, 6);
       });
@@ -87,8 +88,8 @@ export class Dashboard implements OnInit {
       next: (res) => {
         this.totalCustomers = res.pagination?.totalItems ?? res.data.length;
         this.newCustomers = res.data.filter((u) => {
-          if (!u.createdAt) return false;
-          const created = new Date(u.createdAt).getTime();
+          if (!u.created_at) return false;
+          const created = new Date(u.created_at).getTime();
           const thirtyDaysAgo = Date.now() - 1000 * 60 * 60 * 24 * 30;
           return created >= thirtyDaysAgo;
         }).length;
@@ -100,7 +101,7 @@ export class Dashboard implements OnInit {
     });
 
     // Top products by stock (placeholder for top-sold)
-    this.productService.getAllProducts({ limit: 100 }).subscribe((res) => {
+    this.productService.getMany({ limit: 100 }).subscribe((res) => {
       this.topProducts = res.data
         .slice()
         .sort((a: Product, b: Product) => b.stock - a.stock)

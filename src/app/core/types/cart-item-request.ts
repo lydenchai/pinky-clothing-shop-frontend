@@ -1,5 +1,5 @@
 export interface CartItemRequest {
-  productId: number;
+  product_id: string;
   quantity: number;
   size?: string;
   color?: string;

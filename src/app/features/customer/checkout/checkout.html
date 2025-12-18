@@ -7,13 +7,13 @@
         <div class="success-icon">✓</div>
         <h2>{{ 'order_placed_successfully' | translate }}</h2>
         <p>{{ 'thank_you_for_your_purchase' | translate }}</p>
-        <h3>{{ 'order_number' | translate }}: {{ orderResponse.id || orderResponse.order_id }}</h3>
+        <h3>{{ 'order_number' | translate }}: {{ orderResponse._id|| orderResponse.order_id }}</h3>
         <div class="order-confirm-items">
           @for (item of orderResponse.items; track $index) {
           <div class="order-item">
-            <img [src]="item.productImage || item.product_image" [alt]="item.productName || item.product_name" />
+            <img [src]="item.product_image || item.product_image" [alt]="item.product_name || item.product_name" />
             <div class="item-info">
-              <p class="item-name">{{ item.productName || item.product_name }}</p>
+              <p class="item-name">{{ item.product_name || item.product_name }}</p>
               <p class="item-qty">{{ 'quantity' | translate }}: {{ item.quantity || item.qty }}</p>
             </div>
             <p class="item-price">${{ item.price }}</p>
@@ -23,7 +23,7 @@
         <div class="summary-totals">
           <div class="summary-row">
             <span>{{ 'subtotal' | translate }}</span>
-            <span>${{ formatPrice(orderResponse.subtotal || orderResponse.totalAmount || orderResponse.total) }}</span>
+            <span>${{ formatPrice(orderResponse.subtotal || orderResponse.total_amount || orderResponse.total) }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'shipping' | translate }}</span>
@@ -31,7 +31,7 @@
           </div>
           <div class="summary-total">
             <span>{{ 'total' | translate }}</span>
-            <span>${{ formatPrice(orderResponse.total || orderResponse.totalAmount || orderResponse.subtotal) }}</span>
+            <span>${{ formatPrice(orderResponse.total || orderResponse.total_amount || orderResponse.subtotal) }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'status' | translate }}</span>
@@ -43,7 +43,7 @@
           </div>
           <div class="summary-row">
             <span>{{ 'created_at' | translate }}</span>
-            <span>{{ orderResponse.createdAt || orderResponse.created_at }}</span>
+            <span>{{ orderResponse.created_at || orderResponse.created_at }}</span>
           </div>
         </div>
       </div>
@@ -73,11 +73,11 @@
           <div class="form-row">
             <div class="form-group">
               <label>{{ 'first_name' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.firstName" name="firstName" required placeholder="Lusi" />
+              <input type="text" [formControl]="form.controls.first_name" name="first_name" required placeholder="Lusi" />
             </div>
             <div class="form-group">
               <label>{{ 'last_name' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.lastName" name="lastName" required placeholder="Zhao" />
+              <input type="text" [formControl]="form.controls.last_name" name="last_name" required placeholder="Zhao" />
             </div>
           </div>
           <div class="form-row">
@@ -214,9 +214,9 @@
         <div class="order-items">
           @for (item of cart()?.items; track $index) {
           <div class="order-item">
-            <img [src]="item.productImage" [alt]=" item.productName" />
+            <img [src]="item.product_image" [alt]=" item.product_name" />
             <div class="item-info">
-              <p class="item-name">{{ item.productName }}</p>
+              <p class="item-name">{{ item.product_name }}</p>
               <p class="item-details">
                 @if (item.size) {
                 {{ item.size }}

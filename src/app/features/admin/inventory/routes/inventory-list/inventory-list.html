@@ -23,19 +23,19 @@
         </tr>
       </thead>
       <tbody>
-        @for (item of inventories; track item.id) {
+        @for (item of inventories; track $index) {
         <tr>
           <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
-          <td>{{ item.productId }}</td>
+          <td>{{ item.product_name }}</td>
           <td>{{ item.quantity }}</td>
           <td>{{ item.location }}</td>
-          <td>{{ item.updatedAt | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ item.updated_at | date: 'dd-MM-yyyy' }}</td>
           <td class="action">
-            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[item.id, 'update']"
+            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[item._id, 'update']"
               type="button">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="delete" (click)="deleteItem(item.id)">
+            <button mat-icon-button class="delete" (click)="deleteItem(item._id)">
               <mat-icon>delete_outline</mat-icon>
             </button>
           </td>

@@ -1,11 +1,17 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { LocalStorageEnum } from '../types/enums/local-storage.enum';
+import { LocalStorageService } from '../services/local-storage.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('authToken');
+  const localStorageService = inject(LocalStorageService);
+  const token = localStorageService.get(LocalStorageEnum.Token);
 
   if (token) {
     const clonedRequest = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`),
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return next(clonedRequest);
   }

@@ -1,8 +1,9 @@
 export interface InventoryItem {
-  id: number;
-  productId: number;
+  _id: string;
+  product_id?: any;
   quantity: number;
   location?: string;
-  updatedAt?: string;
+  updated_at?: string;
   product?: any;
+  product_name?: string;
 }

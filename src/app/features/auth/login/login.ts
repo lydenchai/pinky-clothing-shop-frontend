@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -29,15 +29,25 @@ export class Login {
     email: '',
     password: '',
     confirmPassword: '',
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
   };
 
   constructor(
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private translate: TranslateService
-  ) {}
+  ) {
+    if (this.authService.isAuthenticated()) {
+      if (this.route.snapshot.queryParams['returnUrl']) {
+        this.router.navigateByUrl(this.route.snapshot.queryParams['returnUrl']);
+      } else {
+        this.router.navigate(['']);
+      }
+      return;
+    }
+  }
 
   toggleMode() {
     this.isLogin.update((v) => !v);
@@ -51,11 +61,15 @@ export class Login {
     this.authService
       .login(this.loginForm.email, this.loginForm.password)
       .subscribe({
-        next: (response) => {
+        next: (res) => {
           this.isLoading.set(false);
-          const role = response?.user?.role;
+          const role = res?.user?.role;
           if (role === 'admin') {
             this.router.navigate(['/admin']);
+          } else if (this.route.snapshot.queryParams['returnUrl']) {
+            this.router.navigateByUrl(
+              this.route.snapshot.queryParams['returnUrl']
+            );
           } else {
             this.router.navigate(['/']);
           }
@@ -85,8 +99,8 @@ export class Login {
       .register(
         this.registerForm.email,
         this.registerForm.password,
-        this.registerForm.firstName,
-        this.registerForm.lastName
+        this.registerForm.first_name,
+        this.registerForm.last_name
       )
       .subscribe({
         next: () => {

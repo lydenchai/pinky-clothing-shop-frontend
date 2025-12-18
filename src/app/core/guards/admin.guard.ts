@@ -31,7 +31,7 @@ export const AdminGuard: CanActivateFn = (route, state) => {
   // Token exists but user not yet loaded — wait for profile request
   return authService.getProfile().pipe(
     map((u) => {
-      if (u && u.role === 'admin') return true;
+      if (u.data! && u.data.role === 'admin') return true;
       // Not admin — navigate away
       router.navigate(['/']);
       return false;

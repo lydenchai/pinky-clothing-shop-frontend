@@ -12,6 +12,7 @@ import { PaginationUtil } from '../../../../../utils/pagination.util';
 import { InventoryItem } from '../../../../../core/types/inventory-item';
 import { InventoryService } from '../../../../../core/services/inventory.service';
 import { PaginationType } from '../../../../../core/types/pagination-type';
+import { FindObjectPipe } from '../../../../../shared/pipes/find-object.pipe';
 
 @Component({
   selector: 'app-inventory-list',
@@ -45,14 +46,6 @@ export class InventoryList extends PaginationUtil implements OnInit {
 
   ngOnInit() {
     this.getList({ page: 1, limit: this.limit });
-    this.routerSub = this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe((e) => {
-        const nav = e as NavigationEnd;
-        if (nav.urlAfterRedirects.startsWith('/admin/inventory')) {
-          this.getList({ page: 1, limit: this.limit });
-        }
-      });
   }
 
   ngOnDestroy() {
@@ -61,7 +54,11 @@ export class InventoryList extends PaginationUtil implements OnInit {
 
   getList(event: PaginationType) {
     this.inventoryService
-      .getMany({ page: event.page, limit: event.limit })
+      .getMany({
+        page: event.page,
+        limit: event.limit,
+        populate: JSON.stringify({ path: 'product_id' }),
+      })
       .subscribe({
         next: (res) => {
           this.inventories = res.data ?? [];
@@ -80,14 +77,14 @@ export class InventoryList extends PaginationUtil implements OnInit {
     this.router.navigate(['admin/inventory/new']);
   }
 
-  goToEdit(id: number) {
-    this.router.navigate(['admin/inventory', id]);
+  goToEdit(_id: string) {
+    this.router.navigate(['admin/inventory', _id]);
   }
 
-  deleteItem(id: number) {
+  deleteItem(_id: string) {
     if (!confirm('Are you sure you want to delete this inventory item?'))
       return;
-    this.inventoryService.delete(String(id)).subscribe({
+    this.inventoryService.delete(_id).subscribe({
       next: () => this.getList({ page: this.page, limit: this.limit }),
       error: (err) => {
         this.error = err?.error?.message || 'Failed to delete inventory item.';

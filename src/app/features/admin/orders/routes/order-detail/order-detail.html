@@ -1,7 +1,7 @@
 <div class="admin-container scroll-container">
   <div class="form-container content-scroll">
     <div class="flex items-center justify-between w-full">
-      <span class="order-badge">#{{ order()?.id }}</span>
+      <span class="order-badge">#{{ order()?._id }}</span>
       <mat-chip class="status-{{ status }}" color="primary" selected>
         <div class="flex items-center justify-center">
           <mat-icon class="mr-1">assignment</mat-icon>
@@ -11,7 +11,7 @@
     </div>
     <div class="flex items-center my-4">
       <mat-icon class="mr-1">calendar_today</mat-icon>
-      {{ order()?.createdAt | date: 'dd-MM-yyyy HH:mm' }}
+      {{ order()?.created_at | date: 'dd-MM-yyyy HH:mm' }}
     </div>
     <h3 class="flex items-center"><mat-icon class="mr-1">timeline</mat-icon> {{ 'order_progress' | translate }}</h3>
     <div class="order-status-stepper">
@@ -51,13 +51,13 @@
           <div>
             <div class="flex items-center gap-2">
               <div class="card-subtitle">{{ 'customer_id' | translate }}:</div>
-              {{ order()?.userId }}
+              {{ order()?.user_id }}
             </div>
             <div class="flex items-center gap-2">
               <div class="card-subtitle">
                 {{ 'name' | translate }}:
               </div>
-              {{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}
+              {{ user()?.first_name | titlecase }} {{ user()?.last_name | titlecase }}
             </div>
             <div class="flex items-center gap-2">
               <div class="card-subtitle">{{ 'email' | translate }}:</div> {{ user()?.email }}
@@ -73,8 +73,8 @@
         <div class="card-body">
           <div>
             <div class="card-subtitle">{{ 'shipping_address' | translate }}:</div>
-            <div class="truncate">{{ order()?.shippingAddress }}, {{ order()?.shippingCity }}, {{
-              order()?.shippingPostalCode }}, {{ order()?.shippingCountry }}</div>
+            <div class="truncate">{{ order()?.shipping_address }}, {{ order()?.shipping_city }}, {{
+              order()?.shipping_postal_code }}, {{ order()?.shipping_country }}</div>
           </div>
         </div>
       </div>
@@ -101,13 +101,13 @@
         </div>
         <div class="card-body">
           <div>
-            <span>{{ order()?.paymentMethod ? (order()?.paymentMethod | titlecase) : 'N/A' }}</span>
+            <span>{{ order()?.payment_method ? (order()?.payment_method | titlecase) : 'N/A' }}</span>
           </div>
         </div>
       </div>
     </div>
     <div class="summary">
-      <span><strong>{{ 'total' | translate }}:</strong> {{ order()?.totalAmount | currency }}</span>
+      <span><strong>{{ 'total' | translate }}:</strong> {{ order()?.total_amount | currency }}</span>
     </div>
     <h3 class="flex items-center"><mat-icon class="mr-1">shopping_cart</mat-icon> {{ 'item' | translate | plural }}</h3>
     <div class="container-table mt-2">
@@ -129,10 +129,10 @@
           <tr>
             <td class="number">{{ $index + 1 }}</td>
             <td>
-              <a [routerLink]="['/products', item.productId]" class="product-link highlight-link table-link">{{
-                item.productName }}</a>
+              <a [routerLink]="['/products', item.product_id]" class="product-link highlight-link table-link">{{
+                item.product_name }}</a>
             </td>
-            <td><img [src]="item.productImage" alt="{{ item.productName }}" class="product-avatar" /></td>
+            <td><img [src]="item.product_image" alt="{{ item.product_name }}" class="product-avatar" /></td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.price | currency }}</td>
             <td>{{ item.price * item.quantity | currency }}</td>

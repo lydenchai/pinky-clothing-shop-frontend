@@ -33,7 +33,10 @@ import { LocalStorageEnum } from '../../../core/types/enums/local-storage.enum';
   styleUrl: './header.scss',
 })
 export class Header {
-  cartItemCount = computed(() => this.cartService?.cart()?.totalItems!);
+  cartItemCount = computed(() => {
+    const cart = this.cartService?.cart?.();
+    return cart && typeof cart.totalItems === 'number' ? cart.totalItems : 0;
+  });
   isAuthenticated = computed(() => !!this.user());
   user = signal<User | null>(null);
   currentCategory = signal<string>('all');
@@ -95,8 +98,10 @@ export class Header {
   }
 
   ngOnInit() {
-    this.authService.user$.subscribe((user) => {
-      this.user.set(user);
+    this.authService.getProfile().subscribe({
+      next: (res) => {
+        this.user.set(res.data);
+      },
     });
     this.route.queryParams.subscribe((params) => {
       this.currentCategory.set(params['category'] || 'all');

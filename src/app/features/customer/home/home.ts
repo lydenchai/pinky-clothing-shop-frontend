@@ -51,12 +51,9 @@ export class Home implements OnInit {
 
   loadProducts() {
     this.isLoading.set(true);
-    this.productService.getAllProducts({ limit: 8 }).subscribe({
+    this.productService.getMany({ limit: 8 }).subscribe({
       next: (response) => {
         this.products.set(response.data); // Show first 8 products
-        this.isLoading.set(false);
-      },
-      error: (error) => {
         this.isLoading.set(false);
       },
     });

@@ -22,22 +22,22 @@
         </tr>
       </thead>
       <tbody>
-        @for (user of users; track user.id) {
+        @for (user of users; track $index) {
         <tr>
-          <td>{{ user.firstName }} {{ user.lastName }}</td>
+          <td>{{ user.first_name }} {{ user.last_name }}</td>
           <td>{{ user.email }}</td>
           <td>
             {{ user.role | translate}}
           </td>
-          <td>{{ user.createdAt | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ user.created_at | date: 'dd-MM-yyyy' }}</td>
           <td class="action">
             @if(user && user.role !== RoleEnum.admin) {
-            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[user.id, 'update']"
+            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[user._id, 'update']"
               type="button">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button class="delete"
-              (click)="deleteUser(user.id)"><mat-icon>delete_outline</mat-icon></button>
+              (click)="deleteUser(user._id)"><mat-icon>delete_outline</mat-icon></button>
             }
           </td>
         </tr>

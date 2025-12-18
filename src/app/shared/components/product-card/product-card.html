@@ -1,4 +1,4 @@
-<div class="product-card" [routerLink]="['/products', product.id]">
+<div class="product-card" [routerLink]="['/products', product._id]">
   <div class="product-image">
     <img [src]="product.image" [alt]="product.name" loading="lazy" />
     @if (product.stock <= 5 && product.stock> 0) {

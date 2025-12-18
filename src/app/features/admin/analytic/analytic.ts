@@ -15,7 +15,7 @@ Chart.register(...registerables);
   styleUrls: ['./analytic.scss'],
 })
 export class Analytic implements OnInit {
-  events: AnalyticsEvent[] = [];
+  events: any[] = [];
   loading = false;
   error: string | null = null;
   chart: Chart | null = null;

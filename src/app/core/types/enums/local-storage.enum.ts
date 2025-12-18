@@ -1,7 +1,7 @@
 export const LocalStorageEnum = {
   Token: '_t',
   RefreshToken: '_rt',
-  UserId: '_uid',
+  user_id: '_uid',
   lang: 'lang',
   Cart: '_cart',
   AdminViewedOrders: 'admin_viewed_orders',

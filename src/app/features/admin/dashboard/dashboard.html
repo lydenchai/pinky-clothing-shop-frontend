@@ -54,12 +54,12 @@
               @for (item of recentOrders; track $index) {
               <tr>
                 <td class="number">{{ $index + 1 }}</td>
-                <td>{{ item.userId }}</td>
-                <td>{{ item.totalAmount | currency }}</td>
+                <td>{{ item.user_id }}</td>
+                <td>{{ item.total_amount | currency }}</td>
                 <td>{{ item.status | translate}}</td>
-                <td>{{ item.createdAt | date: 'dd-MM-yyyy' }}</td>
+                <td>{{ item.created_at | date: 'dd-MM-yyyy' }}</td>
                 <td class="action">
-                  <a mat-icon-button [routerLink]="['/admin/orders/', item.id]" class="view">
+                  <a mat-icon-button [routerLink]="['/admin/orders/', item._id]" class="view">
                     <mat-icon>visibility</mat-icon>
                   </a>
                 </td>

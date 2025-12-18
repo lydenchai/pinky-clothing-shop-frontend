@@ -129,13 +129,6 @@ export class App implements OnInit {
             : '';
         const cleaned = String(routerUrl || loc).replace(/^#/, '');
         const isAdmin = cleaned.includes('/admin');
-        // Debug: log navigation and layout decision
-        console.debug('[App] navigation:', {
-          routerUrl,
-          loc,
-          cleaned,
-          isAdmin,
-        });
         this.showDefaultLayout.set(!isAdmin);
         try {
           if (typeof document !== 'undefined') {
@@ -146,7 +139,7 @@ export class App implements OnInit {
 
     // Load cart if user is authenticated
     if (this.authService.isAuthenticated()) {
-      this.cartService.loadCart().subscribe({
+      this.cartService.getMany().subscribe({
         error: (error) => console.error('Error loading cart:', error),
       });
     }

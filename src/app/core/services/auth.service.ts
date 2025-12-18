@@ -1,31 +1,39 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, BehaviorSubject } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { LocalStorageService } from './local-storage.service';
+import { Injectable, Injector } from '@angular/core';
+import { Observable, tap, BehaviorSubject } from 'rxjs';
 import { User } from '../types/user.model';
 import { AuthResponse } from '../types/auth-response';
+import { LocalStorageEnum } from '../types/enums/local-storage.enum';
+import { BaseCrudService } from './base-crud.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService extends BaseCrudService<any> {
   userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
-  private tokenSubject = new BehaviorSubject<string | null>(
-    this.getStoredToken()
-  );
-  token$ = this.tokenSubject.asObservable();
+  private tokenSubject: BehaviorSubject<string | null>;
+  token$: Observable<string | null>;
 
   getCurrentUser(): User | null {
     return this.userSubject.value;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(
+    injector: Injector,
+    private localStorageService: LocalStorageService
+  ) {
+    super(injector);
+    this.path = '/auth/';
+    this.tokenSubject = new BehaviorSubject<string | null>(
+      this.getStoredToken()
+    );
+    this.token$ = this.tokenSubject.asObservable();
     this.loadUserFromToken();
   }
 
   private getStoredToken(): string | null {
-    return localStorage.getItem('authToken');
+    return this.localStorageService.get(LocalStorageEnum.Token);
   }
 
   private loadUserFromToken() {
@@ -38,20 +46,18 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<AuthResponse> {
-    return this.http
-      .post<AuthResponse>(`${environment.apiUrl}/auth/login`, {
-        email,
-        password,
-      })
+    const payload: any = {
+      email,
+      password,
+    };
+    return this.httpClientService
+      .postJSON<AuthResponse>(`${this.path}/login`, { data: payload })
       .pipe(
-        tap((response) => {
-          localStorage.setItem('authToken', response.token);
-          this.tokenSubject.next(response.token);
-          this.userSubject.next(response.user);
-        }),
-        catchError((error) => {
-          this.userSubject.next(null);
-          throw error;
+        tap((res) => {
+          this.localStorageService.set(LocalStorageEnum.Token, res.token);
+          this.localStorageService.set(LocalStorageEnum.user_id, res.user._id!);
+          this.tokenSubject.next(res.token);
+          this.userSubject.next(res.user);
         })
       );
   }
@@ -59,51 +65,46 @@ export class AuthService {
   register(
     email: string,
     password: string,
-    firstName: string,
-    lastName: string
+    first_name: string,
+    last_name: string
   ): Observable<AuthResponse> {
-    return this.http
-      .post<AuthResponse>(`${environment.apiUrl}/auth/register`, {
-        email,
-        password,
-        firstName,
-        lastName,
-      })
+    const payload: any = {
+      email,
+      password,
+      first_name,
+      last_name,
+    };
+    return this.httpClientService
+      .postJSON<AuthResponse>(`${this.path}/register`, { data: payload })
       .pipe(
-        tap((response) => {
-          localStorage.setItem('authToken', response.token);
-          this.tokenSubject.next(response.token);
-          this.userSubject.next(response.user);
-        }),
-        catchError((error) => {
-          throw error;
+        tap((res) => {
+          this.localStorageService.set(LocalStorageEnum.Token, res.token);
+          this.localStorageService.set(LocalStorageEnum.user_id, res.user._id!);
+          this.tokenSubject.next(res.token);
+          this.userSubject.next(res.user);
         })
       );
   }
 
-  getProfile(): Observable<User> {
-    return this.http.get<User>(`${environment.apiUrl}/auth/profile`).pipe(
-      tap((user) => this.userSubject.next(user)),
-      catchError((error) => {
-        this.logout();
-        throw error;
-      })
-    );
+  getProfile(): Observable<any> {
+    return this.httpClientService.getJSON<any>(`${this.path}/profile`);
   }
 
-  updateProfile(userData: Partial<User>): Observable<User> {
-    return this.http
-      .put<User>(`${environment.apiUrl}/auth/profile`, userData)
-      .pipe(
-        tap((user) => this.userSubject.next(user)),
-        catchError((error) => {
-          throw error;
-        })
-      );
+  updateProfile(data: Partial<User>): Observable<User> {
+    return this.httpClientService.patchJSON<User>(`${this.path}/profile`, {
+      data,
+    });
   }
 
   logout() {
-    localStorage.removeItem('authToken');
+    this.httpClientService
+      .postJSON<{ success: boolean; message: string }>(
+        `${this.path}/logout`,
+        {}
+      )
+      .subscribe();
+    this.localStorageService.delete(LocalStorageEnum.Token);
+    this.localStorageService.delete(LocalStorageEnum.user_id);
     this.tokenSubject.next(null);
     this.userSubject.next(null);
   }

@@ -44,7 +44,7 @@ export class ProductList extends PaginationUtil implements OnInit {
 
   getList(event: PaginationType) {
     this.productService
-      .getAllProducts({ page: event.page, limit: event.limit })
+      .getMany({ page: event.page, limit: event.limit })
       .subscribe((response) => {
         this.products = response.data || [];
         this.totalCount = response.pagination.totalItems;
@@ -53,7 +53,7 @@ export class ProductList extends PaginationUtil implements OnInit {
       });
   }
 
-  async deleteProduct(id: number) {
+  async deleteProduct(_id: string) {
     try {
       const confirmed = await this.dialogService.ask(
         this.translateService.instant(
@@ -65,8 +65,8 @@ export class ProductList extends PaginationUtil implements OnInit {
         this.translateService.instant('confirm')
       );
       if (!confirmed) return;
-      this.productService.delete(String(id)).subscribe(() => {
-        this.products = this.products.filter((p) => p.id !== id);
+      this.productService.delete(_id).subscribe(() => {
+        this.products = this.products.filter((p) => p._id !== _id);
       });
     } catch (err) {
       console.error('Dialog error', err);

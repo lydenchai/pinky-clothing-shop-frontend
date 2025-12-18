@@ -23,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (product of products; track product.id) {
+        @for (product of products; track $index) {
         <tr>
           <td class="number">{{ ($index + 1 + ((page - 1) * limit))}}</td>
           <td>{{ product.name }}</td>
@@ -31,11 +31,11 @@
           <td>{{ product.price | currency }}</td>
           <td>{{ product.stock }}</td>
           <td class="action">
-            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[product.id, 'update']"
+            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[product._id, 'update']"
               type="button">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="delete" (click)="deleteProduct(product.id)">
+            <button mat-icon-button class="delete" (click)="deleteProduct(product._id!)">
               <mat-icon>delete_outline</mat-icon>
             </button>
           </td>

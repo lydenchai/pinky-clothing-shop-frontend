@@ -18,11 +18,11 @@
         <div class="dropdown-empty">{{ 'no_new_orders' | translate }}</div>
         } @else {
         <ul class="dropdown-list">
-          @for (order of newOrders(); track order.id) {
-          <li (click)="goToOrder(order.id)">
-            <span class="order-id">#{{ order.id }}</span>
-            <span class="order-customer">{{ order.userId }}</span>
-            <span class="order-date">{{ order.createdAt | date: 'dd-MM-yyyy HH:mm' }}</span>
+          @for (order of newOrders(); track order._id) {
+          <li (click)="goToOrder(order._id)">
+            <span class="order-id">#{{ order._id}}</span>
+            <span class="order-customer">{{ order.user_id }}</span>
+            <span class="order-date">{{ order.created_at | date: 'dd-MM-yyyy HH:mm' }}</span>
           </li>
           }
         </ul>

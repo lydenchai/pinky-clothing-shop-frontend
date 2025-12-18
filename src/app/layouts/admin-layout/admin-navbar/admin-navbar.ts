@@ -121,13 +121,13 @@ export class AdminNavbar implements OnInit, OnDestroy {
     }
   }
 
-  goToOrder(orderId: string) {
+  goToOrder(order_id: string) {
     // Mark as viewed
     const viewedIds = this.localStorageService.getArray(
       LocalStorageEnum.AdminViewedOrders
     );
-    if (!viewedIds.includes(String(orderId))) {
-      viewedIds.push(String(orderId));
+    if (!viewedIds.includes(String(order_id))) {
+      viewedIds.push(String(order_id));
       this.localStorageService.setArray(
         LocalStorageEnum.AdminViewedOrders,
         viewedIds
@@ -135,7 +135,7 @@ export class AdminNavbar implements OnInit, OnDestroy {
     }
     this.notificationOpen.set(false);
     this.fetchNewOrders();
-    this.router.navigate(['/admin/orders', orderId]);
+    this.router.navigate(['/admin/orders', order_id]);
   }
 
   toggleLangMenu() {

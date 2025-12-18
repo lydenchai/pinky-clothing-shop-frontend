@@ -1,8 +1,8 @@
 export interface Inventory {
-  id: number;
+  _id?: string;
   name: string;
   quantity: number;
   location: string;
   supplier?: string;
-  createdAt?: Date;
+  created_at?: Date;
 }

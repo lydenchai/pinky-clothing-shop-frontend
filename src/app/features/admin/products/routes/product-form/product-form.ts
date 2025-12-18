@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -16,6 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { UploadImage } from '../../../../../shared/components/upload-image/upload-image';
+import { SizeEnum } from '../../../../../core/types/enums/size.enum';
+import { MatSelectModule } from '@angular/material/select';
+import { MainCategoryEnum } from '../../../../../core/types/enums/main-category.enum';
 
 @Component({
   selector: 'app-product-form',
@@ -31,6 +34,7 @@ import { UploadImage } from '../../../../../shared/components/upload-image/uploa
     FieldContainer,
     PluralPipe,
     UploadImage,
+    MatSelectModule,
   ],
   templateUrl: './product-form.html',
   styleUrls: ['./product-form.scss'],
@@ -39,10 +43,10 @@ export class ProductForm implements OnInit {
   imageFile: File | null = null;
   imagePreviewUrl: string | null = null;
   isEditMode = false;
-  productId?: number;
-  loading = false;
-  submitted = false;
+  updateId = signal<string | null>(null);
   backendError: string | null = null;
+  MainCategoryEnum = Object.values(MainCategoryEnum);
+  SizeEnum = Object.values(SizeEnum);
   form = new FormGroup({
     name: new FormControl<string | null>('', Validators.required),
     description: new FormControl<string | null>('', Validators.required),
@@ -56,7 +60,7 @@ export class ProductForm implements OnInit {
       Validators.required,
       Validators.min(0),
     ]),
-    sizes: new FormControl<string | null>(''),
+    sizes: new FormControl<string[] | null>([], Validators.required),
     colors: new FormControl<string | null>(''),
   });
 
@@ -67,16 +71,19 @@ export class ProductForm implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.productId = Number(this.route.snapshot.paramMap.get('id'));
-    if (this.productId) {
+    this.route.params.subscribe((params) => {
+      const id = params['id'];
+      this.updateId.set(id);
       this.isEditMode = true;
-      this.loadProduct(this.productId);
-    }
+      this.loadProduct(this.updateId()!);
+    });
+    // this.product_id = this.route.snapshot.paramMap.get('id');
+    // if (this.product_id) {
+    // }
   }
 
-  loadProduct(id: number) {
-    this.loading = true;
-    this.productService.getById(String(id)).subscribe({
+  loadProduct(_id: string) {
+    this.productService.getById(_id).subscribe({
       next: (res) => {
         const product = res.data;
         this.form.patchValue({
@@ -87,24 +94,20 @@ export class ProductForm implements OnInit {
           image: product.image,
           stock: product.stock,
           sizes: Array.isArray(product.sizes)
-            ? product.sizes.join(', ')
-            : product.sizes || '',
+            ? product.sizes
+            : typeof product.sizes === 'string' && product.sizes
+            ? product.sizes.split(',').map((s: string) => s.trim())
+            : [],
           colors: Array.isArray(product.colors)
             ? product.colors.join(', ')
             : product.colors || '',
         });
         this.imagePreviewUrl = product.image || null;
-        this.loading = false;
-      },
-      error: () => {
-        this.snackbarService.openSnackbarError('Failed to load product.');
-        this.loading = false;
       },
     });
   }
 
   onSave() {
-    this.submitted = true;
     this.backendError = null;
     if (this.form.invalid) {
       Object.keys(this.form.controls).forEach((field) => {
@@ -116,7 +119,6 @@ export class ProductForm implements OnInit {
       return;
     }
 
-    this.loading = true;
     const formValue = this.form.value;
     const productData = {
       ...formValue,
@@ -124,12 +126,7 @@ export class ProductForm implements OnInit {
       description: (formValue.description ?? '').trim(),
       category: (formValue.category ?? '').trim(),
       image: (formValue.image ?? '').trim(),
-      sizes: formValue.sizes
-        ? formValue.sizes
-            .split(',')
-            .map((s: string) => s.trim())
-            .filter((s: string) => s)
-        : [],
+      sizes: formValue.sizes ?? [],
       colors: formValue.colors
         ? formValue.colors
             .split(',')
@@ -138,33 +135,22 @@ export class ProductForm implements OnInit {
         : [],
     } as any;
 
-    if (this.isEditMode && this.productId) {
-      this.productService
-        .updateById(String(this.productId), productData)
-        .subscribe({
-          next: () => {
-            this.snackbarService.openSnackbarSuccess(
-              'Product updated successfully.'
-            );
-          },
-          error: () => {
-            this.snackbarService.openSnackbarError('Failed to update product.');
-            this.loading = false;
-          },
-        });
-    } else {
-      this.productService.create(productData).subscribe({
-        next: () => {
-          this.snackbarService.openSnackbarSuccess(
-            'Product created successfully.'
-          );
-        },
-        error: () => {
-          this.snackbarService.openSnackbarError('Failed to create product.');
-          this.loading = false;
-        },
-      });
-    }
+    const request$ = this.isEditMode
+      ? this.productService.updateById(this.updateId()!, productData)
+      : this.productService.create(productData);
+    request$.subscribe({
+      next: () => {
+        this.snackbarService.openSnackbarSuccess(
+          this.isEditMode
+            ? 'Product updated successfully.'
+            : 'Product created successfully.'
+        );
+      },
+      error: (error) => {
+        this.backendError =
+          error?.error?.message || 'An error occurred. Please try again.';
+      },
+    });
   }
 
   onImageSelected(file: File | null) {

@@ -18,14 +18,14 @@
     <div class="cart-layout">
       <!-- Cart Items -->
       <div class="cart-items">
-        @for (item of cart()?.items; track $index) {
+        @for (item of cart().items; track $index) {
         <div class="cart-item">
           <div class="item-image">
-            <img [src]="item.productImage" [alt]="item.productName" />
+            <img [src]="item.product_image" [alt]="item.product_name" />
           </div>
 
           <div class="item-details">
-            <h3 class="item-name">{{ item.productName }}</h3>
+            <h3 class="item-name">{{ item.product_name }}</h3>
             <div class="item-options">
               @if (item.size) {
               <span class="option-badge">{{ item.size }}</span>
@@ -34,7 +34,7 @@
               <span class="option-badge">{{ item.color | lowercase | translate }}</span>
               }
             </div>
-            <p class="item-price-mobile">${{ formatPrice(item.productPrice) }} each</p>
+            <p class="item-price-mobile">${{ item.product_price }} each</p>
           </div>
 
           <div class="item-actions">
@@ -44,9 +44,9 @@
               <button (click)="increaseQuantity($index)">+</button>
             </div>
 
-            <p class="item-price">${{ calculateItemTotal(item.productPrice, item.quantity) }}</p>
+            <p class="item-price">${{ item.product_price * item.quantity }}</p>
 
-            <button class="remove-btn" (click)="removeItem(item.id)" aria-label="Remove item">
+            <button class="remove-btn" (click)="removeItem(item._id)" aria-label="Remove item">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2">
                 <polyline points="3 6 5 6 21 6"></polyline>

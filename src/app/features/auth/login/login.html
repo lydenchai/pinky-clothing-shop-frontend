@@ -49,13 +49,13 @@
         <div class="form-row">
           <div class="form-group">
             <label> {{ 'first_name' | translate }}</label>
-            <input type="text" [(ngModel)]="registerForm.firstName" name="firstName" required placeholder="Lyden"
+            <input type="text" [(ngModel)]="registerForm.first_name" name="first_name" required placeholder="Lyden"
               [disabled]="isLoading()" />
           </div>
 
           <div class="form-group">
             <label> {{ 'last_name' | translate }}</label>
-            <input type="text" [(ngModel)]="registerForm.lastName" name="lastName" required placeholder="Chai"
+            <input type="text" [(ngModel)]="registerForm.last_name" name="last_name" required placeholder="Chai"
               [disabled]="isLoading()" />
           </div>
         </div>

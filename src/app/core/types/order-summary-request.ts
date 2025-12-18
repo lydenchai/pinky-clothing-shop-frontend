@@ -1,6 +1,6 @@
 export interface OrderSummaryRequest {
-  shippingAddress: string;
-  shippingCity: string;
-  shippingPostalCode: string;
-  shippingCountry: string;
+  shipping_address: string;
+  shipping_city: string;
+  shipping_postal_code: string;
+  shipping_country: string;
 }

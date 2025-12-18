@@ -73,12 +73,10 @@ export class AdminOrderDetail implements OnInit {
           this.status = '';
         }
         // Fetch user details
-        if (order.data.userId) {
+        if (order.data.user_id) {
           this.userService.getMany().subscribe({
             next: (res) => {
-              const found = res.data.find(
-                (u) => u.id === Number(order.data.userId)
-              );
+              const found = res.data.find((u) => u._id === order.data.user_id);
               this.user.set(found ?? null);
             },
           });
@@ -99,7 +97,7 @@ export class AdminOrderDetail implements OnInit {
         : '';
     if (newStatus === currentStatus) return;
     this.status = newStatus;
-    this.orderService.updateOrderStatus(order.id, newStatus).subscribe({
+    this.orderService.updateOrderStatus(order._id!, newStatus).subscribe({
       next: (updated) => {
         this.order.set(updated);
       },

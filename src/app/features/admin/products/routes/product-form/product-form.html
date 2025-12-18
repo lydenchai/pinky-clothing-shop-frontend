@@ -26,28 +26,36 @@
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'price' | translate" [control]="form.controls.price">
             <mat-form-field appearance="outline">
-              <input matInput type="number" name="price" [formControl]="form.controls.price" />
+              <input matInput name="price" [formControl]="form.controls.price" />
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'stock' | translate" [control]="form.controls.stock">
             <mat-form-field appearance="outline">
-              <input matInput type="number" name="stock" [formControl]="form.controls.stock" />
+              <input matInput name="stock" [formControl]="form.controls.stock" />
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'category' | translate" [control]="form.controls.category">
             <mat-form-field appearance="outline">
-              <input matInput name="category" [formControl]="form.controls.category" />
+              <mat-select [formControl]="form.controls.category" class="px-2">
+                @for (category of MainCategoryEnum; track $index) {
+                <mat-option [value]="category">{{ category | translate }}</mat-option>
+                }
+              </mat-select>
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'size' | translate | plural" [control]="form.controls.sizes">
             <mat-form-field appearance="outline">
-              <input matInput name="sizes" [formControl]="form.controls.sizes" />
+              <mat-select [formControl]="form.controls.sizes" class="px-2" multiple>
+                @for (size of SizeEnum; track $index) {
+                <mat-option [value]="size">{{ size | translate }}</mat-option>
+                }
+              </mat-select>
             </mat-form-field>
           </app-field-container>
         </div>

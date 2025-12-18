@@ -1,3 +1,11 @@
+// Helper to generate MongoDB-style ObjectId
+function generateObjectId(): string {
+  const timestamp = Math.floor(Date.now() / 1000).toString(16);
+  const random = Array.from({ length: 16 }, () =>
+    Math.floor(Math.random() * 16).toString(16)
+  ).join('');
+  return timestamp + random;
+}
 import { Component, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
@@ -16,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { Inventory } from '../../../../../core/types/inventory';
 
 @Component({
   selector: 'app-inventory-form',
@@ -36,16 +45,15 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class InventoryForm implements OnInit {
   form = new FormGroup({
-    productId: new FormControl<number | null>(null, Validators.required),
+    product_id: new FormControl<string | null>(null, Validators.required),
     quantity: new FormControl<number | null>(0, [
       Validators.required,
       Validators.min(0),
     ]),
     location: new FormControl<string | null>(''),
   });
-  error: string | null = null;
   isEditMode = false;
-  itemId = signal<number | null>(null);
+  itemId = signal<string | null>(null);
   products: Product[] = [];
 
   constructor(
@@ -58,15 +66,15 @@ export class InventoryForm implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
-      this.itemId.set(id ? +id : null);
+      this.itemId.set(id);
       if (id) {
         this.isEditMode = true;
         this.inventoryService.getById(id).subscribe({
           next: (res) => {
             this.form.patchValue({
-              productId: res.data.productId,
+              product_id: res.data.product_id || null,
               quantity: res.data.quantity,
-              location: res.data.location,
+              location: res.data.location || '',
             });
           },
         });
@@ -76,7 +84,7 @@ export class InventoryForm implements OnInit {
   }
 
   loadProducts() {
-    this.productService.getAllProducts({ page: 1, limit: 200 }).subscribe({
+    this.productService.getMany({ page: 1, limit: 200 }).subscribe({
       next: (res) => {
         this.products = res.data || [];
       },
@@ -85,10 +93,10 @@ export class InventoryForm implements OnInit {
 
   onSubmit() {
     if (this.form.invalid) return;
-    const data = { ...this.form.value } as any;
+    const rawData = { ...this.form.value } as any;
     const request$ = this.itemId()
-      ? this.inventoryService.updateById(String(this.itemId()), data)
-      : this.inventoryService.create(data);
+      ? this.inventoryService.updateById(this.itemId()!, rawData)
+      : this.inventoryService.create(rawData);
     request$.subscribe({
       next: () => {
         this.router.navigate(['/admin/inventory']);
