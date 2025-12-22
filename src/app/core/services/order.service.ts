@@ -15,7 +15,7 @@ export class OrderService extends BaseCrudService<Order> {
 
   updateOrderStatus(id: string, status: string): Observable<Order> {
     return this.httpClientService.patchJSON<Order>(
-      `${this.path}/${id}/status`,
+      `${this.path}/update/${id}/status`,
       {
         data: { status },
       }

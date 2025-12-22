@@ -38,7 +38,7 @@
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'role' | translate" [control]="form.controls.role">
             <mat-form-field appearance="outline">
-              <mat-select [formControl]="form.controls.role" class="px-2">
+              <mat-select [formControl]="form.controls.role">
                 @for (role of RoleEnum; track $index) {
                 <mat-option [value]="role">{{ role | translate }}</mat-option>
                 }

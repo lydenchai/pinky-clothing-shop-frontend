@@ -54,7 +54,7 @@
               @for (item of recentOrders; track $index) {
               <tr>
                 <td class="number">{{ $index + 1 }}</td>
-                <td>{{ item.user_id }}</td>
+                <td>{{ item.user?.first_name }} {{ item.user?.last_name }}</td>
                 <td>{{ item.total_amount | currency }}</td>
                 <td>{{ item.status | translate}}</td>
                 <td>{{ item.created_at | date: 'dd-MM-yyyy' }}</td>

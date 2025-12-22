@@ -124,16 +124,16 @@ button {
 // MATERIAL FORM FIELD FIXES
 // =========================
 
-$input-height: 38px;
+$input-height: 40px;
 $border-color: #dddddd;
 
 mat-form-field {
   border-radius: 6px !important;
 
   .mdc-text-field {
-    height: $input-height !important;
-    min-height: $input-height !important;
-    padding: 0 !important;
+    height: $input-height ;
+    min-height: $input-height ;
+    padding: 0.75rem;
     display: flex;
     align-items: center;
     background: #fff;
@@ -154,20 +154,19 @@ mat-form-field {
     .mdc-notched-outline__leading,
     .mdc-notched-outline__notch,
     .mdc-notched-outline__trailing {
-      border-color: $primary-color !important;
+      border-color: #000 !important;
       border-width: 1px !important;
     }
   }
 
   &:hover:not(.mat-focused) {
     .mdc-notched-outline {
-      border-color: $border-color !important;
+      border-color: #000 !important;
     }
   }
 
   .mat-mdc-input-element {
     height: $input-height !important;
-    padding: 0 8px !important;
     margin: 0 !important;
     display: flex;
     align-items: center;

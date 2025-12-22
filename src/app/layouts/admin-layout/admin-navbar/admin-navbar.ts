@@ -101,11 +101,11 @@ export class AdminNavbar implements OnInit, OnDestroy {
           LocalStorageEnum.AdminViewedOrders
         );
         // Only show orders not viewed
-        const unviewedOrders = pendingOrders.filter(
+        const unViewedOrders = pendingOrders.filter(
           (o: any) => !viewedIds.includes(String(o.id))
         );
-        this.newOrderCount.set(unviewedOrders.length);
-        this.newOrders.set(unviewedOrders.slice(0, 5));
+        this.newOrderCount.set(unViewedOrders.length);
+        this.newOrders.set(unViewedOrders.slice(0, 5));
       },
       error: () => {
         this.newOrderCount.set(0);

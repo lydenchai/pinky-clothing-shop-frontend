@@ -1,10 +1,11 @@
 import { Injectable, signal, computed, effect, Injector } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
-import { Observable, tap } from 'rxjs';
+import { LocalStorageEnum } from '../types/enums/local-storage.enum';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap, catchError } from 'rxjs';
+import { Cart } from '../types/cart';
 import { AuthService } from './auth.service';
 import { CartItem } from '../types/cart-item';
-import { Cart } from '../types/cart';
-import { LocalStorageEnum } from '../types/enums/local-storage.enum';
 import { CartItemRequest } from '../types/cart-item-request';
 import { BaseCrudService } from './base-crud.service';
 
@@ -12,14 +13,16 @@ import { BaseCrudService } from './base-crud.service';
   providedIn: 'root',
 })
 export class CartService extends BaseCrudService<any> {
-  private cartItems = signal<any[]>([]);
+  private cartItems = signal<CartItem[]>([]);
 
-  cart = computed<any>(() => {
-    const itemsRaw = this.cartItems();
-    const items = Array.isArray(itemsRaw) ? itemsRaw : [];
-    const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  cart = computed<Cart>(() => {
+    const items = Array.isArray(this.cartItems()) ? this.cartItems() : [];
+    const totalItems = items.reduce(
+      (sum, item) => sum + (item?.quantity || 0),
+      0
+    );
     const subtotal = items.reduce(
-      (sum, item) => sum + (item.product_price ?? 0) * item.quantity,
+      (sum, item) => sum + (item?.product_price ?? 0) * (item?.quantity || 0),
       0
     );
     const shipping = subtotal > 0 ? (subtotal > 100 ? 0 : 10) : 0;
@@ -39,6 +42,7 @@ export class CartService extends BaseCrudService<any> {
   constructor(
     injector: Injector,
     private auth: AuthService,
+    private http: HttpClient,
     private localStorage: LocalStorageService
   ) {
     super(injector);
@@ -46,7 +50,7 @@ export class CartService extends BaseCrudService<any> {
 
     // React to login/logout using effect on signal
     effect(() => {
-      this.auth.getProfile().subscribe((user) => {
+      this.auth.user$.subscribe((user) => {
         if (user) {
           // On login: migrate local cart to backend, then clear local
           const savedCart = this.localStorage.get(LocalStorageEnum.Cart);
@@ -64,6 +68,8 @@ export class CartService extends BaseCrudService<any> {
               this.localStorage.delete(LocalStorageEnum.Cart);
             } catch (e) {}
           }
+          // Load backend cart
+          this.loadCart().subscribe();
         } else {
           // On logout: clear cart and localStorage
           this.cartItems.set([]);
@@ -94,48 +100,77 @@ export class CartService extends BaseCrudService<any> {
     });
   }
 
+  loadCart(): Observable<CartItem[]> {
+    return this.httpClientService
+      .getJSON<CartItem[]>(`${this.path}`)
+      .pipe(tap((items) => this.cartItems.set(items)));
+  }
+
   addToCart(
     product_id: string,
     quantity: number,
     size?: string,
     color?: string
-  ): Observable<{ data: any[]; message: string }> {
-    const payload: CartItemRequest = { product_id, quantity, size, color };
+  ): Observable<CartItem> {
+    const request: CartItemRequest = { product_id, quantity, size, color };
+    // Use form-data (default .post) instead of JSON for backend compatibility
     return this.httpClientService
-      .postJSON<{ data: any[]; message: string }>(`${this.path}/add`, {
-        data: payload,
-      })
+      .post<CartItem>(`${this.path}add`, { data: request })
       .pipe(
-        tap((response) => {
-          if (Array.isArray(response.data)) {
-            this.cartItems.set(response.data);
+        tap((item) => {
+          const items = this.cartItems();
+          // Find existing item by product_id, size, and color
+          const existingIndex = items.findIndex(
+            (i) =>
+              i.product_id === product_id &&
+              i.size === size &&
+              i.color === color
+          );
+          if (existingIndex > -1) {
+            // Replace existing item with backend response (correct quantity)
+            const updated = [...items];
+            updated[existingIndex] = item;
+            this.cartItems.set(updated);
+          } else {
+            this.cartItems.set([...items, item]);
           }
+        }),
+        catchError((error) => {
+          throw error;
         })
       );
   }
 
-  updateQuantity(cart_item_id: string, quantity: number): Observable<CartItem> {
+  updateQuantity(cartItemId: string, quantity: number): Observable<CartItem> {
     return this.httpClientService
-      .patchJSON<CartItem>(`${this.path}update/${cart_item_id}`, {
+      .patchJSON<CartItem>(`${this.path}${cartItemId}`, {
         data: { quantity },
       })
       .pipe(
         tap((updatedItem) => {
           const items = this.cartItems();
-          const index = items.findIndex((i) => i._id === cart_item_id);
+          const index = items.findIndex((i) => i._id === cartItemId);
           if (index > -1) {
             const updated = [...items];
             updated[index] = updatedItem;
             this.cartItems.set(updated);
           }
+        }),
+        catchError((error) => {
+          throw error;
         })
       );
   }
 
-  removeItem(cart_item_id: string): Observable<{ message: string }> {
-    return this.httpClientService.deleteJSON<any>(
-      `${this.path}delete/${cart_item_id}`
-    );
+  removeItem(cartItemId: string): Observable<{ message: string }> {
+    return this.httpClientService
+      .deleteJSON<{ message: string }>(`${this.path}${cartItemId}`)
+      .pipe(
+        tap(() => {
+          const items = this.cartItems();
+          this.cartItems.set(items.filter((i) => i._id !== cartItemId));
+        })
+      );
   }
 
   clearCart(): Observable<{ message: string }> {
@@ -150,8 +185,7 @@ export class CartService extends BaseCrudService<any> {
   }
 
   getCartItemCount(): number {
-    const cart = this.cart();
-    return cart && typeof cart.totalItems === 'number' ? cart.totalItems : 0;
+    return this.cart().totalItems!;
   }
 
   getCachedCart(): Cart {

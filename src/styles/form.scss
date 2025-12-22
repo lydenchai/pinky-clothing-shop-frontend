@@ -58,24 +58,25 @@
   margin-top: 1rem;
   gap: 1rem;
 
-  button {
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.2s;
+  // button {
+  //   padding: 0.75rem 1.5rem;
+  //   font-size: 1rem;
+  //   border-radius: 4px;
+  //   cursor: pointer;
+  //   border: none;
+  //   transition: background-color 0.2s;
 
 
-    &:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-  }
+  //   &:disabled {
+  //     background-color: #ccc;
+  //     cursor: not-allowed;
+  //   }
+  // }
 
   button {
     background: #fff !important;
     border-radius: 10px !important;
+    height: 40px;
 
     &.default {
       padding: 6px;

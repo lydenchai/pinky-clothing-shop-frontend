@@ -72,8 +72,6 @@ export class Products implements OnInit, OnDestroy {
         hasPreviousPage: false,
       });
       this.sortBy = 'featured';
-      console.log('load products');
-
       this.loadProducts();
     });
   }

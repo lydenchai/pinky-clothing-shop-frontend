@@ -1,5 +1,6 @@
 import { OrderStatus } from './enums/order-status.enum';
 import { OrderItem } from './order-item';
+import { User } from './user.model';
 
 export interface Order {
   _id?: string;
@@ -14,4 +15,5 @@ export interface Order {
   items?: OrderItem[];
   total: number;
   payment_method?: string;
+  user?: User;
 }

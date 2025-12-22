@@ -6,7 +6,7 @@
         <div class="col-12 col-sm-6 col-md-4">
           <app-field-container [label]="'product' | translate" [control]="form.controls.product_id">
             <mat-form-field appearance="outline">
-              <mat-select id="product_id" [formControl]="form.controls.product_id" class="form-control">
+              <mat-select id="product_id" [formControl]="form.controls.product_id">
                 @for (p of products; track $index) {
                 <mat-option [value]="p._id">{{ p.name || ('product' | translate) + ' #' + p._id }}</mat-option>
                 }

@@ -23,15 +23,17 @@
         <div class="summary-totals">
           <div class="summary-row">
             <span>{{ 'subtotal' | translate }}</span>
-            <span>${{ formatPrice(orderResponse.subtotal || orderResponse.total_amount || orderResponse.total) }}</span>
+            <span>${{ (orderResponse.subtotal || orderResponse.total_amount || orderResponse.total) | number: '1.2-2'
+              }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'shipping' | translate }}</span>
-            <span>${{ formatPrice(orderResponse.shipping || 0) }}</span>
+            <span>${{ (orderResponse.shipping || 0) | number: '1.2-2' }}</span>
           </div>
           <div class="summary-total">
             <span>{{ 'total' | translate }}</span>
-            <span>${{ formatPrice(orderResponse.total || orderResponse.total_amount || orderResponse.subtotal) }}</span>
+            <span>${{ (orderResponse.total || orderResponse.total_amount || orderResponse.subtotal) | number: '1.2-2'
+              }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'status' | translate }}</span>
@@ -73,7 +75,8 @@
           <div class="form-row">
             <div class="form-group">
               <label>{{ 'first_name' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.first_name" name="first_name" required placeholder="Lusi" />
+              <input type="text" [formControl]="form.controls.first_name" name="first_name" required
+                placeholder="Lusi" />
             </div>
             <div class="form-group">
               <label>{{ 'last_name' | translate }} *</label>
@@ -174,7 +177,7 @@
           }
         </section>
         <button type="submit" class="btn-place-order">
-          {{ 'place_order' | translate }} - ${{ formatPrice(cart()?.total) }}
+          {{ 'place_order' | translate }} - ${{ cart()?.total | number: '1.2-2' }}
         </button>
       </form>
       } @else {
@@ -195,7 +198,7 @@
         <div class="summary-totals">
           <div class="summary-row">
             <span>{{ 'total' | translate }}</span>
-            <span>${{ formatPrice(orderSummary.total) }}</span>
+            <span>${{ orderSummary.total | number: '1.2-2' }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'shipping' | translate }}</span>
@@ -225,12 +228,12 @@
                 /
                 }
                 @if (item.color) {
-                {{ item.color | lowercase | translate}}
+                {{ item.color }}
                 }
               </p>
               <p class="item-qty">{{ 'quantity' | translate }}: {{ item.quantity }}</p>
             </div>
-            <p class="item-price">${{ calculateItemTotal(item.productPrice, item.quantity) }}</p>
+            <p class="item-price">${{ (item.product_price * item.quantity) | number: '1.2-2' }}</p>
           </div>
           }
         </div>
@@ -238,7 +241,7 @@
         <div class="summary-totals">
           <div class="summary-row">
             <span>{{ 'subtotal' | translate }}</span>
-            <span>${{ formatPrice(cart()?.subtotal) }}</span>
+            <span>${{ cart()?.subtotal | number: '1.2-2' }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'shipping' | translate }}</span>
@@ -246,17 +249,17 @@
               @if (cart()?.shipping === 0) {
               <span class="free">{{ 'free' | translate }}</span>
               } @else {
-              ${{ formatPrice(cart()?.shipping) }}
+              ${{ cart()?.shipping | number: '1.2-2' }}
               }
             </span>
           </div>
           <div class="summary-row">
             <span>{{ 'tax' | translate }}</span>
-            <span>${{ formatPrice(cart()?.tax) }}</span>
+            <span>${{ cart()?.tax | number: '1.2-2' }}</span>
           </div>
           <div class="summary-total">
             <span>{{ 'total' | translate }}</span>
-            <span>${{ formatPrice(cart()?.total) }}</span>
+            <span>${{ cart()?.total | number: '1.2-2' }}</span>
           </div>
         </div>
       </div>

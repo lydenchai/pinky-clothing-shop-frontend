@@ -200,19 +200,10 @@ export class Checkout {
           this.translate.instant('message.order_placed_successfully'),
           this.translate.instant('message.order_confirmed')
         );
-        this.cartService.clearCart().subscribe({
-          next: () => {
-            // Optionally emit an event or use a shared service to notify cart component
-          },
-        });
+        this.cartService.clearCart().subscribe({});
         setTimeout(() => {
           this.orderPlaced.set(false);
-          // Redirect to order details page if order id exists, else to order history
-          if (order?.data._id) {
-            this.router.navigate(['/orders', order.data._id]);
-          } else {
-            this.router.navigate(['/orders']);
-          }
+          this.router.navigate(['/orders']);
         }, 2000);
       },
       error: () => {
@@ -221,17 +212,5 @@ export class Checkout {
         );
       },
     });
-  }
-
-  formatPrice(price: any): string {
-    if (typeof price === 'number') {
-      return price.toFixed(2);
-    }
-    return parseFloat(price).toFixed(2);
-  }
-
-  calculateItemTotal(price: any, quantity: number): string {
-    const numPrice = typeof price === 'number' ? price : parseFloat(price);
-    return (numPrice * quantity).toFixed(2);
   }
 }

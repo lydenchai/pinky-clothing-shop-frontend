@@ -72,7 +72,7 @@ export class InventoryForm implements OnInit {
         this.inventoryService.getById(id).subscribe({
           next: (res) => {
             this.form.patchValue({
-              product_id: res.data.product_id || null,
+              product_id: res.data.product._id || null,
               quantity: res.data.quantity,
               location: res.data.location || '',
             });

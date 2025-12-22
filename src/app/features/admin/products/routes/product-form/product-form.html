@@ -40,7 +40,7 @@
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'category' | translate" [control]="form.controls.category">
             <mat-form-field appearance="outline">
-              <mat-select [formControl]="form.controls.category" class="px-2">
+              <mat-select [formControl]="form.controls.category">
                 @for (category of MainCategoryEnum; track $index) {
                 <mat-option [value]="category">{{ category | translate }}</mat-option>
                 }
@@ -51,7 +51,7 @@
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'size' | translate | plural" [control]="form.controls.sizes">
             <mat-form-field appearance="outline">
-              <mat-select [formControl]="form.controls.sizes" class="px-2" multiple>
+              <mat-select [formControl]="form.controls.sizes" multiple>
                 @for (size of SizeEnum; track $index) {
                 <mat-option [value]="size">{{ size | translate }}</mat-option>
                 }

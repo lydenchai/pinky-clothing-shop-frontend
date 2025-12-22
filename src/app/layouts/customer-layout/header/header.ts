@@ -1,4 +1,10 @@
-import { Component, computed, HostListener, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  HostListener,
+  signal,
+} from '@angular/core';
 import {
   RouterLink,
   RouterLinkActive,
@@ -33,12 +39,8 @@ import { LocalStorageEnum } from '../../../core/types/enums/local-storage.enum';
   styleUrl: './header.scss',
 })
 export class Header {
-  cartItemCount = computed(() => {
-    const cart = this.cartService?.cart?.();
-    return cart && typeof cart.totalItems === 'number' ? cart.totalItems : 0;
-  });
-  isAuthenticated = computed(() => !!this.user());
   user = signal<User | null>(null);
+  isAuthenticated = computed(() => !!this.user());
   currentCategory = signal<string>('all');
   currentLang = signal<LanguageEnum>(LanguageEnum.EN);
   availableLangs: LanguageEnum[] = [
@@ -60,6 +62,7 @@ export class Header {
   searchModalOpen = false;
   searchQuery = '';
   showSearchInput = false;
+  totalItemsInCart = computed(() => this.cartService.cart().totalItems);
 
   constructor(
     private cartService: CartService,
@@ -71,7 +74,10 @@ export class Header {
     private localStorageService: LocalStorageService,
     private translate: TranslateService
   ) {
-    // Initialise language from local storage
+    // Keep user signal in sync with AuthService
+    this.authService.user$.subscribe((u) => this.user.set(u));
+
+    // Initialize language from local storage
     const savedLang = this.localStorageService.get(
       LocalStorageEnum.lang
     ) as LanguageEnum;
@@ -98,11 +104,11 @@ export class Header {
   }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe({
-      next: (res) => {
-        this.user.set(res.data);
-      },
-    });
+    // this.authService.getProfile().subscribe({
+    //   next: (res) => {
+    //     this.user.set(res.data);
+    //   },
+    // });
     this.route.queryParams.subscribe((params) => {
       this.currentCategory.set(params['category'] || 'all');
     });
@@ -137,8 +143,7 @@ export class Header {
     this.langMenuOpen = false;
   }
 
-  // Logout
-  logout() {
+  onLogout() {
     this.dialogService
       .ask(
         this.translate.instant('message.are_you_sure_you_want_to_log_out'),

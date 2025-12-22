@@ -117,28 +117,12 @@ export class ProductDetail implements OnInit {
         this.selectedColor()
       )
       .subscribe({
-        next: (_cart) => {
-          // Refresh cart from backend to update signals everywhere
-          this.cartService.getMany().subscribe({
-            next: (res) => {
-              this.addedToCart.set(true);
-              this.dialogService.success(
-                this.translate.instant(
-                  'message.item_added_to_cart_successfully'
-                )
-              );
-              setTimeout(() => this.addedToCart.set(false), 3000);
-            },
-            complete: () => {
-              this.addedToCart.set(true);
-              this.dialogService.success(
-                this.translate.instant(
-                  'message.item_added_to_cart_successfully'
-                )
-              );
-              setTimeout(() => this.addedToCart.set(false), 3000);
-            },
-          });
+        next: () => {
+          this.addedToCart.set(true);
+          this.dialogService.success(
+            this.translate.instant('message.item_added_to_cart_successfully')
+          );
+          setTimeout(() => this.addedToCart.set(false), 3000);
         },
         error: (error) => {
           if (error.status === 401) {

@@ -34,10 +34,6 @@ export class OrdersAdmin extends PaginationUtil implements OnInit {
   }
 
   ngOnInit() {
-    this.orderService.getMany().subscribe({
-      next: (res) => (this.orders = res.data),
-      error: () => (this.orders = []),
-    });
     this.getList({ page: 1, limit: this.limit });
   }
 

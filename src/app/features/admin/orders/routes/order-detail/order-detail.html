@@ -50,17 +50,13 @@
         <div class="card-body">
           <div>
             <div class="flex items-center gap-2">
-              <div class="card-subtitle">{{ 'customer_id' | translate }}:</div>
-              {{ order()?.user_id }}
-            </div>
-            <div class="flex items-center gap-2">
               <div class="card-subtitle">
                 {{ 'name' | translate }}:
               </div>
-              {{ user()?.first_name | titlecase }} {{ user()?.last_name | titlecase }}
+              {{ order()?.user?.first_name | titlecase }} {{ order()?.user?.last_name | titlecase }}
             </div>
             <div class="flex items-center gap-2">
-              <div class="card-subtitle">{{ 'email' | translate }}:</div> {{ user()?.email }}
+              <div class="card-subtitle">{{ 'email' | translate }}:</div> {{ order()?.user?.email }}
             </div>
           </div>
         </div>
@@ -85,7 +81,7 @@
         </div>
         <div class="card-body">
           <div class="status-label-group">
-            <mat-select class="w-full border border-gray-300 rounded-md p-2" [value]="status"
+            <mat-select class="w-full border border-gray-300 rounded-md" [value]="status"
               (selectionChange)="updateStatus($event.value)">
               @for (item of statusOptions; track $index) {
               <mat-option [value]="item">{{ item | translate }}</mat-option>
@@ -129,7 +125,8 @@
           <tr>
             <td class="number">{{ $index + 1 }}</td>
             <td>
-              <a [routerLink]="['/products', item.product_id]" class="product-link highlight-link table-link">{{
+              <a [routerLink]="['/products', item.product_id]" target="_blank"
+                class="product-link highlight-link table-link">{{
                 item.product_name }}</a>
             </td>
             <td><img [src]="item.product_image" alt="{{ item.product_name }}" class="product-avatar" /></td>

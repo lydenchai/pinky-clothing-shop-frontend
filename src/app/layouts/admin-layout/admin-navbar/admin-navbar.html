@@ -17,12 +17,12 @@
         @if (newOrders().length === 0) {
         <div class="dropdown-empty">{{ 'no_new_orders' | translate }}</div>
         } @else {
-        <ul class="dropdown-list">
+        <ul class="dropdown-list text-[14px]">
           @for (order of newOrders(); track order._id) {
           <li (click)="goToOrder(order._id)">
-            <span class="order-id">#{{ order._id}}</span>
-            <span class="order-customer">{{ order.user_id }}</span>
-            <span class="order-date">{{ order.created_at | date: 'dd-MM-yyyy HH:mm' }}</span>
+            <span class="text-[#666]">{{ $index + 1 }}</span>
+            <span class="text-[#666]">{{ order.user?.first_name }} {{ order.user?.last_name }}</span>
+            <span class="text-[#aaa] ml-2">{{ order.created_at | date: 'dd-MM-yyyy HH:mm a' }}</span>
           </li>
           }
         </ul>

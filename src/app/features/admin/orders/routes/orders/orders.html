@@ -16,7 +16,7 @@
         @for (order of orders; track order._id) {
         <tr>
           <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
-          <td>{{ order.user_id }}</td>
+          <td>{{ order.user?.first_name }} {{ order.user?.last_name }}</td>
           <td>${{ order.total_amount }}</td>
           <td>{{ order.status | translate}}</td>
           <td>{{ order.created_at | date: 'dd-MM-yyyy' }}</td>
