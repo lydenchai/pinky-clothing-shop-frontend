@@ -81,7 +81,7 @@
         </div>
         <div class="card-body">
           <div class="status-label-group">
-            <mat-select class="w-full border border-gray-300 rounded-md" [value]="status"
+            <mat-select class="w-full border border-gray-300 rounded-md h-[40px] p-2" [value]="status"
               (selectionChange)="updateStatus($event.value)">
               @for (item of statusOptions; track $index) {
               <mat-option [value]="item">{{ item | translate }}</mat-option>

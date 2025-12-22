@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, effect, Injector } from '@angular/core';
+import { forkJoin, of } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 import { LocalStorageEnum } from '../types/enums/local-storage.enum';
-import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError } from 'rxjs';
 import { Cart } from '../types/cart';
 import { AuthService } from './auth.service';
@@ -39,10 +39,11 @@ export class CartService extends BaseCrudService<any> {
     };
   });
 
+  public totalItemsInCart = computed(() => this.cart().totalItems ?? 0);
+
   constructor(
     injector: Injector,
     private auth: AuthService,
-    private http: HttpClient,
     private localStorage: LocalStorageService
   ) {
     super(injector);
@@ -101,9 +102,15 @@ export class CartService extends BaseCrudService<any> {
   }
 
   loadCart(): Observable<CartItem[]> {
-    return this.httpClientService
-      .getJSON<CartItem[]>(`${this.path}`)
-      .pipe(tap((items) => this.cartItems.set(items)));
+    return this.httpClientService.getJSON<CartItem[]>(`${this.path}`).pipe(
+      tap((res: any) => {
+        this.cartItems.set(res.data.items || []);
+      }),
+      catchError((error) => {
+        this.cartItems.set([]);
+        return of([]);
+      })
+    );
   }
 
   addToCart(
@@ -113,26 +120,12 @@ export class CartService extends BaseCrudService<any> {
     color?: string
   ): Observable<CartItem> {
     const request: CartItemRequest = { product_id, quantity, size, color };
-    // Use form-data (default .post) instead of JSON for backend compatibility
     return this.httpClientService
-      .post<CartItem>(`${this.path}add`, { data: request })
+      .postJSON<any>(`${this.path}/add`, { data: request })
       .pipe(
-        tap((item) => {
-          const items = this.cartItems();
-          // Find existing item by product_id, size, and color
-          const existingIndex = items.findIndex(
-            (i) =>
-              i.product_id === product_id &&
-              i.size === size &&
-              i.color === color
-          );
-          if (existingIndex > -1) {
-            // Replace existing item with backend response (correct quantity)
-            const updated = [...items];
-            updated[existingIndex] = item;
-            this.cartItems.set(updated);
-          } else {
-            this.cartItems.set([...items, item]);
+        tap((res) => {
+          if (res && res.data && Array.isArray(res.data.items)) {
+            this.cartItems.set(res.data.items);
           }
         }),
         catchError((error) => {
@@ -143,7 +136,7 @@ export class CartService extends BaseCrudService<any> {
 
   updateQuantity(cartItemId: string, quantity: number): Observable<CartItem> {
     return this.httpClientService
-      .patchJSON<CartItem>(`${this.path}${cartItemId}`, {
+      .patchJSON<CartItem>(`${this.path}/update/${cartItemId}`, {
         data: { quantity },
       })
       .pipe(
@@ -164,7 +157,7 @@ export class CartService extends BaseCrudService<any> {
 
   removeItem(cartItemId: string): Observable<{ message: string }> {
     return this.httpClientService
-      .deleteJSON<{ message: string }>(`${this.path}${cartItemId}`)
+      .deleteJSON<{ message: string }>(`${this.path}/delete/${cartItemId}`)
       .pipe(
         tap(() => {
           const items = this.cartItems();
@@ -182,13 +175,5 @@ export class CartService extends BaseCrudService<any> {
           this.localStorage.delete(LocalStorageEnum.Cart);
         })
       );
-  }
-
-  getCartItemCount(): number {
-    return this.cart().totalItems!;
-  }
-
-  getCachedCart(): Cart {
-    return this.cart();
   }
 }

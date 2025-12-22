@@ -39,7 +39,14 @@ export class AuthService extends BaseCrudService<any> {
   private loadUserFromToken() {
     const token = this.getStoredToken();
     if (token) {
-      this.getProfile().subscribe();
+      this.getProfile().subscribe({
+        next: (res) => {
+          this.userSubject.next(res.data || res.user || null);
+        },
+        error: () => {
+          this.userSubject.next(null);
+        },
+      });
     } else {
       this.userSubject.next(null);
     }

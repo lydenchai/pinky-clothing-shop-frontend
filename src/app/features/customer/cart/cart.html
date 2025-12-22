@@ -1,8 +1,7 @@
 <div class="cart-page">
   <div class="container">
     <h1 class="page-title">{{ 'shopping_cart' | translate }}</h1>
-
-    @if (cart()?.items?.length === 0) {
+    @if (cart()?.items.length <= 0) { 
     <div class="empty-cart flex flex-col items-center justify-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2">

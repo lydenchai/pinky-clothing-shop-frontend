@@ -1,10 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  HostListener,
-  signal,
-} from '@angular/core';
+import { Component, computed, HostListener, signal } from '@angular/core';
 import {
   RouterLink,
   RouterLinkActive,
@@ -62,10 +56,10 @@ export class Header {
   searchModalOpen = false;
   searchQuery = '';
   showSearchInput = false;
-  totalItemsInCart = computed(() => this.cartService.cart().totalItems);
 
+  
   constructor(
-    private cartService: CartService,
+    public cartService: CartService,
     private authService: AuthService,
     private dialogService: DialogService,
     private router: Router,
@@ -104,11 +98,6 @@ export class Header {
   }
 
   ngOnInit() {
-    // this.authService.getProfile().subscribe({
-    //   next: (res) => {
-    //     this.user.set(res.data);
-    //   },
-    // });
     this.route.queryParams.subscribe((params) => {
       this.currentCategory.set(params['category'] || 'all');
     });

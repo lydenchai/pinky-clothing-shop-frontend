@@ -17,22 +17,15 @@ export class Cart {
 
   constructor(
     private translate: TranslateService,
-    private cartService: CartService,
+    public cartService: CartService,
     private dialogService: DialogService
   ) {
-    this.cart.set(this.cartService.cart());
+    this.fetchCart();
   }
 
-  updateQuantity(cartItemId: string, quantity: number) {
-    this.cartService.updateQuantity(cartItemId, quantity).subscribe({
-      next: () => {
-        this.cart.set(this.cartService.cart());
-      },
-      error: () => {
-        this.dialogService.error(
-          this.translate.instant('message.failed_to_update_quantity')
-        );
-      },
+  fetchCart() {
+    this.cartService.loadCart().subscribe((cart: any) => {
+      this.cart.set(cart.data);
     });
   }
 
@@ -49,7 +42,7 @@ export class Cart {
               this.dialogService.success(
                 this.translate.instant('message.item_removed_from_cart')
               );
-              this.cart.set(this.cartService.cart());
+              this.fetchCart();
             },
           });
         }
@@ -62,7 +55,7 @@ export class Cart {
       return;
     }
     const item = cart.items[index];
-    this.updateQuantity(item.id, item.quantity + 1);
+    this.updateQuantity(item._id, item.quantity + 1);
   }
 
   decreaseQuantity(index: number) {
@@ -72,7 +65,20 @@ export class Cart {
     }
     const item = cart.items[index];
     if (item.quantity > 1) {
-      this.updateQuantity(item.id, item.quantity - 1);
+      this.updateQuantity(item._id, item.quantity - 1);
     }
+  }
+
+  updateQuantity(cartItemId: string, quantity: number) {
+    this.cartService.updateQuantity(cartItemId, quantity).subscribe({
+      next: () => {
+        this.fetchCart();
+      },
+      error: () => {
+        this.dialogService.error(
+          this.translate.instant('message.failed_to_update_quantity')
+        );
+      },
+    });
   }
 }

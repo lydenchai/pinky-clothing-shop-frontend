@@ -3,29 +3,29 @@
   @if (user()) {
   <div class="profile-info">
     <div class="flex items-center gap-2">
-      <div class="text-[#64748b]">{{ 'name' | translate }}:</div>
-      <div class="text-[#334155] text-[14px]">{{ user()!.first_name }} {{ user()!.last_name }}</div>
+      <div class="text-[#334155] text-[14px]">{{ 'name' | translate }}:</div>
+      <div class="text-[#64748b] text-[14px]">{{ user()!.first_name }} {{ user()!.last_name }}</div>
     </div>
     <div class="flex items-center gap-2">
-      <div class="text-[#64748b]">{{ 'email' | translate }}:</div>
-      <div class="text-[#334155] text-[14px]">{{ user()!.email }}</div>
+      <div class="text-[#334155] text-[14px]">{{ 'email' | translate }}:</div>
+      <div class="text-[#64748b] text-[14px]">{{ user()!.email }}</div>
     </div>
     <div class="flex items-center gap-2">
-      <div class="text-[#64748b]">{{ 'phone' | translate }}:</div>
-      <div class="text-[#334155] text-[14px]">{{ user()!.phone }}</div>
+      <div class="text-[#334155] text-[14px]">{{ 'phone' | translate }}:</div>
+      <div class="text-[#64748b] text-[14px]">{{ user()!.phone }}</div>
     </div>
     <div class="flex items-center gap-2">
-      <div class="text-[#64748b]">{{ 'role' | translate }}:</div>
-      <div class="text-[#334155] text-[14px]">{{ user()!.role | translate }}</div>
+      <div class="text-[#334155] text-[14px]">{{ 'role' | translate }}:</div>
+      <div class="text-[#64748b] text-[14px]">{{ user()!.role | translate }}</div>
     </div>
     <div class="flex items-center gap-2">
-      <div class="text-[#64748b]">{{ 'address' | translate }}:</div>
-      <div class="text-[#334155] text-[14px]">{{ user()!.address }}, {{ user()!.city }}, {{ user()!.country }}
+      <div class="text-[#334155] text-[14px]">{{ 'address' | translate }}:</div>
+      <div class="text-[#64748b] text-[14px]">{{ user()!.address }}, {{ user()!.city }}, {{ user()!.country }}
         {{user()!.postal_code }}</div>
     </div>
     <div class="flex items-center gap-2">
-      <div class="text-[#64748b]">{{ 'member_since' | translate }}:</div>
-      <div class="text-[#334155] text-[14px]">{{ user()!.created_at | date:'mediumDate' }}</div>
+      <div class="text-[#334155] text-[14px]">{{ 'member_since' | translate }}:</div>
+      <div class="text-[#64748b] text-[14px]">{{ user()!.created_at | date:'mediumDate' }}</div>
     </div>
   </div>
   } @else {

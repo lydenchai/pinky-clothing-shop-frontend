@@ -58,7 +58,13 @@ export class AdminOrderDetail implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.orderService.getById(id!).subscribe({
+    if (id) {
+      this.fetchOrder(id);
+    }
+  }
+
+  fetchOrder(_id: string) {
+    this.orderService.getById(_id!).subscribe({
       next: (order) => {
         this.order.set(order.data);
         if (typeof order.data.status === 'string') {
@@ -87,8 +93,8 @@ export class AdminOrderDetail implements OnInit {
     if (newStatus === currentStatus) return;
     this.status = newStatus;
     this.orderService.updateOrderStatus(order._id!, newStatus).subscribe({
-      next: (updated) => {
-        this.order.set(updated);
+      next: () => {
+        this.fetchOrder(order._id!);
       },
     });
   }
