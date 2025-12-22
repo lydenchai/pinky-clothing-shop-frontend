@@ -25,6 +25,7 @@ import { FieldContainer } from '../../../../../shared/components/field-container
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Inventory } from '../../../../../core/types/inventory';
+import { SnackbarService } from '../../../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-inventory-form',
@@ -57,10 +58,11 @@ export class InventoryForm implements OnInit {
   products: Product[] = [];
 
   constructor(
-    private inventoryService: InventoryService,
-    private productService: ProductService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private productService: ProductService,
+    private snackbarService: SnackbarService,
+    private inventoryService: InventoryService
   ) {}
 
   ngOnInit() {
@@ -99,6 +101,8 @@ export class InventoryForm implements OnInit {
       : this.inventoryService.create(rawData);
     request$.subscribe({
       next: () => {
+        this.form.markAsPristine();
+        this.snackbarService.openSnackbarSuccess('message.saved_successfully');
         this.router.navigate(['/admin/inventory']);
       },
     });

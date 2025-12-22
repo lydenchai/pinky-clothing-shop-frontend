@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { MatSelectModule } from '@angular/material/select';
+import { SnackbarService } from '../../../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-user-form',
@@ -58,9 +59,10 @@ export class UserForm {
   });
 
   constructor(
-    private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private snackbarService: SnackbarService
   ) {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -89,7 +91,6 @@ export class UserForm {
   }
 
   onSubmit() {
-    // if (this.form.invalid) return;
     const userData = { ...this.form.value } as any;
     if (this.updateId) {
       delete userData.password;
@@ -100,6 +101,7 @@ export class UserForm {
     request$.subscribe({
       next: () => {
         this.form.markAsPristine();
+        this.snackbarService.openSnackbarSuccess('message.saved_successfully');
         this.router.navigate(['/admin/users']);
       },
     });

@@ -262,6 +262,7 @@
     "_invalid_max_value": "Max value is {{max}}",
     "_invalid_min_value": "Min value is {{min}}",
     "required": "Value is required.",
-    "image_upload_failed": "Image upload failed. Please try again."
+    "image_upload_failed": "Image upload failed. Please try again.",
+    "saved_successfully": "Saved successfully."
   }
 }

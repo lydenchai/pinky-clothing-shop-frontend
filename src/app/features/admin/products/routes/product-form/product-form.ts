@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ProductService } from '../../../../../core/services/product.service';
@@ -65,8 +65,9 @@ export class ProductForm implements OnInit {
   });
 
   constructor(
-    private productService: ProductService,
+    private router: Router,
     private route: ActivatedRoute,
+    private productService: ProductService,
     private snackbarService: SnackbarService
   ) {}
 
@@ -140,11 +141,9 @@ export class ProductForm implements OnInit {
       : this.productService.create(productData);
     request$.subscribe({
       next: () => {
-        this.snackbarService.openSnackbarSuccess(
-          this.isEditMode
-            ? 'Product updated successfully.'
-            : 'Product created successfully.'
-        );
+        this.form.markAsPristine();
+        this.snackbarService.openSnackbarSuccess('message.saved_successfully');
+        this.router.navigate(['/admin/products']);
       },
       error: (error) => {
         this.backendError =
