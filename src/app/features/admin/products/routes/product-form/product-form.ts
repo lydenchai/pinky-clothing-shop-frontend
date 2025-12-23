@@ -41,7 +41,6 @@ export class ProductForm implements OnInit {
   imageFile: File | null = null;
   imagePreviewUrl: string | null = null;
   updateId = signal<string | null>(null);
-  backendError: string | null = null;
   MainCategoryEnum = Object.values(MainCategoryEnum);
   SizeEnum = Object.values(SizeEnum);
   form = new FormGroup({
@@ -102,18 +101,9 @@ export class ProductForm implements OnInit {
   }
 
   onSave() {
-    this.backendError = null;
-    if (this.form.invalid) {
-      Object.keys(this.form.controls).forEach((field) => {
-        const control = this.form.get(field);
-        if (control && control.invalid) {
-          control.markAsTouched({ onlySelf: true });
-        }
-      });
-      return;
-    }
+    if (this.form.invalid) return;
 
-    const formValue = this.form.value;
+    const formValue = this.form.value as any;
     const productData = {
       ...formValue,
       name: (formValue.name ?? '').trim(),
@@ -128,15 +118,10 @@ export class ProductForm implements OnInit {
         : [],
     } as any;
 
-    if (!this.imageFile) {
-      this.backendError = 'Please select an image file.';
-      this.snackbarService.openSnackbarError('Please select an image file.');
-      return;
-    }
-    const request$ = this.productService.createWithFile(
-      productData,
-      this.imageFile
-    );
+    const request$ = this.updateId()
+      ? this.productService.updateById(this.updateId()!, productData)
+      : this.productService.create(productData);
+
     request$.subscribe({
       next: () => {
         this.form.markAsPristine();

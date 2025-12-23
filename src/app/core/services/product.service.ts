@@ -16,30 +16,6 @@ export class ProductService extends BaseCrudService<Product> {
     this.path = '/products/';
   }
 
-  /**
-   * Create product with FormData (for file upload)
-   */
-  createWithFile(data: any, imageFile: File) {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        formData.append(key, value.join(','));
-      } else if (value !== undefined && value !== null) {
-        if (typeof value === 'object') {
-          formData.append(key, JSON.stringify(value));
-        } else {
-          formData.append(key, String(value));
-        }
-      }
-    });
-    if (imageFile) {
-      formData.set('image', imageFile, imageFile.name);
-    }
-    return this.httpClientService.postFile(`${this.path}/create/`, {
-      data: formData,
-    });
-  }
-
   getAllProducts(filter?: ProductFilter): Observable<ProductsResponse> {
     let param: any = {};
     if (filter) {
@@ -57,46 +33,8 @@ export class ProductService extends BaseCrudService<Product> {
   }
 
   getCategories(): Observable<Product> {
-    return this.httpClientService.getJSON<Product>(
-      `${this.path}/categories`,
-      {
-        data: {},
-      }
-    );
-  }
-
-  /**
-   * Create product with FormData (for file upload)
-   */
-  createWithFormData(formData: FormData) {
-    if (typeof (this.httpClientService as any).postFormData === 'function') {
-      return (this.httpClientService as any).postFormData(
-        this.path + '/create/',
-        formData
-      );
-    } else {
-      // fallback for environments where postFormData is not available
-      return (this.httpClientService as any).postFile(this.path + '/create/', {
-        data: formData,
-      });
-    }
-  }
-
-  /**
-   * Update product with FormData (for file upload)
-   */
-  updateWithFile(id: string, formData: FormData) {
-    if (typeof (this.httpClientService as any).postFormData === 'function') {
-      return (this.httpClientService as any).postFormData(
-        this.path + '/update/' + id,
-        formData
-      );
-    } else {
-      // fallback for environments where postFormData is not available
-      return (this.httpClientService as any).postFile(
-        this.path + '/update/' + id,
-        { data: formData }
-      );
-    }
+    return this.httpClientService.getJSON<Product>(`${this.path}/categories`, {
+      data: {},
+    });
   }
 }

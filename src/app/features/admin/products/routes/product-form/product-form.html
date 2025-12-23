@@ -5,9 +5,6 @@
 <div class="admin-container scroll-container">
   <div class="form-container content-scroll form">
     <form [formGroup]="form">
-      @if(backendError) {
-      <div class="alert alert-danger mb-3">{{ backendError }}</div>
-      }
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'product_name' | translate" [control]="form.controls.name">
@@ -81,7 +78,7 @@
     <button type="button" routerLink="/admin/products" mat-raised-button color="primary" class="cancel">
       {{ 'cancel' | translate }}
     </button>
-    <button mat-raised-button color="primary" class="save" (click)="onSave()" [disabled]="!imageFile">
+    <button mat-raised-button color="primary" class="save" (click)="onSave()">
       {{ updateId() ? ('update' | translate) : ('create' | translate) }}
     </button>
   </div>
