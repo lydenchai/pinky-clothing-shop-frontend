@@ -18,19 +18,23 @@
   </header>
   <div class="content-scroll">
     <section class="kpis">
-      <div class="kpi">
+      <div class="kpi products">
+        <div class="kpi-icon">📦</div>
         <div class="kpi-value">{{ totalProducts }}</div>
         <div class="kpi-label">{{ '_total' | translate:{param: ('product' | translate | plural)} }}</div>
       </div>
-      <div class="kpi">
+      <div class="kpi low-stock">
+        <div class="kpi-icon">⚠️</div>
         <div class="kpi-value">{{ lowStockCount }}</div>
         <div class="kpi-label">{{ 'low_stock' | translate }} (&le;5)</div>
       </div>
-      <div class="kpi">
+      <div class="kpi orders">
+        <div class="kpi-icon">🛒</div>
         <div class="kpi-value">{{ pendingOrders }}</div>
         <div class="kpi-label">{{ 'pending_orders' | translate }}</div>
       </div>
-      <div class="kpi">
+      <div class="kpi sales">
+        <div class="kpi-icon">💰</div>
         <div class="kpi-value">{{ salesNumber | number:'1.0-0' }}</div>
         <div class="kpi-label">{{ 'total_sales' | translate }}</div>
       </div>
@@ -38,7 +42,7 @@
     <section class="panels">
       <div class="panel">
         <h3>{{ 'recent_orders' | translate }}</h3>
-        <div class="container-table content-scroll border border-[#00000014]">
+        <div class="container-table content-scroll border border-[#00000014] mt-2">
           <table class="table">
             <thead>
               <tr>

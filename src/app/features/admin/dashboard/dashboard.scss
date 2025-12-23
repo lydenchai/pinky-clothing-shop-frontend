@@ -13,23 +13,68 @@
    display: grid;
    grid-template-columns: repeat(4, 1fr);
    gap: 12px;
-   margin-bottom: 20px;
+   margin-bottom: 16px;
  }
 
  .kpi {
    background: #fff;
    padding: 16px;
    border-radius: 14px;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+   transition: transform 0.2s, box-shadow 0.2s;
+   animation: fadeInUp 0.5s;
+
+   &:hover {
+     transform: translateY(-2px) scale(1);
+     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+   }
+
+   .kpi-icon {
+     font-size: 2.1rem;
+     margin-bottom: 6px;
+     opacity: 0.85;
+   }
+
+   .kpi-value {
+     font-size: 1.6rem;
+     font-weight: 700;
+   }
+
+   .kpi-label {
+     color: #6b7280;
+     font-size: 0.9rem;
+   }
  }
 
- .kpi-value {
-   font-size: 1.6rem;
-   font-weight: 700;
+ .kpi.products .kpi-value {
+   color: #a21caf;
  }
 
- .kpi-label {
-   color: #6b7280;
-   font-size: 0.9rem;
+ .kpi.low-stock .kpi-value {
+   color: #eab308;
+ }
+
+ .kpi.orders .kpi-value {
+   color: #2563eb;
+ }
+
+ .kpi.sales .kpi-value {
+   color: #16a34a;
+ }
+
+ @keyframes fadeInUp {
+   from {
+     opacity: 0;
+     transform: translateY(16px);
+   }
+
+   to {
+     opacity: 1;
+     transform: translateY(0);
+   }
  }
 
  .panels {

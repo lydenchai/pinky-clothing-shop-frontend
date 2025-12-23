@@ -48,4 +48,9 @@ export class AnalyticsService extends BaseCrudService<AnalyticsEvent> {
   getEvents(): Observable<AnalyticsEvent[]> {
     return this.httpClientService.getJSON<AnalyticsEvent[]>(this.path);
   }
+
+  // Fetch analytics summary for admin dashboard
+  getSummary(): Observable<any> {
+    return this.httpClientService.getJSON<any>(`${this.path}summary`);
+  }
 }

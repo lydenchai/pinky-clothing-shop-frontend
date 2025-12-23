@@ -1,37 +1,49 @@
-<div class="admin-container scroll-container">
-  <section class="content-header">
-    <h5>{{ 'analytic_dashboard' | translate }}</h5>
+<div class="admin-container scroll-container modern-analytic">
+  <section class="content-header modern-header">
+    <div class="header-flex">
+      <h5>
+        {{ 'analytic_dashboard' | translate }}
+      </h5>
+      <button mat-stroked-button color="primary" (click)="logTestEvent()" style="margin-left: 16px;">
+        Log Test Event
+      </button>
+      <button mat-icon-button (click)="refresh()" title="Refresh analytics" aria-label="Refresh analytics"
+        class="refresh-btn">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
   </section>
-  <section class="table-header">
-    <h6>Recent Events</h6>
-    <canvas id="eventTypeChart" width="400" height="200"></canvas>
-  </section>
-  <div class="container-table content-scroll">
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="number">{{ 'no.' | translate }}</th>
-          <th>{{ 'type' | translate }}</th>
-          <th>{{ 'user' | translate }}</th>
-          <th>{{ 'date' | translate }}</th>
-          <th>{{ 'created_at' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (event of events; track $index) {
-        <tr>
-          <td class="number">{{ $index + 1 }}</td>
-          <td>{{ event.type }}</td>
-          <td>{{ event.user_id || '-' }}</td>
-          <td>{{ event.data }}</td>
-          <td>{{ event.created_at | date:'short' }}</td>
-        </tr>
-        } @empty {
-        <tr>
-          <td colspan="5" class="text-center">{{ "no_data" | translate }}</td>
-        </tr>
-        }
-      </tbody>
-    </table>
+  <div class="content-scroll">
+    <section class="dashboard-summary">
+      <div class="summary-cards">
+        <div class="summary-card sales">
+          <div class="summary-icon-bg"><span class="summary-icon">💰</span></div>
+          <div class="summary-title">Total Sales</div>
+          <div class="summary-value">{{ summary?.totalSales | number:'1.0-2' }}</div>
+        </div>
+        <div class="summary-card orders">
+          <div class="summary-icon-bg"><span class="summary-icon">🛒</span></div>
+          <div class="summary-title">Total Orders</div>
+          <div class="summary-value">{{ summary?.totalOrders }}</div>
+        </div>
+        <div class="summary-card users">
+          <div class="summary-icon-bg"><span class="summary-icon">👤</span></div>
+          <div class="summary-title">Total Users</div>
+          <div class="summary-value">{{ summary?.totalUsers }}</div>
+        </div>
+        <div class="summary-card products">
+          <div class="summary-icon-bg"><span class="summary-icon">📦</span></div>
+          <div class="summary-title">Total Products</div>
+          <div class="summary-value">{{ summary?.totalProducts }}</div>
+        </div>
+      </div>
+      <div class="chart-section modern-panel">
+        <div class="panel-header">
+          <mat-icon>show_chart</mat-icon>
+          <h6>Sales (Last 30 Days)</h6>
+        </div>
+        <canvas id="salesChart" width="600" height="220"></canvas>
+      </div>
+    </section>
   </div>
 </div>

@@ -13,6 +13,11 @@ export const MENU: MenuItem[] = [
     route: '/admin',
   },
   {
+    icon: 'receipt_long',
+    title: 'order',
+    route: '/admin/orders',
+  },
+  {
     icon: 'inventory_2',
     title: 'product',
     route: '/admin/products',
@@ -23,25 +28,25 @@ export const MENU: MenuItem[] = [
     route: '/admin/inventory',
   },
   {
-    icon: 'receipt_long',
-    title: 'order',
-    route: '/admin/orders',
+    icon: 'people',
+    title: 'user',
+    route: '/admin/users',
   },
   {
     icon: 'analytics',
     title: 'analytic',
     route: '/admin/analytics',
   },
-  {
-    icon: 'people',
-    title: 'user',
-    route: '/admin/users',
-  },
+
   {
     icon: 'settings',
     title: 'setting',
     route: '/admin/settings',
     children: [
+      {
+        title: 'site_info',
+        route: '/admin/settings/site-info',
+      },
       {
         title: 'payment',
         route: '/admin/settings/payment',
@@ -49,10 +54,6 @@ export const MENU: MenuItem[] = [
       {
         title: 'shipping',
         route: '/admin/settings/shipping',
-      },
-      {
-        title: 'site_info',
-        route: '/admin/settings/site-info',
       },
     ],
   },

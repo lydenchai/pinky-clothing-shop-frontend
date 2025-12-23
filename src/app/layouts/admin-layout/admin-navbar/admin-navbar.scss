@@ -101,6 +101,10 @@
    padding: 10px 16px;
    cursor: pointer;
    transition: background 0.2s;
+
+   span {
+     text-align: left;
+   }
  }
 
  .dropdown-list li:hover {

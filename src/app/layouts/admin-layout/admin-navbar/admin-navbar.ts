@@ -100,9 +100,9 @@ export class AdminNavbar implements OnInit, OnDestroy {
         const viewedIds = this.localStorageService.getArray(
           LocalStorageEnum.AdminViewedOrders
         );
-        // Only show orders not viewed
+        // Only show orders not viewed (use _id everywhere)
         const unViewedOrders = pendingOrders.filter(
-          (o: any) => !viewedIds.includes(String(o.id))
+          (o: any) => !viewedIds.includes(String(o._id))
         );
         this.newOrderCount.set(unViewedOrders.length);
         this.newOrders.set(unViewedOrders.slice(0, 5));
@@ -124,14 +124,21 @@ export class AdminNavbar implements OnInit, OnDestroy {
   goToOrder(order_id: string) {
     // Mark as viewed
     const viewedIds = this.localStorageService.getArray(
-      LocalStorageEnum.AdminViewedOrders
+      LocalStorageEnum.AdminViewedOrders,
     );
+    let viewedChanged = false;
     if (!viewedIds.includes(String(order_id))) {
       viewedIds.push(String(order_id));
       this.localStorageService.setArray(
         LocalStorageEnum.AdminViewedOrders,
-        viewedIds
+        viewedIds,
       );
+      viewedChanged = true;
+    }
+    if (viewedChanged) {
+      // Remove the just-viewed order from newOrders immediately for UI reactivity
+      const updated = this.newOrders().filter(o => String(o._id) !== String(order_id));
+      this.newOrders.set(updated);
     }
     this.notificationOpen.set(false);
     this.fetchNewOrders();
