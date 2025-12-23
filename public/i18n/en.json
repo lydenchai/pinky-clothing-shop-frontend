@@ -263,6 +263,7 @@
     "_invalid_min_value": "Min value is {{min}}",
     "required": "Value is required.",
     "image_upload_failed": "Image upload failed. Please try again.",
-    "saved_successfully": "Saved successfully."
+    "saved_successfully": "Saved successfully.",
+    "save_failed": "Save failed. Please try again."
   }
 }

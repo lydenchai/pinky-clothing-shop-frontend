@@ -2,7 +2,7 @@
   <div class="form-container content-scroll">
     <div class="flex items-center justify-between w-full">
       <span class="order-badge">#{{ order()?._id }}</span>
-      <mat-chip class="status-{{ status }}" color="primary" selected>
+      <mat-chip class="status-chip status-{{ status }}" selected>
         <div class="flex items-center justify-center">
           <mat-icon class="mr-1">assignment</mat-icon>
           {{ status | translate }}

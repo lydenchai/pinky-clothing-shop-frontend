@@ -263,6 +263,7 @@
     "_invalid_min_value": "La valeur minimale est {{min}}",
     "required": "La valeur est requise.",
     "image_upload_failed": "Échec du téléchargement de l'image. Veuillez réessayer.",
-    "saved_successfully": "Enregistré avec succès."
+    "saved_successfully": "Enregistré avec succès.",
+    "save_failed": "Échec de l'enregistrement. Veuillez réessayer."
   }
 }

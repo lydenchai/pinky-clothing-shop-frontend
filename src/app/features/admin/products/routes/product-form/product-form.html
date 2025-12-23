@@ -1,5 +1,5 @@
 <h5>
-  {{ isEditMode ? ('_update' | translate : { param: ('product' | translate) }) : ('_create' | translate : {param:
+  {{ updateId() ? ('_update' | translate : { param: ('product' | translate) }) : ('_create' | translate : {param:
   ('product' | translate) } )}}
 </h5>
 <div class="admin-container scroll-container">
@@ -81,8 +81,8 @@
     <button type="button" routerLink="/admin/products" mat-raised-button color="primary" class="cancel">
       {{ 'cancel' | translate }}
     </button>
-    <button mat-raised-button color="primary" class="save" (click)="onSave()">
-      {{ isEditMode ? ('update' | translate) : ('create' | translate) }}
+    <button mat-raised-button color="primary" class="save" (click)="onSave()" [disabled]="!imageFile">
+      {{ updateId() ? ('update' | translate) : ('create' | translate) }}
     </button>
   </div>
 </div>

@@ -6,11 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ProductService } from '../../../../../core/services/product.service';
 import { SnackbarService } from '../../../../../core/services/snackbar.service';
-import { UploadService } from '../../../../../core/services/upload.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
@@ -29,7 +28,6 @@ import { MainCategoryEnum } from '../../../../../core/types/enums/main-category.
     TranslateModule,
     MatButtonModule,
     MatFormFieldModule,
-    ReactiveFormsModule,
     MatInputModule,
     FieldContainer,
     PluralPipe,
@@ -42,7 +40,6 @@ import { MainCategoryEnum } from '../../../../../core/types/enums/main-category.
 export class ProductForm implements OnInit {
   imageFile: File | null = null;
   imagePreviewUrl: string | null = null;
-  isEditMode = false;
   updateId = signal<string | null>(null);
   backendError: string | null = null;
   MainCategoryEnum = Object.values(MainCategoryEnum);
@@ -75,36 +72,32 @@ export class ProductForm implements OnInit {
     this.route.params.subscribe((params) => {
       const id = params['id'];
       this.updateId.set(id);
-      this.isEditMode = true;
-      this.loadProduct(this.updateId()!);
-    });
-    // this.product_id = this.route.snapshot.paramMap.get('id');
-    // if (this.product_id) {
-    // }
-  }
-
-  loadProduct(_id: string) {
-    this.productService.getById(_id).subscribe({
-      next: (res) => {
-        const product = res.data;
-        this.form.patchValue({
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          category: product.category,
-          image: product.image,
-          stock: product.stock,
-          sizes: Array.isArray(product.sizes)
-            ? product.sizes
-            : typeof product.sizes === 'string' && product.sizes
-            ? product.sizes.split(',').map((s: string) => s.trim())
-            : [],
-          colors: Array.isArray(product.colors)
-            ? product.colors.join(', ')
-            : product.colors || '',
+      if (id) {
+        this.productService.getById(id).subscribe({
+          next: (res) => {
+            const product = res.data;
+            this.form.patchValue({
+              name: product.name,
+              description: product.description,
+              price: product.price,
+              category: product.category,
+              image: product.image,
+              stock: product.stock,
+              sizes: Array.isArray(product.sizes)
+                ? product.sizes
+                : typeof product.sizes === 'string' && product.sizes
+                ? product.sizes.split(',').map((s: string) => s.trim())
+                : [],
+              colors: Array.isArray(product.colors)
+                ? product.colors.join(', ')
+                : typeof product.colors === 'string' && product.colors
+                ? product.colors
+                : '',
+            });
+            this.imagePreviewUrl = product.image || null;
+          },
         });
-        this.imagePreviewUrl = product.image || null;
-      },
+      }
     });
   }
 
@@ -126,7 +119,6 @@ export class ProductForm implements OnInit {
       name: (formValue.name ?? '').trim(),
       description: (formValue.description ?? '').trim(),
       category: (formValue.category ?? '').trim(),
-      image: (formValue.image ?? '').trim(),
       sizes: formValue.sizes ?? [],
       colors: formValue.colors
         ? formValue.colors
@@ -136,18 +128,23 @@ export class ProductForm implements OnInit {
         : [],
     } as any;
 
-    const request$ = this.isEditMode
-      ? this.productService.updateById(this.updateId()!, productData)
-      : this.productService.create(productData);
+    if (!this.imageFile) {
+      this.backendError = 'Please select an image file.';
+      this.snackbarService.openSnackbarError('Please select an image file.');
+      return;
+    }
+    const request$ = this.productService.createWithFile(
+      productData,
+      this.imageFile
+    );
     request$.subscribe({
       next: () => {
         this.form.markAsPristine();
         this.snackbarService.openSnackbarSuccess('message.saved_successfully');
         this.router.navigate(['/admin/products']);
       },
-      error: (error) => {
-        this.backendError =
-          error?.error?.message || 'An error occurred. Please try again.';
+      error: () => {
+        this.snackbarService.openSnackbarError('message.save_failed');
       },
     });
   }

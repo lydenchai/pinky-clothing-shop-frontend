@@ -53,8 +53,7 @@ export class InventoryForm implements OnInit {
     ]),
     location: new FormControl<string | null>(''),
   });
-  isEditMode = false;
-  itemId = signal<string | null>(null);
+  updateId = signal<string | null>(null);
   products: Product[] = [];
 
   constructor(
@@ -68,9 +67,8 @@ export class InventoryForm implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
-      this.itemId.set(id);
+      this.updateId.set(id);
       if (id) {
-        this.isEditMode = true;
         this.inventoryService.getById(id).subscribe({
           next: (res) => {
             this.form.patchValue({
@@ -96,8 +94,8 @@ export class InventoryForm implements OnInit {
   onSubmit() {
     if (this.form.invalid) return;
     const rawData = { ...this.form.value } as any;
-    const request$ = this.itemId()
-      ? this.inventoryService.updateById(this.itemId()!, rawData)
+    const request$ = this.updateId()
+      ? this.inventoryService.updateById(this.updateId()!, rawData)
       : this.inventoryService.create(rawData);
     request$.subscribe({
       next: () => {

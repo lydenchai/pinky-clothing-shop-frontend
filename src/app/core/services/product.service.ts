@@ -1,6 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   Product,
   ProductFilter,
@@ -17,28 +16,45 @@ export class ProductService extends BaseCrudService<Product> {
     this.path = '/products/';
   }
 
-  // getAllProducts(filter?: ProductFilter): Observable<ProductsResponse> {
-  //   let params: HttpParams = new HttpParams();
+  /**
+   * Create product with FormData (for file upload)
+   */
+  createWithFile(data: any, imageFile: File) {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        formData.append(key, value.join(','));
+      } else if (value !== undefined && value !== null) {
+        if (typeof value === 'object') {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, String(value));
+        }
+      }
+    });
+    if (imageFile) {
+      formData.set('image', imageFile, imageFile.name);
+    }
+    return this.httpClientService.postFile(`${this.path}/create/`, {
+      data: formData,
+    });
+  }
 
-  //   if (filter) {
-  //     if (filter.category) params = params.set('category', filter.category);
-  //     if (filter.minPrice !== undefined)
-  //       params = params.set('minPrice', filter.minPrice.toString());
-  //     if (filter.maxPrice !== undefined)
-  //       params = params.set('maxPrice', filter.maxPrice.toString());
-  //     if (filter.search) params = params.set('search', filter.search);
-  //     if (filter.inStock !== undefined)
-  //       params = params.set('inStock', filter.inStock.toString());
-  //     if (filter.page !== undefined)
-  //       params = params.set('page', filter.page.toString());
-  //     if (filter.limit !== undefined)
-  //       params = params.set('limit', filter.limit.toString());
-  //   }
-
-  //   return this.httpClientService.getJSON<ProductsResponse>(this.path, {
-  //     data: params,
-  //   });
-  // }
+  getAllProducts(filter?: ProductFilter): Observable<ProductsResponse> {
+    let param: any = {};
+    if (filter) {
+      if (filter.category) param.category = filter.category;
+      if (filter.minPrice !== undefined) param.minPrice = filter.minPrice;
+      if (filter.maxPrice !== undefined) param.maxPrice = filter.maxPrice;
+      if (filter.search) param.search = filter.search;
+      if (filter.inStock !== undefined) param.inStock = filter.inStock;
+      if (filter.page !== undefined) param.page = filter.page;
+      if (filter.limit !== undefined) param.limit = filter.limit;
+    }
+    return this.httpClientService.getJSON<ProductsResponse>(this.path, {
+      data: param,
+    });
+  }
 
   getCategories(): Observable<Product> {
     return this.httpClientService.patchJSON<Product>(
@@ -49,18 +65,38 @@ export class ProductService extends BaseCrudService<Product> {
     );
   }
 
-  // searchProducts(query: string): Observable<Product[]> {
-  //   return this.getAllProducts({ search: query }).pipe(
-  //     map((response) => response.data)
-  //   );
-  // }
-
-  // Utility to parse sizes and colors from backend strings
-  parseSizes(sizesString?: string): string[] {
-    return sizesString ? sizesString.split(',').map((s) => s.trim()) : [];
+  /**
+   * Create product with FormData (for file upload)
+   */
+  createWithFormData(formData: FormData) {
+    if (typeof (this.httpClientService as any).postFormData === 'function') {
+      return (this.httpClientService as any).postFormData(
+        this.path + '/create/',
+        formData
+      );
+    } else {
+      // fallback for environments where postFormData is not available
+      return (this.httpClientService as any).postFile(this.path + '/create/', {
+        data: formData,
+      });
+    }
   }
 
-  parseColors(colorsString?: string): string[] {
-    return colorsString ? colorsString.split(',').map((c) => c.trim()) : [];
+  /**
+   * Update product with FormData (for file upload)
+   */
+  updateWithFile(id: string, formData: FormData) {
+    if (typeof (this.httpClientService as any).postFormData === 'function') {
+      return (this.httpClientService as any).postFormData(
+        this.path + '/update/' + id,
+        formData
+      );
+    } else {
+      // fallback for environments where postFormData is not available
+      return (this.httpClientService as any).postFile(
+        this.path + '/update/' + id,
+        { data: formData }
+      );
+    }
   }
 }

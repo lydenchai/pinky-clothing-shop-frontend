@@ -13,6 +13,8 @@ import {
 } from '../../../core/types/product.model';
 import { CategoryEnum } from '../../../core/types/enums/category.enum';
 import { ProductService } from '../../../core/services/product.service';
+import { PaginationType } from '../../../core/types/pagination-type';
+import { PaginationUtil } from '../../../utils/pagination.util';
 
 @Component({
   selector: 'app-products',
@@ -28,7 +30,7 @@ import { ProductService } from '../../../core/services/product.service';
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
-export class Products implements OnInit, OnDestroy {
+export class Products extends PaginationUtil implements OnInit, OnDestroy {
   products = signal<Product[]>([]);
   filteredProducts = signal<Product[]>([]);
   pagination = signal<PaginationInfo>({
@@ -59,7 +61,9 @@ export class Products implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(() => {
@@ -72,31 +76,42 @@ export class Products implements OnInit, OnDestroy {
         hasPreviousPage: false,
       });
       this.sortBy = 'featured';
-      this.loadProducts();
+      this.getList({ page: 1, limit: this.limit });
     });
   }
 
-  loadProducts() {
-    this.productService.getMany(this.filters()).subscribe({
-      next: (res) => {
-        const search = this.filters().search;
-        if (search) {
-          const q = search.toLowerCase();
-          res.data = res.data.filter((p: any) =>
-            p.name.toLowerCase().includes(q)
-          );
-        }
-        this.products.set(res.data);
-        // this.pagination.set(res.data.pagination);
-        this.applySort(res.data);
-      },
-    });
+  getList(event: PaginationType) {
+    this.productService
+      .getAllProducts({
+        ...this.filters(),
+        page: event.page,
+        limit: event.limit,
+      })
+      .subscribe({
+        next: (res) => {
+          // Set products and filteredProducts
+          this.products.set(res.data);
+          this.applySort(res.data);
+          // Update pagination info from backend
+          if (res.pagination) {
+            // Map backend keys to frontend expected keys
+            this.pagination.set({
+              currentPage: event.page,
+              itemsPerPage: event.limit,
+              totalItems: res.pagination.totalItems,
+              totalPages: res.pagination.totalPages,
+              hasNextPage: event.page < res.pagination.totalPages,
+              hasPreviousPage: event.page > 1,
+            });
+          }
+        },
+      });
   }
 
   setCategory(category: string) {
     const cat = category && category !== '' ? category : undefined;
     this.filters.update((f) => ({ ...f, category: cat, page: 1 }));
-    this.loadProducts();
+    this.getList({ page: 1, limit: this.limit });
   }
 
   setPriceRange(min: number, max: number) {
@@ -109,7 +124,7 @@ export class Products implements OnInit, OnDestroy {
     }
 
     this.filters.update((f) => ({ ...f, minPrice, maxPrice }));
-    this.loadProducts();
+    this.getList({ page: 1, limit: this.limit });
   }
 
   onMinPriceChange(value: string) {
@@ -142,7 +157,7 @@ export class Products implements OnInit, OnDestroy {
 
   toggleInStock() {
     this.filters.update((f) => ({ ...f, inStock: !f.inStock }));
-    this.loadProducts();
+    this.getList({ page: 1, limit: this.limit });
   }
 
   applySort(products: Product[]) {
@@ -182,7 +197,7 @@ export class Products implements OnInit, OnDestroy {
   }
 
   applyFilters() {
-    this.loadProducts();
+    this.getList({ page: 1, limit: this.limit });
   }
 
   clearFilters() {
@@ -195,7 +210,7 @@ export class Products implements OnInit, OnDestroy {
       page: 1,
       limit: 15,
     });
-    this.loadProducts();
+    this.getList({ page: 1, limit: this.limit });
   }
 
   onSortChange(value: string) {
@@ -210,7 +225,7 @@ export class Products implements OnInit, OnDestroy {
   goToPage(page: number) {
     if (page >= 1 && page <= this.pagination().totalPages) {
       this.filters.update((f) => ({ ...f, page }));
-      this.loadProducts();
+      this.getList({ page, limit: this.limit });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }

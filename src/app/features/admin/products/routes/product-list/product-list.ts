@@ -12,6 +12,10 @@ import { PaginationUtil } from '../../../../../utils/pagination.util';
 import { ProductService } from '../../../../../core/services/product.service';
 import { DialogService } from '../../../../../core/services/dialog.service';
 import { PaginationType } from '../../../../../core/types/pagination-type';
+import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
+import { MatFormField } from '@angular/material/select';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-product-list',
@@ -25,10 +29,17 @@ import { PaginationType } from '../../../../../core/types/pagination-type';
     MatButtonModule,
     TranslateModule,
     PluralPipe,
+    FieldContainer,
+    MatFormField,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
 })
 export class ProductList extends PaginationUtil implements OnInit {
   products: Product[] = [];
+  form = new FormGroup({
+    name: new FormControl<string | null>(''),
+  });
 
   constructor(
     private productService: ProductService,

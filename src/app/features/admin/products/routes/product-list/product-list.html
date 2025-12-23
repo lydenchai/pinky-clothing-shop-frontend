@@ -2,7 +2,19 @@
   <section class="content-header">
     <h5>{{'product' | translate | plural}}</h5>
   </section>
-  <section class="table-header form">
+  <section class="table-header d-flex align-items-center justify-content-between">
+    <div class="row form">
+      <app-field-container [label]="'search' | translate" [control]="form.controls.name">
+        <mat-form-field appearance="outline">
+          <input matInput name="name" />
+        </mat-form-field>
+      </app-field-container>
+      <app-field-container [label]="'search' | translate" [control]="form.controls.name">
+        <mat-form-field appearance="outline">
+          <input matInput name="name" />
+        </mat-form-field>
+      </app-field-container>
+    </div>
     <div class="top-btn ms-auto">
       <button mat-raised-button color="primary" class="create" routerLink="create">
         <mat-icon>add</mat-icon>

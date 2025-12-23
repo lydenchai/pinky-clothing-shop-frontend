@@ -54,9 +54,9 @@ export class Dashboard implements OnInit {
 
   ngOnInit() {
     // Inventory
-    this.productService.getMany().subscribe((response) => {
-      this.totalProducts = response.data.length;
-      this.lowStockCount = response.data.filter(
+    this.productService.getMany().subscribe((res) => {
+      this.totalProducts = res.pagination.totalItems!;
+      this.lowStockCount = res.data.filter(
         (p: any) => p.stock <= 5
       ).length;
     });
@@ -64,8 +64,8 @@ export class Dashboard implements OnInit {
     // Orders
     this.orderService
       .getMany()
-      .subscribe((response: { data: Order[]; pagination: any }) => {
-        const orders = response.data;
+      .subscribe((res: { data: Order[]; pagination: any }) => {
+        const orders = res.data;
         this.pendingOrders = orders.filter(
           (o) => o.status === 'pending'
         ).length;

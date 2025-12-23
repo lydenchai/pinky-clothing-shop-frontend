@@ -49,13 +49,13 @@
         <div class="form-row">
           <div class="form-group">
             <label> {{ 'first_name' | translate }}</label>
-            <input type="text" [(ngModel)]="registerForm.first_name" name="first_name" required placeholder="Lyden"
+            <input type="text" [(ngModel)]="registerForm.first_name" name="first_name" required placeholder="Zhao"
               [disabled]="isLoading()" />
           </div>
 
           <div class="form-group">
             <label> {{ 'last_name' | translate }}</label>
-            <input type="text" [(ngModel)]="registerForm.last_name" name="last_name" required placeholder="Chai"
+            <input type="text" [(ngModel)]="registerForm.last_name" name="last_name" required placeholder="Lusi"
               [disabled]="isLoading()" />
           </div>
         </div>
@@ -74,7 +74,7 @@
             <button type="button" class="password-toggle" (click)="showRegisterPassword = !showRegisterPassword"
               tabindex="-1">
               <span class="material-icons">
-                {{ showRegisterPassword ? 'visibility_off' : 'visibility' }}
+                {{ showRegisterPassword ? 'visibility' : 'visibility_off' }}
               </span>
             </button>
           </div>
@@ -88,7 +88,7 @@
             <button type="button" class="password-toggle"
               (click)="showRegisterConfirmPassword = !showRegisterConfirmPassword" tabindex="-1">
               <span class="material-icons">
-                {{ showRegisterConfirmPassword ? 'visibility_off' : 'visibility' }}
+                {{ showRegisterConfirmPassword ? 'visibility' : 'visibility_off' }}
               </span>
             </button>
           </div>
