@@ -57,7 +57,7 @@ export class ProductService extends BaseCrudService<Product> {
   }
 
   getCategories(): Observable<Product> {
-    return this.httpClientService.patchJSON<Product>(
+    return this.httpClientService.getJSON<Product>(
       `${this.path}/categories`,
       {
         data: {},

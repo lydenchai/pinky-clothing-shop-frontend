@@ -13,9 +13,10 @@ import { ProductService } from '../../../../../core/services/product.service';
 import { DialogService } from '../../../../../core/services/dialog.service';
 import { PaginationType } from '../../../../../core/types/pagination-type';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
-import { MatFormField } from '@angular/material/select';
+import { MatFormField, MatSelectModule } from '@angular/material/select';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { InputBouncerDirective } from '../../../../../shared/directives/input-bouncer.directive';
 
 @Component({
   selector: 'app-product-list',
@@ -26,20 +27,25 @@ import { MatInputModule } from '@angular/material/input';
     CurrencyPipe,
     Pagination,
     MatIconModule,
-    MatButtonModule,
-    TranslateModule,
     PluralPipe,
+    TranslateModule,
     FieldContainer,
     MatFormField,
     MatInputModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    InputBouncerDirective,
+    MatButtonModule,
   ],
 })
 export class ProductList extends PaginationUtil implements OnInit {
   products: Product[] = [];
+  categories: string[] = [];
   form = new FormGroup({
     name: new FormControl<string | null>(''),
+    category: new FormControl<string | null>(''),
   });
+  query?: string;
 
   constructor(
     private productService: ProductService,
@@ -50,18 +56,48 @@ export class ProductList extends PaginationUtil implements OnInit {
   }
 
   ngOnInit() {
+    this.getCategories();
+    this.getList({ page: 1, limit: this.limit });
+  }
+
+  onSearch(value: string): void {
+    this.query = value;
+    this.getList({ page: 1, limit: this.limit });
+  }
+
+  getCategories() {
+    this.productService.getCategories().subscribe((res: any) => {
+      if (Array.isArray(res)) {
+        this.categories = res;
+      } else if (res && res.data) {
+        this.categories = res.data;
+      }
+    });
+  }
+
+  onCategoryChange(value: string): void {
+    this.form.controls.category.setValue(value);
     this.getList({ page: 1, limit: this.limit });
   }
 
   getList(event: PaginationType) {
     this.productService
-      .getMany({ page: event.page, limit: event.limit })
-      .subscribe((response) => {
-        this.products = response.data || [];
-        this.totalCount = response.pagination.totalItems;
+      .getMany({
+        page: event.page,
+        limit: event.limit,
+        q: this.query,
+        ...this.form.value,
+      })
+      .subscribe((res) => {
+        this.products = res.data || [];
+        this.totalCount = res.pagination.totalItems;
         this.limit = event.limit;
         this.page = event.page;
       });
+  }
+
+  onFilter() {
+    this.getList({ page: 1, limit: this.limit });
   }
 
   async deleteProduct(_id: string) {

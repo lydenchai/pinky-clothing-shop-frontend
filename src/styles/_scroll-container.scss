@@ -7,6 +7,8 @@
   position: relative;
 
   .content-header {
+    margin: 0 0 12px 0;
+
     .mat-button-base {
       z-index: 1;
     }
@@ -15,7 +17,6 @@
   .content-scroll {
     max-height: 100% !important;
     overflow-y: auto !important;
-    // overflow-x: hidden;
 
     .table-x-scroll {
       overflow-x: auto;

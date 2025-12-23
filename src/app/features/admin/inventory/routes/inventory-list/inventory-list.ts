@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DatePipe, CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +11,11 @@ import { PaginationUtil } from '../../../../../utils/pagination.util';
 import { InventoryItem } from '../../../../../core/types/inventory-item';
 import { InventoryService } from '../../../../../core/services/inventory.service';
 import { PaginationType } from '../../../../../core/types/pagination-type';
-import { FindObjectPipe } from '../../../../../shared/pipes/find-object.pipe';
+import { InputBouncerDirective } from '../../../../../shared/directives/input-bouncer.directive';
+import { MatFormField, MatSelectModule } from '@angular/material/select';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-inventory-list',
@@ -25,6 +28,12 @@ import { FindObjectPipe } from '../../../../../shared/pipes/find-object.pipe';
     TranslateModule,
     RouterModule,
     Pagination,
+    FieldContainer,
+    MatFormField,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    InputBouncerDirective,
     MatButtonModule,
   ],
   templateUrl: './inventory-list.html',
@@ -32,8 +41,10 @@ import { FindObjectPipe } from '../../../../../shared/pipes/find-object.pipe';
 })
 export class InventoryList extends PaginationUtil implements OnInit {
   inventories: InventoryItem[] = [];
-  loading = false;
-  error: string | null = null;
+  form = new FormGroup({
+    name: new FormControl<string | null>(''),
+  });
+  query?: string;
 
   constructor(
     private inventoryService: InventoryService,
@@ -52,12 +63,18 @@ export class InventoryList extends PaginationUtil implements OnInit {
     this.routerSub?.unsubscribe();
   }
 
+  onSearch(value: string): void {
+    this.query = value;
+    this.getList({ page: 1, limit: this.limit });
+  }
+
   getList(event: PaginationType) {
     this.inventoryService
       .getMany({
         page: event.page,
         limit: event.limit,
-        populate: JSON.stringify({ path: 'product_id' }),
+        q: this.query,
+        ...this.form.value,
       })
       .subscribe({
         next: (res) => {
@@ -65,10 +82,6 @@ export class InventoryList extends PaginationUtil implements OnInit {
           this.totalCount = res?.pagination?.totalItems ?? 0;
           this.limit = event.limit;
           this.page = event.page;
-          this.loading = false;
-        },
-        error: (err) => {
-          this.error = err?.error?.message || 'Failed to load inventory.';
         },
       });
   }
@@ -86,9 +99,6 @@ export class InventoryList extends PaginationUtil implements OnInit {
       return;
     this.inventoryService.delete(_id).subscribe({
       next: () => this.getList({ page: this.page, limit: this.limit }),
-      error: (err) => {
-        this.error = err?.error?.message || 'Failed to delete inventory item.';
-      },
     });
   }
 }

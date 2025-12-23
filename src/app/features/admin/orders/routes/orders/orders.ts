@@ -10,6 +10,12 @@ import { PaginationUtil } from '../../../../../utils/pagination.util';
 import { OrderService } from '../../../../../core/services/order.service';
 import { Order } from '../../../../../core/types/order';
 import { PaginationType } from '../../../../../core/types/pagination-type';
+import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { InputBouncerDirective } from '../../../../../shared/directives/input-bouncer.directive';
 
 @Component({
   selector: 'app-orders-admin',
@@ -20,14 +26,24 @@ import { PaginationType } from '../../../../../core/types/pagination-type';
     TranslateModule,
     PluralPipe,
     MatIconModule,
-    MatButtonModule,
     Pagination,
+    FieldContainer,
+    MatFormField,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    InputBouncerDirective,
+    MatButtonModule,
   ],
   templateUrl: './orders.html',
   styleUrls: ['./orders.scss'],
 })
 export class OrdersAdmin extends PaginationUtil implements OnInit {
   orders: Order[] = [];
+  form = new FormGroup({
+    name: new FormControl<string | null>(''),
+  });
+  query?: string;
 
   constructor(private orderService: OrderService) {
     super();
@@ -37,17 +53,29 @@ export class OrdersAdmin extends PaginationUtil implements OnInit {
     this.getList({ page: 1, limit: this.limit });
   }
 
+  onSearch(value: string): void {
+    this.query = value;
+    this.getList({ page: 1, limit: this.limit });
+  }
+
   getList(event: PaginationType) {
-    this.orderService.getMany().subscribe({
-      next: (res) => {
-        this.orders = res.data ?? [];
-        this.totalCount = res.pagination.totalItems;
-        this.limit = event.limit;
-        this.page = event.page;
-      },
-      error: (err) => {
-        this.orders = [];
-      },
-    });
+    this.orderService
+      .getMany({
+        page: event.page,
+        limit: event.limit,
+        q: this.query,
+        ...this.form.value,
+      })
+      .subscribe({
+        next: (res) => {
+          this.orders = res.data ?? [];
+          this.totalCount = res.pagination.totalItems;
+          this.limit = event.limit;
+          this.page = event.page;
+        },
+        error: (err) => {
+          this.orders = [];
+        },
+      });
   }
 }

@@ -1,5 +1,17 @@
 <div class="admin-container scroll-container">
-  <h5>{{'order' | translate | plural}}</h5>
+  <section class="content-header">
+    <h5>{{'order' | translate | plural}}</h5>
+  </section>
+  <section class="table-header d-flex align-items-center justify-content-between">
+    <div class="d-flex gap-2 align-items-center form">
+      <app-field-container [label]="'search' | translate" [control]="form.controls.name">
+        <mat-form-field appearance="outline" class="filter-field">
+          <input matInput name="q" appInputBouncer (keyUpBouncer)="onSearch($event)" />
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+      </app-field-container>
+    </div>
+  </section>
   <div class="container-table content-scroll">
     <table class="table">
       <thead>
