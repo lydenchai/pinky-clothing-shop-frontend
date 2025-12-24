@@ -1,3 +1,78 @@
 <div class="admin-container scroll-container">
-  <h5>{{'site_info' | translate}}</h5>
+  <section class="content-header">
+    <h5>{{'site_info' | translate}}</h5>
+  </section>
+  @if (info) {
+  <div class="site-info-card">
+    @if (editMode) {
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="site-info-header">
+        @if (form.value.logoUrl) {
+        <img [src]="form.value.logoUrl" class="site-logo" />
+        }
+        <div>
+          <input formControlName="name" class="site-name-input" placeholder="Shop Name" required />
+          @if (form.get('name')?.invalid && form.get('name')?.touched) {
+          <div class="field-error">Name is required.</div>
+          }
+          <textarea formControlName="description" class="site-desc-input" placeholder="Description"></textarea>
+        </div>
+      </div>
+      <hr class="site-info-divider" />
+      <div class="site-info-details">
+        <div class="site-info-row"><mat-icon>mail</mat-icon><input formControlName="contactEmail" placeholder="Email"
+            required />
+        </div>
+        @if (form.get('contactEmail')?.invalid && form.get('contactEmail')?.touched) {
+        <div class="field-error">Email is required.</div>
+        }
+        <div class="site-info-row"><mat-icon>call</mat-icon><input formControlName="phone" placeholder="Phone" /></div>
+        <div class="site-info-row"><mat-icon>location_on</mat-icon><input formControlName="address"
+            placeholder="Address" /></div>
+        <div class="site-info-row"><mat-icon>image</mat-icon><input formControlName="logoUrl" placeholder="Logo URL" />
+        </div>
+      </div>
+      <div class="site-info-actions">
+        <button type="submit" [disabled]="loading || form.invalid" mat-raised-button color="primary">
+          @if (loading) {
+          <mat-icon class="loading-spinner">autorenew</mat-icon>
+          }
+          Save
+        </button>
+        <button type="button" (click)="cancelEdit()" mat-button [disabled]="loading">Cancel</button>
+      </div>
+      <div class="site-info-msg">
+        @if (successMsg) {
+        <span class="success">{{ successMsg }}</span>
+        }
+        @if (errorMsg) {
+        <span class="error">{{ errorMsg }}</span>
+        }
+      </div>
+    </form>
+    } @else {
+    <div class="site-info-header">
+      @if (info.logoUrl) {
+      <img [src]="info.logoUrl" class="site-logo" />
+      }
+      <div>
+        <h2 class="site-name">{{ info.name }}</h2>
+        <div class="site-desc">{{ info.description }}</div>
+      </div>
+    </div>
+    <div class="site-info-details">
+      <div class="site-info-row"><mat-icon>mail</mat-icon><span>{{ info.contactEmail }}</span></div>
+      @if (info.phone) {
+      <div class="site-info-row"><mat-icon>call</mat-icon><span>{{ info.phone }}</span></div>
+      }
+      @if (info.address) {
+      <div class="site-info-row"><mat-icon>location_on</mat-icon><span>{{ info.address }}</span></div>
+      }
+    </div>
+    <div class="site-info-actions">
+      <button type="button" (click)="enableEdit()" mat-raised-button color="primary">Edit</button>
+    </div>
+    }
+  </div>
+  }
 </div>
