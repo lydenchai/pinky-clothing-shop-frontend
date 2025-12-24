@@ -8,8 +8,8 @@ export const adminSettingRoutes: Routes = [
   },
   {
     path: 'shipping',
-    loadComponent: () =>
-      import('./routes/shipping/shipping').then((c) => c.Shipping),
+    loadChildren: () =>
+      import('./routes/shipping/shipping.route').then((c) => c.shippingRoutes),
   },
   {
     path: 'site-info',

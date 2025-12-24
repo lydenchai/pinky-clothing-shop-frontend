@@ -1,0 +1,72 @@
+<h5>
+  {{ updateId() ? ('_update' | translate : { param: ('shipping' | translate) }) : ('_create' | translate : {param:
+  ('shipping' | translate) } )}}
+</h5>
+<div class="admin-container scroll-container">
+  <div class="form-container content-scroll form">
+    <form [formGroup]="form">
+      <div class="row mt-2">
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'name' | translate" [control]="form.controls.name">
+            <mat-form-field appearance="outline">
+              <input matInput name="name" [formControl]="form.controls.name" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'description' | translate" [control]="form.controls.description">
+            <mat-form-field appearance="outline">
+              <input matInput name="description" [formControl]="form.controls.description" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'price' | translate" [control]="form.controls.price">
+            <mat-form-field appearance="outline">
+              <input matInput type="number" name="price" [formControl]="form.controls.price" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'min_order' | translate" [control]="form.controls.min_order">
+            <mat-form-field appearance="outline">
+              <input matInput type="number" name="min_order" [formControl]="form.controls.min_order" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'max_order' | translate" [control]="form.controls.max">
+            <mat-form-field appearance="outline">
+              <input matInput type="number" name="max" [formControl]="form.controls.max" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'country' | translate" [control]="form.controls.country">
+            <mat-form-field appearance="outline">
+              <input matInput name="country" [formControl]="form.controls.country" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'estimated_days' | translate" [control]="form.controls.estimated_days">
+            <mat-form-field appearance="outline">
+              <input matInput type="number" name="estimated_days" [formControl]="form.controls.estimated_days" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3 d-flex align-items-center">
+          <mat-checkbox formControlName="active">{{ 'active' | translate }}</mat-checkbox>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="form-actions">
+    <button type="button" routerLink="/admin/settings/shipping" mat-raised-button color="primary" class="cancel">
+      {{ 'cancel' | translate }}
+    </button>
+    <button mat-raised-button color="primary" class="save" (click)="onSave()">
+      {{ updateId() ? ('update' | translate) : ('create' | translate) }}
+    </button>
+  </div>
+</div>

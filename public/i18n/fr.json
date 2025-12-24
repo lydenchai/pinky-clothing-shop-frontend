@@ -235,6 +235,10 @@
   "general_information": "Informations générales",
   "postal_code": "Code postal",
   "search": "Recherche",
+  "min_order": "Commande minimale",
+  "max_order": "Commande maximale",
+  "estimated_days": "Jours estimés",
+  "active": "Actif",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",
@@ -265,6 +269,7 @@
     "required": "La valeur est requise.",
     "image_upload_failed": "Échec du téléchargement de l'image. Veuillez réessayer.",
     "saved_successfully": "Enregistré avec succès.",
-    "save_failed": "Échec de l'enregistrement. Veuillez réessayer."
+    "save_failed": "Échec de l'enregistrement. Veuillez réessayer.",
+    "deleted_successfully": "Supprimé avec succès."
   }
 }

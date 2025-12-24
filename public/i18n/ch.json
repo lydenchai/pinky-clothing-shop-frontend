@@ -235,6 +235,10 @@
   "general_information": "一般信息",
   "postal_code": "邮政编码",
   "search": "搜索",
+  "min_order": "最小订单量",
+  "max_order": "最大订单量",
+  "estimated_days": "预计天数",
+  "active": "激活",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",
@@ -265,6 +269,7 @@
     "required": "此项为必填项。",
     "image_upload_failed": "图片上传失败。请重试。",
     "saved_successfully": "保存成功。",
-    "save_failed": "保存失败。请重试。"
+    "save_failed": "保存失败。请重试。",
+    "deleted_successfully": "删除成功。"
   }
 }

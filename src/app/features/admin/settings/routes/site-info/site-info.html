@@ -4,7 +4,7 @@
   </section>
   @if (info) {
   <div class="site-info-card">
-    @if (editMode) {
+    @if (isEdit) {
     <form [formGroup]="form" (ngSubmit)="save()">
       <div class="site-info-header">
         @if (form.value.logoUrl) {
@@ -33,21 +33,10 @@
         </div>
       </div>
       <div class="site-info-actions">
-        <button type="submit" [disabled]="loading || form.invalid" mat-raised-button color="primary">
-          @if (loading) {
-          <mat-icon class="loading-spinner">autorenew</mat-icon>
-          }
-          Save
+        <button type="button" (click)="cancelEdit()" mat-button>{{ 'cancel' | translate }}</button>
+        <button type="submit" mat-raised-button color="primary">
+          {{ 'save' | translate }}
         </button>
-        <button type="button" (click)="cancelEdit()" mat-button [disabled]="loading">Cancel</button>
-      </div>
-      <div class="site-info-msg">
-        @if (successMsg) {
-        <span class="success">{{ successMsg }}</span>
-        }
-        @if (errorMsg) {
-        <span class="error">{{ errorMsg }}</span>
-        }
       </div>
     </form>
     } @else {

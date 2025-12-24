@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { SiteInfoService } from '../../../../../core/services/site-info.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { SiteInformation } from '../../../../../core/types/site-info';
 
@@ -14,25 +20,20 @@ import { SiteInformation } from '../../../../../core/types/site-info';
 })
 export class SiteInfo implements OnInit {
   info: SiteInformation | null = null;
-  editMode = false;
-  form: FormGroup;
-  loading = false;
-  successMsg = '';
-  errorMsg = '';
+  isEdit = false;
+  form = new FormGroup({
+    name: new FormControl<string>('', Validators.required),
+    description: new FormControl<string>(''),
+    contactEmail: new FormControl<string>('', [
+      Validators.required,
+      Validators.email,
+    ]),
+    phone: new FormControl<string>(''),
+    address: new FormControl<string>(''),
+    logoUrl: new FormControl<string>(''),
+  });
 
-  constructor(
-    private siteInfoService: SiteInfoService,
-    private fb: FormBuilder
-  ) {
-    this.form = this.fb.group({
-      name: ['', { nonNullable: true }],
-      description: [''],
-      contactEmail: ['', { nonNullable: true }],
-      phone: [''],
-      address: [''],
-      logoUrl: [''],
-    });
-  }
+  constructor(private siteInfoService: SiteInfoService) {}
 
   ngOnInit() {
     this.loadInfo();
@@ -46,36 +47,20 @@ export class SiteInfo implements OnInit {
   }
 
   enableEdit() {
-    this.editMode = true;
-    this.successMsg = '';
-    this.errorMsg = '';
+    this.isEdit = true;
     if (this.info) this.form.patchValue(this.info);
   }
 
   cancelEdit() {
-    this.editMode = false;
-    this.successMsg = '';
-    this.errorMsg = '';
+    this.isEdit = false;
     if (this.info) this.form.patchValue(this.info);
   }
 
   save() {
-    if (this.form.invalid) {
-      this.errorMsg = 'Please fill all required fields.';
-      return;
-    }
-    this.loading = true;
-    this.errorMsg = '';
-    this.siteInfoService.updateSiteInfo(this.form.value).subscribe({
+    if (this.form.invalid) return;
+    this.siteInfoService.updateSiteInfo(this.form.value as any).subscribe({
       next: (info) => {
         this.info = info;
-        this.editMode = false;
-        this.successMsg = 'Site info updated!';
-        this.loading = false;
-      },
-      error: (err) => {
-        this.errorMsg = err?.error?.message || 'Failed to update site info.';
-        this.loading = false;
       },
     });
   }

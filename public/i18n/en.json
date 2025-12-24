@@ -235,6 +235,10 @@
   "general_information": "General Information",
   "postal_code": "Postal Code",
   "search": "Search",
+  "min_order": "Min Order",
+  "max_order": "Max Order",
+  "estimated_days": "Estimated Days",
+  "active": "Active",
   "message": {
     "item_added_to_cart_successfully": "Item added to cart successfully!",
     "please_login_to_add_items_to_your_cart": "Please login to add items to your cart",
@@ -265,6 +269,7 @@
     "required": "Value is required.",
     "image_upload_failed": "Image upload failed. Please try again.",
     "saved_successfully": "Saved successfully.",
-    "save_failed": "Save failed. Please try again."
+    "save_failed": "Save failed. Please try again.",
+    "deleted_successfully": "Deleted successfully."
   }
 }
