@@ -240,6 +240,8 @@
   "estimated_days": "ថ្ងៃគិតជាមធ្យម",
   "active": "សកម្ម",
   "inactive": "អសកម្ម",
+  "drag_and_drop": "ទាញនិងទម្លាក់ ឬ",
+  "browse": "រុករក",
   "message": {
     "item_added_to_cart_successfully": "បានបន្ថែមទំនិញចូលក្នុងរទេះដោយជោគជ័យ!",
     "please_login_to_add_items_to_your_cart": "សូមចូលប្រើប្រាស់ដើម្បីបន្ថែមទំនិញចូលរទេះរបស់អ្នក",

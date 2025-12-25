@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-upload-image',
   standalone: true,
+  imports: [TranslateModule],
   templateUrl: './upload-image.html',
   styleUrls: ['./upload-image.scss'],
 })
@@ -44,10 +46,5 @@ export class UploadImage {
       this.previewUrl = e.target.result;
     };
     reader.readAsDataURL(file);
-  }
-
-  removeImage() {
-    this.previewUrl = null;
-    this.imageSelected.emit(null);
   }
 }
