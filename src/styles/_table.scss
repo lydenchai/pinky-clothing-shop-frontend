@@ -187,6 +187,19 @@ table.table {
   .right {
     text-align: right !important;
   }
+
+  .status {
+
+    &.active {
+      color: $active-color;
+      font-weight: 600;
+    }
+
+    &.inactive {
+      color: $inactive-color;
+      font-weight: 600;
+    }
+  }
 }
 
 /* ============

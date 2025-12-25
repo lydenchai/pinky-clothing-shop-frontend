@@ -27,4 +27,13 @@ export class OrderService extends BaseCrudService<Order> {
       data: { summaryData },
     });
   }
+
+  /**
+   * Get orders for the current user (calls getMany, backend filters by user)
+   */
+  getUserOrders(params?: any) {
+    return this.httpClientService.getJSON<any>('/orders/user-orders', {
+      data: params,
+    });
+  }
 }

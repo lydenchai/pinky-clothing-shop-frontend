@@ -56,12 +56,10 @@ export class Dashboard implements OnInit {
     // Inventory
     this.productService.getMany().subscribe((res) => {
       this.totalProducts = res.pagination.totalItems!;
-      this.lowStockCount = res.data.filter(
-        (p: any) => p.stock <= 5
-      ).length;
+      this.lowStockCount = res.data.filter((p: any) => p.stock <= 5).length;
     });
 
-    // Orders
+    // Orders (for stats)
     this.orderService
       .getMany()
       .subscribe((res: { data: Order[]; pagination: any }) => {
@@ -73,7 +71,13 @@ export class Dashboard implements OnInit {
           (o) => o.status === 'delivered'
         ).length;
         this.sales = orders.reduce((sum, o) => sum + o.total_amount, 0);
-        // Recent orders (most recent 6)
+      });
+
+    // Recent orders (for current user)
+    this.orderService
+      .getUserOrders()
+      .subscribe((res: { data: Order[]; pagination: any }) => {
+        const orders = res.data;
         this.recentOrders = orders
           .slice()
           .sort(

@@ -68,7 +68,10 @@ export class Shipping extends PaginationUtil implements OnInit {
       })
       .subscribe({
         next: (res) => {
-          console.log(res);
+          this.shippingMethods = res.data;
+          this.totalCount = res?.pagination?.totalItems ?? 0;
+          this.limit = event.limit;
+          this.page = event.page;
         },
       });
   }

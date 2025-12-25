@@ -1,14 +1,5 @@
-// Helper to generate MongoDB-style ObjectId
-function generateObjectId(): string {
-  const timestamp = Math.floor(Date.now() / 1000).toString(16);
-  const random = Array.from({ length: 16 }, () =>
-    Math.floor(Math.random() * 16).toString(16)
-  ).join('');
-  return timestamp + random;
-}
 import { Component, OnInit, signal } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -24,7 +15,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Inventory } from '../../../../../core/types/inventory';
 import { SnackbarService } from '../../../../../core/services/snackbar.service';
 
 @Component({

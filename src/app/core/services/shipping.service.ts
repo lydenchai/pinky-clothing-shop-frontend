@@ -6,6 +6,6 @@ import { BaseCrudService } from './base-crud.service';
 export class ShippingService extends BaseCrudService<ShippingMethod> {
   constructor(injector: Injector) {
     super(injector);
-    this.path = '/shipping-methods/';
+    this.path = '/shippings/';
   }
 }

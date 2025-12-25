@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { SiteInfoService } from '../../../../../core/services/site-info.service';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { SiteInformation } from '../../../../../core/types/site-info';
+import { SiteInfo as SiteInformation } from '../../../../../core/types/site-info';
 
 @Component({
   selector: 'app-site-info',

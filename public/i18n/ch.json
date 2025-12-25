@@ -239,6 +239,7 @@
   "max_order": "最大订单量",
   "estimated_days": "预计天数",
   "active": "激活",
+  "inactive": "未激活",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",

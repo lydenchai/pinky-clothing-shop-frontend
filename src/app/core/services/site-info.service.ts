@@ -1,33 +1,22 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-
-export interface SiteInfo {
-  name: string;
-  description: string;
-  contactEmail: string;
-  phone?: string;
-  address?: string;
-  logoUrl?: string;
-}
+import { BaseCrudService } from './base-crud.service';
+import { SiteInfo } from '../types/site-info';
 
 @Injectable({ providedIn: 'root' })
-export class SiteInfoService {
-  private apiUrl = environment.apiUrl + '/site-info';
-
-  constructor(private http: HttpClient) {}
-
-  getSiteInfo(): Observable<SiteInfo> {
-    return this.http.get<{ success: boolean; data: SiteInfo }>(this.apiUrl).pipe(
-      map(res => res.data)
-    );
+export class SiteInfoService extends BaseCrudService<any> {
+  constructor(injector: Injector) {
+    super(injector);
+    this.path = '/site-info/';
   }
 
-  updateSiteInfo(info: Partial<SiteInfo>): Observable<SiteInfo> {
-    return this.http.put<{ success: boolean; data: SiteInfo }>(this.apiUrl, info).pipe(
-      map(res => res.data)
-    );
+  getSiteInfo(): Observable<SiteInfo> {
+    return this.httpClientService.getJSON<any>(`${this.path}`);
+  }
+
+  updateSiteInfo(data: SiteInfo): Observable<SiteInfo> {
+    return this.httpClientService.patchJSON<any>(`${this.path}`, {
+      data: data,
+    });
   }
 }

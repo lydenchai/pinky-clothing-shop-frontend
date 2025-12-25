@@ -1,9 +1,11 @@
 export interface ShippingMethod {
-  id: string;
+  _id: string;
   name: string;
-  description?: string;
+  description: string;
   price: number;
-  minOrder?: number;
-  maxOrder?: number;
-  isActive: boolean;
+  min_order: number;
+  max_order: number;
+  country: string;
+  estimated_days: number;
+  active: number;
 }

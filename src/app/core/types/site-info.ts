@@ -1,4 +1,4 @@
-export interface SiteInformation {
+export interface SiteInfo {
   name: string;
   description: string;
   contactEmail: string;

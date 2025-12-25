@@ -43,7 +43,7 @@ export class ShippingForm {
       Validators.required,
       Validators.min(0),
     ]),
-    max: new FormControl<number | null>(0, [
+    max_order: new FormControl<number | null>(0, [
       Validators.required,
       Validators.min(0),
     ]),
@@ -74,6 +74,11 @@ export class ShippingForm {
               name: method.name,
               description: method.description,
               price: method.price,
+              min_order: method.min_order,
+              max_order: method.max_order,
+              country: method.country,
+              estimated_days: method.estimated_days,
+              active: method.active ?? 0 ? true : false,
             });
           },
         });

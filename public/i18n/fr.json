@@ -239,6 +239,7 @@
   "max_order": "Commande maximale",
   "estimated_days": "Jours estimés",
   "active": "Actif",
+  "inactive": "Inactif",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",

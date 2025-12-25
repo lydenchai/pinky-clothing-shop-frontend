@@ -39,21 +39,17 @@
           <td>{{ method.name }}</td>
           <td>{{ method.description }}</td>
           <td>${{ method.price }}</td>
-          <td>{{ method.minOrder ?? '-' }}</td>
-          <td>{{ method.maxOrder ?? '-' }}</td>
-          <td>
-            @if (method.isActive) {
-            <span class="active">Active</span>
-            } @else {
-            <span class="inactive">Inactive</span>
-            }
+          <td>{{ method.min_order }}</td>
+          <td>{{ method.max_order }}</td>
+          <td class="status" [class]="method.active === 1 ? 'active' : 'inactive'">
+            {{method.active === 1 ? ('active' | translate) : ('inactive' | translate)}}
           </td>
           <td class="action">
-            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[method.id, 'update']"
+            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[method._id, 'update']"
               type="button">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="delete" (click)="onDelete(method.id!)">
+            <button mat-icon-button class="delete" (click)="onDelete(method._id!)">
               <mat-icon>delete_outline</mat-icon>
             </button>
           </td>
