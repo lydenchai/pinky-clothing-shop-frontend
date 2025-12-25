@@ -1,25 +1,17 @@
 <div class="admin-container scroll-container modern-analytic">
-  <section class="content-header modern-header">
-    <div class="header-flex">
-      <h5>
-        {{ 'analytic_dashboard' | translate }}
-      </h5>
-      <button mat-stroked-button color="primary" (click)="logTestEvent()" style="margin-left: 16px;">
-        Log Test Event
-      </button>
-      <button mat-icon-button (click)="refresh()" title="Refresh analytics" aria-label="Refresh analytics"
-        class="refresh-btn">
-        <mat-icon>refresh</mat-icon>
-      </button>
-    </div>
+  <section class="content-header d-flex align-items-center justify-content-between">
+    <h5>{{ 'analytic_dashboard' | translate }}</h5>
+    <button mat-icon-button (click)="refresh()">
+      <mat-icon>refresh</mat-icon>
+    </button>
   </section>
   <div class="content-scroll">
     <section class="dashboard-summary">
       <div class="summary-cards">
-        <div class="summary-card sales">
-          <div class="summary-icon-bg"><span class="summary-icon">💰</span></div>
-          <div class="summary-title">Total Sales</div>
-          <div class="summary-value">{{ summary?.totalSales | number:'1.0-2' }}</div>
+        <div class="summary-card products">
+          <div class="summary-icon-bg"><span class="summary-icon">📦</span></div>
+          <div class="summary-title">Total Products</div>
+          <div class="summary-value">{{ summary?.totalProducts }}</div>
         </div>
         <div class="summary-card orders">
           <div class="summary-icon-bg"><span class="summary-icon">🛒</span></div>
@@ -31,18 +23,18 @@
           <div class="summary-title">Total Users</div>
           <div class="summary-value">{{ summary?.totalUsers }}</div>
         </div>
-        <div class="summary-card products">
-          <div class="summary-icon-bg"><span class="summary-icon">📦</span></div>
-          <div class="summary-title">Total Products</div>
-          <div class="summary-value">{{ summary?.totalProducts }}</div>
+        <div class="summary-card sales">
+          <div class="summary-icon-bg"><span class="summary-icon">💰</span></div>
+          <div class="summary-title">Total Sales</div>
+          <div class="summary-value">{{ summary?.totalSales | number:'1.0-2' }}</div>
         </div>
       </div>
       <div class="chart-section modern-panel">
-        <div class="panel-header">
+        <div class="d-flex align-items-center gap-2 mb-3">
           <mat-icon>show_chart</mat-icon>
-          <h6>Sales (Last 30 Days)</h6>
+          <h6 class="m-0">Sales (Last 30 Days)</h6>
         </div>
-        <canvas id="salesChart" width="600" height="220"></canvas>
+        <canvas id="salesChart" width="600" height="210"></canvas>
       </div>
     </section>
   </div>

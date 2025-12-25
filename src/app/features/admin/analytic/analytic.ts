@@ -42,17 +42,6 @@ export class Analytic implements OnInit, AfterViewInit {
     this.fetchEvents();
   }
 
-  logTestEvent() {
-    this.analyticService.logEvent('test_event', { foo: 'bar' }).subscribe({
-      next: () => {
-        this.refresh();
-      },
-      error: (err) => {
-        alert('Failed to log test event: ' + (err?.error?.message || err));
-      },
-    });
-  }
-
   fetchSummary() {
     (this.analyticService as any).getSummary().subscribe({
       next: (res: any) => {
@@ -108,7 +97,7 @@ export class Analytic implements OnInit, AfterViewInit {
       },
       options: {
         responsive: true,
-        plugins: { legend: { display: true } },
+        plugins: { legend: { display: false } },
         scales: { y: { beginAtZero: true } },
       },
     });

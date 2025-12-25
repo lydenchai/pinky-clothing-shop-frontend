@@ -20,6 +20,15 @@
 .table-header {
   display: flex;
   align-items: end;
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+
+  .mat-mdc-form-field-subscript-wrapper {
+    height: 0 !important;
+    padding: 0 !important;
+  }
 
   .mat-form-field.mat-form-field-appearance-outline {
     width: 270px;

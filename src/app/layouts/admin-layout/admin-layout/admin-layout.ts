@@ -59,9 +59,7 @@ export class AdminLayout implements OnInit, OnDestroy {
           main.style.removeProperty('padding-top');
         }
       }
-    } catch (e) {
-      // ignore
-    }
+    } catch (e) {}
   }
 
   private checkScreenAndSetSidebar = () => {
