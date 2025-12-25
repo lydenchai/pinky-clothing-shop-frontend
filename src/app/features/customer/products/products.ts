@@ -60,13 +60,22 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(() => {
+    this.route.queryParams.subscribe((p: any) => {
+      if (p.category !== 'all') {
+        this.filters.set({
+          category: p['category'],
+        });
+      } else {
+        this.filters.set({
+          category: undefined,
+        });
+      }
       this.pagination.set({
         currentPage: 1,
         itemsPerPage: 15,
@@ -83,18 +92,15 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
   getList(event: PaginationType) {
     this.productService
       .getAllProducts({
-        ...this.filters(),
         page: event.page,
         limit: event.limit,
+        ...this.filters(),
       })
       .subscribe({
         next: (res) => {
-          // Set products and filteredProducts
           this.products.set(res.data);
           this.applySort(res.data);
-          // Update pagination info from backend
           if (res.pagination) {
-            // Map backend keys to frontend expected keys
             this.pagination.set({
               currentPage: event.page,
               itemsPerPage: event.limit,

@@ -14,6 +14,7 @@ import { FieldContainer } from '../../../../../../../shared/components/field-con
 import { MatSelectModule } from '@angular/material/select';
 import { SnackbarService } from '../../../../../../../core/services/snackbar.service';
 import { ShippingService } from '../../../../../../../core/services/shipping.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-shipping-form',
@@ -26,6 +27,7 @@ import { ShippingService } from '../../../../../../../core/services/shipping.ser
     MatInputModule,
     FieldContainer,
     MatSelectModule,
+    MatCheckboxModule,
   ],
   templateUrl: './shipping-form.html',
   styleUrls: ['./shipping-form.scss'],
@@ -59,7 +61,7 @@ export class ShippingForm {
     private router: Router,
     private route: ActivatedRoute,
     private shippingService: ShippingService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
   ) {}
 
   ngOnInit() {
@@ -78,7 +80,7 @@ export class ShippingForm {
               max_order: method.max_order,
               country: method.country,
               estimated_days: method.estimated_days,
-              active: method.active ?? 0 ? true : false,
+              active: (method.active ?? 0) ? true : false,
             });
           },
         });

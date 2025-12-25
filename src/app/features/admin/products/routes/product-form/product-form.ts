@@ -64,7 +64,7 @@ export class ProductForm implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private productService: ProductService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
   ) {}
 
   ngOnInit() {
@@ -85,13 +85,13 @@ export class ProductForm implements OnInit {
               sizes: Array.isArray(product.sizes)
                 ? product.sizes
                 : typeof product.sizes === 'string' && product.sizes
-                ? product.sizes.split(',').map((s: string) => s.trim())
-                : [],
+                  ? product.sizes.split(',').map((s: string) => s.trim())
+                  : [],
               colors: Array.isArray(product.colors)
                 ? product.colors.join(', ')
                 : typeof product.colors === 'string' && product.colors
-                ? product.colors
-                : '',
+                  ? product.colors
+                  : '',
             });
             this.imagePreviewUrl = product.image || null;
           },

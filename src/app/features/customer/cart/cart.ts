@@ -18,7 +18,7 @@ export class Cart {
   constructor(
     private translate: TranslateService,
     public cartService: CartService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {
     this.fetchCart();
   }
@@ -33,14 +33,14 @@ export class Cart {
     this.dialogService
       .ask(
         this.translate.instant('message.are_you_sure_remove_item'),
-        this.translate.instant('message.remove_item')
+        this.translate.instant('message.remove_item'),
       )
       .then((confirmed) => {
         if (confirmed) {
           this.cartService.removeItem(cartItemId).subscribe({
             next: () => {
               this.dialogService.success(
-                this.translate.instant('message.item_removed_from_cart')
+                this.translate.instant('message.item_removed_from_cart'),
               );
               this.fetchCart();
             },
@@ -74,9 +74,11 @@ export class Cart {
       next: () => {
         this.fetchCart();
       },
-      error: () => {
+      error: (error) => {
         this.dialogService.error(
-          this.translate.instant('message.failed_to_update_quantity')
+          error
+            ? error.error
+            : this.translate.instant('message.failed_to_update_quantity'),
         );
       },
     });

@@ -43,8 +43,8 @@
       }
     }
 
-    table.table>tr:first-child,
-    table.table>thead {
+    table.table > tr:first-child,
+    table.table > thead {
       position: sticky;
       top: 0;
       z-index: 1;

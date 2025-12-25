@@ -13,7 +13,7 @@
     margin-bottom: 1rem;
     font-size: 22px;
     font-weight: 600;
-    color: #1d1d1f; // Apple dark text
+    color: #1d1d1f;
   }
 }
 
@@ -105,7 +105,7 @@
 }
 
 /* ============
-   Table Container (Apple Style)
+   Table Container 
    ============ */
 .container-table {
   background: #ffffff;
@@ -144,7 +144,9 @@ table.table {
 
   tbody tr {
     background: #ffffff;
-    transition: background 0.15s ease, transform 0.15s ease;
+    transition:
+      background 0.15s ease,
+      transform 0.15s ease;
 
     &:hover {
       transform: scale(1.002);
@@ -198,7 +200,6 @@ table.table {
   }
 
   .status {
-
     &.active {
       color: $active-color;
       font-weight: 600;

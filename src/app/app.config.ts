@@ -34,7 +34,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     { provide: TRANSLATE_HTTP_LOADER_CONFIG, useValue: httpLoaderConfig },
     provideTranslateService({
-      defaultLanguage: 'en',
+      fallbackLang: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: httpLoaderFactory,
