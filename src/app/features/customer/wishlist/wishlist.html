@@ -13,7 +13,7 @@
       <a routerLink="/products" class="btn-go-shop">{{ 'shop_now' | translate }}</a>
     </div>
     } @else {
-    <div class="products-grid">
+    <div class="products-grid mt-[1.5rem]">
       @for (product of wishlistProducts(); track $index) {
       <app-product-card [product]="product" [wishlistProductIds]="wishlistProductIds()"
         (wishlistChanged)="onWishlistChanged()" />
