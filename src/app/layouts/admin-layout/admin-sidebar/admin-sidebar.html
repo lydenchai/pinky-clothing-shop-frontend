@@ -9,7 +9,7 @@
         (click)="item.children?.length && onToggleExtendMenuItem(item)" [class.active]="isActive(item.route)">
         <mat-icon>{{ item.icon }}</mat-icon>
         <span class="title">
-          {{ item.title | translate | plural }}
+          {{ item.title === 'dashboard' ? (item.title | translate) : (item.title | translate | plural) }}
         </span>
         @if (item.children && item.children.length > 0) {
         <mat-icon class="right menu-item-extender">keyboard_arrow_down</mat-icon>
@@ -20,7 +20,7 @@
         @for (m of item.children; track $index) {
         <li [class.active]="isActive(m.route)">
           <a [routerLink]=" m.route" [class.active]="isActive(m.route)">
-            {{ m.title | translate | plural }}
+            {{ m.title === 'site_info' ? (m.title | translate) : (m.title | translate | plural) }}
             @if (m.badge) {
             <span class="badge">{{ m.badge }}</span>
             }
