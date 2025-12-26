@@ -3,8 +3,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { MenuItem } from '../../../core/types/menu-item';
 import { PluralPipe } from '../../../shared/pipes/plural.pipe';
+import { MenuItem } from '../../../core/types/menu-item';
 
 export const MENU: MenuItem[] = [
   {

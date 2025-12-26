@@ -5,10 +5,12 @@ import { AdminSidebar } from '../admin-sidebar/admin-sidebar';
 import { AdminNavbar } from '../admin-navbar/admin-navbar';
 import { LocalStorageService } from '../../../core/services/local-storage.service';
 import { LocalStorageEnum } from '../../../core/types/enums/local-storage.enum';
+import { Breadcrumb } from '../../../shared/components/breadcrumb/breadcrumb';
+
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, AdminSidebar, AdminNavbar],
+  imports: [CommonModule, RouterOutlet, AdminSidebar, AdminNavbar, Breadcrumb],
   templateUrl: './admin-layout.html',
   styleUrls: ['./admin-layout.scss'],
 })
@@ -29,7 +31,7 @@ export class AdminLayout implements OnInit, OnDestroy {
     // Also remove the top padding reserved for the global header from the .main-content
     try {
       const main = document.querySelector(
-        '.main-content'
+        '.main-content',
       ) as HTMLElement | null;
       if (main) {
         // Save computed or inline value so we can restore on destroy
@@ -50,7 +52,7 @@ export class AdminLayout implements OnInit, OnDestroy {
 
     try {
       const main = document.querySelector(
-        '.main-content'
+        '.main-content',
       ) as HTMLElement | null;
       if (main) {
         if (this._prevMainPaddingTop != null) {
@@ -67,7 +69,7 @@ export class AdminLayout implements OnInit, OnDestroy {
       this.menuExtended = false;
     } else {
       let extended = this.localStorageService.get(
-        LocalStorageEnum.menuExtended
+        LocalStorageEnum.menuExtended,
       );
       if (extended === null) {
         this.menuExtended = true;
@@ -81,7 +83,7 @@ export class AdminLayout implements OnInit, OnDestroy {
     this.menuExtended = value;
     this.localStorageService.set(
       LocalStorageEnum.menuExtended,
-      value ? 'true' : 'false'
+      value ? 'true' : 'false',
     );
   }
 }

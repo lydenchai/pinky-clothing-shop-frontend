@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Pagination } from '../../../../../shared/components/pagination/pagination';
-import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
 import { Product } from '../../../../../core/types/product.model';
 import { PaginationUtil } from '../../../../../utils/pagination.util';
 import { ProductService } from '../../../../../core/services/product.service';
@@ -27,7 +26,6 @@ import { InputBouncerDirective } from '../../../../../shared/directives/input-bo
     CurrencyPipe,
     Pagination,
     MatIconModule,
-    PluralPipe,
     TranslateModule,
     FieldContainer,
     MatFormField,
@@ -50,7 +48,7 @@ export class ProductList extends PaginationUtil implements OnInit {
   constructor(
     private productService: ProductService,
     private dialogService: DialogService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {
     super();
   }
@@ -107,9 +105,9 @@ export class ProductList extends PaginationUtil implements OnInit {
           'message._are_you_sure_you_want_to_delete_this',
           {
             param: 'product',
-          }
+          },
         ),
-        this.translateService.instant('confirm')
+        this.translateService.instant('confirm'),
       );
       if (!confirmed) return;
       this.productService.delete(_id).subscribe(() => {

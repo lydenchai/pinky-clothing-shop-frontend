@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { DatePipe, CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
-import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
 import { Pagination } from '../../../../../shared/components/pagination/pagination';
 import { PaginationUtil } from '../../../../../utils/pagination.util';
 import { InventoryItem } from '../../../../../core/types/inventory-item';
@@ -24,7 +23,6 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     MatIconModule,
     DatePipe,
-    PluralPipe,
     TranslateModule,
     RouterModule,
     Pagination,
@@ -48,7 +46,7 @@ export class InventoryList extends PaginationUtil implements OnInit {
 
   constructor(
     private inventoryService: InventoryService,
-    private router: Router
+    private router: Router,
   ) {
     super();
   }

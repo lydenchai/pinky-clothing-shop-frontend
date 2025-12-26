@@ -24,7 +24,6 @@ import { InputBouncerDirective } from '../../../../../shared/directives/input-bo
     DatePipe,
     RouterModule,
     TranslateModule,
-    PluralPipe,
     MatIconModule,
     Pagination,
     FieldContainer,

@@ -44,7 +44,7 @@ export class Shipping extends PaginationUtil implements OnInit {
 
   constructor(
     private shippingService: ShippingService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
   ) {
     super();
   }
@@ -81,7 +81,7 @@ export class Shipping extends PaginationUtil implements OnInit {
     this.shippingService.delete(id).subscribe({
       next: () => {
         this.snackbarService.openSnackbarSuccess(
-          'message.deleted_successfully'
+          'message.deleted_successfully',
         );
         this.getList({ page: 1, limit: this.limit });
       },

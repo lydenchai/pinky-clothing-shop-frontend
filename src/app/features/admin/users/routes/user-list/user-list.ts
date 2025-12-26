@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Pagination } from '../../../../../shared/components/pagination/pagination';
-import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
 import { PaginationUtil } from '../../../../../utils/pagination.util';
 import { User } from '../../../../../core/types/user.model';
 import { RoleEnum } from '../../../../../core/types/enums/role-enum';
@@ -27,7 +26,6 @@ import { MatFormField, MatSelectModule } from '@angular/material/select';
     MatIconModule,
     Pagination,
     TranslateModule,
-    PluralPipe,
     RouterModule,
     FieldContainer,
     MatFormField,
@@ -51,7 +49,7 @@ export class UserList extends PaginationUtil implements OnInit {
   constructor(
     private userService: UserService,
     private dialogService: DialogService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {
     super();
   }
@@ -91,9 +89,9 @@ export class UserList extends PaginationUtil implements OnInit {
           'message._are_you_sure_you_want_to_delete_this',
           {
             param: 'user',
-          }
+          },
         ),
-        this.translateService.instant('confirm')
+        this.translateService.instant('confirm'),
       );
       if (!confirmed) return;
       this.userService.delete(String(id)).subscribe({

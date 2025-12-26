@@ -242,6 +242,7 @@
   "inactive": "Inactive",
   "drag_and_drop": "Drag and drop or",
   "browse": "browse",
+  "detail": "Detail",
   "message": {
     "item_added_to_cart_successfully": "Item added to cart successfully!",
     "please_login_to_add_items_to_your_cart": "Please login to add items to your cart",
