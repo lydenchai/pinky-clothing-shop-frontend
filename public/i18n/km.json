@@ -243,6 +243,9 @@
   "drag_and_drop": "ទាញនិងទម្លាក់ ឬ",
   "browse": "រុករក",
   "detail": "ព័ត៌មានលម្អិត",
+  "my_wishlist": "បញ្ជីចង់បានរបស់ខ្ញុំ",
+  "wishlist_description": "ផលិតផលដែលអ្នកចូលចិត្តទាំងអស់នៅកន្លែងតែមួយ",
+  "wishlist_empty": "បញ្ជីចង់បានរបស់អ្នកទទេ",
   "message": {
     "item_added_to_cart_successfully": "បានបន្ថែមទំនិញចូលក្នុងរទេះដោយជោគជ័យ!",
     "please_login_to_add_items_to_your_cart": "សូមចូលប្រើប្រាស់ដើម្បីបន្ថែមទំនិញចូលរទេះរបស់អ្នក",
@@ -274,6 +277,8 @@
     "image_upload_failed": "ការផ្ទុករូបភាពបានបរាជ័យ។ សូមព្យាយាមម្តងទៀត។",
     "saved_successfully": "បានរក្សាទុកដោយជោគជ័យ។",
     "save_failed": "ការរក្សាទុកបានបរាជ័យ។ សូមព្យាយាមម្តងទៀត។",
-    "deleted_successfully": "បានលុបដោយជោគជ័យ។"
+    "deleted_successfully": "បានលុបដោយជោគជ័យ។",
+    "added_to_wishlist": "បានបន្ថែមទៅបញ្ជីចង់បាន។",
+    "removed_from_wishlist": "បានដកចេញពីបញ្ជីចង់បាន។"
   }
 }

@@ -2,7 +2,7 @@
   <nav class="d-flex align-items-center mb-2">
     @for (breadcrumb of breadcrumbs(); let i = $index; track $index) {
       @if (i < breadcrumbs().length - 1) {
-        <a [routerLink]="breadcrumb.url" class="hover:text-[#0071e3] hover:underline">
+        <a [routerLink]="breadcrumb.url" class="text-[#0071e3] underline">
           @if (i === 0 && breadcrumb.plural) {
             {{ breadcrumb.label | translate | plural }}
           } @else {

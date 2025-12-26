@@ -6,6 +6,7 @@ import { ProductService } from '../../../core/services/product.service';
 import { CartService } from '../../../core/services/cart.service';
 import { Product } from '../../../core/types/product.model';
 import { DialogService } from '../../../core/services/dialog.service';
+import { WishlistService } from '../../../core/services/wishlist.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -20,46 +21,72 @@ export class ProductDetail implements OnInit {
   selectedColor = signal<string>('');
   quantity = signal<number>(1);
   addedToCart = signal<boolean>(false);
+  isWishlisted = signal<boolean>(false);
 
   private dialogService = inject(DialogService);
+  private wishlistService = inject(WishlistService);
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
     private cartService: CartService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       const product_id = params['id'];
-      this.productService.getById(product_id).subscribe({
-        next: (res) => {
-          this.product.set(res.data);
-          this.selectedImage.set(res.data.image);
-
-          // Parse sizes and colors from comma-separated strings
-          if (res.data.sizes) {
-            const sizesArray = res.data.sizes
-              .split(',')
-              .map((s: any) => s.trim());
-            if (sizesArray.length > 0) {
-              this.selectedSize.set(sizesArray[0]);
-            }
-          }
-
-          if (res.data.colors) {
-            const colorsArray = res.data.colors
-              .split(',')
-              .map((c: any) => c.trim());
-            if (colorsArray.length > 0) {
-              this.selectedColor.set(colorsArray[0]);
-            }
-          }
+      // Fetch wishlist first
+      this.wishlistService.getMany().subscribe({
+        next: (wishlistRes) => {
+          const ids = Array.isArray(wishlistRes.data)
+            ? wishlistRes.data.map(
+                (item: any) => item.product_id || item._id || item,
+              )
+            : [];
+          // Now fetch product
+          this.productService.getById(product_id).subscribe({
+            next: (res) => {
+              this.product.set(res.data);
+              this.selectedImage.set(res.data.image);
+              // Set isWishlisted if product is in wishlist
+              this.isWishlisted.set(ids.includes(res.data._id));
+              // Parse sizes and colors from comma-separated strings
+              if (res.data.sizes) {
+                const sizesArray = res.data.sizes
+                  .split(',')
+                  .map((s: any) => s.trim());
+                if (sizesArray.length > 0) {
+                  this.selectedSize.set(sizesArray[0]);
+                }
+              }
+              if (res.data.colors) {
+                const colorsArray = res.data.colors
+                  .split(',')
+                  .map((c: any) => c.trim());
+                if (colorsArray.length > 0) {
+                  this.selectedColor.set(colorsArray[0]);
+                }
+              }
+            },
+            error: () => {
+              this.router.navigate(['/products']);
+            },
+          });
         },
         error: () => {
-          this.router.navigate(['/products']);
+          // If wishlist fetch fails, fallback to product only
+          this.productService.getById(product_id).subscribe({
+            next: (res) => {
+              this.product.set(res.data);
+              this.selectedImage.set(res.data.image);
+              this.isWishlisted.set(false);
+            },
+            error: () => {
+              this.router.navigate(['/products']);
+            },
+          });
         },
       });
     });
@@ -94,8 +121,8 @@ export class ProductDetail implements OnInit {
     if (!this.selectedSize()) {
       this.dialogService.warning(
         this.translate.instant(
-          'message.please_select_a_size_before_adding_to_cart'
-        )
+          'message.please_select_a_size_before_adding_to_cart',
+        ),
       );
       return;
     }
@@ -103,8 +130,8 @@ export class ProductDetail implements OnInit {
     if (!this.selectedColor()) {
       this.dialogService.warning(
         this.translate.instant(
-          'message.please_select_a_color_before_adding_to_cart'
-        )
+          'message.please_select_a_color_before_adding_to_cart',
+        ),
       );
       return;
     }
@@ -114,13 +141,13 @@ export class ProductDetail implements OnInit {
         prod._id!,
         this.quantity(),
         this.selectedSize(),
-        this.selectedColor()
+        this.selectedColor(),
       )
       .subscribe({
         next: () => {
           this.addedToCart.set(true);
           this.dialogService.success(
-            this.translate.instant('message.item_added_to_cart_successfully')
+            this.translate.instant('message.item_added_to_cart_successfully'),
           );
           setTimeout(() => this.addedToCart.set(false), 3000);
         },
@@ -129,8 +156,8 @@ export class ProductDetail implements OnInit {
             this.dialogService
               .error(
                 this.translate.instant(
-                  'message.please_login_to_add_items_to_your_cart'
-                )
+                  'message.please_login_to_add_items_to_your_cart',
+                ),
               )
               .then(() => {
                 this.router.navigate(['/login']);
@@ -138,13 +165,13 @@ export class ProductDetail implements OnInit {
           } else if (error.status === 400) {
             this.dialogService.error(
               error.error?.error ||
-                this.translate.instant('message.unable_to_add_item_to_cart')
+                this.translate.instant('message.unable_to_add_item_to_cart'),
             );
           } else {
             this.dialogService.error(
               this.translate.instant(
-                'message.an_error_occurred_please_try_again'
-              )
+                'message.an_error_occurred_please_try_again',
+              ),
             );
           }
         },
@@ -176,5 +203,55 @@ export class ProductDetail implements OnInit {
     const prod = this.product();
     if (!prod || !prod.colors) return [];
     return prod.colors.split(',').map((c) => c.trim());
+  }
+
+  addToWishlist() {
+    const prod = this.product();
+    if (!prod || !prod._id) return;
+    this.wishlistService.addToWishlist(prod._id).subscribe({
+      next: () => {
+        this.isWishlisted.set(true);
+        this.dialogService.success(
+          this.translate.instant('message.added_to_wishlist'),
+        );
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          this.dialogService
+            .error(
+              this.translate.instant(
+                'message.please_login_to_add_items_to_your_wishlist',
+              ),
+            )
+            .then(() => {
+              this.router.navigate(['/login']);
+            });
+        } else {
+          this.dialogService.error(
+            this.translate.instant(
+              'message.an_error_occurred_please_try_again',
+            ),
+          );
+        }
+      },
+    });
+  }
+
+  removeFromWishlist() {
+    const prod = this.product();
+    if (!prod || !prod._id) return;
+    this.wishlistService.removeFromWishlist(prod._id).subscribe({
+      next: () => {
+        this.isWishlisted.set(false);
+        this.dialogService.success(
+          this.translate.instant('message.removed_from_wishlist'),
+        );
+      },
+      error: (error) => {
+        this.dialogService.error(
+          this.translate.instant('message.an_error_occurred_please_try_again'),
+        );
+      },
+    });
   }
 }

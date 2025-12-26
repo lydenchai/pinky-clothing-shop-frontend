@@ -1,4 +1,4 @@
-<div class="admin-container scroll-container modern-analytic">
+<div class="admin-container scroll-container analytic">
   <section class="content-header d-flex align-items-center justify-content-between">
     <h5>{{ 'analytic_dashboard' | translate }}</h5>
     <button mat-icon-button (click)="refresh()">
@@ -29,7 +29,7 @@
           <div class="summary-value">{{ summary?.totalSales | number:'1.0-2' }}</div>
         </div>
       </div>
-      <div class="chart-section modern-panel">
+      <div class="chart-section panel">
         <div class="d-flex align-items-center gap-2 mb-3">
           <mat-icon>show_chart</mat-icon>
           <h6 class="m-0">Sales (Last 30 Days)</h6>

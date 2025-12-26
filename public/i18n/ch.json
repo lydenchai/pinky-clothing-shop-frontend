@@ -243,6 +243,9 @@
   "drag_and_drop": "拖放或",
   "browse": "浏览",
   "detail": "详情",
+  "my_wishlist": "我的愿望清单",
+  "wishlist_description": "您喜欢的所有产品都集中在一个地方",
+  "wishlist_empty": "您的愿望清单是空的",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",
@@ -274,6 +277,8 @@
     "image_upload_failed": "图片上传失败。请重试。",
     "saved_successfully": "保存成功。",
     "save_failed": "保存失败。请重试。",
-    "deleted_successfully": "删除成功。"
+    "deleted_successfully": "删除成功。",
+    "added_to_wishlist": "已添加到愿望清单。",
+    "removed_from_wishlist": "已从愿望清单中移除。"
   }
 }

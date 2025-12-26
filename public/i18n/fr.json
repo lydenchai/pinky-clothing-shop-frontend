@@ -243,6 +243,9 @@
   "drag_and_drop": "Glisser-déposer ou",
   "browse": "parcourir",
   "detail": "détail",
+  "my_wishlist": "Ma liste de souhaits",
+  "wishlist_description": "Tous vos produits préférés en un seul endroit",
+  "wishlist_empty": "Votre liste de souhaits est vide",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",
@@ -274,6 +277,8 @@
     "image_upload_failed": "Échec du téléchargement de l'image. Veuillez réessayer.",
     "saved_successfully": "Enregistré avec succès.",
     "save_failed": "Échec de l'enregistrement. Veuillez réessayer.",
-    "deleted_successfully": "Supprimé avec succès."
+    "deleted_successfully": "Supprimé avec succès.",
+    "added_to_wishlist": "Ajouté à la liste de souhaits.",
+    "removed_from_wishlist": "Retiré de la liste de souhaits."
   }
 }

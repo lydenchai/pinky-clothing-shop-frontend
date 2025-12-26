@@ -88,6 +88,22 @@
             </svg>
             {{ 'add_to_cart' | translate }}
           </button>
+          <button class="btn-wishlist" [class.active]="isWishlisted()"
+            (click)="isWishlisted() ? removeFromWishlist() : addToWishlist()">
+            @if (!isWishlisted()) {
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="#ffffff" stroke-width="2">
+              <path
+                d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.04 3 12.5 3.99 13 5.36C13.5 3.99 14.96 3 16.5 3C19.5 3 22 5.5 22 8.5C22 13.5 12 21 12 21Z" />
+            </svg>
+            } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#e0245e"
+              stroke="#e0245e" stroke-width="2">
+              <path
+                d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.04 3 12.5 3.99 13 5.36C13.5 3.99 14.96 3 16.5 3C19.5 3 22 5.5 22 8.5C22 13.5 12 21 12 21Z" />
+            </svg>
+            }
+          </button>
         </div>
 
         @if (addedToCart()) {

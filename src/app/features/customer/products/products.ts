@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +13,7 @@ import {
 } from '../../../core/types/product.model';
 import { CategoryEnum } from '../../../core/types/enums/category.enum';
 import { ProductService } from '../../../core/services/product.service';
+import { WishlistService } from '../../../core/services/wishlist.service';
 import { PaginationType } from '../../../core/types/pagination-type';
 import { PaginationUtil } from '../../../utils/pagination.util';
 
@@ -33,6 +34,7 @@ import { PaginationUtil } from '../../../utils/pagination.util';
 export class Products extends PaginationUtil implements OnInit, OnDestroy {
   products = signal<Product[]>([]);
   filteredProducts = signal<Product[]>([]);
+  wishlistProductIds = signal<string[]>([]);
   pagination = signal<PaginationInfo>({
     currentPage: 1,
     itemsPerPage: 15,
@@ -60,9 +62,30 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
+    private wishlistService: WishlistService,
     private route: ActivatedRoute,
   ) {
     super();
+    // Auto-refresh wishlist on load
+    effect(() => {
+      this.fetchWishlist();
+    });
+  }
+
+  fetchWishlist() {
+    this.wishlistService.getMany().subscribe({
+      next: (res) => {
+        // Assume res.data is an array of product ids or wishlist items with product_id
+        const ids = Array.isArray(res.data)
+          ? res.data.map((item: any) => item.product_id || item._id || item)
+          : [];
+        this.wishlistProductIds.set(ids.filter(Boolean));
+      },
+    });
+  }
+
+  onWishlistChanged() {
+    this.fetchWishlist();
   }
 
   ngOnInit() {

@@ -52,6 +52,13 @@ export const customerRoutes: Routes = [
             (m) => m.Checkout
           ),
       },
+      {
+        path: 'wishlist',
+        loadComponent: () =>
+          import('../../features/customer/wishlist/wishlist').then(
+            (m) => m.Wishlist
+          ),
+      },
     ],
   },
 ];

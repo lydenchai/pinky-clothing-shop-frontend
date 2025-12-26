@@ -351,3 +351,70 @@
     font-size: 0.875rem;
   }
 }
+
+.btn-wishlist {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #2a2a2a;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.3s, box-shadow 0.2s;
+  position: relative;
+
+  svg {
+    transition: transform 0.2s, fill 0.3s, stroke 0.3s;
+    margin-right: 0.25rem;
+  }
+
+  &:hover {
+    color: #fff;
+    background: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+    svg {
+      transform: scale(1.15);
+      stroke: #fff;
+    }
+  }
+
+  &.active {
+    color: #fff;
+
+    svg {
+      fill: #fff;
+      stroke: #fff;
+      animation: heartBeat 0.4s;
+    }
+  }
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.2);
+  }
+
+  40% {
+    transform: scale(0.95);
+  }
+
+  60% {
+    transform: scale(1.1);
+  }
+
+  80% {
+    transform: scale(0.98);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
