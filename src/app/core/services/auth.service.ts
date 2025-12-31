@@ -1,7 +1,7 @@
 import { LocalStorageService } from './local-storage.service';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, tap, BehaviorSubject } from 'rxjs';
-import { User } from '../types/user.model';
+import { User } from '../types/user';
 import { AuthResponse } from '../types/auth-response';
 import { LocalStorageEnum } from '../types/enums/local-storage.enum';
 import { BaseCrudService } from './base-crud.service';

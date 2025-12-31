@@ -246,6 +246,7 @@
   "my_wishlist": "បញ្ជីចង់បានរបស់ខ្ញុំ",
   "wishlist_description": "ផលិតផលដែលអ្នកចូលចិត្តទាំងអស់នៅកន្លែងតែមួយ",
   "wishlist_empty": "បញ្ជីចង់បានរបស់អ្នកទទេ",
+  "code": "កូដ",
   "message": {
     "item_added_to_cart_successfully": "បានបន្ថែមទំនិញចូលក្នុងរទេះដោយជោគជ័យ!",
     "please_login_to_add_items_to_your_cart": "សូមចូលប្រើប្រាស់ដើម្បីបន្ថែមទំនិញចូលរទេះរបស់អ្នក",

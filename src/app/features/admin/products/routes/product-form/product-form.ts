@@ -44,6 +44,7 @@ export class ProductForm implements OnInit {
   MainCategoryEnum = Object.values(MainCategoryEnum);
   SizeEnum = Object.values(SizeEnum);
   form = new FormGroup({
+    code: new FormControl<string | null>(''),
     name: new FormControl<string | null>('', Validators.required),
     description: new FormControl<string | null>('', Validators.required),
     price: new FormControl<number | null>(0, [
@@ -76,6 +77,7 @@ export class ProductForm implements OnInit {
           next: (res) => {
             const product = res.data;
             this.form.patchValue({
+              code: product.code,
               name: product.name,
               description: product.description,
               price: product.price,

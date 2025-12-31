@@ -248,6 +248,7 @@ mat-form-field {
 
     app-field-error {
       display: block;
+      font-size: 14px !important;
       margin-top: -21px;
       line-height: var(--mat-form-field-subscript-text-line-height,
           var(--mat-sys-body-small-line-height));

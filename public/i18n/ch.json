@@ -246,6 +246,7 @@
   "my_wishlist": "我的愿望清单",
   "wishlist_description": "您喜欢的所有产品都集中在一个地方",
   "wishlist_empty": "您的愿望清单是空的",
+  "code": "代码",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",

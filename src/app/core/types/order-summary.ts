@@ -1,4 +1,5 @@
 export interface OrderSummary {
+  code?: string;
   items: any[];
   subtotal: number;
   shipping: Shipping;

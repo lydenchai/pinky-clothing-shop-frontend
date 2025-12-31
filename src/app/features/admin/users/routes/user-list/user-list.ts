@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Pagination } from '../../../../../shared/components/pagination/pagination';
 import { PaginationUtil } from '../../../../../utils/pagination.util';
-import { User } from '../../../../../core/types/user.model';
+import { User } from '../../../../../core/types/user';
 import { RoleEnum } from '../../../../../core/types/enums/role-enum';
 import { UserService } from '../../../../../core/services/user.service';
 import { DialogService } from '../../../../../core/services/dialog.service';

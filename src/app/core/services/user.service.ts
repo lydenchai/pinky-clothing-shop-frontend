@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { BaseCrudService } from './base-crud.service';
-import { User } from '../types/user.model';
+import { User } from '../types/user';
 
 @Injectable({
   providedIn: 'root',

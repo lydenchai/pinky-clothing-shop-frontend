@@ -3,6 +3,13 @@
     <form [formGroup]="form">
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'code' | translate" [control]="form.controls.code">
+            <mat-form-field appearance="outline">
+              <input matInput name="code" [formControl]="form.controls.code" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'product_name' | translate" [control]="form.controls.name">
             <mat-form-field appearance="outline">
               <input matInput name="name" [formControl]="form.controls.name" />

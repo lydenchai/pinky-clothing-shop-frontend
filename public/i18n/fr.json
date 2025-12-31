@@ -246,6 +246,7 @@
   "my_wishlist": "Ma liste de souhaits",
   "wishlist_description": "Tous vos produits préférés en un seul endroit",
   "wishlist_empty": "Votre liste de souhaits est vide",
+  "code": "Code",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",

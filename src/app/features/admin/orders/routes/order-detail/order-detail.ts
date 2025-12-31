@@ -14,7 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
 import { Order } from '../../../../../core/types/order';
-import { User } from '../../../../../core/types/user.model';
+import { User } from '../../../../../core/types/user';
 import { OrderService } from '../../../../../core/services/order.service';
 import { UserService } from '../../../../../core/services/user.service';
 

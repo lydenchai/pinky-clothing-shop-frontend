@@ -9,7 +9,7 @@ import {
 import { RouterLink, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Cart } from '../../../core/types/cart';
-import { User } from '../../../core/types/user.model';
+import { User } from '../../../core/types/user';
 import { OrderSummary } from '../../../core/types/order-summary';
 import { CartService } from '../../../core/services/cart.service';
 import { AuthService } from '../../../core/services/auth.service';

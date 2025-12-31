@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Order } from '../../../core/types/order';
 import { OrderService } from '../../../core/services/order.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { User } from '../../../core/types/user.model';
+import { User } from '../../../core/types/user';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { PaginationUtil } from '../../../utils/pagination.util';
 import { PaginationType } from '../../../core/types/pagination-type';

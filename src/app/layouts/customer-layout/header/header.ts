@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { User } from '../../../core/types/user.model';
+import { User } from '../../../core/types/user';
 import { LanguageEnum } from '../../../core/types/enums/language.enum';
 import { CategoryEnum } from '../../../core/types/enums/category.enum';
 import { CartService } from '../../../core/services/cart.service';
