@@ -16,6 +16,12 @@ import { FieldContainer } from '../../../../../shared/components/field-container
 import { MatSelectModule } from '@angular/material/select';
 import { SnackbarService } from '../../../../../core/services/snackbar.service';
 import { MatIconModule } from '@angular/material/icon';
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from 'ngx-intl-tel-input';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 @Component({
   selector: 'app-user-form',
@@ -34,6 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
     FieldContainer,
     MatSelectModule,
     MatIconModule,
+    NgxIntlTelInputModule,
   ],
   templateUrl: './user-form.html',
   styleUrls: ['./user-form.scss'],
@@ -41,6 +48,9 @@ import { MatIconModule } from '@angular/material/icon';
 export class UserForm {
   updateId: string | null = null;
   RoleEnum = Object.values(RoleEnum);
+  CountryISO = CountryISO;
+  PhoneNumberFormat = PhoneNumberFormat;
+  SearchCountryField = SearchCountryField;
   form = new FormGroup({
     first_name: new FormControl<string | null>('', Validators.required),
     last_name: new FormControl<string | null>('', Validators.required),
@@ -48,7 +58,18 @@ export class UserForm {
       Validators.required,
       Validators.email,
     ]),
-    phone: new FormControl<string | null>(''),
+    phone: new FormControl<
+      | string
+      | {
+          number: string;
+          internationalNumber: string;
+          nationalNumber: string;
+          e164Number: string;
+          countryCode: string;
+          dialCode: string;
+        }
+      | null
+    >(null),
     role: new FormControl<RoleEnum>(RoleEnum.user, Validators.required),
     password: new FormControl<string | null>('', [
       Validators.required,
@@ -79,7 +100,17 @@ export class UserForm {
                 last_name: user?.last_name || '',
                 email: user?.email || '',
                 role: user?.role as any,
-                phone: user?.phone || '',
+                phone:
+                  typeof user.phone === 'string'
+                    ? {
+                        number: user.phone,
+                        internationalNumber: user.phone,
+                        nationalNumber: user.phone,
+                        e164Number: user.phone,
+                        countryCode: '',
+                        dialCode: '',
+                      }
+                    : user.phone,
                 address: user?.address || '',
                 city: user?.city || '',
                 postal_code: user?.postal_code || '',
@@ -93,7 +124,14 @@ export class UserForm {
   }
 
   onSubmit() {
-    const userData = { ...this.form.value } as any;
+    const phoneValue = this.form.controls.phone.value;
+    const userData = {
+      ...this.form.value,
+      phone:
+        typeof phoneValue === 'object' && phoneValue !== null
+          ? phoneValue.e164Number
+          : phoneValue,
+    } as any;
     if (this.updateId) {
       delete userData.password;
     }

@@ -112,6 +112,11 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
     });
   }
 
+  onSearchChange(value: string) {
+    this.filters.update((f) => ({ ...f, search: value, page: 1 }));
+    this.getList({ page: 1, limit: this.limit });
+  }
+
   getList(event: PaginationType) {
     this.productService
       .getAllProducts({

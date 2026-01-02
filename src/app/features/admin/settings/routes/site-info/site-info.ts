@@ -18,7 +18,12 @@ import { FieldContainer } from '../../../../../shared/components/field-container
 import { UploadImage } from '../../../../../shared/components/upload-image/upload-image';
 import { SnackbarService } from '../../../../../core/services/snackbar.service';
 import { SiteInfoService } from '../../../../../core/services/site-info.service';
-
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from 'ngx-intl-tel-input';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 @Component({
   selector: 'app-site-info',
   imports: [
@@ -31,16 +36,10 @@ import { SiteInfoService } from '../../../../../core/services/site-info.service'
     MatSelectModule,
     MatButtonModule,
     MatCardModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    RouterModule,
-    MatButtonModule,
     MatFormFieldModule,
-    MatInputModule,
     FieldContainer,
     UploadImage,
-    MatSelectModule,
+    NgxIntlTelInputModule,
   ],
   templateUrl: './site-info.html',
   styleUrl: './site-info.scss',
@@ -50,6 +49,9 @@ export class SiteInfo {
   imageFile: File | null = null;
   storeLogoPreviewUrl: string | null = null;
   faviconPreviewUrl: string | null = null;
+  CountryISO = CountryISO;
+  PhoneNumberFormat = PhoneNumberFormat;
+  SearchCountryField = SearchCountryField;
   form = new FormGroup({
     name: new FormControl<string>('', Validators.required),
     description: new FormControl<string>(''),
@@ -57,7 +59,18 @@ export class SiteInfo {
       Validators.required,
       Validators.email,
     ]),
-    phone: new FormControl<string | null>(''),
+    phone: new FormControl<
+      | string
+      | {
+          number: string;
+          internationalNumber: string;
+          nationalNumber: string;
+          e164Number: string;
+          countryCode: string;
+          dialCode: string;
+        }
+      | null
+    >(null),
     store_logo: new FormControl<string | null>(''),
     favicon: new FormControl<string | null>(''),
     address: new FormControl<string | null>(''),
@@ -67,32 +80,45 @@ export class SiteInfo {
     meta_description: new FormControl<string | null>(''),
   });
 
-  constructor(private siteInfoService: SiteInfoService, private snackbarService: SnackbarService) {
+  constructor(
+    private siteInfoService: SiteInfoService,
+    private snackbarService: SnackbarService,
+  ) {
     if (!this.isUpdate()) {
       this.form.disable();
     }
     this.fetchSiteInfo();
   }
 
-  fetchSiteInfo() { 
+  fetchSiteInfo() {
     this.siteInfoService.getSiteInfo().subscribe({
-      next: (res: any) => { 
-       this.form.patchValue({
-         name: res.data.name,
-         description: res.data.description,
-         email: res.data.email,
-         phone: res.data.phone,
-         store_logo: res.data.store_logo,
-         favicon: res.data.favicon,
-         address: res.data.address,
-         facebook: res.data.facebook,
-         instagram: res.data.instagram,
-         tik_tok: res.data.tik_tok,
-         meta_description: res.data.meta_description,
-       });
-       this.storeLogoPreviewUrl = res.data.store_logo || null;
-       this.faviconPreviewUrl =  res.data.favicon || null;
-     }
+      next: (res: any) => {
+        this.form.patchValue({
+          name: res.data.name,
+          description: res.data.description,
+          email: res.data.email,
+          phone:
+            typeof res.data.phone === 'string'
+              ? {
+                  number: res.data.phone,
+                  internationalNumber: res.data.phone,
+                  nationalNumber: res.data.phone,
+                  e164Number: res.data.phone,
+                  countryCode: '',
+                  dialCode: '',
+                }
+              : res.data.phone,
+          store_logo: res.data.store_logo,
+          favicon: res.data.favicon,
+          address: res.data.address,
+          facebook: res.data.facebook,
+          instagram: res.data.instagram,
+          tik_tok: res.data.tik_tok,
+          meta_description: res.data.meta_description,
+        });
+        this.storeLogoPreviewUrl = res.data.store_logo || null;
+        this.faviconPreviewUrl = res.data.favicon || null;
+      },
     });
   }
 
@@ -140,8 +166,15 @@ export class SiteInfo {
   save() {
     this.isUpdate.set(true);
     this.form.disable();
-    const data = this.form.value as any;
-    this.siteInfoService.updateSiteInfo(data).subscribe({
+    const phoneValue = this.form.controls.phone.value;
+    const payload = {
+      ...this.form.value,
+      phone:
+        typeof phoneValue === 'object' && phoneValue !== null
+          ? phoneValue.e164Number
+          : phoneValue,
+    } as any;
+    this.siteInfoService.updateSiteInfo(payload).subscribe({
       next: () => {
         this.snackbarService.openSnackbarSuccess('message.saved_successfully');
       },

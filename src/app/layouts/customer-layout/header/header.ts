@@ -42,6 +42,7 @@ export class Header {
     LanguageEnum.EN,
     LanguageEnum.FR,
     LanguageEnum.CH,
+    LanguageEnum.VN,
   ];
   CategoryEnum = CategoryEnum;
   isAdmin = computed(() => {
@@ -57,7 +58,6 @@ export class Header {
   searchQuery = '';
   showSearchInput = false;
 
-  
   constructor(
     public cartService: CartService,
     private authService: AuthService,
@@ -66,14 +66,14 @@ export class Header {
     private route: ActivatedRoute,
     private translateService: TranslateService,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     // Keep user signal in sync with AuthService
     this.authService.user$.subscribe((u) => this.user.set(u));
 
     // Initialize language from local storage
     const savedLang = this.localStorageService.get(
-      LocalStorageEnum.lang
+      LocalStorageEnum.lang,
     ) as LanguageEnum;
     if (savedLang && Object.values(LanguageEnum).includes(savedLang)) {
       this.currentLang.set(savedLang);
@@ -136,7 +136,7 @@ export class Header {
     this.dialogService
       .ask(
         this.translate.instant('message.are_you_sure_you_want_to_log_out'),
-        this.translate.instant('message.confirm_logout')
+        this.translate.instant('message.confirm_logout'),
       )
       .then((confirmed) => {
         if (confirmed) {
@@ -144,8 +144,8 @@ export class Header {
           this.router.navigate(['/']);
           this.dialogService.success(
             this.translate.instant(
-              'message.you_have_been_logged_out_successfully'
-            )
+              'message.you_have_been_logged_out_successfully',
+            ),
           );
         }
       });

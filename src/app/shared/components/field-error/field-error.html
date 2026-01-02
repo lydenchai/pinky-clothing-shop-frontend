@@ -1,24 +1,24 @@
 @if (control()?.touched && control()?.errors; as errors) {
 @if (errors["required"]) {
-<mat-error [@enterAnimation]>
+<mat-error [@enterAnimation] class="text-red-500">
   {{ customMessage()["required"] || "message.required" | translate }}
 </mat-error>
 } @else if (errors["max"]) {
-<mat-error [@enterAnimation]>
+<mat-error [@enterAnimation] class="text-red-500">
   {{
   customMessage()["max"] || "message._invalid_max_value"
   | translate: { max: errors["max"].max }
   }}
 </mat-error>
 } @else if (errors["min"]) {
-<mat-error [@enterAnimation]>
+<mat-error [@enterAnimation] class="text-red-500">
   {{
   customMessage()["min"] || "message._invalid_min_value"
   | translate: { min: errors["min"].min }
   }}
 </mat-error>
 } @else if (errors["message"]) {
-<mat-error [@enterAnimation]>
+<mat-error [@enterAnimation] class="text-red-500">
   {{ errors["message"] | translate }}
 </mat-error>
 }

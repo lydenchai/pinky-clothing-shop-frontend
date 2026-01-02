@@ -49,6 +49,20 @@
           </div>
         </div>
 
+        <!-- Product Search Filter -->
+        <div class="filter-group">
+          <h4>{{ 'search' | translate }}</h4>
+          <div class="price-range">
+            <div class="price-inputs">
+              <div class="price-input-wrapper">
+                <input class="px-3" [value]="filters().search || ''"
+                  (input)="onSearchChange($any($event.target).value)"
+                  placeholder="{{ 'search_products' | translate }}" />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Category Filter -->
         <div class="filter-group">
           <h4>{{ 'category' | translate }}</h4>

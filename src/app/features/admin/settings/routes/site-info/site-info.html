@@ -3,11 +3,11 @@
     <form [formGroup]="form">
       <!-- BASIC INFORMATION -->
       <div class="flex items-center justify-between">
-        <mat-card-title>Basic Information</mat-card-title>
+        <mat-card-title>{{ "basic_information" | translate }}</mat-card-title>
         <div class="top-btn">
           <button mat-raised-button color="primary" class="create" (click)="!isUpdate() ? onUpdate() : save()">
-            <mat-icon>{{!isUpdate() ? 'update' : 'save'}}</mat-icon>
-            {{ !isUpdate() ? ('update' | translate) : ('save' | translate) }}​
+            <mat-icon>{{ !isUpdate() ? "update" : "save" }}</mat-icon>
+            {{ !isUpdate() ? ("update" | translate) : ("save" | translate) }}​
           </button>
         </div>
       </div>
@@ -19,8 +19,8 @@
             </mat-form-field>
           </app-field-container>
         </div>
-        <div class="col-12 col-sm-6"> <app-field-container [label]="'description' | translate"
-            [control]="form.controls.description">
+        <div class="col-12 col-sm-6">
+          <app-field-container [label]="'description' | translate" [control]="form.controls.description">
             <mat-form-field appearance="outline">
               <input matInput name="description" [formControl]="form.controls.description" />
             </mat-form-field>
@@ -29,8 +29,10 @@
       </div>
 
       <!-- BRANDING -->
-      <div class="w-full mb-4">
-        <mat-card-title class="mb-3">Branding</mat-card-title>
+      <div class="mb-4 w-full">
+        <mat-card-title class="mb-3">{{
+          "branding" | translate
+          }}</mat-card-title>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'store_logo' | translate" [control]="form.controls.store_logo">
@@ -51,7 +53,9 @@
 
       <!-- CONTACT -->
       <div class="w-full">
-        <mat-card-title class="mb-3">Contact Information</mat-card-title>
+        <mat-card-title class="mb-3">{{
+          "contact_information" | translate
+          }}</mat-card-title>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'email' | translate" [control]="form.controls.email">
@@ -62,9 +66,11 @@
           </div>
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'phone' | translate" [control]="form.controls.phone">
-              <mat-form-field appearance="outline">
-                <input matInput type="phone" name="phone" [formControl]="form.controls.phone" />
-              </mat-form-field>
+              <ngx-intl-tel-input class="mat-like-phone" [enableAutoCountrySelect]="false" [searchCountryFlag]="true"
+                [searchCountryField]="[SearchCountryField.Name, SearchCountryField.Iso2]" [selectFirstCountry]="false"
+                [selectedCountryISO]="CountryISO.Cambodia" [phoneValidation]="true"
+                [numberFormat]="PhoneNumberFormat.International" [formControl]="form.controls.phone">
+              </ngx-intl-tel-input>
             </app-field-container>
           </div>
         </div>
@@ -72,7 +78,9 @@
 
       <!-- ADDRESS -->
       <div class="w-full">
-        <mat-card-title class="mb-3">Store Address</mat-card-title>
+        <mat-card-title class="mb-3">{{
+          "store_address" | translate
+          }}</mat-card-title>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'address' | translate" [control]="form.controls.address">
@@ -86,7 +94,9 @@
 
       <!-- SOCIAL MEDIA -->
       <div class="w-full">
-        <mat-card-title class="mb-3">Social Media</mat-card-title>
+        <mat-card-title class="mb-3">{{
+          "social_media" | translate
+          }}</mat-card-title>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'facebook' | translate" [control]="form.controls.facebook">
@@ -114,7 +124,9 @@
 
       <!-- SEO -->
       <div class="w-full">
-        <mat-card-title class="mb-3">SEO Settings</mat-card-title>
+        <mat-card-title class="mb-3">{{
+          "seo_settings" | translate
+          }}</mat-card-title>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'meta_description' | translate" [control]="form.controls.meta_description">

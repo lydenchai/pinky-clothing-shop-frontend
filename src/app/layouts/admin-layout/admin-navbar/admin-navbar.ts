@@ -38,6 +38,7 @@ export class AdminNavbar implements OnInit, OnDestroy {
     LanguageEnum.EN,
     LanguageEnum.FR,
     LanguageEnum.CH,
+    LanguageEnum.VN,
   ];
   newOrderCount = signal(0);
   newOrders = signal<any[]>([]);
@@ -51,11 +52,11 @@ export class AdminNavbar implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private localStorageService: LocalStorageService,
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
   ) {
-    // Initialise language from local storage
+    // Initialize language from local storage
     const savedLang = this.localStorageService.get(
-      LocalStorageEnum.lang
+      LocalStorageEnum.lang,
     ) as LanguageEnum;
     if (savedLang && Object.values(LanguageEnum).includes(savedLang)) {
       this.currentLang.set(savedLang);
@@ -94,15 +95,15 @@ export class AdminNavbar implements OnInit, OnDestroy {
     this.orderService.getMany().subscribe({
       next: (orders) => {
         const pendingOrders = orders.data.filter(
-          (o: any) => o.status === 'pending'
+          (o: any) => o.status === 'pending',
         );
         // Get viewed order IDs from localStorage
         const viewedIds = this.localStorageService.getArray(
-          LocalStorageEnum.AdminViewedOrders
+          LocalStorageEnum.AdminViewedOrders,
         );
         // Only show orders not viewed (use _id everywhere)
         const unViewedOrders = pendingOrders.filter(
-          (o: any) => !viewedIds.includes(String(o._id))
+          (o: any) => !viewedIds.includes(String(o._id)),
         );
         this.newOrderCount.set(unViewedOrders.length);
         this.newOrders.set(unViewedOrders.slice(0, 5));
@@ -137,7 +138,9 @@ export class AdminNavbar implements OnInit, OnDestroy {
     }
     if (viewedChanged) {
       // Remove the just-viewed order from newOrders immediately for UI reactivity
-      const updated = this.newOrders().filter(o => String(o._id) !== String(order_id));
+      const updated = this.newOrders().filter(
+        (o) => String(o._id) !== String(order_id),
+      );
       this.newOrders.set(updated);
     }
     this.notificationOpen.set(false);

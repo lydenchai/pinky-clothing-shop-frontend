@@ -26,9 +26,11 @@
         </div>
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'phone' | translate" [control]="form.controls.phone">
-            <mat-form-field appearance="outline">
-              <input matInput name="phone" [formControl]="form.controls.phone" />
-            </mat-form-field>
+            <ngx-intl-tel-input class="mat-like-phone" [enableAutoCountrySelect]="false" [searchCountryFlag]="true"
+              [searchCountryField]="[SearchCountryField.Name, SearchCountryField.Iso2]" [selectFirstCountry]="false"
+              [selectedCountryISO]="CountryISO.Cambodia" [phoneValidation]="true"
+              [numberFormat]="PhoneNumberFormat.International" [formControl]="form.controls.phone">
+            </ngx-intl-tel-input>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
