@@ -1,13 +1,16 @@
 <div class="admin-container scroll-container">
   <div class="form-container content-scroll">
     <div class="flex items-center justify-between w-full">
-      <span class="order-badge">#{{ order()?._id }}</span>
-      <mat-chip class="status-chip status-{{ status }}" selected>
-        <div class="flex items-center justify-center">
-          <mat-icon class="mr-1">assignment</mat-icon>
-          {{ status | translate }}
+      <div class="flex items-center gap-3">
+        <span class="order-badge tracking-wide text-base md:text-lg">#{{ order()?.code }}</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="h-7 w-px bg-gray-200 mx-2 hidden md:inline-block"></span>
+        <div class="status-chip status-{{ status }} px-3 py-2 flex items-center gap-2 rounded-[1.5rem]">
+          <mat-icon class="mr-1 text-base align-middle">assignment</mat-icon>
+          <span class="capitalize tracking-wide">{{ status | translate }}</span>
         </div>
-      </mat-chip>
+      </div>
     </div>
     <div class="flex items-center my-4">
       <mat-icon class="mr-1">calendar_today</mat-icon>
@@ -76,17 +79,19 @@
       </div>
       <div class="info-card">
         <div class="card-head">
-          <div class="icon-circle bg-yellow-50 text-yellow-700"><mat-icon>update</mat-icon></div>
+          <div class="icon-circle bg-yellow-50 text-yellow-500"><mat-icon>update</mat-icon></div>
           <div class="card-title">{{ 'status' | translate }}</div>
         </div>
         <div class="card-body">
           <div class="status-label-group">
-            <mat-select class="w-full border border-gray-300 rounded-md h-[40px] p-2" [value]="status"
-              (selectionChange)="updateStatus($event.value)">
-              @for (item of statusOptions; track $index) {
-              <mat-option [value]="item">{{ item | translate }}</mat-option>
-              }
-            </mat-select>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-select class="w-full border-gray-300 h-[40px] p-2" [value]="status"
+                (selectionChange)="updateStatus($event.value)">
+                @for (item of statusOptions; track $index) {
+                <mat-option [value]="item">{{ item | translate }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
       </div>

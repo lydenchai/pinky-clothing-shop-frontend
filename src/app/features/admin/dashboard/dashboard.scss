@@ -1,3 +1,5 @@
+ @use "../../../../styles/variables" as *;
+
  .dashboard-header {
    display: flex;
    justify-content: space-between;
@@ -50,19 +52,19 @@
  }
 
  .kpi.products .kpi-value {
-   color: #a21caf;
+   color: $primary-color;
  }
 
  .kpi.low-stock .kpi-value {
-   color: #eab308;
+   color: $pending-color;
  }
 
  .kpi.orders .kpi-value {
-   color: #2563eb;
+   color: $processing-color;
  }
 
  .kpi.sales .kpi-value {
-   color: #16a34a;
+   color: $delivered-color;
  }
 
  @keyframes fadeInUp {

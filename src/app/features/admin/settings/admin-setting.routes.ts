@@ -20,7 +20,7 @@ export const adminSettingRoutes: Routes = [
       },
       {
         path: 'site-info',
-        data: { breadcrumb: 'site_info'},
+        data: { breadcrumb: 'site_info' },
         loadComponent: () =>
           import('./routes/site-info/site-info').then((c) => c.SiteInfo),
       },

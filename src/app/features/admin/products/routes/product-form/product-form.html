@@ -26,14 +26,14 @@
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'price' | translate" [control]="form.controls.price">
             <mat-form-field appearance="outline">
-              <input matInput name="price" [formControl]="form.controls.price" />
+              <input matInput type="number" name="price" [formControl]="form.controls.price" />
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'stock' | translate" [control]="form.controls.stock">
             <mat-form-field appearance="outline">
-              <input matInput name="stock" [formControl]="form.controls.stock" />
+              <input matInput type="number" name="stock" [formControl]="form.controls.stock" />
             </mat-form-field>
           </app-field-container>
         </div>
@@ -62,7 +62,11 @@
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'color' | translate | plural" [control]="form.controls.colors">
             <mat-form-field appearance="outline">
-              <input matInput name="colors" [formControl]="form.controls.colors" />
+              <mat-select [formControl]="form.controls.colors" multiple>
+                @for (color of ColorEnum; track $index) {
+                <mat-option [value]="color">{{ color | translate }}</mat-option>
+                }
+              </mat-select>
             </mat-form-field>
           </app-field-container>
         </div>
@@ -79,10 +83,10 @@
   </div>
   <div class="form-actions">
     <button type="button" routerLink="/admin/products" mat-raised-button color="primary" class="cancel">
-      {{ 'cancel' | translate }}
+      <mat-icon>cancel</mat-icon>{{ 'cancel' | translate }}
     </button>
     <button mat-raised-button color="primary" class="save" (click)="onSave()">
-      {{ updateId() ? ('update' | translate) : ('create' | translate) }}
+      <mat-icon>save</mat-icon>{{ updateId() ? ('update' | translate) : ('create' | translate) }}
     </button>
   </div>
 </div>

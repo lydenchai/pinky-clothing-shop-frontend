@@ -18,6 +18,8 @@ import { UploadImage } from '../../../../../shared/components/upload-image/uploa
 import { SizeEnum } from '../../../../../core/types/enums/size.enum';
 import { MatSelectModule } from '@angular/material/select';
 import { MainCategoryEnum } from '../../../../../core/types/enums/main-category.enum';
+import { ColorEnum } from '../../../../../core/types/enums/color.enum';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-product-form',
@@ -33,6 +35,7 @@ import { MainCategoryEnum } from '../../../../../core/types/enums/main-category.
     PluralPipe,
     UploadImage,
     MatSelectModule,
+    MatIconModule,
   ],
   templateUrl: './product-form.html',
   styleUrls: ['./product-form.scss'],
@@ -43,6 +46,8 @@ export class ProductForm implements OnInit {
   updateId = signal<string | null>(null);
   MainCategoryEnum = Object.values(MainCategoryEnum);
   SizeEnum = Object.values(SizeEnum);
+  ColorEnum = Object.values(ColorEnum);
+
   form = new FormGroup({
     code: new FormControl<string | null>(''),
     name: new FormControl<string | null>('', Validators.required),
@@ -58,7 +63,7 @@ export class ProductForm implements OnInit {
       Validators.min(0),
     ]),
     sizes: new FormControl<string[] | null>([], Validators.required),
-    colors: new FormControl<string | null>(''),
+    colors: new FormControl<string[] | null>([]),
   });
 
   constructor(
@@ -90,14 +95,15 @@ export class ProductForm implements OnInit {
                   ? product.sizes.split(',').map((s: string) => s.trim())
                   : [],
               colors: Array.isArray(product.colors)
-                ? product.colors.join(', ')
+                ? product.colors
                 : typeof product.colors === 'string' && product.colors
-                  ? product.colors
-                  : '',
+                  ? product.colors.split(',').map((c: string) => c.trim())
+                  : [],
             });
             this.imagePreviewUrl = product.image || null;
           },
         });
+        this.form.controls.code.disable();
       }
     });
   }
@@ -111,16 +117,11 @@ export class ProductForm implements OnInit {
     const formValue = this.form.value as any;
     const productData = {
       ...formValue,
-      name: (formValue.name ?? '').trim(),
-      description: (formValue.description ?? '').trim(),
-      category: (formValue.category ?? '').trim(),
+      name: formValue.name,
+      description: formValue.description,
+      category: formValue.category,
       sizes: formValue.sizes ?? [],
-      colors: formValue.colors
-        ? formValue.colors
-            .split(',')
-            .map((c: string) => c.trim())
-            .filter((c: string) => c)
-        : [],
+      colors: formValue.colors ?? [],
     } as any;
 
     const request$ = this.updateId()

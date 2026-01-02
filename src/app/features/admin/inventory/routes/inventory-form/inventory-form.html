@@ -16,7 +16,7 @@
         <div class="col-12 col-sm-6 col-md-4">
           <app-field-container [label]="'quantity' | translate" [control]="form.controls.quantity">
             <mat-form-field appearance="outline">
-              <input matInput name="quantity" [formControl]="form.controls.quantity" />
+              <input matInput type="number" name="quantity" [formControl]="form.controls.quantity" />
             </mat-form-field>
           </app-field-container>
         </div>
@@ -32,10 +32,10 @@
   </div>
   <div class="form-actions">
     <button type="button" routerLink="/admin/inventory" mat-raised-button color="primary" class="cancel">
-      {{ 'cancel' | translate }}
+      <mat-icon>cancel</mat-icon>{{ 'cancel' | translate }}
     </button>
     <button type="submit" mat-raised-button color="primary" class="save" (click)="onSubmit()">
-      {{ updateId() ? ('update' | translate) : ('create' | translate) }}
+      <mat-icon>save</mat-icon>{{ updateId() ? ('update' | translate) : ('create' | translate) }}
     </button>
   </div>
 </div>

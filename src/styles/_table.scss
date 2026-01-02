@@ -202,12 +202,34 @@ table.table {
   .status {
     &.active {
       color: $active-color;
-      font-weight: 600;
     }
 
     &.inactive {
       color: $inactive-color;
-      font-weight: 600;
+    }
+
+    &.pending {
+      color: $pending-color;
+    }
+
+    &.processing {
+      color: $processing-color;
+    }
+
+    &.shipped {
+      color: $shipped-color;
+    }
+
+    &.delivered {
+      color: $delivered-color;
+    }
+
+    &.cancelled {
+      color: $cancelled-color;
+    }
+
+    &.archived {
+      color: $archived-color;
     }
   }
 }

@@ -14,9 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
 import { Order } from '../../../../../core/types/order';
-import { User } from '../../../../../core/types/user';
 import { OrderService } from '../../../../../core/services/order.service';
-import { UserService } from '../../../../../core/services/user.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -53,7 +51,7 @@ export class AdminOrderDetail implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private orderService: OrderService
+    private orderService: OrderService,
   ) {}
 
   ngOnInit() {
@@ -88,8 +86,8 @@ export class AdminOrderDetail implements OnInit {
       typeof order.status === 'string'
         ? order.status.toString().toLowerCase().trim()
         : order.status && typeof order.status === 'object'
-        ? String(Object.values(order.status)[0]).toLowerCase().trim()
-        : '';
+          ? String(Object.values(order.status)[0]).toLowerCase().trim()
+          : '';
     if (newStatus === currentStatus) return;
     this.status = newStatus;
     this.orderService.updateOrderStatus(order._id!, newStatus).subscribe({

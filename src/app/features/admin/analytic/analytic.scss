@@ -1,3 +1,5 @@
+ @use "../../../../styles/variables" as *;
+
  /* Summary Section */
  .dashboard-summary {
  	display: grid;
@@ -49,19 +51,19 @@
  }
 
  .summary-card.sales .summary-value {
- 	color: #16a34a;
+ 	color: $delivered-color;
  }
 
  .summary-card.orders .summary-value {
- 	color: #2563eb;
+ 	color: $processing-color;
  }
 
  .summary-card.users .summary-value {
- 	color: #f59e42;
+ 	color: $pending-color;
  }
 
  .summary-card.products .summary-value {
- 	color: #a21caf;
+ 	color: $primary-color;
  }
 
  @keyframes fadeInUp {

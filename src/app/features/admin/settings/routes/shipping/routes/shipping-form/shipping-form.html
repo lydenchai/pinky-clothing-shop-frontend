@@ -59,10 +59,10 @@
   </div>
   <div class="form-actions">
     <button type="button" routerLink="/admin/settings/shipping" mat-raised-button color="primary" class="cancel">
-      {{ 'cancel' | translate }}
+      <mat-icon>cancel</mat-icon>{{ 'cancel' | translate }}
     </button>
     <button mat-raised-button color="primary" class="save" (click)="onSave()">
-      {{ updateId() ? ('update' | translate) : ('create' | translate) }}
+      <mat-icon>save</mat-icon>{{ updateId() ? ('update' | translate) : ('create' | translate) }}
     </button>
   </div>
 </div>

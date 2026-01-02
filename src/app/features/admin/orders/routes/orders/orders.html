@@ -14,6 +14,7 @@
       <thead>
         <tr>
           <th class="number">{{ 'no.' | translate }}</th>
+          <th>{{ 'code' | translate }}</th>
           <th>{{ 'customer' | translate }}</th>
           <th>{{ 'total' | translate }}</th>
           <th>{{ 'date' | translate }}</th>
@@ -25,10 +26,13 @@
         @for (order of orders; track order._id) {
         <tr>
           <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
+          <td>#{{ order.code }}</td>
           <td>{{ order.user?.first_name }} {{ order.user?.last_name }}</td>
           <td>${{ order.total_amount }}</td>
           <td>{{ order.created_at | date: 'dd-MM-yyyy' }}</td>
-          <td>{{ order.status | translate}}</td>
+          <td class="status" [class]="order.status">
+            {{ order.status | translate }}
+          </td>
           <td class="action">
             <a mat-icon-button [routerLink]="[order._id]" class="view"><mat-icon>visibility</mat-icon></a>
           </td>

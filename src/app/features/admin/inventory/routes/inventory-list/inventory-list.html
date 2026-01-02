@@ -20,7 +20,8 @@
       <thead>
         <tr>
           <th class="number">{{'no.' | translate}}</th>
-          <th>{{'product_code' | translate}}</th>
+          <th>{{'code' | translate}}</th>
+          <th>{{'product_name' | translate}}</th>
           <th>{{'quantity' | translate}}</th>
           <th>{{'location' | translate}}</th>
           <th>{{'updated_at' | translate}}</th>
@@ -31,6 +32,7 @@
         @for (item of inventories; track $index) {
         <tr>
           <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
+          <td>#{{ item.code }}</td>
           <td>{{ item.product?.name }}</td>
           <td>{{ item.quantity }}</td>
           <td>{{ item.location }}</td>

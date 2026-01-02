@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SnackbarService } from '../../../../../../../core/services/snackbar.service';
 import { ShippingService } from '../../../../../../../core/services/shipping.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-shipping-form',
@@ -28,6 +29,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     FieldContainer,
     MatSelectModule,
     MatCheckboxModule,
+    MatIconModule,
   ],
   templateUrl: './shipping-form.html',
   styleUrls: ['./shipping-form.scss'],

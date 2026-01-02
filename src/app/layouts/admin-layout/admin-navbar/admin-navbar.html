@@ -22,6 +22,7 @@
           <li (click)="goToOrder(order._id)">
             <div>
               <span class="text-[#666]">{{ $index + 1 }}</span>
+              <span class="text-[#666] mx-2">#{{ order.code }}</span>
               <span class="text-[#666] mx-2">{{ order.user?.first_name }} {{ order.user?.last_name }}</span>
             </div>
             <span class="text-[#aaa]">{{ order.created_at | date: 'dd-MM-yyyy HH:mm a' }}</span>

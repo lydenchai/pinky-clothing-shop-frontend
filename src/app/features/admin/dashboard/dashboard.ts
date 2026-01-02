@@ -10,6 +10,7 @@ import { Product } from '../../../core/types/product.model';
 import { ProductService } from '../../../core/services/product.service';
 import { OrderService } from '../../../core/services/order.service';
 import { UserService } from '../../../core/services/user.service';
+import { AnalyticsService } from '../../../core/services/analytics.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -47,9 +48,10 @@ export class Dashboard implements OnInit {
   topProducts: Product[] = [];
 
   constructor(
-    private productService: ProductService,
+    private userService: UserService,
     private orderService: OrderService,
-    private userService: UserService
+    private productService: ProductService,
+    private analyticsService: AnalyticsService,
   ) {}
 
   ngOnInit() {
@@ -65,13 +67,22 @@ export class Dashboard implements OnInit {
       .subscribe((res: { data: Order[]; pagination: any }) => {
         const orders = res.data;
         this.pendingOrders = orders.filter(
-          (o) => o.status === 'pending'
+          (o) => o.status === 'pending',
         ).length;
         this.completedOrders = orders.filter(
-          (o) => o.status === 'delivered'
+          (o) => o.status === 'delivered',
         ).length;
-        this.sales = orders.reduce((sum, o) => sum + o.total_amount, 0);
       });
+
+    // Fetch analytics summary for total sales
+    this.analyticsService.getSummary().subscribe({
+      next: (res) => {
+        this.sales = Number(res.data?.totalSales) || 0;
+      },
+      error: () => {
+        this.sales = 0;
+      },
+    });
 
     // Recent orders (for current user)
     this.orderService
@@ -83,7 +94,7 @@ export class Dashboard implements OnInit {
           .sort(
             (a, b) =>
               new Date(b.created_at).getTime() -
-              new Date(a.created_at).getTime()
+              new Date(a.created_at).getTime(),
           )
           .slice(0, 6);
       });

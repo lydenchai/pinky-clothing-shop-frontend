@@ -1,23 +1,25 @@
 <div class="admin-container scroll-container">
   <section class="table-header d-flex align-items-center justify-content-between">
     <div class="d-flex gap-2 align-items-center form">
-      <app-field-container [label]="'search' | translate" [control]="form.controls.name">
-        <mat-form-field appearance="outline">
-          <input matInput name="q" appInputBouncer (keyUpBouncer)="onSearch($event)" />
-          <mat-icon matPrefix>search</mat-icon>
-        </mat-form-field>
-      </app-field-container>
-      <app-field-container [label]="'category' | translate" [control]="form.controls.category">
-        <mat-form-field appearance="outline">
-          <mat-select [formControl]="form.controls.category" [placeholder]="'all' | translate"
-            (selectionChange)="onCategoryChange($event.value)">
-            <mat-option [value]="''">{{ 'all' | translate }}</mat-option>
-            @for (cat of categories; track $index) {
-            <mat-option [value]="cat">{{ cat | translate }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </app-field-container>
+      <div class="row">
+        <app-field-container [label]="'search' | translate" [control]="form.controls.name" class="col-lg-6">
+          <mat-form-field appearance="outline">
+            <input matInput name="q" appInputBouncer (keyUpBouncer)="onSearch($event)" />
+            <mat-icon matPrefix>search</mat-icon>
+          </mat-form-field>
+        </app-field-container>
+        <app-field-container [label]="'category' | translate" [control]="form.controls.category" class="col-lg-6">
+          <mat-form-field appearance="outline">
+            <mat-select [formControl]="form.controls.category" [placeholder]="'all' | translate"
+              (selectionChange)="onCategoryChange($event.value)">
+              <mat-option [value]="''">{{ 'all' | translate }}</mat-option>
+              @for (cat of categories; track $index) {
+              <mat-option [value]="cat">{{ cat | translate }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </app-field-container>
+      </div>
     </div>
     <div class="top-btn ms-auto">
       <button mat-raised-button color="primary" class="create" routerLink="create">
@@ -31,6 +33,7 @@
       <thead>
         <tr>
           <th class="number">{{ 'no.' | translate }}</th>
+          <th>{{ 'code' | translate }}</th>
           <th>{{ 'name' | translate }}</th>
           <th>{{ 'category' | translate }}</th>
           <th>{{ 'price' | translate }}</th>
@@ -42,6 +45,7 @@
         @for (product of products; track $index) {
         <tr>
           <td class="number">{{ ($index + 1 + ((page - 1) * limit))}}</td>
+          <td>#{{ product.code }}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.category | translate}}</td>
           <td>{{ product.price | currency }}</td>

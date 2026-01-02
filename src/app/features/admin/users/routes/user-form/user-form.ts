@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { MatSelectModule } from '@angular/material/select';
 import { SnackbarService } from '../../../../../core/services/snackbar.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-form',
@@ -32,6 +33,7 @@ import { SnackbarService } from '../../../../../core/services/snackbar.service';
     MatInputModule,
     FieldContainer,
     MatSelectModule,
+    MatIconModule,
   ],
   templateUrl: './user-form.html',
   styleUrls: ['./user-form.scss'],
@@ -62,7 +64,7 @@ export class UserForm {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
   ) {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');

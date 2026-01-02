@@ -16,6 +16,7 @@ import { FieldContainer } from '../../../../../shared/components/field-container
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { SnackbarService } from '../../../../../core/services/snackbar.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-inventory-form',
@@ -30,6 +31,7 @@ import { SnackbarService } from '../../../../../core/services/snackbar.service';
     MatInputModule,
     FieldContainer,
     MatSelectModule,
+    MatIconModule,
   ],
   templateUrl: './inventory-form.html',
   styleUrls: ['./inventory-form.scss'],
