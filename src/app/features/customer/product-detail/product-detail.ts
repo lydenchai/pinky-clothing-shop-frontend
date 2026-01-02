@@ -15,13 +15,13 @@ import { WishlistService } from '../../../core/services/wishlist.service';
   styleUrl: './product-detail.scss',
 })
 export class ProductDetail implements OnInit {
-  product = signal<Product | null>(null);
-  selectedImage = signal<string>('');
-  selectedSize = signal<string>('');
-  selectedColor = signal<string>('');
   quantity = signal<number>(1);
+  selectedSize = signal<string>('');
+  selectedImage = signal<string>('');
+  selectedColor = signal<string>('');
   addedToCart = signal<boolean>(false);
   isWishListed = signal<boolean>(false);
+  product = signal<Product | null>(null);
 
   private dialogService = inject(DialogService);
   private wishlistService = inject(WishlistService);
@@ -152,7 +152,17 @@ export class ProductDetail implements OnInit {
           setTimeout(() => this.addedToCart.set(false), 3000);
         },
         error: (error) => {
-          if (error.status === 400) {
+          if (error.status === 401) {
+            this.dialogService
+              .error(
+                this.translate.instant(
+                  'message.please_login_to_add_items_to_your_cart',
+                ),
+              )
+              .then(() => {
+                this.router.navigate(['/login']);
+              });
+          } else if (error.status === 400) {
             this.dialogService.error(
               error.error?.error ||
                 this.translate.instant('message.unable_to_add_item_to_cart'),

@@ -72,7 +72,7 @@ button {
 
 ::-webkit-scrollbar-thumb {
   background: #d2d2d7;
-  border-radius: 6px;
+  border-radius: 10px;
   border: 2px solid #f5f5f7;
 }
 
@@ -128,7 +128,7 @@ $input-height: 40px;
 $border-color: #dddddd;
 
 mat-form-field {
-  border-radius: 6px !important;
+  border-radius: 10px !important;
 
   .mdc-text-field {
     height: $input-height;
@@ -144,7 +144,7 @@ mat-form-field {
   .mdc-notched-outline__notch,
   .mdc-notched-outline__trailing {
     height: $input-height !important;
-    border-radius: 6px !important;
+    border-radius: 10px !important;
     border-color: $border-color !important;
   }
 
@@ -225,7 +225,7 @@ mat-form-field {
 
   .required::after {
     content: " *";
-    color: rgb(170, 0, 0);
+    color: rgb(170, 0, 0) !important;
   }
 
   .field-container {

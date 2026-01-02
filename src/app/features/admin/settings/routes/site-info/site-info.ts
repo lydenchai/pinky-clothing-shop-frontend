@@ -56,7 +56,10 @@ export class SiteInfo implements OnInit {
   }
 
   save() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.siteInfoService.updateSiteInfo(this.form.value as any).subscribe({
       next: (info) => {
         this.info = info;

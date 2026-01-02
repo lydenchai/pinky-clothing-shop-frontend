@@ -1,133 +1,123 @@
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
-import { InputRestrictDirective } from '../../directives/input-restrict.directive';
+import { FormsModule } from '@angular/forms';
 import { PaginationType } from '../../../core/types/pagination-type';
 
 @Component({
-  standalone: true,
   selector: 'app-pagination',
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatSelectModule,
-    MatButtonModule,
-    InputRestrictDirective,
-  ],
   templateUrl: './pagination.html',
   styleUrls: ['./pagination.scss'],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    FormsModule,
+  ],
 })
-export class Pagination implements OnInit, OnDestroy, OnChanges {
-  pageNumber = new FormControl<string | number>('');
+export class Pagination implements OnInit {
+  pageList: number[] = [];
+  end: number = 0;
+  last: number = 0;
+  private _limit!: number;
+  private _page: number = 0;
+  private _total: number = 0;
   pageOptions = [10, 15, 30, 60, 100, 300, 500];
 
-  @Input() total: number = 0;
-  @Input() limit: number = 100;
-  @Input() page: number = 1;
-  @Output() changed = new EventEmitter<PaginationType>();
-
-  private pageSub?: Subscription;
+  constructor() {
+    this._limit = this.pageOptions[0];
+  }
 
   ngOnInit() {
-    this.pageSub = this.pageNumber.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((val) => {
-        let inputValue = Number(val);
-        if (isNaN(inputValue) || inputValue < 1) {
-          inputValue = 1;
-        }
-        if (inputValue > this.pageCount) {
-          inputValue = this.pageCount;
-        }
-        if (inputValue !== this.page) {
-          this.setCurrentPage(inputValue);
-        } else {
-          this.pageNumber.setValue(inputValue, { emitEvent: false });
-        }
-      });
+    this.update();
   }
 
-  ngOnChanges() {
-    this.pageNumber.setValue(this.page, { emitEvent: false });
-    if (this.controlsDisabled) {
-      this.pageNumber.disable();
+  @Input() set total(total: number) {
+    this._total = total;
+    if (this.total && this.page && this.limit) {
+      this.update();
+    }
+  }
+
+  get total(): number {
+    return this._total;
+  }
+
+  @Input() set page(page: number) {
+    this._page = page;
+    this.update();
+  }
+
+  get page(): number {
+    return this._page;
+  }
+
+  @Input() set limit(limit: number) {
+    this._limit = limit;
+    if (this.total && this.page && this.limit) {
+      this.update();
+    }
+  }
+
+  get limit(): number {
+    return this._limit;
+  }
+
+  @Input('surround-button') surroundButton: number = 1;
+
+  @Output() changed = new EventEmitter<PaginationType>();
+
+  goTo(page: number) {
+    this.changed.emit({
+      page,
+      limit: this.limit,
+    });
+    this._page = page;
+    this.update();
+  }
+
+  update() {
+    this.pageList = [];
+    if (this.total === 0 || !this.page || !this.limit) return;
+
+    this.last = Math.ceil(this.total / this.limit);
+
+    const current = this.page;
+    // Always show first page
+    this.pageList.push(1);
+    if (this.last <= 7) {
+      // Show all pages if there are 7 or fewer
+      for (let i = 2; i <= this.last; i++) {
+        this.pageList.push(i);
+      }
+    } else if (current <= 4) {
+      // Show first 4 pages then ellipsis and last page (patterns 1 and 2)
+      for (let i = 2; i <= Math.min(4, this.last); i++) {
+        this.pageList.push(i);
+      }
+      this.pageList.push(-1); // Ellipsis
+      this.pageList.push(this.last);
+    } else if (current >= this.last - 3) {
+      // Show first page, ellipsis, then last 4 pages
+      this.pageList.push(-1); // Ellipsis
+      for (let i = this.last - 3; i <= this.last; i++) {
+        this.pageList.push(i);
+      }
     } else {
-      this.pageNumber.enable();
+      this.pageList.push(-1); // First ellipsis
+      this.pageList.push(current - 1);
+      this.pageList.push(current);
+      this.pageList.push(current + 1);
+      this.pageList.push(-1); // Second ellipsis
+      this.pageList.push(this.last);
     }
-  }
-
-  ngOnDestroy() {
-    this.pageSub?.unsubscribe();
-  }
-
-  onInput(event: Event) {
-    const target = event.target as HTMLInputElement;
-    this.pageNumber.setValue(target.value);
-  }
-
-  get pageCount(): number {
-    return Math.max(1, Math.ceil(this.total / this.limit));
-  }
-
-  get controlsDisabled(): boolean {
-    return this.total === 0;
-  }
-
-  setCurrentPage(page: number) {
-    this.pageNumber.setValue(page, { emitEvent: false });
-    this.changed.emit({ page, limit: this.limit });
-  }
-
-  onPageInput() {
-    let inputValue = Number(this.pageNumber.value);
-    if (isNaN(inputValue) || inputValue < 1) {
-      inputValue = 1;
-    }
-    if (inputValue > this.pageCount) {
-      inputValue = this.pageCount;
-    }
-    this.setCurrentPage(inputValue);
-  }
-
-  goToFirstPage() {
-    this.setCurrentPage(1);
-  }
-
-  goToPreviousPage() {
-    const prev =
-      Number(this.pageNumber.value) > 1 ? Number(this.pageNumber.value) - 1 : 1;
-    this.setCurrentPage(prev);
-  }
-
-  goToNextPage() {
-    const next =
-      Number(this.pageNumber.value) < this.pageCount
-        ? Number(this.pageNumber.value) + 1
-        : this.pageCount;
-    this.setCurrentPage(next);
-  }
-
-  goToLastPage() {
-    this.setCurrentPage(this.pageCount);
-  }
-
-  onLimitChange(newLimit: number) {
-    this.pageNumber.setValue(1);
-    this.changed.emit({ page: 1, limit: newLimit });
+    // Remove any duplicate ellipsis that might occur
+    this.pageList = this.pageList.filter((item, index, array) => {
+      if (item === -1 && array[index - 1] === -1) return false;
+      return true;
+    });
   }
 }

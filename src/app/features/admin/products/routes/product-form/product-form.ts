@@ -103,7 +103,10 @@ export class ProductForm implements OnInit {
   }
 
   onSave() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     const formValue = this.form.value as any;
     const productData = {

@@ -89,7 +89,10 @@ export class ShippingForm {
   }
 
   onSave() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const formValue = this.form.value as any;
     const request$ = this.updateId()
       ? this.shippingService.updateById(this.updateId()!, formValue)

@@ -1,28 +1,31 @@
 <div class="pagination">
-  <div class="d-flex align-items-center">
-    <button type="button" (click)="goToFirstPage()" [disabled]="controlsDisabled || page === 1">
-      <mat-icon class="first-page-icon">first_page</mat-icon>
+  <button type="button" [disabled]="page === 1" (click)="goTo(1)">
+    <mat-icon>first_page</mat-icon>
+  </button>
+  <button type="button" [disabled]="page === 1" (click)="goTo(page - 1)">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  @for (i of pageList; track $index) {
+    @if (i === -1) {
+    <button type="button" class="ellipsis" disabled>...</button>
+    }
+    @else {
+    <button type="button" [class.active]="i === page" [disabled]="i === page" (click)="goTo(i)">
+      {{ i }}
     </button>
-    <button type="button" (click)="goToPreviousPage()" [disabled]="controlsDisabled || page === 1">
-      <mat-icon class="previous-page-icon">chevron_left</mat-icon>
-    </button>
-    <mat-form-field appearance="outline" class="search mx-1">
-      <input matInput [formControl]="pageNumber" inputRestrict="integer" min="1" [maxlength]="pageCount"
-        (input)="onInput($event)" />
-      <span class="page-info" matSuffix>/ {{ pageCount }}</span>
-    </mat-form-field>
-    <button type="button" (click)="goToNextPage()" [disabled]="controlsDisabled || page === pageCount">
-      <mat-icon class="next-page-icon">chevron_right</mat-icon>
-    </button>
-    <button type="button" (click)="goToLastPage()" [disabled]="controlsDisabled || page === pageCount">
-      <mat-icon class="last-page-icon">last_page</mat-icon>
-    </button>
-    <mat-form-field appearance="outline" class="w-[70px] ml-1">
-      <mat-select [value]="limit" (selectionChange)="onLimitChange($event.value)" [disabled]="controlsDisabled">
-        @for (option of pageOptions; track $index) {
-        <mat-option [value]="option">{{ option }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div>
+    }
+  }
+  <button type="button" [disabled]="page === last" (click)="goTo(page + 1)">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+  <button type="button" [disabled]="page === last" (click)="goTo(last)">
+    <mat-icon>last_page</mat-icon>
+  </button>
+  <!-- <mat-form-field appearance="outline" class="w-[70px] ml-1">
+    <mat-select [(ngModel)]="limit" (selectionChange)="goTo(1)">
+      @for (option of pageOptions; track $index) {
+      <mat-option [value]="option">{{ option }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field> -->
 </div>

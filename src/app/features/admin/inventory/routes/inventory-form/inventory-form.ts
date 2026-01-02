@@ -51,7 +51,7 @@ export class InventoryForm implements OnInit {
     private route: ActivatedRoute,
     private productService: ProductService,
     private snackbarService: SnackbarService,
-    private inventoryService: InventoryService
+    private inventoryService: InventoryService,
   ) {}
 
   ngOnInit() {
@@ -82,7 +82,10 @@ export class InventoryForm implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const rawData = { ...this.form.value } as any;
     const request$ = this.updateId()
       ? this.inventoryService.updateById(this.updateId()!, rawData)
