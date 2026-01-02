@@ -29,3 +29,18 @@ input[type="file"] {
   object-fit: cover;
   border: 1px solid #ddd;
 }
+
+.image-upload.disabled {
+  pointer-events: none;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.image-upload.disabled>*:not(.preview) {
+  display: none !important;
+}
+
+.image-upload.disabled .preview {
+  pointer-events: auto;
+  opacity: 1;
+}

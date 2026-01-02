@@ -15,6 +15,7 @@ export class UploadImage {
   dragOver = false;
 
   onFileChange(event: Event) {
+    if (this.disabled) return;
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.handleFile(input.files[0]);
@@ -22,16 +23,19 @@ export class UploadImage {
   }
 
   onDragOver(event: DragEvent) {
+    if (this.disabled) return;
     event.preventDefault();
     this.dragOver = true;
   }
 
   onDragLeave(event: DragEvent) {
+    if (this.disabled) return;
     event.preventDefault();
     this.dragOver = false;
   }
 
   onDrop(event: DragEvent) {
+    if (this.disabled) return;
     event.preventDefault();
     this.dragOver = false;
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {

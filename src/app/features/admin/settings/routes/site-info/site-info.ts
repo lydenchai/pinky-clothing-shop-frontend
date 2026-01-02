@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { UploadImage } from '../../../../../shared/components/upload-image/upload-image';
 import { SnackbarService } from '../../../../../core/services/snackbar.service';
+import { SiteInfoService } from '../../../../../core/services/site-info.service';
 
 @Component({
   selector: 'app-site-info',
@@ -45,7 +46,7 @@ import { SnackbarService } from '../../../../../core/services/snackbar.service';
   styleUrl: './site-info.scss',
 })
 export class SiteInfo {
-  isUpdate = signal<boolean>(true);
+  isUpdate = signal<boolean>(false);
   imageFile: File | null = null;
   storeLogoPreviewUrl: string | null = null;
   faviconPreviewUrl: string | null = null;
@@ -66,10 +67,33 @@ export class SiteInfo {
     meta_description: new FormControl<string | null>(''),
   });
 
-  constructor(private snackbarService: SnackbarService) {
-    if (this.isUpdate()) {
+  constructor(private siteInfoService: SiteInfoService, private snackbarService: SnackbarService) {
+    if (!this.isUpdate()) {
       this.form.disable();
     }
+    this.fetchSiteInfo();
+  }
+
+  fetchSiteInfo() { 
+    this.siteInfoService.getSiteInfo().subscribe({
+      next: (res: any) => { 
+       this.form.patchValue({
+         name: res.data.name,
+         description: res.data.description,
+         email: res.data.email,
+         phone: res.data.phone,
+         store_logo: res.data.store_logo,
+         favicon: res.data.favicon,
+         address: res.data.address,
+         facebook: res.data.facebook,
+         instagram: res.data.instagram,
+         tik_tok: res.data.tik_tok,
+         meta_description: res.data.meta_description,
+       });
+       this.storeLogoPreviewUrl = res.data.store_logo || null;
+       this.faviconPreviewUrl =  res.data.favicon || null;
+     }
+    });
   }
 
   onStoreLogoSelected(file: File | null) {
@@ -107,15 +131,23 @@ export class SiteInfo {
   onUpdate() {
     this.isUpdate.set(!this.isUpdate());
     if (!this.isUpdate()) {
-      this.form.enable();
-    } else {
       this.form.disable();
+    } else {
+      this.form.enable();
     }
   }
 
   save() {
     this.isUpdate.set(true);
     this.form.disable();
-    this.snackbarService.openSnackbarSuccess('message.saved_successfully');
+    const data = this.form.value as any;
+    this.siteInfoService.updateSiteInfo(data).subscribe({
+      next: () => {
+        this.snackbarService.openSnackbarSuccess('message.saved_successfully');
+      },
+      error: () => {
+        this.snackbarService.openSnackbarError('message.save_failed');
+      },
+    });
   }
 }

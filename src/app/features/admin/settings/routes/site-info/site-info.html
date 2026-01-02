@@ -5,9 +5,9 @@
       <div class="flex items-center justify-between">
         <mat-card-title>Basic Information</mat-card-title>
         <div class="top-btn">
-          <button mat-raised-button color="primary" class="create" (click)="isUpdate() ? onUpdate() : save()">
-            <mat-icon>{{isUpdate() ? 'update' : 'save'}}</mat-icon>
-            {{ isUpdate() ? ('update' | translate) : ('save' | translate) }}​
+          <button mat-raised-button color="primary" class="create" (click)="!isUpdate() ? onUpdate() : save()">
+            <mat-icon>{{!isUpdate() ? 'update' : 'save'}}</mat-icon>
+            {{ !isUpdate() ? ('update' | translate) : ('save' | translate) }}​
           </button>
         </div>
       </div>
@@ -29,18 +29,20 @@
       </div>
 
       <!-- BRANDING -->
-      <div class="w-full">
+      <div class="w-full mb-4">
         <mat-card-title class="mb-3">Branding</mat-card-title>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'store_logo' | translate" [control]="form.controls.store_logo">
-              <app-upload-image [previewUrl]="storeLogoPreviewUrl" (imageSelected)="onStoreLogoSelected($event)">
+              <app-upload-image [disabled]="!isUpdate()" [previewUrl]="storeLogoPreviewUrl"
+                (imageSelected)="onStoreLogoSelected($event)">
               </app-upload-image>
             </app-field-container>
           </div>
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'favicon' | translate" [control]="form.controls.favicon">
-              <app-upload-image [previewUrl]="faviconPreviewUrl" (imageSelected)="onFaviconSelected($event)">
+              <app-upload-image [previewUrl]="faviconPreviewUrl" (imageSelected)="onFaviconSelected($event)"
+                [disabled]="!isUpdate()">
               </app-upload-image>
             </app-field-container>
           </div>
