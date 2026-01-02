@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { WishlistService } from '../../../core/services/wishlist.service';
 import { ProductService } from '../../../core/services/product.service';
-import { PaginationInfo, Product } from '../../../core/types/product.model';
+import { Product } from '../../../core/types/product.model';
 import { ProductCard } from '../../../shared/components/product-card/product-card';
 import { PaginationType } from '../../../core/types/pagination-type';
 import { PaginationUtil } from '../../../utils/pagination.util';

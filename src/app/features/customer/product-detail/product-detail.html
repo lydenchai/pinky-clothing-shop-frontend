@@ -88,9 +88,9 @@
             </svg>
             {{ 'add_to_cart' | translate }}
           </button>
-          <button class="btn-wishlist" [class.active]="isWishlisted()"
-            (click)="isWishlisted() ? removeFromWishlist() : addToWishlist()">
-            @if (!isWishlisted()) {
+          <button class="btn-wishlist" [class.active]="isWishListed()"
+            (click)="isWishListed() ? removeFromWishlist() : addToWishlist()">
+            @if (!isWishListed()) {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
               stroke="#ffffff" stroke-width="2">
               <path

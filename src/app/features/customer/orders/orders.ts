@@ -21,7 +21,7 @@ import { PaginationType } from '../../../core/types/pagination-type';
 export class Orders extends PaginationUtil {
   orders: Order[] = [];
   user = signal<User | null>(null);
-  
+
   isAdmin = computed(() => {
     const u = this.user();
     return !!u && (u as any).role === 'admin';
@@ -29,7 +29,7 @@ export class Orders extends PaginationUtil {
 
   constructor(
     private orderService: OrderService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     super();
     this.authService.user$.subscribe((u) => this.user.set(u));

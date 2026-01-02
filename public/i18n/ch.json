@@ -280,6 +280,7 @@
     "save_failed": "保存失败。请重试。",
     "deleted_successfully": "删除成功。",
     "added_to_wishlist": "已添加到愿望清单。",
-    "removed_from_wishlist": "已从愿望清单中移除。"
+    "removed_from_wishlist": "已从愿望清单中移除。",
+    "please_login_to_use_wishlist": "请登录以使用愿望清单。"
   }
 }

@@ -21,7 +21,7 @@ export class ProductDetail implements OnInit {
   selectedColor = signal<string>('');
   quantity = signal<number>(1);
   addedToCart = signal<boolean>(false);
-  isWishlisted = signal<boolean>(false);
+  isWishListed = signal<boolean>(false);
 
   private dialogService = inject(DialogService);
   private wishlistService = inject(WishlistService);
@@ -51,7 +51,7 @@ export class ProductDetail implements OnInit {
               this.product.set(res.data);
               this.selectedImage.set(res.data.image);
               // Set isWishlisted if product is in wishlist
-              this.isWishlisted.set(ids.includes(res.data._id));
+              this.isWishListed.set(ids.includes(res.data._id));
               // Parse sizes and colors from comma-separated strings
               if (res.data.sizes) {
                 const sizesArray = res.data.sizes
@@ -81,7 +81,7 @@ export class ProductDetail implements OnInit {
             next: (res) => {
               this.product.set(res.data);
               this.selectedImage.set(res.data.image);
-              this.isWishlisted.set(false);
+              this.isWishListed.set(false);
             },
             error: () => {
               this.router.navigate(['/products']);
@@ -152,7 +152,12 @@ export class ProductDetail implements OnInit {
           setTimeout(() => this.addedToCart.set(false), 3000);
         },
         error: (error) => {
-          if (error.status === 401) {
+          if (error.status === 400) {
+            this.dialogService.error(
+              error.error?.error ||
+                this.translate.instant('message.unable_to_add_item_to_cart'),
+            );
+          } else {
             this.dialogService
               .error(
                 this.translate.instant(
@@ -162,17 +167,6 @@ export class ProductDetail implements OnInit {
               .then(() => {
                 this.router.navigate(['/login']);
               });
-          } else if (error.status === 400) {
-            this.dialogService.error(
-              error.error?.error ||
-                this.translate.instant('message.unable_to_add_item_to_cart'),
-            );
-          } else {
-            this.dialogService.error(
-              this.translate.instant(
-                'message.an_error_occurred_please_try_again',
-              ),
-            );
           }
         },
       });
@@ -210,7 +204,7 @@ export class ProductDetail implements OnInit {
     if (!prod || !prod._id) return;
     this.wishlistService.addToWishlist(prod._id).subscribe({
       next: () => {
-        this.isWishlisted.set(true);
+        this.isWishListed.set(true);
         this.dialogService.success(
           this.translate.instant('message.added_to_wishlist'),
         );
@@ -242,7 +236,7 @@ export class ProductDetail implements OnInit {
     if (!prod || !prod._id) return;
     this.wishlistService.removeFromWishlist(prod._id).subscribe({
       next: () => {
-        this.isWishlisted.set(false);
+        this.isWishListed.set(false);
         this.dialogService.success(
           this.translate.instant('message.removed_from_wishlist'),
         );

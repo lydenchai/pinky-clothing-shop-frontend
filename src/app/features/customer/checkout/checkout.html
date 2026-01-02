@@ -7,9 +7,9 @@
         <div class="success-icon">✓</div>
         <h2>{{ 'order_placed_successfully' | translate }}</h2>
         <p>{{ 'thank_you_for_your_purchase' | translate }}</p>
-        <h3>{{ 'order_number' | translate }}: {{ orderResponse._id|| orderResponse.order_id }}</h3>
+        <h3>{{ 'order_number' | translate }}: {{ orderResponse()._id|| orderResponse().order_id }}</h3>
         <div class="order-confirm-items">
-          @for (item of orderResponse.items; track $index) {
+          @for (item of orderResponse().items; track $index) {
           <div class="order-item">
             <img [src]="item.product_image || item.product_image" [alt]="item.product_name || item.product_name" />
             <div class="item-info">
@@ -23,29 +23,31 @@
         <div class="summary-totals">
           <div class="summary-row">
             <span>{{ 'subtotal' | translate }}</span>
-            <span>${{ (orderResponse.subtotal || orderResponse.total_amount || orderResponse.total) | number: '1.2-2'
-              }}</span>
+            <span>
+              ${{ (orderResponse().subtotal || orderResponse().total_amount || orderResponse().total) | number: '1.2-2' }}
+            </span>
           </div>
           <div class="summary-row">
             <span>{{ 'shipping' | translate }}</span>
-            <span>${{ (orderResponse.shipping || 0) | number: '1.2-2' }}</span>
+            <span>${{ (orderResponse().shipping || 0) | number: '1.2-2' }}</span>
           </div>
           <div class="summary-total">
             <span>{{ 'total' | translate }}</span>
-            <span>${{ (orderResponse.total || orderResponse.total_amount || orderResponse.subtotal) | number: '1.2-2'
-              }}</span>
+            <span>
+              ${{ (orderResponse().total || orderResponse().total_amount || orderResponse().subtotal) | number: '1.2-2' }}
+            </span>
           </div>
           <div class="summary-row">
             <span>{{ 'status' | translate }}</span>
-            <span>{{ orderResponse.status }}</span>
+            <span>{{ orderResponse().status }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'address' | translate }}</span>
-            <span>{{ orderResponse.shippingAddress || orderResponse.address }}</span>
+            <span>{{ orderResponse().shippingAddress || orderResponse().address }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'created_at' | translate }}</span>
-            <span>{{ orderResponse.created_at || orderResponse.created_at }}</span>
+            <span>{{ orderResponse().created_at || orderResponse().created_at }}</span>
           </div>
         </div>
       </div>
@@ -60,7 +62,7 @@
     <div class="checkout-layout">
       <!-- Checkout Form -->
 
-      @if (!orderSummary) {
+      @if (!orderSummary()) {
       <form [formGroup]="form" class="checkout-form" (ngSubmit)="placeOrder()">
         <!-- Contact Information -->
         <section class="form-section">
@@ -184,7 +186,7 @@
       <div class="order-summary-confirm">
         <h2>{{ 'order_summary' | translate }}</h2>
         <div class="order-items my-4">
-          @for (item of orderSummary.items; track $index) {
+          @for (item of orderSummary().items; track $index) {
           <div class="order-item">
             <img [src]="item.image" [alt]="item.name" />
             <div class="item-info">
@@ -198,12 +200,12 @@
         <div class="summary-totals">
           <div class="summary-row">
             <span>{{ 'total' | translate }}</span>
-            <span>${{ orderSummary.total | number: '1.2-2' }}</span>
+            <span>${{ orderSummary().total | number: '1.2-2' }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'shipping' | translate }}</span>
-            <span>{{ orderSummary.shipping.address }}, {{ orderSummary.shipping.city }}, {{
-              orderSummary.shipping.country }}</span>
+            <span>{{ orderSummary().shipping.address }}, {{ orderSummary().shipping.city }}, {{
+              orderSummary().shipping.country }}</span>
           </div>
         </div>
         <button class="btn-place-order" (click)="confirmOrder()">{{ 'confirm_order' | translate }}</button>

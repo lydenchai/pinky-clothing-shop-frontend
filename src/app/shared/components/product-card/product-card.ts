@@ -1,22 +1,16 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { Router, RouterLink } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Product } from '../../../core/types/product.model';
 import { WishlistService } from '../../../core/services/wishlist.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { DialogService } from '../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, TranslateModule],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })
@@ -26,8 +20,13 @@ export class ProductCard {
   @Input() wishlistProductIds: string[] = [];
   @Output() wishlistChanged = new EventEmitter<void>();
 
-  wishlistService = inject(WishlistService);
-  authService = inject(AuthService);
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private translate: TranslateService,
+    private dialogService: DialogService,
+    private wishlistService: WishlistService,
+  ) {}
 
   isInWishlist(): boolean {
     return (
@@ -39,9 +38,11 @@ export class ProductCard {
     event.stopPropagation();
     event.preventDefault();
     if (!this.authService.isAuthenticated()) {
-      // Optionally, show a dialog or redirect to login
-      window.alert('Please login to use wishlist.');
-      return;
+      this.dialogService
+        .error(this.translate.instant('message.please_login_to_use_wishlist'))
+        .then(() => {
+          this.router.navigate(['/login']);
+        });
     }
     if (!this.product._id) return;
     if (this.isInWishlist()) {

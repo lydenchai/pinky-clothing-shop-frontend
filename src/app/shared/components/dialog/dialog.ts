@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DialogService } from '../../../core/services/dialog.service';
@@ -11,8 +11,11 @@ import { DialogService } from '../../../core/services/dialog.service';
   styleUrls: ['./dialog.scss'],
 })
 export class Dialog {
-  private dialogService = inject(DialogService);
-  config = this.dialogService.config;
+  config: any = null;
+
+  constructor(private dialogService: DialogService) {
+    this.config = this.dialogService.config;
+  }
 
   onConfirm() {
     this.dialogService.confirm(true);

@@ -280,6 +280,7 @@
     "save_failed": "ការរក្សាទុកបានបរាជ័យ។ សូមព្យាយាមម្តងទៀត។",
     "deleted_successfully": "បានលុបដោយជោគជ័យ។",
     "added_to_wishlist": "បានបន្ថែមទៅបញ្ជីចង់បាន។",
-    "removed_from_wishlist": "បានដកចេញពីបញ្ជីចង់បាន។"
+    "removed_from_wishlist": "បានដកចេញពីបញ្ជីចង់បាន។",
+    "please_login_to_use_wishlist": "សូមចូលប្រើប្រាស់ដើម្បីប្រើបញ្ជីចង់បាន។"
   }
 }

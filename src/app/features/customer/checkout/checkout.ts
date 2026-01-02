@@ -32,6 +32,11 @@ import { OrderService } from '../../../core/services/order.service';
 export class Checkout {
   cart = signal<Cart | null>(null);
   user = signal<User | null>(null);
+  orderPlaced = signal<boolean>(false);
+  summaryLoading = signal<boolean>(false);
+  summaryError = signal<string | null>(null);
+  orderResponse = signal<any | null>(null);
+  orderSummary = signal<OrderSummary | any | null>(null);
 
   form = new FormGroup({
     email: new FormControl<string | null>(''),
@@ -53,19 +58,13 @@ export class Checkout {
     cardCVC: new FormControl<string | null>(''),
   });
 
-  orderPlaced = signal(false);
-  orderSummary: OrderSummary | null = null;
-  summaryLoading = false;
-  summaryError: string | null = null;
-  orderResponse: any = null;
-
   constructor(
     private translate: TranslateService,
     private cartService: CartService,
     private authService: AuthService,
     private dialogService: DialogService,
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
   ) {
     this.cart.set(this.cartService.cart());
     this.authService.getProfile().subscribe((res: any) => {
@@ -98,7 +97,7 @@ export class Checkout {
       !this.form.controls.email.value
     ) {
       this.dialogService.warning(
-        this.translate.instant('message.please_fill_in_all_required_fields')
+        this.translate.instant('message.please_fill_in_all_required_fields'),
       );
       return;
     }
@@ -112,7 +111,7 @@ export class Checkout {
       !addressGroup.value.province
     ) {
       this.dialogService.warning(
-        this.translate.instant('message.please_complete_your_shipping_address')
+        this.translate.instant('message.please_complete_your_shipping_address'),
       );
       return;
     }
@@ -125,16 +124,16 @@ export class Checkout {
       ) {
         this.dialogService.warning(
           this.translate.instant(
-            'message.please_complete_your_payment_information'
-          )
+            'message.please_complete_your_payment_information',
+          ),
         );
         return;
       }
     }
 
     // Call backend for order summary/validation
-    this.summaryLoading = true;
-    this.summaryError = null;
+    this.summaryLoading.set(true);
+    this.summaryError.set(null);
     const address = this.form.controls.address.value;
     const summaryReq: any = {
       address: {
@@ -149,14 +148,15 @@ export class Checkout {
     };
     this.orderService.getOrderSummary(summaryReq).subscribe({
       next: (summary) => {
-        this.orderSummary = summary.data;
-        this.summaryLoading = false;
+        this.orderSummary.set(summary.data);
+        this.summaryLoading.set(false);
       },
       error: (err) => {
-        this.summaryError =
+        this.summaryError.set(
           err?.error?.error ||
-          this.translate.instant('message.failed_to_prepare_order_summary');
-        this.summaryLoading = false;
+            this.translate.instant('message.failed_to_prepare_order_summary'),
+        );
+        this.summaryLoading.set(false);
       },
     });
   }
@@ -195,10 +195,10 @@ export class Checkout {
     this.orderService.create(orderReq).subscribe({
       next: (order) => {
         this.orderPlaced.set(true);
-        this.orderResponse = order.data;
+        this.orderResponse.set(order.data);
         this.dialogService.success(
           this.translate.instant('message.order_placed_successfully'),
-          this.translate.instant('message.order_confirmed')
+          this.translate.instant('message.order_confirmed'),
         );
         this.cartService.clearCart().subscribe({});
         setTimeout(() => {
@@ -208,7 +208,7 @@ export class Checkout {
       },
       error: () => {
         this.dialogService.error(
-          this.translate.instant('message.failed_to_place_order')
+          this.translate.instant('message.failed_to_place_order'),
         );
       },
     });

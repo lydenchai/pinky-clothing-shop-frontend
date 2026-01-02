@@ -15,8 +15,8 @@
   }
 
   .content-scroll {
-    max-height: 100% !important;
-    overflow-y: auto !important;
+    max-height: 100%;
+    overflow: auto;
 
     .table-x-scroll {
       overflow-x: auto;
@@ -43,8 +43,8 @@
       }
     }
 
-    table.table > tr:first-child,
-    table.table > thead {
+    table.table>tr:first-child,
+    table.table>thead {
       position: sticky;
       top: 0;
       z-index: 1;
