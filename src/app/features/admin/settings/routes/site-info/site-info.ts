@@ -164,7 +164,7 @@ export class SiteInfo {
   }
 
   save() {
-    this.isUpdate.set(true);
+    this.isUpdate.set(false);
     this.form.disable();
     const phoneValue = this.form.controls.phone.value;
     const payload = {

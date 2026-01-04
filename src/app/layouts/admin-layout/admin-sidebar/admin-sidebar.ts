@@ -59,6 +59,7 @@ export const MENU: MenuItem[] = [
   },
 ];
 
+import { Input } from '@angular/core';
 @Component({
   selector: 'app-admin-sidebar',
   standalone: true,
@@ -67,6 +68,7 @@ export const MENU: MenuItem[] = [
   imports: [RouterModule, MatIconModule, TranslateModule, PluralPipe],
 })
 export class AdminSidebar implements OnInit {
+  @Input() collapsed = false;
   private router = inject(Router);
   currentUrl = signal('');
   menu!: MenuItem[];

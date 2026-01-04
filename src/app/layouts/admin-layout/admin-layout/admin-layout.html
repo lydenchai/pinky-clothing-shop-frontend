@@ -1,7 +1,5 @@
-<div class="admin-layout" [class.sidebar-hidden]="!menuExtended">
-  @if (menuExtended) {
-  <app-admin-sidebar></app-admin-sidebar>
-  }
+<div class="admin-layout" [class.sidebar-collapsed]="!menuExtended">
+  <app-admin-sidebar [collapsed]="!menuExtended"></app-admin-sidebar>
   <main class="admin-main">
     <app-admin-navbar [menuExtended]="menuExtended"
       (menuExtendedChange)="onMenuExtendedChange($event)"></app-admin-navbar>

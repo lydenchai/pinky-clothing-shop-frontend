@@ -129,7 +129,7 @@ $input-height: 40px;
 $border-color: #dddddd;
 
 mat-form-field {
-  border-radius: 10px !important;
+  border-radius: 8px !important;
 
   .mdc-text-field {
     height: $input-height;
@@ -145,7 +145,7 @@ mat-form-field {
   .mdc-notched-outline__notch,
   .mdc-notched-outline__trailing {
     height: $input-height !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
     border-color: $border-color !important;
   }
 
@@ -305,7 +305,7 @@ mat-form-field {
   input[type="tel"] {
     height: 40px !important;
     padding-left: 55px !important;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid #dddddd;
     background: #fff;
     outline: none;
@@ -319,11 +319,12 @@ mat-form-field {
   }
 
   .mat-like-phone .iti__selected-dial-code {
-  display: inline-block;
-  margin-left: 5px; /* space between flag and code */
-  font-weight: 500;
-  color: #000;
-}
+    display: inline-block;
+    margin-left: 5px;
+    /* space between flag and code */
+    font-weight: 500;
+    color: #000;
+  }
 
   .search-container {
     input {
@@ -348,4 +349,6 @@ mat-form-field {
 /* Dropdown width fix */
 .iti__dropdown-content {
   min-width: 300px !important;
+  max-height: 300px;
+  overflow-y: auto;
 }

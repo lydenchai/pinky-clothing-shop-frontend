@@ -1,5 +1,8 @@
 <nav class="admin-navbar flex items-center justify-between">
-  <button type="button" mat-icon-button class="menu-extender" (click)="onToggleExtendMenu()">
+  <button type="button" mat-icon-button (click)="onToggleExtendMenu()">
+    <!-- <mat-icon class="hover:text-[#0071e3]">
+      {{ menuExtended ? 'chevron_left' : 'chevron_right' }}
+    </mat-icon> -->
     <mat-icon class="hover:text-[#0071e3]">menu</mat-icon>
   </button>
   <div class="navbar-content">

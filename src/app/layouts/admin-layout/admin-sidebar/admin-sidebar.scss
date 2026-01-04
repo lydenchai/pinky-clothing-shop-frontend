@@ -12,13 +12,31 @@
   border-right: 1px solid #ececec;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 
-  .logo {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 20px;
-    color: #0071e3;
-    letter-spacing: 1px;
+  &.collapsed {
+    width: 70px;
+
+    .logo>img{
+      width: 50px;
+      height: 50px;
+    }
+    ul {
+
+      .title,
+      .menu-item-extender,
+      .badge,
+      .back-store span {
+        display: none !important;
+      }
+
+      li>a {
+        justify-content: center;
+        text-align: center;
+      }
+
+      li>ul {
+        display: none !important;
+      }
+    }
   }
 
   ul {

@@ -33,7 +33,6 @@ input[type="file"] {
 .image-upload.disabled {
   pointer-events: none;
   opacity: 1;
-  cursor: not-allowed;
 }
 
 .image-upload.disabled>*:not(.preview) {

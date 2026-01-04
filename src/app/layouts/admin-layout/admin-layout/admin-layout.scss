@@ -20,8 +20,8 @@
   }
 }
 
-.admin-layout.sidebar-hidden .admin-main {
-  margin-left: 0 !important;
+.admin-layout.sidebar-collapsed .admin-main {
+  margin-left: 70px !important;
 }
 
 @media (max-width: 768px) {
