@@ -6,7 +6,7 @@
         <h5>{{ "basic_information" | translate }}</h5>
         <div class="top-btn">
           <button mat-raised-button color="primary" class="create" (click)="!isUpdate() ? onUpdate() : save()">
-            <mat-icon>{{ !isUpdate() ? "update" : "save" }}</mat-icon>
+            <mat-icon>{{ !isUpdate() ? "replay" : "save" }}</mat-icon>
             {{ !isUpdate() ? ("update" | translate) : ("save" | translate) }}​
           </button>
         </div>
@@ -30,9 +30,7 @@
 
       <!-- BRANDING -->
       <div class="mb-4 w-full">
-        <h5 class="mb-3">{{
-          "branding" | translate
-          }}</h5>
+        <h5 class="mb-3">{{ "branding" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'store_logo' | translate" [control]="form.controls.store_logo">
@@ -53,9 +51,7 @@
 
       <!-- CONTACT -->
       <div class="w-full">
-        <h5 class="mb-3">{{
-          "contact_information" | translate
-          }}</h5>
+        <h5 class="mb-3">{{ "contact_information" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'email' | translate" [control]="form.controls.email">
@@ -78,9 +74,7 @@
 
       <!-- ADDRESS -->
       <div class="w-full">
-        <h5 class="mb-3">{{
-          "store_address" | translate
-          }}</h5>
+        <h5 class="mb-3">{{ "store_address" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'address' | translate" [control]="form.controls.address">
@@ -94,28 +88,26 @@
 
       <!-- SOCIAL MEDIA -->
       <div class="w-full">
-        <h5 class="mb-3">{{
-          "social_media" | translate
-          }}</h5>
+        <h5 class="mb-3">{{ "social_media" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'facebook' | translate" [control]="form.controls.facebook">
               <mat-form-field appearance="outline">
-                <input matInput type="email" name="email" [formControl]="form.controls.facebook" />
+                <input matInput name="facebook" [formControl]="form.controls.facebook" />
               </mat-form-field>
             </app-field-container>
           </div>
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'instagram' | translate" [control]="form.controls.instagram">
               <mat-form-field appearance="outline">
-                <input matInput type="email" name="email" [formControl]="form.controls.instagram" />
+                <input matInput name="instagram" [formControl]="form.controls.instagram" />
               </mat-form-field>
             </app-field-container>
           </div>
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'tik_tok' | translate" [control]="form.controls.tik_tok">
               <mat-form-field appearance="outline">
-                <input matInput type="email" name="email" [formControl]="form.controls.tik_tok" />
+                <input matInput name="tik_tok" [formControl]="form.controls.tik_tok" />
               </mat-form-field>
             </app-field-container>
           </div>
@@ -124,9 +116,7 @@
 
       <!-- SEO -->
       <div class="w-full">
-        <h5 class="mb-3">{{
-          "seo_settings" | translate
-          }}</h5>
+        <h5 class="mb-3">{{ "seo_settings" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'meta_description' | translate" [control]="form.controls.meta_description">

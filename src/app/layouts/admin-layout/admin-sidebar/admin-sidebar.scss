@@ -15,10 +15,11 @@
   &.collapsed {
     width: 70px;
 
-    .logo>img{
+    .logo>img {
       width: 50px;
       height: 50px;
     }
+
     ul {
 
       .title,
@@ -52,7 +53,7 @@
     }
 
     li {
-      margin: 0.5rem 0;
+      margin: 6px 0;
       cursor: pointer;
 
       a {

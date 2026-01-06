@@ -1,8 +1,5 @@
 <nav class="admin-navbar flex items-center justify-between">
   <button type="button" mat-icon-button (click)="onToggleExtendMenu()">
-    <!-- <mat-icon class="hover:text-[#0071e3]">
-      {{ menuExtended ? 'chevron_left' : 'chevron_right' }}
-    </mat-icon> -->
     <mat-icon class="hover:text-[#0071e3]">menu</mat-icon>
   </button>
   <div class="navbar-content">
@@ -37,7 +34,7 @@
       }
     </div>
     <div class="lang-switcher" (click)="toggleLangMenu()" tabindex="0">
-      <img class="flag-avatar" [src]="'/icons/' + currentLang() + '.webp'" [alt]="'flag ' + currentLang()" />
+      <img class="flag-avatar" [src]="'/icons/' + currentLang() + '.webp'" [alt]="currentLang()" />
       <mat-icon class="lang-arrow">expand_more</mat-icon>
       @if (langMenuOpen) {
       <div class="lang-dropdown">

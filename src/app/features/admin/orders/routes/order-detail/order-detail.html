@@ -1,116 +1,119 @@
-<div class="admin-container scroll-container">
+<div class="admin-container scroll-container bg-gradient-to-br">
   <div class="form-container content-scroll">
-    <div class="flex items-center justify-between w-full">
-      <div class="flex items-center gap-3">
-        <span class="order-badge tracking-wide text-base md:text-lg">#{{ order()?.code }}</span>
+    <!-- Order Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-4 border-b pb-2">
+      <div class="flex items-center gap-4">
+        <span class="text-[20px] font-bold">#{{ order()?.code }}</span>
+        <span class="text-gray-500 flex items-center gap-2">
+          <mat-icon class="mr-1 text-[22px]">calendar_today</mat-icon>
+          {{ order()?.created_at | date: 'dd-MM-yyyy HH:mm a' }}
+        </span>
       </div>
       <div class="flex items-center gap-2">
-        <span class="h-7 w-px bg-gray-200 mx-2 hidden md:inline-block"></span>
-        <div class="status-chip status-{{ status }} px-3 py-2 flex items-center gap-2 rounded-[1.5rem]">
-          <mat-icon class="mr-1 text-base align-middle">assignment</mat-icon>
-          <span class="capitalize tracking-wide">{{ status | translate }}</span>
+        <div class="px-3 py-2 rounded-full text-white" [class]="{
+          'bg-blue-600': status === 'pending',
+          'bg-yellow-500': status === 'processing',
+          'bg-indigo-600': status === 'shipped',
+          'bg-green-600': status === 'delivered',
+          'bg-red-600': status === 'cancelled'
+        }">
+          <mat-icon class="mr-1 text-[22px] align-middle">assignment</mat-icon>
+          <span class="capitalize tracking-wide text-[14px]">{{ status | translate }}</span>
         </div>
       </div>
     </div>
-    <div class="flex items-center my-4">
-      <mat-icon class="mr-1">calendar_today</mat-icon>
-      {{ order()?.created_at | date: 'dd-MM-yyyy HH:mm' }}
+
+    <!-- Progress Stepper -->
+
+    <h5 class="flex items-center">
+      <mat-icon class="mr-1">timeline</mat-icon>
+      {{'order_progress' | translate }}
+    </h5>
+    <div class="w-full flex flex-wrap gap-6 my-4">
+      @for (step of ['pending','processing','shipped','delivered','cancelled']; track $index) {
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200" [class]="{
+            'bg-blue-500 text-white border-blue-600': status === step,
+            'bg-gray-200 border-gray-300': status !== step
+          }">
+          <span class="font-bold">{{ $index + 1 }}</span>
+        </div>
+        <span class="capitalize text-base font-semibold tracking-wide"
+          [class]="{ 'text-blue-500': status === step, 'text-gray-500': status !== step }">
+          {{ step | translate }}
+        </span>
+        @if ($index < 4) { <span class="w-10 h-1 bg-gradient-to-r from-blue-200 to-gray-200 mx-2 rounded"></span> }
+      </div>
+      }
     </div>
-    <h3 class="flex items-center"><mat-icon class="mr-1">timeline</mat-icon> {{ 'order_progress' | translate }}</h3>
-    <div class="order-status-stepper">
-      <div class="stepper-track"></div>
-      <div class="step" [class.completed-step]="['processing','shipped','delivered'].includes(status)"
-        [class.active-step]="status === 'pending'" [class.cancelled-step]="status === 'cancelled'">
-        <div class="step-dot"></div>
-        <span>{{ 'pending' | translate }}</span>
-      </div>
-      <div class="step" [class.completed-step]="['shipped','delivered'].includes(status)"
-        [class.active-step]="status === 'processing'" [class.cancelled-step]="status === 'cancelled'">
-        <div class="step-dot"></div>
-        <span>{{ 'processing' | translate }}</span>
-      </div>
-      <div class="step" [class.completed-step]="['delivered'].includes(status)"
-        [class.active-step]="status === 'shipped'" [class.cancelled-step]="status === 'cancelled'">
-        <div class="step-dot"></div>
-        <span>{{ 'shipped' | translate }}</span>
-      </div>
-      <div class="step" [class.completed-step]="status === 'delivered'" [class.active-step]="status === 'delivered'"
-        [class.cancelled-step]="status === 'cancelled'">
-        <div class="step-dot"></div>
-        <span>{{ 'delivered' | translate }}</span>
-      </div>
-      <div class="step cancelled-step" [class.active-step]="status === 'cancelled'">
-        <div class="step-dot"></div>
-        <span>{{ 'cancelled' | translate }}</span>
-      </div>
-    </div>
-    <div class="info-cards my-4">
-      <div class="info-card">
-        <div class="card-head">
-          <div class="icon-circle bg-blue-50 text-blue-600"><mat-icon>person</mat-icon></div>
-          <div class="card-title">{{ 'customer' | translate }}</div>
+
+    <!-- Info Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <!-- Customer -->
+      <div class="bg-white rounded-xl p-3 border border-blue-100 transition-all duration-200 hover:border-blue-300">
+        <div class="flex items-center gap-3 mb-3 text-blue-500">
+          <mat-icon>person</mat-icon>
+          <span class="font-bold text-lg">
+            {{ 'customer' | translate }}
+          </span>
         </div>
-        <div class="card-body">
-          <div>
-            <div class="flex items-center gap-2">
-              <div class="card-subtitle">
-                {{ 'name' | translate }}:
-              </div>
-              {{ order()?.user?.first_name | titlecase }} {{ order()?.user?.last_name | titlecase }}
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="card-subtitle">{{ 'email' | translate }}:</div> {{ order()?.user?.email }}
-            </div>
-          </div>
+        <div class="text-[14px] text-gray-700">
+          {{ 'name' | translate }}:
+          <span class="text-gray-500">
+            {{ order()?.user?.first_name | titlecase }} {{ order()?.user?.last_name | titlecase }}
+          </span>
+        </div>
+        <div class="text-[14px] text-gray-700">
+          {{ 'email' | translate }}:
+          <span class="text-gray-500">
+            {{ order()?.user?.email }}
+          </span>
         </div>
       </div>
-      <div class="info-card">
-        <div class="card-head">
-          <div class="icon-circle bg-green-50 text-green-600"><mat-icon>local_shipping</mat-icon></div>
-          <div class="card-title">{{ 'shipping' | translate }}</div>
-        </div>
-        <div class="card-body">
-          <div>
-            <div class="card-subtitle">{{ 'shipping_address' | translate }}:</div>
-            <div class="truncate">{{ order()?.shipping_address }}, {{ order()?.shipping_city }}, {{
-              order()?.shipping_postal_code }}, {{ order()?.shipping_country }}</div>
-          </div>
-        </div>
+      <!-- Shipping -->
+      <div class="bg-white rounded-xl p-3 border border-blue-100 transition-all duration-200 hover:border-blue-300">
+        <div class="flex items-center gap-2 mb-2 text-green-600"><mat-icon>local_shipping</mat-icon><span
+            class="font-semibold">{{ 'shipping' | translate }}</span></div>
+        <div class="text-[14px] text-gray-700">{{ 'shipping_address' | translate }}:</div>
+        <div class="text-[14px] text-gray-500 truncate">{{ order()?.shipping_address }}, {{ order()?.shipping_city }},
+          {{
+          order()?.shipping_postal_code }}, {{ order()?.shipping_country }}</div>
       </div>
-      <div class="info-card">
-        <div class="card-head">
-          <div class="icon-circle bg-yellow-50 text-yellow-500"><mat-icon>update</mat-icon></div>
-          <div class="card-title">{{ 'status' | translate }}</div>
-        </div>
-        <div class="card-body">
-          <div class="status-label-group">
-            <mat-form-field appearance="outline" class="w-full">
-              <mat-select class="w-full border-gray-300 h-[40px] p-2" [value]="status"
-                (selectionChange)="updateStatus($event.value)">
-                @for (item of statusOptions; track $index) {
-                <mat-option [value]="item">{{ item | translate }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
+      <!-- Status -->
+      <div class="bg-white rounded-xl p-3 border border-blue-100 transition-all duration-200 hover:border-blue-300">
+        <div class="flex items-center gap-2 mb-2 text-yellow-500"><mat-icon>update</mat-icon><span
+            class="font-semibold">{{ 'status' | translate }}</span></div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-select class="w-full border-gray-300 h-[40px] p-2" [value]="status"
+            (selectionChange)="updateStatus($event.value)">
+            @for (item of statusOptions; track $index) {
+            <mat-option [value]="item">{{ item | translate }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="info-card">
-        <div class="card-head">
-          <div class="icon-circle bg-indigo-50 text-indigo-600"><mat-icon>credit_card</mat-icon></div>
-          <div class="card-title">{{ 'payment' | translate }}</div>
-        </div>
-        <div class="card-body">
-          <div>
-            <span>{{ order()?.payment_method ? (order()?.payment_method | titlecase) : 'N/A' }}</span>
-          </div>
+
+      <!-- Payment -->
+      <div class="bg-white rounded-xl p-3 border border-blue-100 transition-all duration-200 hover:border-blue-300">
+        <div class="flex items-center gap-2 mb-2 text-indigo-600"><mat-icon>credit_card</mat-icon><span
+            class="font-semibold">{{ 'payment' | translate }}</span></div>
+        <div class="text-gray-700">{{ order()?.payment_method ? (order()?.payment_method | titlecase) : 'N/A' }}
         </div>
       </div>
     </div>
-    <div class="summary">
-      <span><strong>{{ 'total' | translate }}:</strong> {{ order()?.total_amount | currency }}</span>
+
+    <!-- Order Summary -->
+    <div class="mb-8 text-right bg-[#f2f2f4] p-3 rounded-2xl">
+      <span class="text-xl font-bold text-gray-800">
+        {{ 'total' | translate }}: {{ order()?.total_amount | currency }}
+      </span>
     </div>
-    <h3 class="flex items-center"><mat-icon class="mr-1">shopping_cart</mat-icon> {{ 'item' | translate | plural }}</h3>
+
+    <!-- Order Items Table -->
+    <h5 class="flex items-center">
+      <mat-icon class="mr-1">shopping_cart</mat-icon>
+      {{ 'item' | translate | plural }}
+    </h5>
     <div class="container-table mt-2">
       <table class="table">
         <thead>
@@ -130,11 +133,11 @@
           <tr>
             <td class="number">{{ $index + 1 }}</td>
             <td>
-              <a [routerLink]="['/products', item.product_id]" target="_blank"
-                class="product-link highlight-link table-link">{{
+              <a [routerLink]="['/products', item.product_id]" target="_blank" class="text-[#1976d2] hover:underline">{{
                 item.product_name }}</a>
             </td>
-            <td><img [src]="item.product_image" alt="{{ item.product_name }}" class="product-avatar" /></td>
+            <td><img [src]="item.product_image" alt="{{ item.product_name }}"
+                class="w-[45px] h-[45px] rounded-full bg-[#fafafa]" /></td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.price | currency }}</td>
             <td>{{ item.price * item.quantity | currency }}</td>

@@ -39,17 +39,3 @@
   width: 220px;
   z-index: 999;
 }
-
-/* If screen is small, collapse sidebar into top area */
-@media (max-width: 900px) {
-  .admin-main {
-    margin-left: 0;
-  }
-
-  .admin-layout .admin-sidebar {
-    position: static;
-    width: 100%;
-    height: auto;
-    top: 0;
-  }
-}

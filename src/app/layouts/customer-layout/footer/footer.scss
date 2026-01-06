@@ -173,14 +173,28 @@
 @media (max-width: 768px) {
   .footer-content {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-
+  .footer-section {
+    margin-bottom: 1.5rem;
+    h3, h4 {
+      text-align: center;
+    }
+    p, ul {
+      text-align: center;
+    }
+  }
   .footer-bottom {
     flex-direction: column;
     text-align: center;
+    gap: 0.5rem;
   }
-
   .newsletter-form {
     flex-direction: column;
+    width: 100%;
+    input, button {
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
 }

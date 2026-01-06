@@ -16,6 +16,22 @@ import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { InputBouncerDirective } from '../../../../../shared/directives/input-bouncer.directive';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD-MM-YYYY',
+  },
+  display: {
+    dateInput: 'dd-MM-yyyy',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-orders-admin',
@@ -33,14 +49,20 @@ import { InputBouncerDirective } from '../../../../../shared/directives/input-bo
     MatSelectModule,
     InputBouncerDirective,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './orders.html',
   styleUrls: ['./orders.scss'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+  ]
 })
 export class OrdersAdmin extends PaginationUtil implements OnInit {
   orders: Order[] = [];
   form = new FormGroup({
     name: new FormControl<string | null>(''),
+    date: new FormControl<Date | null>(new Date()),
   });
   query?: string;
 
@@ -54,6 +76,11 @@ export class OrdersAdmin extends PaginationUtil implements OnInit {
 
   onSearch(value: string): void {
     this.query = value;
+    this.getList({ page: 1, limit: this.limit });
+  }
+
+  onDateChange(value: Date): void {
+    this.form.controls.date.setValue(value);
     this.getList({ page: 1, limit: this.limit });
   }
 

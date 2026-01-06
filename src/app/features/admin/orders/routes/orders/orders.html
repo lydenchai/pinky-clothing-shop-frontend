@@ -7,6 +7,14 @@
           <mat-icon matPrefix>search</mat-icon>
         </mat-form-field>
       </app-field-container>
+      <app-field-container [label]="'date' | translate" [control]="form.controls.date">
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="datepicker" [formControl]="form.controls.date"
+            (dateChange)="onDateChange($event.value)" [value]="form.controls.date.value | date:'dd-MM-yyyy'" />
+          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker></mat-datepicker>
+        </mat-form-field>
+      </app-field-container>
     </div>
   </section>
   <div class="container-table content-scroll">

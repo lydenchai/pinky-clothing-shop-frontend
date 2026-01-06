@@ -5,6 +5,10 @@
 @use "./mat-select-search.scss";
 @use "./migrated/--mdc-snackbar.scss";
 @use "./form.scss";
+@use "./like-phone.scss";
+@use "./mat-datepicker.scss";
+@use "./custom-material.scss";
+@use "./theme-colors.scss";
 
 @tailwind base;
 @tailwind components;
@@ -86,12 +90,12 @@ button {
 // =========================
 
 ::selection {
-  background: #0071e3;
+  background: $primary-color;
   color: #fff !important;
 }
 
 *:focus-visible {
-  outline: 2px solid #0071e3;
+  outline: 2px solid $primary-color;
   outline-offset: 2px;
 }
 
@@ -119,236 +123,4 @@ button {
   h2 {
     color: rgb(236, 236, 236);
   }
-}
-
-// =========================
-// MATERIAL FORM FIELD FIXES
-// =========================
-
-$input-height: 40px;
-$border-color: #dddddd;
-
-mat-form-field {
-  border-radius: 8px !important;
-
-  .mdc-text-field {
-    height: $input-height;
-    min-height: $input-height;
-    padding: 0.75rem;
-    display: flex;
-    align-items: center;
-    background: #fff;
-  }
-
-  .mdc-notched-outline,
-  .mdc-notched-outline__leading,
-  .mdc-notched-outline__notch,
-  .mdc-notched-outline__trailing {
-    height: $input-height !important;
-    border-radius: 8px !important;
-    border-color: $border-color !important;
-  }
-
-  &.mat-focused {
-
-    .mdc-notched-outline,
-    .mdc-notched-outline__leading,
-    .mdc-notched-outline__notch,
-    .mdc-notched-outline__trailing {
-      border-color: #000 !important;
-      border-width: 1px !important;
-    }
-  }
-
-  &:hover:not(.mat-focused) {
-    .mdc-notched-outline {
-      border-color: #000 !important;
-    }
-  }
-
-  .mat-mdc-input-element {
-    height: $input-height !important;
-    margin: 0 !important;
-    display: flex;
-    align-items: center;
-  }
-
-  .mdc-notched-outline__trailing {
-    border-left: 1px solid $border-color !important;
-  }
-
-  .mdc-notched-outline__leading {
-    border-left: unset !important;
-  }
-
-  &.mat-focused .mdc-notched-outline,
-  &:hover .mdc-notched-outline,
-  &.mat-mdc-form-field-disabled .mdc-notched-outline {
-    border-color: $border-color !important;
-  }
-
-  &.mat-focused .mdc-notched-outline__leading,
-  &.mat-focused .mdc-notched-outline__notch,
-  &.mat-focused .mdc-notched-outline__trailing {
-    border-width: 1px !important;
-  }
-}
-
-.form {
-  // custom disabled styles for outlined text fields
-  --mdc-outlined-text-field-disabled-outline-color: var(--mat-sys-on-surface);
-  --mdc-icon-button-disabled-icon-color: var(--mat-sys-on-surface);
-  --mdc-outlined-text-field-disabled-input-text-color: var(--mat-sys-on-surface);
-  --mat-select-disabled-trigger-text-color: var(--mat-sys-on-surface);
-
-  .mat-form-field-disabled {
-    .mat-mdc-form-field-icon-suffix {
-      width: 23px;
-      overflow: hidden;
-      --mdc-icon-button-disabled-icon-color: ;
-      visibility: hidden;
-    }
-  }
-
-  &.no-validate {
-    .field-container mat-label {
-      &.required::after {
-        display: none;
-      }
-    }
-  }
-
-  &.no-error-space {
-    .mat-mdc-form-field-subscript-wrapper {
-      height: 0 !important;
-    }
-  }
-
-  .required::after {
-    content: " *";
-    color: rgb(170, 0, 0) !important;
-  }
-
-  .field-container {
-
-    // text-align: left;
-    mat-label {
-      display: block;
-      color: #72777a;
-      width: 100%;
-      white-space: nowrap;
-      min-height: 1.25em;
-      font-size: 14px;
-      font-weight: 400;
-      margin-bottom: 4px;
-    }
-
-    mat-form-field {
-      width: 100%;
-    }
-
-    app-field-error {
-      display: block;
-      font-size: 14px !important;
-      margin-top: -21px;
-      line-height: var(--mat-form-field-subscript-text-line-height,
-          var(--mat-sys-body-small-line-height));
-      font-size: var(--mat-form-field-subscript-text-size,
-          var(--mat-sys-body-small-size));
-      letter-spacing: var(--mat-form-field-subscript-text-tracking,
-          var(--mat-sys-body-small-tracking));
-      font-weight: var(--mat-form-field-subscript-text-weight,
-          var(--mat-sys-body-small-weight));
-    }
-  }
-}
-
-// =====================================================
-// NGX INTL TEL INPUT – MATERIAL-LIKE (CLEAN & OPTIMIZED)
-// =====================================================
-
-.mat-like-phone {
-  display: block;
-
-  /* Base wrapper */
-  .iti {
-    width: 100%;
-    height: 40px;
-  }
-
-  /* Flag + dial code container */
-  .iti__flag-container {
-    padding-left: 5px;
-    display: flex;
-    align-items: center;
-    border-right: 1px solid #dddddd;
-
-  }
-
-
-
-  .iti__selected-flag {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag {
-    background-color: unset !important;
-  }
-
-  .iti__flag {
-    transform: scale(0.9);
-  }
-
-  /* Phone input */
-  input[type="tel"] {
-    height: 40px !important;
-    padding-left: 55px !important;
-    border-radius: 8px;
-    border: 1px solid #dddddd;
-    background: #fff;
-    outline: none;
-    box-shadow: none;
-
-    &:disabled {
-      background: #fff;
-      border-color: #dddddd;
-      color: #000;
-    }
-  }
-
-  .mat-like-phone .iti__selected-dial-code {
-    display: inline-block;
-    margin-left: 5px;
-    /* space between flag and code */
-    font-weight: 500;
-    color: #000;
-  }
-
-  .search-container {
-    input {
-      padding: 12px !important;
-      height: 40px !important;
-      outline: none;
-      box-shadow: none;
-    }
-  }
-
-  &:focus-within input {
-    border-color: #000;
-  }
-
-  .iti__country {
-    padding: 12px;
-    font-size: 16px;
-  }
-
-}
-
-/* Dropdown width fix */
-.iti__dropdown-content {
-  min-width: 300px !important;
-  max-height: 300px;
-  overflow-y: auto;
 }

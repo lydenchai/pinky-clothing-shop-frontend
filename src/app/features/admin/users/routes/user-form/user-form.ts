@@ -124,6 +124,11 @@ export class UserForm {
   }
 
   onSubmit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    
     const phoneValue = this.form.controls.phone.value;
     const userData = {
       ...this.form.value,
