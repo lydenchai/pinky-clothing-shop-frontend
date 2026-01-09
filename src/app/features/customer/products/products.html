@@ -8,22 +8,15 @@
 
     <!-- Toolbar -->
     <div
-      class="bg-white border border-[#f5f5f7] rounded-2xl p-3 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <button class="filter-toggle-btn" (click)="toggleFilters()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-        </svg>
-        {{ 'filters' | translate }}
-      </button>
+      class="bg-white rounded-2xl p-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-[0_2px_8px_#0000000d]">
       <div class="text-[#6b7280] font-medium">
-        {{ filteredProducts().length }} {{ filteredProducts().length === 1 ? ('product' | translate) : ('products' |
-        translate | plural) }} {{ 'found' | translate }}
+        {{ filteredProducts().length }} {{ filteredProducts().length === 1 ? ('product' | translate) : ('products' | translate | plural) }} {{ 'found' | translate }}
       </div>
-      <div class="w-[400px] flex items-center justify-end gap-3">
-        <div class="w-[100px]">{{ 'sort_by' | translate }}:</div>
-        <mat-select id="product_id" class="border-bottom p-2 w-[300px]" (valueChange)="onSortChange($event)"
-          [value]="sortBy">
+      <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+        <label for="sort-select" class="text-[#6b7280] font-medium whitespace-nowrap">
+          {{ 'sort_by' | translate }} :
+        </label>
+        <mat-select id="sort-select" class="min-w-[300px] w-full border px-3 py-2 rounded-xl" (valueChange)="onSortChange($event)" [value]="sortBy" aria-label="Sort products">
           <mat-option value="featured">{{ 'featured' | translate }}</mat-option>
           <mat-option value="price-low">{{ 'price_low_to_high' | translate }}</mat-option>
           <mat-option value="price-high">{{ 'price_high_to_low' | translate }}</mat-option>
@@ -39,13 +32,6 @@
           <h3>{{ 'filters' | translate }}</h3>
           <div class="header-actions">
             <button class="clear-btn" (click)="clearFilters()">{{ 'clear_all' | translate }}</button>
-            <button class="close-filters-btn" (click)="toggleFilters()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
           </div>
         </div>
 
@@ -55,9 +41,7 @@
           <div class="price-range">
             <div class="price-inputs">
               <div class="price-input-wrapper">
-                <input class="px-3" [value]="filters().search || ''"
-                  (input)="onSearchChange($any($event.target).value)"
-                  placeholder="{{ 'search_products' | translate }}" />
+                <input class="px-3" [value]="filters().search || ''" (input)="onSearchChange($any($event.target).value)" placeholder="{{ 'search_products' | translate }}" />
               </div>
             </div>
           </div>

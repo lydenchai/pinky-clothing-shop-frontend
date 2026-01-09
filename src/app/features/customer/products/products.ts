@@ -19,13 +19,12 @@ import { PaginationUtil } from '../../../utils/pagination.util';
 
 @Component({
   selector: 'app-products',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     ProductCard,
-    TranslateModule,
     PluralPipe,
+    TranslateModule,
     MatSelectModule,
   ],
   templateUrl: './products.html',
@@ -250,10 +249,6 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
   onSortChange(value: string) {
     this.sortBy = value;
     this.applySort(this.products());
-  }
-
-  toggleFilters() {
-    this.showFilters = !this.showFilters;
   }
 
   goToPage(page: number) {
