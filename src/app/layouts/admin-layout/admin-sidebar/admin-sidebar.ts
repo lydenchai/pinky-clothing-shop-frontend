@@ -5,6 +5,7 @@ import { filter } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { PluralPipe } from '../../../shared/pipes/plural.pipe';
 import { MenuItem } from '../../../core/types/menu-item';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export const MENU: MenuItem[] = [
   {
@@ -44,14 +45,17 @@ export const MENU: MenuItem[] = [
     route: '/admin/settings',
     children: [
       {
+        icon: 'info',
         title: 'site_info',
         route: '/admin/settings/site-info',
       },
       {
+        icon: 'payment',
         title: 'payment',
         route: '/admin/settings/payment',
       },
       {
+        icon: 'local_shipping',
         title: 'shipping',
         route: '/admin/settings/shipping',
       },
@@ -65,7 +69,13 @@ import { Input } from '@angular/core';
   standalone: true,
   templateUrl: './admin-sidebar.html',
   styleUrls: ['./admin-sidebar.scss'],
-  imports: [RouterModule, MatIconModule, TranslateModule, PluralPipe],
+  imports: [
+    RouterModule,
+    MatIconModule,
+    TranslateModule,
+    PluralPipe,
+    MatTooltipModule,
+  ],
 })
 export class AdminSidebar implements OnInit {
   @Input() collapsed = false;
@@ -133,5 +143,20 @@ export class AdminSidebar implements OnInit {
         url.startsWith(path + '#')
       );
     }
+  }
+
+  onSubmenuMouseEnter(item: any) {
+    if (item.submenuHideTimeout) {
+      clearTimeout(item.submenuHideTimeout);
+      item.submenuHideTimeout = null;
+    }
+    item.submenuHover = true;
+  }
+
+  onSubmenuMouseLeave(item: any) {
+    item.submenuHideTimeout = setTimeout(() => {
+      item.submenuHover = false;
+      item.submenuHideTimeout = null;
+    }, 200); // 200ms delay, adjust as needed
   }
 }

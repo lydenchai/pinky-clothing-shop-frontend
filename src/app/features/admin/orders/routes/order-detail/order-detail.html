@@ -25,7 +25,7 @@
 
     <!-- Progress Stepper -->
 
-    <h5 class="flex items-center">
+    <h5 class="text-primary flex items-center">
       <mat-icon class="mr-1">timeline</mat-icon>
       {{'order_progress' | translate }}
     </h5>
@@ -110,7 +110,7 @@
     </div>
 
     <!-- Order Items Table -->
-    <h5 class="flex items-center">
+    <h5 class="text-primary flex items-center">
       <mat-icon class="mr-1">shopping_cart</mat-icon>
       {{ 'item' | translate | plural }}
     </h5>
@@ -133,7 +133,7 @@
           <tr>
             <td class="number">{{ $index + 1 }}</td>
             <td>
-              <a [routerLink]="['/products', item.product_id]" target="_blank" class="text-[#1976d2] hover:underline">{{
+              <a [routerLink]="['/products', item.product_id]" target="_blank" class="text-[#1976d2] underline">{{
                 item.product_name }}</a>
             </td>
             <td><img [src]="item.product_image" alt="{{ item.product_name }}"

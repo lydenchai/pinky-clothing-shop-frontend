@@ -3,7 +3,7 @@
     <form [formGroup]="form">
       <!-- BASIC INFORMATION -->
       <div class="flex items-center justify-between">
-        <h5>{{ "basic_information" | translate }}</h5>
+        <h5 class="text-primary">{{ "basic_information" | translate }}</h5>
         <div class="top-btn">
           <button mat-raised-button color="primary" class="create" (click)="!isUpdate() ? onUpdate() : save()">
             <mat-icon>{{ !isUpdate() ? "replay" : "save" }}</mat-icon>
@@ -30,7 +30,7 @@
 
       <!-- BRANDING -->
       <div class="mb-4 w-full">
-        <h5 class="mb-3">{{ "branding" | translate }}</h5>
+        <h5 class="text-primary mb-2">{{ "branding" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'store_logo' | translate" [control]="form.controls.store_logo">
@@ -51,7 +51,7 @@
 
       <!-- CONTACT -->
       <div class="w-full">
-        <h5 class="mb-3">{{ "contact_information" | translate }}</h5>
+        <h5 class="text-primary mb-2">{{ "contact_information" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'email' | translate" [control]="form.controls.email">
@@ -74,7 +74,7 @@
 
       <!-- ADDRESS -->
       <div class="w-full">
-        <h5 class="mb-3">{{ "store_address" | translate }}</h5>
+        <h5 class="text-primary mb-2">{{ "store_address" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'address' | translate" [control]="form.controls.address">
@@ -88,7 +88,7 @@
 
       <!-- SOCIAL MEDIA -->
       <div class="w-full">
-        <h5 class="mb-3">{{ "social_media" | translate }}</h5>
+        <h5 class="text-primary mb-2">{{ "social_media" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'facebook' | translate" [control]="form.controls.facebook">
@@ -116,7 +116,7 @@
 
       <!-- SEO -->
       <div class="w-full">
-        <h5 class="mb-3">{{ "seo_settings" | translate }}</h5>
+        <h5 class="text-primary mb-2">{{ "seo_settings" | translate }}</h5>
         <div class="row mt-2">
           <div class="col-12 col-sm-6">
             <app-field-container [label]="'meta_description' | translate" [control]="form.controls.meta_description">

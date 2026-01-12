@@ -1,7 +1,7 @@
 <div class="admin-container scroll-container">
   <div class="form-container content-scroll form">
     <form [formGroup]="form">
-      <h5>{{ "general_information" | translate }}</h5>
+      <h5 class="text-primary">{{ "general_information" | translate }}</h5>
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'first_name' | translate" [control]="form.controls.first_name">
@@ -54,7 +54,7 @@
         </div>
         }
       </div>
-      <h5>{{ "address" | translate }}</h5>
+      <h5 class="text-primary">{{ "address" | translate }}</h5>
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'postal_code' | translate" [control]="form.controls.postal_code">

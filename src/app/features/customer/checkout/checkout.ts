@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit, AfterViewInit } from '@angular/core';
+import { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -29,7 +30,11 @@ import { OrderService } from '../../../core/services/order.service';
   templateUrl: './checkout.html',
   styleUrl: './checkout.scss',
 })
-export class Checkout {
+export class Checkout implements OnInit, AfterViewInit {
+  stripe: Stripe | null = null;
+  elements: StripeElements | null = null;
+  card: StripeCardElement | null = null;
+  clientSecret: string | null = null;
   cart = signal<Cart | null>(null);
   user = signal<User | null>(null);
   orderPlaced = signal<boolean>(false);
@@ -87,6 +92,14 @@ export class Checkout {
         });
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
   }
 
   placeOrder() {

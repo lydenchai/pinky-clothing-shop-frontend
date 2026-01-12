@@ -5,8 +5,14 @@ export const adminSettingRoutes: Routes = [
     path: '',
     children: [
       {
+        path: 'site-info',
+        data: { breadcrumb: 'site_info' },
+        loadComponent: () =>
+          import('./routes/site-info/site-info').then((c) => c.SiteInfo),
+      },
+      {
         path: 'payment',
-        data: { breadcrumb: 'payment', plural: true },
+        data: { breadcrumb: 'payment' },
         loadComponent: () =>
           import('./routes/payment/payment').then((c) => c.Payment),
       },
@@ -17,12 +23,6 @@ export const adminSettingRoutes: Routes = [
           import('./routes/shipping/shipping.route').then(
             (c) => c.shippingRoutes,
           ),
-      },
-      {
-        path: 'site-info',
-        data: { breadcrumb: 'site_info' },
-        loadComponent: () =>
-          import('./routes/site-info/site-info').then((c) => c.SiteInfo),
       },
     ],
   },
