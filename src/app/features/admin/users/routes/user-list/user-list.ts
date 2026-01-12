@@ -96,7 +96,20 @@ export class UserList extends PaginationUtil implements OnInit {
       if (!confirmed) return;
       this.userService.delete(String(id)).subscribe({
         next: () => {
-          this.getList({ page: this.page, limit: this.limit });
+          this.dialogService
+            .success(
+              this.translateService.instant('message.deleted_successfully'),
+            )
+            .then(() => {
+              this.getList({ page: this.page, limit: this.limit });
+            });
+        },
+        error: () => {
+          this.dialogService.error(
+            this.translateService.instant(
+              'message.an_error_occurred_please_try_again',
+            ),
+          );
         },
       });
     } catch (err) {

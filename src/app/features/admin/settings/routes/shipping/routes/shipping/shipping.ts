@@ -1,12 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormField, MatInputModule } from '@angular/material/input';
 import { ShippingService } from '../../../../../../../core/services/shipping.service';
 import { ShippingMethod } from '../../../../../../../core/types/shipping-method';
-import { SnackbarService } from '../../../../../../../core/services/snackbar.service';
 import { Pagination } from '../../../../../../../shared/components/pagination/pagination';
 import { PaginationUtil } from '../../../../../../../utils/pagination.util';
 import { PaginationType } from '../../../../../../../core/types/pagination-type';
@@ -14,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { FieldContainer } from '../../../../../../../shared/components/field-container/field-container';
 import { MatSelectModule } from '@angular/material/select';
 import { InputBouncerDirective } from '../../../../../../../shared/directives/input-bouncer.directive';
+import { DialogService } from '../../../../../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-shipping',
@@ -44,7 +44,8 @@ export class Shipping extends PaginationUtil implements OnInit {
 
   constructor(
     private shippingService: ShippingService,
-    private snackbarService: SnackbarService,
+    private translate: TranslateService,
+    private dialogService: DialogService,
   ) {
     super();
   }
@@ -80,10 +81,16 @@ export class Shipping extends PaginationUtil implements OnInit {
     if (!confirm('Delete this shipping method?')) return;
     this.shippingService.delete(id).subscribe({
       next: () => {
-        this.snackbarService.openSnackbarSuccess(
-          'message.deleted_successfully',
+        this.dialogService
+          .success(this.translate.instant('message.deleted_successfully'))
+          .then(() => {
+            this.getList({ page: 1, limit: this.limit });
+          });
+      },
+      error: () => {
+        this.dialogService.error(
+          this.translate.instant('message.delete_failed'),
         );
-        this.getList({ page: 1, limit: this.limit });
       },
     });
   }

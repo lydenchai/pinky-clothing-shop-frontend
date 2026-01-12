@@ -6,10 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ProductService } from '../../../../../core/services/product.service';
-import { SnackbarService } from '../../../../../core/services/snackbar.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
@@ -20,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MainCategoryEnum } from '../../../../../core/types/enums/main-category.enum';
 import { ColorEnum } from '../../../../../core/types/enums/color.enum';
 import { MatIconModule } from '@angular/material/icon';
+import { DialogService } from '../../../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-product-form',
@@ -62,15 +62,16 @@ export class ProductForm implements OnInit {
       Validators.required,
       Validators.min(0),
     ]),
-    sizes: new FormControl<string[] | null>([], Validators.required),
-    colors: new FormControl<string[] | null>([]),
+    sizes: new FormControl<string[] | null>(null, Validators.required),
+    colors: new FormControl<string[] | null>(null),
   });
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private productService: ProductService,
-    private snackbarService: SnackbarService,
+    private translate: TranslateService,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit() {
@@ -89,16 +90,8 @@ export class ProductForm implements OnInit {
               category: product.category,
               image: product.image,
               stock: product.stock,
-              sizes: Array.isArray(product.sizes)
-                ? product.sizes
-                : typeof product.sizes === 'string' && product.sizes
-                  ? product.sizes.split(',').map((s: string) => s.trim())
-                  : [],
-              colors: Array.isArray(product.colors)
-                ? product.colors
-                : typeof product.colors === 'string' && product.colors
-                  ? product.colors.split(',').map((c: string) => c.trim())
-                  : [],
+              sizes: product.sizes,
+              colors: product.colors,
             });
             this.imagePreviewUrl = product.image || null;
           },
@@ -131,11 +124,16 @@ export class ProductForm implements OnInit {
     request$.subscribe({
       next: () => {
         this.form.markAsPristine();
-        this.snackbarService.openSnackbarSuccess('message.saved_successfully');
-        this.router.navigate(['/admin/products']);
+        this.dialogService
+          .success(this.translate.instant('message.saved_successfully'))
+          .then(() => {
+            this.router.navigate(['/admin/products']);
+          });
       },
       error: () => {
-        this.snackbarService.openSnackbarError('message.save_failed');
+        this.dialogService.success(
+          this.translate.instant('message.save_failed'),
+        );
       },
     });
   }

@@ -54,17 +54,13 @@ export class ProductDetail implements OnInit {
               this.isWishListed.set(ids.includes(res.data._id));
               // Parse sizes and colors from comma-separated strings
               if (res.data.sizes) {
-                const sizesArray = res.data.sizes
-                  .split(',')
-                  .map((s: any) => s.trim());
+                const sizesArray = res.data.sizes;
                 if (sizesArray.length > 0) {
                   this.selectedSize.set(sizesArray[0]);
                 }
               }
               if (res.data.colors) {
-                const colorsArray = res.data.colors
-                  .split(',')
-                  .map((c: any) => c.trim());
+                const colorsArray = res.data.colors;
                 if (colorsArray.length > 0) {
                   this.selectedColor.set(colorsArray[0]);
                 }
@@ -195,18 +191,6 @@ export class ProductDetail implements OnInit {
       return prod.price.toFixed(2);
     }
     return parseFloat(prod.price as any).toFixed(2);
-  }
-
-  getSizesArray(): string[] {
-    const prod = this.product();
-    if (!prod || !prod.sizes) return [];
-    return prod.sizes.split(',').map((s) => s.trim());
-  }
-
-  getColorsArray(): string[] {
-    const prod = this.product();
-    if (!prod || !prod.colors) return [];
-    return prod.colors.split(',').map((c) => c.trim());
   }
 
   addToWishlist() {

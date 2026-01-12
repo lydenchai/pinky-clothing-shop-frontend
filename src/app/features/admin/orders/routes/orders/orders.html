@@ -10,7 +10,7 @@
       <app-field-container [label]="'date' | translate" [control]="form.controls.date">
         <mat-form-field appearance="outline">
           <input matInput [matDatepicker]="datepicker" [formControl]="form.controls.date"
-            (dateChange)="onDateChange($event.value)" [value]="form.controls.date.value | date:'dd-MM-yyyy'" />
+            (dateChange)="onDateChange($event.value)" [value]="form.controls.date.value | date:'dd-MM-yyyy HH:mm a'" />
           <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
           <mat-datepicker #datepicker></mat-datepicker>
         </mat-form-field>

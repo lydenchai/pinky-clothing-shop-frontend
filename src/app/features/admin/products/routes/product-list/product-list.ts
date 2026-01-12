@@ -111,10 +111,20 @@ export class ProductList extends PaginationUtil implements OnInit {
       );
       if (!confirmed) return;
       this.productService.delete(_id).subscribe(() => {
-        this.products = this.products.filter((p) => p._id !== _id);
+        this.dialogService
+          .success(
+            this.translateService.instant('message.deleted_successfully'),
+          )
+          .then(() => {
+            this.getList({ page: this.page, limit: this.limit });
+          });
       });
     } catch (err) {
-      console.error('Dialog error', err);
+      this.dialogService.error(
+        this.translateService.instant(
+          'message.an_error_occurred_please_try_again',
+        ),
+      );
     }
   }
 }

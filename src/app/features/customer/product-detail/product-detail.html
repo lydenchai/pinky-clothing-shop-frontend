@@ -37,11 +37,11 @@
         <p class="product-description">{{ prod.description }}</p>
 
         <!-- Color Selection -->
-        @if (getColorsArray().length > 0) {
+        @if (prod.colors?.length! > 0) {
         <div class="selection-group">
           <label>{{ 'color' | translate }}: <strong>{{ selectedColor() | lowercase | translate }}</strong></label>
           <div class="color-options">
-            @for (color of getColorsArray(); track color) {
+            @for (color of prod.colors; track color) {
             <button class="color-btn" [class.active]="selectedColor() === color" [style.background-color]="color"
               [title]="color" (click)="selectColor(color)">
               @if (selectedColor() === color) {
@@ -54,11 +54,11 @@
         }
 
         <!-- Size Selection -->
-        @if (getSizesArray().length > 0) {
+        @if (prod.sizes?.length! > 0) {
         <div class="selection-group">
           <label>{{ 'size' | translate }}: <strong>{{ selectedSize() }}</strong></label>
           <div class="size-options">
-            @for (size of getSizesArray(); track size) {
+            @for (size of prod.sizes; track size) {
             <button class="size-btn" [class.active]="selectedSize() === size" (click)="selectSize(size)">
               {{ size }}
             </button>

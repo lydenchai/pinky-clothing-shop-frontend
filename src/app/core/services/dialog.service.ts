@@ -33,30 +33,30 @@ export class DialogService {
   }
 
   // Convenience methods
-  success(message: string, title: string = 'success') {
+  success(message: string, title: string = 'success', confirm: boolean = true) {
     return this.show({
       title: this.translate.instant(title),
       message,
       type: 'success',
-      confirmText: this.translate.instant('ok'),
+      ...(confirm ? { confirmText: this.translate.instant('ok') } : {}),
     });
   }
 
-  error(message: string, title: string = 'error') {
+  error(message: string, title: string = 'error', confirm: boolean = true) {
     return this.show({
       title: this.translate.instant(title),
       message,
       type: 'error',
-      confirmText: this.translate.instant('ok'),
+      ...(confirm ? { confirmText: this.translate.instant('ok') } : {}),
     });
   }
 
-  warning(message: string, title: string = 'warning') {
+  warning(message: string, title: string = 'warning', confirm: boolean = true) {
     return this.show({
       title: this.translate.instant(title),
       message,
       type: 'warning',
-      confirmText: this.translate.instant('ok'),
+      ...(confirm ? { confirmText: this.translate.instant('ok') } : {}),
     });
   }
 

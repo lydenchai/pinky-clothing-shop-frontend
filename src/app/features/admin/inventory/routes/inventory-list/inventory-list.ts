@@ -3,7 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
 import { DatePipe, CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Pagination } from '../../../../../shared/components/pagination/pagination';
 import { PaginationUtil } from '../../../../../utils/pagination.util';
@@ -15,6 +15,7 @@ import { MatFormField, MatSelectModule } from '@angular/material/select';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { MatInputModule } from '@angular/material/input';
+import { DialogService } from '../../../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-inventory-list',
@@ -45,6 +46,8 @@ export class InventoryList extends PaginationUtil implements OnInit {
   query?: string;
 
   constructor(
+    private translate: TranslateService,
+    private dialogService: DialogService,
     private inventoryService: InventoryService,
     private router: Router,
   ) {
@@ -92,11 +95,29 @@ export class InventoryList extends PaginationUtil implements OnInit {
     this.router.navigate(['admin/inventory', _id]);
   }
 
-  deleteItem(_id: string) {
-    if (!confirm('Are you sure you want to delete this inventory item?'))
-      return;
-    this.inventoryService.delete(_id).subscribe({
-      next: () => this.getList({ page: this.page, limit: this.limit }),
-    });
+  async onDelete(_id: string) {
+    try {
+      const confirmed = await this.dialogService.ask(
+        this.translate.instant(
+          'message._are_you_sure_you_want_to_delete_this',
+          {
+            param: 'product',
+          },
+        ),
+        this.translate.instant('confirm'),
+      );
+      if (!confirmed) return;
+      this.inventoryService.delete(_id).subscribe(() => {
+        this.dialogService
+          .success(this.translate.instant('message.deleted_successfully'))
+          .then(() => {
+            this.getList({ page: this.page, limit: this.limit });
+          });
+      });
+    } catch (err) {
+      this.dialogService.error(
+        this.translate.instant('message.an_error_occurred_please_try_again'),
+      );
+    }
   }
 }

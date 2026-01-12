@@ -5,7 +5,7 @@ import {
   HttpHeaders,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   catchError,
   filter,
@@ -15,21 +15,21 @@ import {
   throwError,
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { SnackbarService } from './snackbar.service';
 import { LoadingService } from './loading.service';
 import { APIResponseCodeEnum } from '../types/enums/api-response-code.enum';
 import { RequestParam } from '../types/request-param';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from './dialog.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpClientService {
-  private snackbarService?: SnackbarService;
-
   constructor(
     private http: HttpClient,
+    private dialogService: DialogService,
     private loadingService: LoadingService,
-    private injector: Injector
+    private translateService: TranslateService,
   ) {}
 
   getUrl(path: string, queryParams?: { [key: string]: any }) {
@@ -55,7 +55,7 @@ export class HttpClientService {
     }
     return this.http.get<T>(url, { params: request.data }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading))
+      finalize(() => this.finalizeRequest(request.isLoading)),
     );
   }
 
@@ -69,7 +69,7 @@ export class HttpClientService {
       .get(url, { params: request.data, responseType: 'blob' })
       .pipe(
         catchError((err) => this.handleHttpError(err, request.isAlertError)),
-        finalize(() => this.finalizeRequest(request.isLoading))
+        finalize(() => this.finalizeRequest(request.isLoading)),
       );
   }
 
@@ -85,7 +85,7 @@ export class HttpClientService {
     });
     return this.http.get<T>(url, { params: request.data, headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading))
+      finalize(() => this.finalizeRequest(request.isLoading)),
     );
   }
 
@@ -101,7 +101,7 @@ export class HttpClientService {
     request.data = this.toFormData(request.data);
     return this.http.post<T>(url, request.data, { headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading))
+      finalize(() => this.finalizeRequest(request.isLoading)),
     );
   }
 
@@ -116,7 +116,7 @@ export class HttpClientService {
     });
     return this.http.post<T>(url, request.data, { headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading))
+      finalize(() => this.finalizeRequest(request.isLoading)),
     );
   }
 
@@ -132,13 +132,13 @@ export class HttpClientService {
     request.data = this.toFormData(request.data);
     return this.http.post<T>(url, request.data, { headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading))
+      finalize(() => this.finalizeRequest(request.isLoading)),
     );
   }
 
   postFileProgress<T>(
     path: string,
-    request: RequestParam
+    request: RequestParam,
   ): Observable<number | T> {
     const url = this.getUrl(path);
     this.clean(request.data);
@@ -160,7 +160,7 @@ export class HttpClientService {
         filter(
           (res) =>
             res.type == HttpEventType.UploadProgress ||
-            res.type == HttpEventType.Response
+            res.type == HttpEventType.Response,
         ),
         map((res) => {
           if (res.type == HttpEventType.UploadProgress) {
@@ -170,13 +170,13 @@ export class HttpClientService {
           }
         }),
         catchError((err) => this.handleHttpError(err, request.isAlertError)),
-        finalize(() => this.finalizeRequest(request.isLoading))
+        finalize(() => this.finalizeRequest(request.isLoading)),
       );
   }
 
   patchFileProgress<T>(
     path: string,
-    request: RequestParam
+    request: RequestParam,
   ): Observable<number | T> {
     const url = this.getUrl(path);
     this.clean(request.data);
@@ -198,7 +198,7 @@ export class HttpClientService {
         filter(
           (res) =>
             res.type == HttpEventType.UploadProgress ||
-            res.type == HttpEventType.Response
+            res.type == HttpEventType.Response,
         ),
         map((res) => {
           if (res.type == HttpEventType.UploadProgress) {
@@ -208,7 +208,7 @@ export class HttpClientService {
           }
         }),
         catchError((err) => this.handleHttpError(err, request.isAlertError)),
-        finalize(() => this.finalizeRequest(request.isLoading))
+        finalize(() => this.finalizeRequest(request.isLoading)),
       );
   }
 
@@ -224,7 +224,7 @@ export class HttpClientService {
     });
     return this.http.patch<T>(url, request.data, { headers }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading))
+      finalize(() => this.finalizeRequest(request.isLoading)),
     );
   }
 
@@ -239,7 +239,7 @@ export class HttpClientService {
     });
     return this.http.delete<T>(url, { headers, params: request.data }).pipe(
       catchError((err) => this.handleHttpError(err, request.isAlertError)),
-      finalize(() => this.finalizeRequest(request.isLoading))
+      finalize(() => this.finalizeRequest(request.isLoading)),
     );
   }
 
@@ -264,17 +264,19 @@ export class HttpClientService {
 
   private handleHttpError(error: HttpErrorResponse, is_alert_error?: boolean) {
     if (is_alert_error) {
-      const snackbar = this.getSnackbarService();
       if (error.status === APIResponseCodeEnum.user_error) {
-        snackbar.openSnackbarError(error.error?.error || error.statusText);
+        this.dialogService.error(error.error?.error || error.statusText);
       } else if (error.status === APIResponseCodeEnum.server_error) {
-        snackbar.openSnackbarError(error.error?.error || error.statusText);
+        this.dialogService.error(error.error?.error || error.statusText);
       } else if (
         error.status !== APIResponseCodeEnum.not_found &&
         error.status !== APIResponseCodeEnum.expired_token &&
         error.status !== APIResponseCodeEnum.invalid_token
       ) {
-        snackbar.openSnackbarError('m.unknown_http_error');
+        this.dialogService.error(
+          error.error?.error ||
+            this.translateService.instant('message.unknown_error'),
+        );
       }
     }
     return throwError(() => error.error);
@@ -302,13 +304,5 @@ export class HttpClientService {
       formData.append(key, formValue[key]);
     }
     return formData;
-  }
-
-  private getSnackbarService(): SnackbarService {
-    // Lazy load to avoid circular DI at app start
-    if (!this.snackbarService) {
-      this.snackbarService = this.injector.get(SnackbarService);
-    }
-    return this.snackbarService;
   }
 }

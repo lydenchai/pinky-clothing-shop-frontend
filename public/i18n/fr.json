@@ -339,6 +339,7 @@
     "deleted_successfully": "Supprimé avec succès.",
     "added_to_wishlist": "Ajouté à la liste de souhaits.",
     "removed_from_wishlist": "Retiré de la liste de souhaits.",
-    "please_login_to_use_wishlist": "Veuillez vous connecter pour utiliser la liste de souhaits."
+    "please_login_to_use_wishlist": "Veuillez vous connecter pour utiliser la liste de souhaits.",
+    "unknown_error": "Une erreur inconnue est survenue. Veuillez réessayer."
   }
 }

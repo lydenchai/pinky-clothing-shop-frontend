@@ -339,6 +339,7 @@
     "deleted_successfully": "Deleted successfully.",
     "added_to_wishlist": "Added to wishlist.",
     "removed_from_wishlist": "Removed from wishlist.",
-    "please_login_to_use_wishlist": "Please login to use wishlist."
+    "please_login_to_use_wishlist": "Please login to use wishlist.",
+    "unknown_error": "An unknown error occurred. Please try again."
   }
 }

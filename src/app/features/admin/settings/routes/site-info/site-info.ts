@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import {
@@ -16,7 +16,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { UploadImage } from '../../../../../shared/components/upload-image/upload-image';
-import { SnackbarService } from '../../../../../core/services/snackbar.service';
 import { SiteInfoService } from '../../../../../core/services/site-info.service';
 import {
   CountryISO,
@@ -24,6 +23,7 @@ import {
   SearchCountryField,
 } from 'ngx-intl-tel-input';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { DialogService } from '../../../../../core/services/dialog.service';
 @Component({
   selector: 'app-site-info',
   imports: [
@@ -82,7 +82,8 @@ export class SiteInfo {
 
   constructor(
     private siteInfoService: SiteInfoService,
-    private snackbarService: SnackbarService,
+    private translate: TranslateService,
+    private dialogService: DialogService,
   ) {
     if (!this.isUpdate()) {
       this.form.disable();
@@ -176,10 +177,18 @@ export class SiteInfo {
     } as any;
     this.siteInfoService.updateSiteInfo(payload).subscribe({
       next: () => {
-        this.snackbarService.openSnackbarSuccess('message.saved_successfully');
+        this.dialogService
+          .success(this.translate.instant('message.saved_successfully'))
+          .then(() => {
+            this.fetchSiteInfo();
+          });
       },
       error: () => {
-        this.snackbarService.openSnackbarError('message.save_failed');
+        this.dialogService
+          .error(this.translate.instant('message.save_failed'))
+          .then(() => {
+            this.fetchSiteInfo();
+          });
       },
     });
   }

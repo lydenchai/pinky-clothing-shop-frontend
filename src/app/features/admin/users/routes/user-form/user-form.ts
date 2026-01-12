@@ -6,7 +6,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RoleEnum } from '../../../../../core/types/enums/role-enum';
 import { UserService } from '../../../../../core/services/user.service';
@@ -14,7 +14,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
 import { MatSelectModule } from '@angular/material/select';
-import { SnackbarService } from '../../../../../core/services/snackbar.service';
 import { MatIconModule } from '@angular/material/icon';
 import {
   CountryISO,
@@ -22,6 +21,7 @@ import {
   SearchCountryField,
 } from 'ngx-intl-tel-input';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { DialogService } from '../../../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-user-form',
@@ -85,7 +85,8 @@ export class UserForm {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private snackbarService: SnackbarService,
+    private translate: TranslateService,
+    private dialogService: DialogService,
   ) {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -124,11 +125,11 @@ export class UserForm {
   }
 
   onSubmit() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    
+    // if (this.form.invalid) {
+    //   this.form.markAllAsTouched();
+    //   return;
+    // }
+
     const phoneValue = this.form.controls.phone.value;
     const userData = {
       ...this.form.value,
@@ -146,8 +147,18 @@ export class UserForm {
     request$.subscribe({
       next: () => {
         this.form.markAsPristine();
-        this.snackbarService.openSnackbarSuccess('message.saved_successfully');
-        this.router.navigate(['/admin/users']);
+        this.dialogService
+          .success(this.translate.instant('message.saved_successfully'))
+          .then(() => {
+            this.router.navigate(['/admin/users']);
+          });
+      },
+      error: () => {
+        this.dialogService
+          .error(this.translate.instant('message.save_failed'))
+          .then(() => {
+            this.router.navigate(['/admin/users']);
+          });
       },
     });
   }

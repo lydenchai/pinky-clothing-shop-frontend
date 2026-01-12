@@ -9,13 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FieldContainer } from '../../../../../../../shared/components/field-container/field-container';
 import { MatSelectModule } from '@angular/material/select';
-import { SnackbarService } from '../../../../../../../core/services/snackbar.service';
 import { ShippingService } from '../../../../../../../core/services/shipping.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { DialogService } from '../../../../../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-shipping-form',
@@ -63,7 +63,8 @@ export class ShippingForm {
     private router: Router,
     private route: ActivatedRoute,
     private shippingService: ShippingService,
-    private snackbarService: SnackbarService,
+    private translate: TranslateService,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit() {
@@ -103,11 +104,14 @@ export class ShippingForm {
     request$.subscribe({
       next: () => {
         this.form.markAsPristine();
-        this.snackbarService.openSnackbarSuccess('message.saved_successfully');
-        this.router.navigate(['/admin/settings/shipping']);
+        this.dialogService
+          .success(this.translate.instant('message.saved_successfully'))
+          .then(() => {
+            this.router.navigate(['/admin/settings/shipping']);
+          });
       },
       error: () => {
-        this.snackbarService.openSnackbarError('message.save_failed');
+        this.dialogService.error(this.translate.instant('message.save_failed'));
       },
     });
   }

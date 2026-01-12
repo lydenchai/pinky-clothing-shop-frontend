@@ -7,8 +7,8 @@ export interface Product {
   category: string;
   image: string;
   stock: number;
-  sizes?: string; // Comma-separated string from backend
-  colors?: string; // Comma-separated string from backend
+  sizes?: any[];
+  colors?: any[];
   created_at?: Date;
   updated_at?: Date;
 }
