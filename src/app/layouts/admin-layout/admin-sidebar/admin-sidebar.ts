@@ -144,19 +144,4 @@ export class AdminSidebar implements OnInit {
       );
     }
   }
-
-  onSubmenuMouseEnter(item: any) {
-    if (item.submenuHideTimeout) {
-      clearTimeout(item.submenuHideTimeout);
-      item.submenuHideTimeout = null;
-    }
-    item.submenuHover = true;
-  }
-
-  onSubmenuMouseLeave(item: any) {
-    item.submenuHideTimeout = setTimeout(() => {
-      item.submenuHover = false;
-      item.submenuHideTimeout = null;
-    }, 200); // 200ms delay, adjust as needed
-  }
 }

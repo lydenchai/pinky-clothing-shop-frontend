@@ -5,12 +5,8 @@
   <ul>
     @for (item of menu; track $index) {
     <li [class]="{ extended: item.extended }">
-      <a [routerLink]="!item.children || item.children.length == 0 ? item.route : null"
-         (click)="item.children?.length && onToggleExtendMenuItem(item)"
-         [class.active]="isActive(item.route)"
-         [class.parent]="item.children && item.children.length > 0"
-         (mouseenter)="item.children && item.children.length > 0 ? onSubmenuMouseEnter(item) : null"
-         (mouseleave)="item.children && item.children.length > 0 ? onSubmenuMouseLeave(item) : null">
+      <a class="menu" [routerLink]=" !item.children || item.children.length == 0 ? item.route : null"
+       (click)="item.children?.length && onToggleExtendMenuItem(item)" [class.active]="isActive(item.route)">
         <mat-icon>{{ item.icon }}</mat-icon>
         <span class="title">
           {{ item.title === "dashboard" ? (item.title | translate) : (item.title | translate | plural) }}
@@ -34,22 +30,6 @@
         </li>
         }
       </ul>
-      }
-      @if (item.submenuHover) {
-        <div class="tooltip-submenu">
-          @for (m of item.children; track $index) {
-          <li [class.active]="isActive(m.route)">
-            <a [routerLink]="m.route" [class.active]="isActive(m.route)">
-              <span class="title">
-                {{ m.title === "site_info" || m.title === "payment" ? (m.title | translate) : (m.title | translate | plural) }}
-              </span>
-              @if (m.badge) {
-              <span class="badge">{{ m.badge }}</span>
-              }
-            </a>
-          </li>
-          }
-        </div>
       }
     </li>
     }

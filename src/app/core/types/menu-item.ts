@@ -11,5 +11,4 @@ export interface MenuItem {
   badge?: number;
   disable_when?: any;
   hide_when?: any;
-  submenuHover?: boolean;
 }

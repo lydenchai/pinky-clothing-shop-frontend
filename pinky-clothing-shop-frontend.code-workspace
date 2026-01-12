@@ -9,5 +9,7 @@
       "path": "."
     }
   ],
-  "settings": {}
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "pinky-clothing-shop-frontend"
+  }
 }
