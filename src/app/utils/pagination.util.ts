@@ -1,6 +1,5 @@
-import { PaginationType } from "../types/pagination-type";
+import { PaginationType } from '../core/types/pagination-type';
 
- 
 export abstract class PaginationUtil {
   page: number = 1;
   limit: number = 15;

@@ -1,0 +1,151 @@
+ @use "../../../../styles/variables" as *;
+
+ .dashboard-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 16px;
+ }
+
+ .muted {
+   color: #6b7280;
+ }
+
+ .kpis {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   gap: 12px;
+   margin-bottom: 16px;
+ }
+
+ .kpi {
+   background: #fff;
+   padding: 14px;
+   border-radius: 14px;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+   transition: transform 0.2s, box-shadow 0.2s;
+   animation: fadeInUp 0.5s;
+
+   &:hover {
+     transform: translateY(-2px) scale(1);
+     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+   }
+
+   .kpi-icon {
+     font-size: 2.1rem;
+     margin-bottom: 6px;
+     opacity: 0.85;
+   }
+
+   .kpi-value {
+     font-size: 1.6rem;
+     font-weight: 700;
+   }
+
+   .kpi-label {
+     color: #6b7280;
+     font-size: 0.9rem;
+   }
+ }
+
+ .kpi.products .kpi-value {
+   color: $primary-color;
+ }
+
+ .kpi.low-stock .kpi-value {
+   color: $pending-color;
+ }
+
+ .kpi.orders .kpi-value {
+   color: $processing-color;
+ }
+
+ .kpi.sales .kpi-value {
+   color: $delivered-color;
+ }
+
+ @keyframes fadeInUp {
+   from {
+     opacity: 0;
+     transform: translateY(16px);
+   }
+
+   to {
+     opacity: 1;
+     transform: translateY(0);
+   }
+ }
+
+ .panels {
+   width: 100%;
+   display: grid;
+   grid-template-columns: 2fr 1fr;
+   gap: 16px;
+ }
+
+ .panel {
+   height: fit-content;
+   background: #fff;
+   padding: 14px;
+   border-radius: 14px;
+ }
+
+ .panel h3 {
+   margin-top: 0;
+ }
+
+ .top-products {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+ }
+
+ .top-products li {
+   display: flex;
+   gap: 10px;
+   align-items: center;
+   padding: 8px 0;
+   border-bottom: 1px solid #f1f5f9;
+
+   &:last-child {
+     border-bottom: none;
+   }
+ }
+
+ .top-products img {
+   width: 48px;
+   height: 48px;
+   object-fit: cover;
+   border-radius: 6px;
+ }
+
+ .top-products .name {
+   font-weight: 600;
+ }
+
+ .top-products .meta {
+   color: #6b7280;
+   font-size: 0.85rem;
+ }
+
+ .links ul {
+   list-style: none;
+   padding: 0;
+ }
+
+ .links li {
+   padding: 6px 0;
+ }
+
+ @media (max-width: 900px) {
+   .kpis {
+     grid-template-columns: repeat(2, 1fr);
+   }
+
+   .panels {
+     grid-template-columns: 1fr;
+   }
+ }

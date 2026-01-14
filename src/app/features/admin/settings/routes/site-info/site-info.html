@@ -1,0 +1,132 @@
+<div class="admin-container scroll-container">
+  <div class="form-container content-scroll form">
+    <form [formGroup]="form">
+      <!-- BASIC INFORMATION -->
+      <div class="flex items-center justify-between">
+        <h5 class="text-primary">{{ "basic_information" | translate }}</h5>
+        <div class="top-btn">
+          <button mat-raised-button color="primary" class="create" (click)="!isUpdate() ? onUpdate() : save()">
+            <mat-icon>{{ !isUpdate() ? "replay" : "save" }}</mat-icon>
+            {{ !isUpdate() ? ("update" | translate) : ("save" | translate) }}​
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <app-field-container [label]="'name' | translate" [control]="form.controls.name">
+            <mat-form-field appearance="outline">
+              <input matInput name="name" [formControl]="form.controls.name" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6">
+          <app-field-container [label]="'description' | translate" [control]="form.controls.description">
+            <mat-form-field appearance="outline">
+              <input matInput name="description" [formControl]="form.controls.description" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+      </div>
+
+      <!-- BRANDING -->
+      <div class="mb-4 w-full">
+        <h5 class="text-primary mb-2">{{ "branding" | translate }}</h5>
+        <div class="row mt-2">
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'store_logo' | translate" [control]="form.controls.store_logo">
+              <app-upload-image [disabled]="!isUpdate()" [previewUrl]="storeLogoPreviewUrl"
+                (imageSelected)="onStoreLogoSelected($event)">
+              </app-upload-image>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'favicon' | translate" [control]="form.controls.favicon">
+              <app-upload-image [previewUrl]="faviconPreviewUrl" (imageSelected)="onFaviconSelected($event)"
+                [disabled]="!isUpdate()">
+              </app-upload-image>
+            </app-field-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="w-full">
+        <h5 class="text-primary mb-2">{{ "contact_information" | translate }}</h5>
+        <div class="row mt-2">
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'email' | translate" [control]="form.controls.email">
+              <mat-form-field appearance="outline">
+                <input matInput type="email" name="email" [formControl]="form.controls.email" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'phone' | translate" [control]="form.controls.phone">
+              <ngx-intl-tel-input class="mat-like-phone" [enableAutoCountrySelect]="false" [searchCountryFlag]="true"
+                [searchCountryField]="[SearchCountryField.Name, SearchCountryField.Iso2]" [selectFirstCountry]="false"
+                [selectedCountryISO]="CountryISO.Cambodia" [phoneValidation]="true"
+                [numberFormat]="PhoneNumberFormat.International" [formControl]="form.controls.phone">
+              </ngx-intl-tel-input>
+            </app-field-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="w-full">
+        <h5 class="text-primary mb-2">{{ "store_address" | translate }}</h5>
+        <div class="row mt-2">
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'address' | translate" [control]="form.controls.address">
+              <mat-form-field appearance="outline">
+                <input matInput name="address" [formControl]="form.controls.address" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIAL MEDIA -->
+      <div class="w-full">
+        <h5 class="text-primary mb-2">{{ "social_media" | translate }}</h5>
+        <div class="row mt-2">
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'facebook' | translate" [control]="form.controls.facebook">
+              <mat-form-field appearance="outline">
+                <input matInput name="facebook" [formControl]="form.controls.facebook" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'instagram' | translate" [control]="form.controls.instagram">
+              <mat-form-field appearance="outline">
+                <input matInput name="instagram" [formControl]="form.controls.instagram" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'tik_tok' | translate" [control]="form.controls.tik_tok">
+              <mat-form-field appearance="outline">
+                <input matInput name="tik_tok" [formControl]="form.controls.tik_tok" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEO -->
+      <div class="w-full">
+        <h5 class="text-primary mb-2">{{ "seo_settings" | translate }}</h5>
+        <div class="row mt-2">
+          <div class="col-12 col-sm-6">
+            <app-field-container [label]="'meta_description' | translate" [control]="form.controls.meta_description">
+              <mat-form-field appearance="outline">
+                <input matInput name="meta_description" [formControl]="form.controls.meta_description" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

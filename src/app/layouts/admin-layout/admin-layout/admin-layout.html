@@ -1,0 +1,11 @@
+<div class="admin-layout" [class.sidebar-collapsed]="!menuExtended">
+  <app-admin-sidebar [collapsed]="!menuExtended"></app-admin-sidebar>
+  <main class="admin-main">
+    <app-admin-navbar [menuExtended]="menuExtended"
+      (menuExtendedChange)="onMenuExtendedChange($event)"></app-admin-navbar>
+    <div class="content">
+      <app-breadcrumb></app-breadcrumb>
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

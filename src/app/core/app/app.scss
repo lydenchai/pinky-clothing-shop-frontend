@@ -1,0 +1,64 @@
+.main-content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 120px;
+
+  @media (max-width: 768px) {
+    padding-top: 100px;
+  }
+}
+
+/* When admin layout is active, hide the global header/footer as a CSS fallback */
+body.no-global-layout app-header,
+body.no-global-layout app-footer {
+  display: none !important;
+}
+
+/* Remove top padding reserved for the global header when it's hidden */
+body.no-global-layout .main-content {
+  padding-top: 0 !important;
+}
+
+.app-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 6px solid #e0e0e0;
+  border-top: 6px solid #007aff;
+  animation: spin 1s linear infinite;
+  margin-bottom: 24px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.app-loading h2 {
+  font-size: 1.25rem;
+  color: #222;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin: 0;
+}

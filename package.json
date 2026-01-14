@@ -4,22 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --no-hmr",
+    "prestart": "npm run prebuild",
+    "prebuild": "node -e \"require('fs').writeFileSync('src/custom-build-info.ts', 'export const customBuildInfo = { cacheKey: ' + Date.now() + ' };\\n')\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "prettier": {
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^19.2.14",
     "@angular/cdk": "^20.2.12",
     "@angular/common": "^20.1.0",
     "@angular/compiler": "^20.1.0",
@@ -30,7 +23,13 @@
     "@angular/router": "^20.1.0",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
+    "@stripe/stripe-js": "^8.6.1",
     "chart.js": "^4.5.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "country-list": "^2.4.1",
+    "google-libphonenumber": "^3.2.43",
+    "multer": "^2.0.2",
+    "ngx-intl-tel-input": "^17.0.0",
     "pluralize": "^8.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
@@ -49,7 +48,22 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^3.3.2",
     "typescript": "~5.8.2"
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ],
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }

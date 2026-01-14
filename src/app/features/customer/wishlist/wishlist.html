@@ -1,0 +1,24 @@
+<div class="wishlist-page">
+  <div class="container">
+    <h1 class="page-title">{{ 'my_wishlist' | translate }}</h1>
+    <p class="text-[#6e6e73]">{{ 'wishlist_description' | translate }}</p>
+    @if (wishlistProducts().length === 0) {
+    <div class="empty-message flex flex-col items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <path
+          d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.04 3 12.5 3.99 13 5.36C13.5 3.99 14.96 3 16.5 3C19.5 3 22 5.5 22 8.5C22 13.5 12 21 12 21Z" />
+      </svg>
+      <h2>{{ 'wishlist_empty' | translate }}</h2>
+      <a routerLink="/products" class="btn-go-shop">{{ 'shop_now' | translate }}</a>
+    </div>
+    } @else {
+    <div class="products-grid mt-[1.5rem]">
+      @for (product of wishlistProducts(); track $index) {
+      <app-product-card [product]="product" [wishlistProductIds]="wishlistProductIds()"
+        (wishlistChanged)="onWishlistChanged()" />
+      }
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,16 @@
+@if (showDefaultLayout()) {
+<app-header />
+}
+<main class="main-content">
+  <router-outlet />
+  @if (showDefaultLayout()) {
+  <app-footer />
+  }
+</main>
+<app-dialog />
+@if (isLoading()) {
+<div class="app-loading">
+  <div class="spinner"></div>
+  <h2 class="text-white">{{ "processing_please_wait" | translate }}</h2>
+</div>
+}

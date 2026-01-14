@@ -1,0 +1,31 @@
+<div class="pagination">
+  <button type="button" [disabled]="page === 1" (click)="goTo(1)">
+    <mat-icon>first_page</mat-icon>
+  </button>
+  <button type="button" [disabled]="page === 1" (click)="goTo(page - 1)">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  @for (i of pageList; track $index) {
+    @if (i === -1) {
+    <button type="button" class="ellipsis" disabled>...</button>
+    }
+    @else {
+    <button type="button" [class.active]="i === page" [disabled]="i === page" (click)="goTo(i)">
+      {{ i }}
+    </button>
+    }
+  }
+  <button type="button" [disabled]="page === last" (click)="goTo(page + 1)">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+  <button type="button" [disabled]="page === last" (click)="goTo(last)">
+    <mat-icon>last_page</mat-icon>
+  </button>
+  <!-- <mat-form-field appearance="outline" class="w-[70px] ml-1">
+    <mat-select [(ngModel)]="limit" (selectionChange)="goTo(1)">
+      @for (option of pageOptions; track $index) {
+      <mat-option [value]="option">{{ option }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field> -->
+</div>

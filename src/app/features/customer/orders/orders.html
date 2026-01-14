@@ -1,0 +1,41 @@
+<div class="orders-page">
+  <h1>{{ 'my_orders' | translate }}</h1>
+  @if (orders.length === 0) {
+  <div class="text-[#6e6e73] mt-[1.5rem]">{{ 'no_orders_yet' | translate }}</div>
+  } @else {
+  <table class="orders-table">
+    <thead>
+      <tr>
+        <th>{{ 'order_number' | translate }}</th>
+        @if(isAdmin()){
+        <th>{{ 'customer' | translate }}</th>
+        }
+        <th>{{ 'date' | translate }}</th>
+        <th>{{ 'status' | translate }}</th>
+        <th>{{ 'total' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (order of orders; track $index) {
+      <tr>
+        <td>
+          {{ $index + 1 }}
+        </td>
+        @if(isAdmin()){
+        <td>{{ order.user?.first_name + ' ' + order.user?.last_name }}</td>
+        }
+        <td>{{ order.created_at | date:'mediumDate' }}</td>
+        <td>{{ order.status | translate}}</td>
+        <td>${{ order.total_amount }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+   @if (orders.length > 0) {
+  <div class="table-footer content-footer">
+    <app-pagination [total]="totalCount ?? 0" [limit]="limit" [page]="page"
+      (changed)="getList($event)"></app-pagination>
+  </div>
+  }
+</div>

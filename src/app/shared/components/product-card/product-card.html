@@ -1,0 +1,50 @@
+<div class="product-card" [routerLink]="['/products', product._id]">
+  <div class="product-image">
+    <img [src]="product.image" [alt]="product.name" loading="lazy" />
+    @if (product.stock <= 5 && product.stock> 0) {
+      <div class="stock-badge low">{{ 'only_left' | translate: {count: product.stock} }}</div>
+      }
+      @if (product.stock === 0) {
+      <div class="stock-badge out">{{ 'out_of_stock' | translate }}</div>
+      }
+      <!-- Wishlist Button -->
+      <button class="wishlist-btn" [class.in-wishlist]="isInWishlist()" (click)="toggleWishlist($event)"
+        [title]="isInWishlist() ? ('remove_from_wishlist' | translate) : ('add_to_wishlist' | translate)">
+        @if (!isInWishlist()) {
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0071e3"
+          stroke-width="1">
+          <path
+            d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.04 3 12.5 3.99 13 5.36C13.5 3.99 14.96 3 16.5 3C19.5 3 22 5.5 22 8.5C22 13.5 12 21 12 21Z" />
+        </svg>
+        } @else {
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#e0245e"
+          stroke="#e0245e" stroke-width="1">
+          <path
+            d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.04 3 12.5 3.99 13 5.36C13.5 3.99 14.96 3 16.5 3C19.5 3 22 5.5 22 8.5C22 13.5 12 21 12 21Z" />
+        </svg>
+        }
+      </button>
+  </div>
+
+  <div class="product-info">
+    <h3 class="product-name">{{ product.name }}</h3>
+
+    <p class="product-description">{{ product.description }}</p>
+
+    <div class="product-footer">
+      <span class="price">${{ getPrice() }}</span>
+
+      @if (product.stock > 0) {
+      <span class="stock-status in-stock">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        {{ 'available' | translate }}
+      </span>
+      } @else {
+      <span class="stock-status out-of-stock">{{ 'unavailable' | translate }}</span>
+      }
+    </div>
+  </div>
+</div>

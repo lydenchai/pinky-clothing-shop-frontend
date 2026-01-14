@@ -1,0 +1,41 @@
+<div class="admin-container scroll-container">
+  <div class="form-container content-scroll form">
+    <form [formGroup]="form">
+      <div class="row mt-2">
+        <div class="col-12 col-sm-6 col-md-4">
+          <app-field-container [label]="'product' | translate" [control]="form.controls.product_id">
+            <mat-form-field appearance="outline">
+              <mat-select id="product_id" [formControl]="form.controls.product_id">
+                @for (p of products; track $index) {
+                <mat-option [value]="p._id">{{ p.name || ('product' | translate) + ' #' + p._id }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <app-field-container [label]="'quantity' | translate" [control]="form.controls.quantity">
+            <mat-form-field appearance="outline">
+              <input matInput type="number" name="quantity" [formControl]="form.controls.quantity" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <app-field-container [label]="'location' | translate" [control]="form.controls.location">
+            <mat-form-field appearance="outline">
+              <input matInput name="location" [formControl]="form.controls.location" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="form-actions">
+    <button type="button" routerLink="/admin/inventory" mat-raised-button color="primary" class="cancel">
+      <mat-icon>cancel</mat-icon>{{ 'cancel' | translate }}
+    </button>
+    <button type="submit" mat-raised-button color="primary" class="save" (click)="onSubmit()">
+      <mat-icon>save</mat-icon>{{ updateId() ? ('update' | translate) : ('create' | translate) }}
+    </button>
+  </div>
+</div>

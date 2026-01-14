@@ -1,0 +1,48 @@
+@use "../../../../styles//variables" as *;
+
+.pagination {
+  display: inline-block;
+
+  button {
+    width: 40px;
+    height: 40px;
+    margin: 0 3px;
+    float: left;
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #dadada;
+    transition:
+      background-color 0.3s,
+      border-color 0.3s;
+
+    mat-icon {
+      position: absolute;
+      top: 8px;
+      left: 7px;
+    }
+
+    &.active {
+      color: #fff;
+      background: $primary-color;
+      border: none;
+    }
+
+    &:disabled {
+      cursor: unset !important;
+
+      mat-icon {
+        color: #cacaca !important;
+      }
+    }
+  }
+
+  .ellipsis {
+    background: transparent;
+    border: none;
+    color: #777;
+    cursor: default;
+    font-size: 16px;
+    padding: 4px 10px;
+  }
+}

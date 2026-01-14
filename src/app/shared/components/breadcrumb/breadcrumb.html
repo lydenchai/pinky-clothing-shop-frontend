@@ -1,0 +1,24 @@
+@if (breadcrumbs().length > 0) {
+  <nav class="d-flex align-items-center mb-2">
+    @for (breadcrumb of breadcrumbs(); let i = $index; track $index) {
+      @if (i < breadcrumbs().length - 1) {
+        <a [routerLink]="breadcrumb.url" class="text-[#0071e3] underline">
+          @if (i === 0 && breadcrumb.plural) {
+            {{ breadcrumb.label | translate | plural }}
+          } @else {
+            {{ breadcrumb.label | translate }}
+          }
+        </a>
+        <mat-icon class="mx-1 text-[14px] d-flex align-items-center justify-content-center text-[#aaa]">arrow_forward_ios</mat-icon>
+      } @else {
+        <span>
+          @if (i === 0 && breadcrumb.plural) {
+            {{ breadcrumb.label | translate | plural }}
+          } @else {
+            {{ breadcrumb.label | translate }}
+          }
+        </span>
+      }
+    }
+  </nav>
+}

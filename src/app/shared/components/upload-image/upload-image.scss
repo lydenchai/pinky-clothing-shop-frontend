@@ -1,0 +1,45 @@
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1.5rem;
+  align-items: center;
+  position: relative;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+.image-upload.dragover {
+  border-color: #0071e3;
+  background: linear-gradient(135deg, #eaf6ff 60%, #f5f6fa 100%);
+  box-shadow: 0 8px 32px 0 rgba(0, 113, 227, 0.1);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.preview img {
+  width: 180px;
+  height: 180px;
+  border-radius: 10px;
+  background: #fff;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.image-upload.disabled {
+  pointer-events: none;
+  opacity: 1;
+}
+
+.image-upload.disabled>*:not(.preview) {
+  display: none !important;
+}
+
+.image-upload.disabled .preview {
+  pointer-events: auto;
+  opacity: 1;
+}

@@ -1,0 +1,52 @@
+<nav class="admin-navbar flex items-center justify-between">
+  <button type="button" mat-icon-button (click)="onToggleExtendMenu()">
+    <mat-icon class="hover:text-[#0071e3]">menu</mat-icon>
+  </button>
+  <div class="navbar-content">
+    <div class="notification-wrapper">
+      <button class="notification-btn" mat-icon-button aria-label="Notifications"
+        (click)="toggleNotificationDropdown()">
+        <mat-icon class="hover:text-[#0071e3]">notifications</mat-icon>
+        @if (newOrderCount() > 0) {
+        <span class="notification-badge ">{{ newOrderCount() }}</span>
+        }
+      </button>
+      @if (notificationOpen()) {
+      <div class="notification-dropdown">
+        <div class="dropdown-header">{{ 'new_orders' | translate }}</div>
+        @if (newOrders().length === 0) {
+        <div class="dropdown-empty">{{ 'no_new_orders' | translate }}</div>
+        } @else {
+        <ul class="dropdown-list text-[14px]">
+          @for (order of newOrders(); track order._id) {
+          <li (click)="goToOrder(order._id)">
+            <div>
+              <span class="text-[#666]">{{ $index + 1 }}</span>
+              <span class="text-[#666] mx-2">#{{ order.code }}</span>
+              <span class="text-[#666] mx-2">{{ order.user?.first_name }} {{ order.user?.last_name }}</span>
+            </div>
+            <span class="text-[#aaa]">{{ order.created_at | date: 'dd-MM-yyyy HH:mm a' }}</span>
+          </li>
+          }
+        </ul>
+        }
+      </div>
+      }
+    </div>
+    <div class="lang-switcher" (click)="toggleLangMenu()" tabindex="0">
+      <img class="flag-avatar" [src]="'/icons/' + currentLang() + '.webp'" [alt]="currentLang()" />
+      <mat-icon class="lang-arrow">expand_more</mat-icon>
+      @if (langMenuOpen) {
+      <div class="lang-dropdown">
+        @for (lang of availableLangs; track $index) {
+        <div class="lang-option" (click)="onChangeLanguage(lang)" [class]="{'active': currentLang() === lang}"
+          tabindex="0">
+          <img class="mat-icon me-2" [src]="'/icons/' + lang + '.webp'" />
+          <span>{{ lang | translate }}</span>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+</nav>

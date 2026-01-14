@@ -1,0 +1,39 @@
+<div class="admin-container scroll-container p-4 max-w-2xl mx-auto h-fit bg-white rounded-xl">
+  <h2 class="text-3xl font-bold mb-6">Payment Integration Settings</h2>
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-2">
+      <h5 class="text-primary">Stripe Publishable Key</h5>
+      <span class="px-2 py-1 text-xs rounded bg-green-100 text-green-700">Active</span>
+    </div>
+    <input type="text" class="w-full border rounded px-3 py-2 bg-gray-100 font-mono" [value]="stripeKey" readonly />
+    <mat-hint class="text-gray-500 text-[14px]">Used for secure frontend payments. Change in environment config for production.</mat-hint>
+  </section>
+  <section class="mb-8">
+    <h5 class="text-primary mb-2">Available Payment Methods</h5>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="border rounded p-4 flex flex-col gap-2 bg-gray-50">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">💳</span>
+          <span class="font-medium">Credit Card (Stripe)</span>
+        </div>
+        <span class="text-green-600 text-sm">Enabled</span>
+        <small class="text-gray-500">Supports Visa, MasterCard, and more.</small>
+      </div>
+      <div class="border rounded p-4 flex flex-col gap-2 bg-gray-50 opacity-60">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🅿️</span>
+          <span class="font-medium">PayPal</span>
+        </div>
+        <span class="text-yellow-600 text-sm">Coming Soon</span>
+        <small class="text-gray-500">Enable PayPal for more payment options.</small>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h5 class="text-primary mb-2">Integration Status</h5>
+    <div class="flex items-center gap-3">
+      <span class="inline-block w-3 h-3 rounded-full bg-green-500"></span>
+      <span class="text-green-700">Stripe integration is active and ready for payments.</span>
+    </div>
+  </section>
+</div>

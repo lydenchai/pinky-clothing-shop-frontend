@@ -1,0 +1,64 @@
+<div class="admin-container scroll-container">
+  <section class="table-header d-flex align-items-center justify-content-between">
+    <div class="d-flex gap-2 align-items-center form">
+      <app-field-container [label]="'search' | translate" [control]="form.controls.name">
+        <mat-form-field appearance="outline" class="filter-field">
+          <input matInput name="q" appInputBouncer (keyUpBouncer)="onSearch($event)" />
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+      </app-field-container>
+    </div>
+    <div class="top-btn ms-auto">
+      <button mat-raised-button color="primary" class="create" routerLink="create">
+        <mat-icon>add</mat-icon>
+        <span class="ms-1">{{ 'create' | translate }}</span>
+      </button>
+    </div>
+  </section>
+  <div class="container-table content-scroll">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="number">{{'no.' | translate}}</th>
+          <th>{{'code' | translate}}</th>
+          <th>{{'product_name' | translate}}</th>
+          <th>{{'quantity' | translate}}</th>
+          <th>{{'location' | translate}}</th>
+          <th>{{'updated_at' | translate}}</th>
+          <th class="action">{{'action' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of inventories; track $index) {
+        <tr>
+          <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
+          <td>#{{ item.code }}</td>
+          <td>{{ item.product?.name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.location }}</td>
+          <td>{{ item.updated_at | date: 'dd-MM-yyyy' }}</td>
+          <td class="action">
+            <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[item._id, 'update']"
+              type="button">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete" (click)="onDelete(item._id)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="6" class="text-center">{{ "no_data" | translate }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  @if (inventories.length > 0) {
+  <div class="table-footer content-footer">
+    <app-pagination [total]="totalCount ?? 0" [limit]="limit" [page]="page"
+      (changed)="getList($event)"></app-pagination>
+  </div>
+  }
+</div>

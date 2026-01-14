@@ -1,0 +1,91 @@
+@use "./variables" as *;
+
+// =========================
+// ANGULAR MATERIAL DATEPICKER CUSTOM STYLES
+// =========================
+.mat-calendar {
+  //   height: fit-content !important;
+  background-color: white !important;
+  border-radius: 10px;
+  box-shadow:
+    0 2px 4px -1px #0003,
+    0 4px 5px #00000024,
+    0 1px 10px #0000001f;
+}
+
+.cdk-overlay-pane .mat-datepicker-content,
+.mat-datepicker-content {
+  background: #fff !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+}
+
+.mat-calendar-header {
+  background: #f5f7fa;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 16px 24px 8px 24px;
+  margin-bottom: 8px;
+}
+
+.mat-calendar-controls {
+  margin: 0 !important;
+}
+
+.mat-calendar-body-cell {
+  font-size: 13px;
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+}
+
+.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover {
+  background: #e3f0ff;
+  color: $primary-color;
+}
+
+.mat-calendar-body-selected {
+  background: $primary-color !important;
+  color: #fff !important;
+}
+
+.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border: 1.5px solid $primary-color;
+  color: $primary-color;
+}
+
+.mat-calendar-arrow {
+  color: $primary-color;
+}
+
+.mat-calendar-period-button {
+  color: $primary-color;
+  font-size: 13px;
+}
+
+.mat-datepicker-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.mat-datepicker-actions button {
+  border-radius: 50%;
+  font-family: inherit;
+  padding: 6px;
+  font-size: 13px;
+  background: #f5f7fa;
+  color: $primary-color;
+  border: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.mat-datepicker-actions button:hover {
+  background: $primary-color;
+  color: #fff;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: $primary-color;
+  border-radius: 50%;
+}
