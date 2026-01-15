@@ -1,6 +1,6 @@
 <div class="admin-container scroll-container">
   <section class="table-header d-flex align-items-center justify-content-between">
-    <div class="d-flex gap-2 align-items-center form">
+    <div class="d-flex align-items-center form gap-2">
       <app-field-container [label]="'search' | translate" [control]="form.controls.name">
         <mat-form-field appearance="outline" class="filter-field">
           <input matInput name="q" appInputBouncer (keyUpBouncer)="onSearch($event)" />
@@ -11,7 +11,7 @@
     <div class="top-btn ms-auto">
       <button mat-raised-button color="primary" class="create" routerLink="create">
         <mat-icon>add</mat-icon>
-        <span class="ms-1">{{ 'create' | translate }}</span>
+        <span class="ms-1">{{ "create" | translate }}</span>
       </button>
     </div>
   </section>
@@ -19,32 +19,33 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="number">{{ 'no.' | translate }}</th>
-          <th>{{ 'name' | translate }}</th>
-          <th>{{ 'email' | translate }}</th>
-          <th>{{ 'role' | translate }}</th>
-          <th>{{ 'created_at' | translate }}</th>
-          <th class="action">{{ 'action' | translate }}</th>
+          <th class="number">{{ "no." | translate }}</th>
+          <th>{{ "name" | translate }}</th>
+          <th>{{ "email" | translate }}</th>
+          <th>{{ "role" | translate }}</th>
+          <th>{{ "created_at" | translate }}</th>
+          <th class="action">{{ "action" | translate }}</th>
         </tr>
       </thead>
       <tbody>
         @for (user of users; track $index) {
         <tr>
-          <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
+          <td class="number">{{ $index + 1 + (page - 1) * limit }}</td>
           <td>{{ user.first_name }} {{ user.last_name }}</td>
           <td>{{ user.email }}</td>
           <td>
-            {{ user.role | translate}}
+            {{ user.role | translate }}
           </td>
-          <td>{{ user.created_at | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ user.created_at | date: "dd-MM-yyyy" }}</td>
           <td class="action">
-            @if(user && user.role !== RoleEnum.admin) {
             <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[user._id, 'update']"
               type="button">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="delete"
-              (click)="deleteUser(user._id!)"><mat-icon>delete_outline</mat-icon></button>
+            @if (user && user.role !== RoleEnum.admin) {
+            <button mat-icon-button class="delete" (click)="deleteUser(user._id!)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
             }
           </td>
         </tr>

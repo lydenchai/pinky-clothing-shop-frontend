@@ -19,7 +19,7 @@
       @for (order of orders; track $index) {
       <tr>
         <td>
-          {{ $index + 1 }}
+          {{ ($index + 1 + ((page - 1) * limit)) }}
         </td>
         @if(isAdmin()){
         <td>{{ order.user?.first_name + ' ' + order.user?.last_name }}</td>
@@ -32,7 +32,7 @@
     </tbody>
   </table>
   }
-   @if (orders.length > 0) {
+  @if (orders.length > 0) {
   <div class="table-footer content-footer">
     <app-pagination [total]="totalCount ?? 0" [limit]="limit" [page]="page"
       (changed)="getList($event)"></app-pagination>

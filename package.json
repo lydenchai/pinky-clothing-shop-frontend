@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --no-hmr",
+    "start": "ng serve -o --port 4300",
+    "dev": "ng s -o --port 4300",
     "prestart": "npm run prebuild",
     "prebuild": "node -e \"require('fs').writeFileSync('src/custom-build-info.ts', 'export const customBuildInfo = { cacheKey: ' + Date.now() + ' };\\n')\"",
     "build": "ng build",
