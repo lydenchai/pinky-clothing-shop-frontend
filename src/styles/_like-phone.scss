@@ -1,3 +1,5 @@
+@use "./variables.scss" as *;
+
 // =====================================================
 // NGX INTL TEL INPUT – MATERIAL-LIKE (CLEAN & OPTIMIZED)
 // =====================================================
@@ -71,7 +73,7 @@
   }
 
   &:focus-within input {
-    border-color: #000;
+    border-color: $primary-color;
   }
 
   .iti__country {
