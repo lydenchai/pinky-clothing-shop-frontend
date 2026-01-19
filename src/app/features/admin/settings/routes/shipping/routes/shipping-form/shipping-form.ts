@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -34,7 +34,7 @@ import { DialogService } from '../../../../../../../core/services/dialog.service
   templateUrl: './shipping-form.html',
   styleUrls: ['./shipping-form.scss'],
 })
-export class ShippingForm {
+export class ShippingForm implements OnInit {
   updateId = signal<string | null>(null);
   form = new FormGroup({
     name: new FormControl<string | null>('', Validators.required),
@@ -60,14 +60,14 @@ export class ShippingForm {
   });
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private shippingService: ShippingService,
-    private translate: TranslateService,
-    private dialogService: DialogService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly shippingService: ShippingService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
       this.updateId.set(id);
@@ -83,7 +83,7 @@ export class ShippingForm {
               max_order: method.max_order,
               country: method.country,
               estimated_days: method.estimated_days,
-              active: (method.active ?? 0) ? true : false,
+              active: !!method.active,
             });
           },
         });

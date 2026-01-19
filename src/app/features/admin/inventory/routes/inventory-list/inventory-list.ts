@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
@@ -38,7 +38,7 @@ import { DialogService } from '../../../../../core/services/dialog.service';
   templateUrl: './inventory-list.html',
   styleUrls: ['./inventory-list.scss'],
 })
-export class InventoryList extends PaginationUtil implements OnInit {
+export class InventoryList extends PaginationUtil implements OnInit, OnDestroy {
   inventories: InventoryItem[] = [];
   form = new FormGroup({
     name: new FormControl<string | null>(''),
@@ -46,15 +46,15 @@ export class InventoryList extends PaginationUtil implements OnInit {
   query?: string;
 
   constructor(
-    private translate: TranslateService,
-    private dialogService: DialogService,
-    private inventoryService: InventoryService,
-    private router: Router,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
+    private readonly inventoryService: InventoryService,
+    private readonly router: Router,
   ) {
     super();
   }
 
-  private routerSub: Subscription | null = null;
+  private readonly routerSub: Subscription | null = null;
 
   ngOnInit() {
     this.getList({ page: 1, limit: this.limit });
@@ -118,6 +118,7 @@ export class InventoryList extends PaginationUtil implements OnInit {
       this.dialogService.error(
         this.translate.instant('message.an_error_occurred_please_try_again'),
       );
+      console.error(err);
     }
   }
 }

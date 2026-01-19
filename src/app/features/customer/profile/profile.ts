@@ -11,9 +11,9 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './profile.scss',
 })
 export class Profile {
-  user = signal<any | null>(null);
+  user = signal<any>(null);
 
-  constructor(private authService: AuthService) {
+  constructor(private readonly authService: AuthService) {
     this.authService.getProfile().subscribe((res: any) => {
       this.user.set(res.data);
     });

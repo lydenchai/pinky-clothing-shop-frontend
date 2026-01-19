@@ -40,8 +40,8 @@ export class Checkout implements OnInit, AfterViewInit {
   orderPlaced = signal<boolean>(false);
   summaryLoading = signal<boolean>(false);
   summaryError = signal<string | null>(null);
-  orderResponse = signal<any | null>(null);
-  orderSummary = signal<OrderSummary | any | null>(null);
+  orderResponse = signal<any>(null);
+  orderSummary = signal<OrderSummary | null>(null);
 
   form = new FormGroup({
     email: new FormControl<string | null>(''),
@@ -64,12 +64,12 @@ export class Checkout implements OnInit, AfterViewInit {
   });
 
   constructor(
-    private translate: TranslateService,
-    private cartService: CartService,
-    private authService: AuthService,
-    private dialogService: DialogService,
-    private orderService: OrderService,
-    private router: Router,
+    private readonly translate: TranslateService,
+    private readonly cartService: CartService,
+    private readonly authService: AuthService,
+    private readonly dialogService: DialogService,
+    private readonly orderService: OrderService,
+    private readonly router: Router,
   ) {
     this.cart.set(this.cartService.cart());
     this.authService.getProfile().subscribe((res: any) => {

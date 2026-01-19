@@ -1,3 +1,5 @@
+@use "../../../../styles/variables" as *;
+
 .product-detail {
   padding: 2rem 0 4rem;
   min-height: 100vh;
@@ -133,12 +135,12 @@
 
     &.in-stock {
       background: rgba(52, 199, 89, 0.1);
-      color: #34c759;
+      color: $status-color;
     }
 
     &.out-of-stock {
       background: rgba(255, 59, 48, 0.1);
-      color: #ff3b30;
+      color: $rejected-color;
     }
   }
 }
@@ -290,7 +292,7 @@
 
 .success-message {
   background: #dcfce7;
-  color: #16a34a;
+  color: $status-color;
   padding: 1rem;
   border-radius: 8px;
   text-align: center;

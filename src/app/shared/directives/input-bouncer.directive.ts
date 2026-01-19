@@ -1,9 +1,15 @@
-import { Directive, ElementRef, HostListener, output } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  output,
+} from '@angular/core';
 
 @Directive({
   selector: '[appInputBouncer]',
 })
-export class InputBouncerDirective {
+export class InputBouncerDirective implements OnDestroy {
   keyUpTimeout?: any;
 
   keyUpBouncer = output<string>();
@@ -16,8 +22,8 @@ export class InputBouncerDirective {
       this.keyUpTimeout = undefined;
     }, 300);
   }
-  
-  constructor(private elementRef: ElementRef) {}
+
+  constructor(private readonly elementRef: ElementRef) {}
 
   ngOnDestroy(): void {
     if (this.keyUpTimeout) {

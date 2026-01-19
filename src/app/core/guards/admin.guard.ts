@@ -31,17 +31,15 @@ export const AdminGuard: CanActivateFn = (route, state) => {
   // Token exists but user not yet loaded — wait for profile request
   return authService.getProfile().pipe(
     map((u) => {
-      if (u.data! && u.data.role === 'admin') return true;
+      if (u.data?.role === 'admin') return true;
       // Not admin — navigate away
       router.navigate(['/']);
       return false;
     }),
-    catchError((err) => {
+    catchError(() => {
       // On error (invalid token, network), redirect to login/home and block
-      try {
-        router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-      } catch (e) {}
+      router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return of(false as boolean | UrlTree);
-    })
+    }),
   );
 };

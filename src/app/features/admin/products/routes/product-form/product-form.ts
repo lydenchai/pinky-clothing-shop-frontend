@@ -67,11 +67,11 @@ export class ProductForm implements OnInit {
   });
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private productService: ProductService,
-    private translate: TranslateService,
-    private dialogService: DialogService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly productService: ProductService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
   ) {}
 
   ngOnInit() {
@@ -113,9 +113,9 @@ export class ProductForm implements OnInit {
       name: formValue.name,
       description: formValue.description,
       category: formValue.category,
-      sizes: formValue.sizes ?? [],
-      colors: formValue.colors ?? [],
-    } as any;
+      sizes: formValue.sizes,
+      colors: formValue.colors,
+    };
 
     const request$ = this.updateId()
       ? this.productService.updateById(this.updateId()!, productData)

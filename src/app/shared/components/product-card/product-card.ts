@@ -21,11 +21,11 @@ export class ProductCard {
   @Output() wishlistChanged = new EventEmitter<void>();
 
   constructor(
-    private router: Router,
-    private authService: AuthService,
-    private translate: TranslateService,
-    private dialogService: DialogService,
-    private wishlistService: WishlistService,
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
+    private readonly wishlistService: WishlistService,
   ) {}
 
   isInWishlist(): boolean {
@@ -64,6 +64,6 @@ export class ProductCard {
     if (typeof this.product.price === 'number') {
       return this.product.price.toFixed(2);
     }
-    return parseFloat(this.product.price as any).toFixed(2);
+    return Number.parseFloat(this.product.price as any).toFixed(2);
   }
 }

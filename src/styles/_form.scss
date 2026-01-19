@@ -110,7 +110,6 @@ mat-form-field {
 
   .field-container {
 
-    // text-align: left;
     mat-label {
       display: block;
       color: #72777a;
@@ -128,7 +127,6 @@ mat-form-field {
 
     app-field-error {
       display: block;
-      font-size: 14px !important;
       margin-top: -21px;
       line-height: var(--mat-form-field-subscript-text-line-height,
           var(--mat-sys-body-small-line-height));
@@ -198,21 +196,6 @@ mat-form-field {
   justify-content: flex-end;
   margin-top: 1rem;
   gap: 1rem;
-
-  // button {
-  //   padding: 0.75rem 1.5rem;
-  //   font-size: 1rem;
-  //   border-radius: 4px;
-  //   cursor: pointer;
-  //   border: none;
-  //   transition: background-color 0.2s;
-
-
-  //   &:disabled {
-  //     background-color: #ccc;
-  //     cursor: not-allowed;
-  //   }
-  // }
 
   button {
     background: #fff !important;

@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CartService } from '../../../core/services/cart.service';
 import { DialogService } from '../../../core/services/dialog.service';
-
+import { Cart as CartInterface } from '../../../core/types/cart';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -13,12 +13,12 @@ import { DialogService } from '../../../core/services/dialog.service';
   styleUrl: './cart.scss',
 })
 export class Cart {
-  cart = signal<any | null>(null);
+  cart = signal<CartInterface | null>(null);
 
   constructor(
-    private translate: TranslateService,
-    public cartService: CartService,
-    private dialogService: DialogService,
+    private readonly cartService: CartService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
   ) {
     this.fetchCart();
   }
@@ -51,20 +51,20 @@ export class Cart {
 
   increaseQuantity(index: number) {
     const cart = this.cart();
-    if (!cart || !cart.items || !cart.items[index]) {
+    const item = cart?.items?.[index];
+    if (!item?._id) {
       return;
     }
-    const item = cart.items[index];
     this.updateQuantity(item._id, item.quantity + 1);
   }
 
   decreaseQuantity(index: number) {
     const cart = this.cart();
-    if (!cart || !cart.items || !cart.items[index]) {
+    if (!cart) {
       return;
     }
-    const item = cart.items[index];
-    if (item.quantity > 1) {
+    const item = cart?.items?.[index];
+    if (item && item.quantity > 1 && item._id) {
       this.updateQuantity(item._id, item.quantity - 1);
     }
   }

@@ -18,29 +18,32 @@ export class AdminLayout implements OnInit, OnDestroy {
   private _prevMainPaddingTop: string | null = null;
   menuExtended = false;
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(private readonly localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
     try {
       document.body.classList.add('no-global-layout');
-    } catch (e) {}
+    } catch (e) {
+      console.error(e);
+    }
 
     this.checkScreenAndSetSidebar();
     window.addEventListener('resize', this.checkScreenAndSetSidebar);
 
     // Also remove the top padding reserved for the global header from the .main-content
     try {
-      const main = document.querySelector(
-        '.main-content',
-      ) as HTMLElement | null;
+      const main = document.querySelector('.main-content');
       if (main) {
-        // Save computed or inline value so we can restore on destroy
-        const computed = window.getComputedStyle(main).paddingTop || '';
-        this._prevMainPaddingTop = main.style.paddingTop || computed || null;
-        main.style.paddingTop = '0px';
+        const mainEl = main as HTMLElement;
+        // Prefer inline style if set, otherwise use computed value
+        const inline = mainEl.style.paddingTop;
+        const computed = globalThis.getComputedStyle(mainEl).paddingTop;
+        this._prevMainPaddingTop =
+          inline && inline !== '' ? inline : computed || null;
+        mainEl.style.paddingTop = '0px';
       }
     } catch (e) {
-      // ignore
+      console.error(e);
     }
   }
 
@@ -48,23 +51,26 @@ export class AdminLayout implements OnInit, OnDestroy {
     window.removeEventListener('resize', this.checkScreenAndSetSidebar);
     try {
       document.body.classList.remove('no-global-layout');
-    } catch (e) {}
+    } catch (e) {
+      console.error(e);
+    }
 
     try {
-      const main = document.querySelector(
-        '.main-content',
-      ) as HTMLElement | null;
+      const main = document.querySelector('.main-content');
       if (main) {
-        if (this._prevMainPaddingTop != null) {
-          main.style.paddingTop = this._prevMainPaddingTop;
+        const mainEl = main as HTMLElement;
+        if (this._prevMainPaddingTop == null) {
+          mainEl.style.removeProperty('padding-top');
         } else {
-          main.style.removeProperty('padding-top');
+          mainEl.style.paddingTop = this._prevMainPaddingTop;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  private checkScreenAndSetSidebar = () => {
+  private readonly checkScreenAndSetSidebar = () => {
     if (window.innerWidth <= 1440) {
       this.menuExtended = false;
     } else {

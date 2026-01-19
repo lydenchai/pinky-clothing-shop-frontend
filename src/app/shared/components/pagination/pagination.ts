@@ -66,7 +66,7 @@ export class Pagination implements OnInit {
     return this._limit;
   }
 
-  @Input('surround-button') surroundButton: number = 1;
+  @Input() surroundButton: number = 1;
 
   @Output() changed = new EventEmitter<PaginationType>();
 
@@ -86,33 +86,21 @@ export class Pagination implements OnInit {
     this.last = Math.ceil(this.total / this.limit);
 
     const current = this.page;
-    // Always show first page
-    this.pageList.push(1);
     if (this.last <= 7) {
       // Show all pages if there are 7 or fewer
-      for (let i = 2; i <= this.last; i++) {
-        this.pageList.push(i);
-      }
+      this.pageList = Array.from({ length: this.last }, (_, i) => i + 1);
     } else if (current <= 4) {
       // Show first 4 pages then ellipsis and last page (patterns 1 and 2)
-      for (let i = 2; i <= Math.min(4, this.last); i++) {
-        this.pageList.push(i);
-      }
-      this.pageList.push(-1); // Ellipsis
-      this.pageList.push(this.last);
+      this.pageList = [1, 2, 3, 4, ...(this.last > 4 ? [-1, this.last] : [])];
     } else if (current >= this.last - 3) {
       // Show first page, ellipsis, then last 4 pages
-      this.pageList.push(-1); // Ellipsis
-      for (let i = this.last - 3; i <= this.last; i++) {
-        this.pageList.push(i);
-      }
+      this.pageList = [
+        1,
+        -1,
+        ...Array.from({ length: 4 }, (_, i) => this.last - 3 + i),
+      ];
     } else {
-      this.pageList.push(-1); // First ellipsis
-      this.pageList.push(current - 1);
-      this.pageList.push(current);
-      this.pageList.push(current + 1);
-      this.pageList.push(-1); // Second ellipsis
-      this.pageList.push(this.last);
+      this.pageList = [1, -1, current - 1, current, current + 1, -1, this.last];
     }
     // Remove any duplicate ellipsis that might occur
     this.pageList = this.pageList.filter((item, index, array) => {

@@ -13,6 +13,7 @@
         <th>{{ 'date' | translate }}</th>
         <th>{{ 'status' | translate }}</th>
         <th>{{ 'total' | translate }}</th>
+        <th>{{ 'action' | translate }}</th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +28,11 @@
         <td>{{ order.created_at | date:'mediumDate' }}</td>
         <td>{{ order.status | translate}}</td>
         <td>${{ order.total_amount }}</td>
+        <td>
+          <a [routerLink]="order._id">
+            <mat-icon class="text-primary">visibility</mat-icon>
+          </a>
+        </td>
       </tr>
       }
     </tbody>

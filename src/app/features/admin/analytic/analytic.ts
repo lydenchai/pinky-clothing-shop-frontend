@@ -31,7 +31,7 @@ export class Analytic implements OnInit, AfterViewInit {
   chart: Chart | null = null;
   salesChart: Chart | null = null;
 
-  constructor(private analyticService: AnalyticsService) {}
+  constructor(private readonly analyticService: AnalyticsService) {}
 
   ngOnInit() {
     this.refresh();
@@ -130,10 +130,10 @@ export class Analytic implements OnInit, AfterViewInit {
       '#455a64',
     ];
     const backgroundColor = labels.map(
-      (_, i) => colorPalette[i % colorPalette.length] + '80'
+      (_, i) => colorPalette[i % colorPalette.length] + '80',
     );
     const borderColor = labels.map(
-      (_, i) => colorPalette[i % colorPalette.length]
+      (_, i) => colorPalette[i % colorPalette.length],
     );
     const data = {
       labels,

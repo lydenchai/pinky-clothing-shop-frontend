@@ -1,20 +1,29 @@
 import { Component, computed, signal } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Order } from '../../../core/types/order';
-import { OrderService } from '../../../core/services/order.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { User } from '../../../core/types/user';
-import { Pagination } from '../../../shared/components/pagination/pagination';
-import { PaginationUtil } from '../../../utils/pagination.util';
-import { PaginationType } from '../../../core/types/pagination-type';
+import { Order } from '../../../../../core/types/order';
+import { OrderService } from '../../../../../core/services/order.service';
+import { AuthService } from '../../../../../core/services/auth.service';
+import { User } from '../../../../../core/types/user';
+import { Pagination } from '../../../../../shared/components/pagination/pagination';
+import { PaginationUtil } from '../../../../../utils/pagination.util';
+import { PaginationType } from '../../../../../core/types/pagination-type';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, Pagination],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    Pagination,
+    RouterLink,
+    RouterModule,
+    MatIconModule,
+  ],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
 })
@@ -28,8 +37,8 @@ export class Orders extends PaginationUtil {
   });
 
   constructor(
-    private orderService: OrderService,
-    private authService: AuthService,
+    private readonly orderService: OrderService,
+    private readonly authService: AuthService,
   ) {
     super();
     this.authService.user$.subscribe((u) => this.user.set(u));

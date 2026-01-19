@@ -71,26 +71,28 @@
           <h2>{{ 'contact_information' | translate }}</h2>
           <div class="form-row">
             <div class="form-group">
-              <label>{{ 'email' | translate }} *</label>
-              <input type="email" [formControl]="form.controls.email" name="email" required
+              <label for="email-input">{{ 'email' | translate }} *</label>
+              <input id="email-input" type="email" [formControl]="form.controls.email" name="email" required
                 placeholder="you@example.com" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>{{ 'first_name' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.first_name" name="first_name" required
-                placeholder="Lusi" />
+              <label for="first-name-input">{{ 'first_name' | translate }} *</label>
+              <input id="first-name-input" type="text" [formControl]="form.controls.first_name" name="first_name"
+                required placeholder="Lusi" />
             </div>
             <div class="form-group">
-              <label>{{ 'last_name' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.last_name" name="last_name" required placeholder="Zhao" />
+              <label for="last-name-input">{{ 'last_name' | translate }} *</label>
+              <input id="last-name-input" type="text" [formControl]="form.controls.last_name" name="last_name" required
+                placeholder="Zhao" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>{{ 'phone' | translate }}</label>
-              <input type="tel" [formControl]="form.controls.phone" name="phone" placeholder="+1 (555) 000-0000" />
+              <label for="phone-input">{{ 'phone' | translate }}</label>
+              <input id="phone-input" type="tel" [formControl]="form.controls.phone" name="phone"
+                placeholder="+1 (555) 000-0000" />
             </div>
           </div>
         </section>
@@ -100,45 +102,45 @@
           <h2>{{ 'shipping_address' | translate }}</h2>
           <div class="form-row">
             <div class="form-group">
-              <label>{{ 'street' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.address.controls.street" name="street" required
-                placeholder="123 Main St" />
+              <label for="street-input">{{ 'street' | translate }} *</label>
+              <input id="street-input" type="text" [formControl]="form.controls.address.controls.street" name="street"
+                required placeholder="123 Main St" />
             </div>
             <div class="form-group">
-              <label>{{ 'house' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.address.controls.house" name="house" required
-                placeholder="House No." />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>{{ 'village' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.address.controls.village" name="village" required
-                placeholder="Village" />
-            </div>
-            <div class="form-group">
-              <label>{{ 'commune' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.address.controls.commune" name="commune" required
-                placeholder="Commune" />
+              <label for="house-input">{{ 'house' | translate }} *</label>
+              <input id="house-input" type="text" [formControl]="form.controls.address.controls.house" name="house"
+                required placeholder="House No." />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>{{ 'district' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.address.controls.district" name="district" required
-                placeholder="District" />
+              <label for="village-input">{{ 'village' | translate }} *</label>
+              <input id="village-input" type="text" [formControl]="form.controls.address.controls.village"
+                name="village" required placeholder="Village" />
             </div>
             <div class="form-group">
-              <label>{{ 'province' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.address.controls.province" name="province" required
-                placeholder="Province" />
+              <label for="commune-input">{{ 'commune' | translate }} *</label>
+              <input id="commune-input" type="text" [formControl]="form.controls.address.controls.commune"
+                name="commune" required placeholder="Commune" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>{{ 'country' | translate }} *</label>
-              <input type="text" [formControl]="form.controls.address.controls.country" name="country" required
-                placeholder="Cambodia" />
+              <label for="district-input">{{ 'district' | translate }} *</label>
+              <input id="district-input" type="text" [formControl]="form.controls.address.controls.district"
+                name="district" required placeholder="District" />
+            </div>
+            <div class="form-group">
+              <label for="province-input">{{ 'province' | translate }} *</label>
+              <input id="province-input" type="text" [formControl]="form.controls.address.controls.province"
+                name="province" required placeholder="Province" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="country-input">{{ 'country' | translate }} *</label>
+              <input id="country-input" type="text" [formControl]="form.controls.address.controls.country"
+                name="country" required placeholder="Cambodia" />
             </div>
           </div>
         </section>
@@ -161,7 +163,7 @@
           <div class="card-details">
             <div class="form-row">
               <div class="form-group">
-                <label>{{ 'card_details' | translate }} *</label>
+                <label for="card-element">{{ 'card_details' | translate }} *</label>
                 <div id="card-element" class="p-[0.75rem] border border-[#e0e0e0] rounded-md">
                   {{ "XXXXXXXXXXXXXXXXXXXX" }}
                 </div>
@@ -178,7 +180,7 @@
       <div class="order-summary-confirm">
         <h2>{{ 'order_summary' | translate }}</h2>
         <div class="order-items my-4">
-          @for (item of orderSummary().items; track $index) {
+          @for (item of orderSummary()?.items; track $index) {
           <div class="order-item">
             <img [src]="item.image" [alt]="item.name" />
             <div class="item-info">
@@ -192,12 +194,12 @@
         <div class="summary-totals">
           <div class="summary-row">
             <span>{{ 'total' | translate }}</span>
-            <span>${{ orderSummary().total | number: '1.2-2' }}</span>
+            <span>${{ orderSummary()?.total | number: '1.2-2' }}</span>
           </div>
           <div class="summary-row">
             <span>{{ 'shipping' | translate }}</span>
-            <span>{{ orderSummary().shipping.address }}, {{ orderSummary().shipping.city }}, {{
-              orderSummary().shipping.country }}</span>
+            <span>{{ orderSummary()?.shipping?.address }}, {{ orderSummary()?.shipping?.city }}, {{
+              orderSummary()?.shipping?.country }}</span>
           </div>
         </div>
         <button class="btn-place-order" (click)="confirmOrder()">{{ 'confirm_order' | translate }}</button>

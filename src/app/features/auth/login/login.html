@@ -15,15 +15,15 @@
       <!-- Login Form -->
       <form class="auth-form" (ngSubmit)="login()">
         <div class="form-group">
-          <label>{{ 'email' | translate }}</label>
-          <input type="email" [(ngModel)]="loginForm.email" name="email" required placeholder="you@example.com"
+          <label for="login-email">{{ 'email' | translate }}</label>
+          <input id="login-email" type="email" [(ngModel)]="loginForm.email" name="email" required placeholder="you@example.com"
             [disabled]="isLoading()" />
         </div>
 
         <div class="form-group">
-          <label>{{ 'password' | translate }}</label>
+          <label for="login-password">{{ 'password' | translate }}</label>
           <div class="password-field">
-            <input [type]="showLoginPassword ? 'text' : 'password'" [(ngModel)]="loginForm.password" name="password"
+            <input id="login-password" [type]="showLoginPassword ? 'text' : 'password'" [(ngModel)]="loginForm.password" name="password"
               required placeholder="••••••••" [disabled]="isLoading()" />
             <button type="button" class="password-toggle" (click)="showLoginPassword = !showLoginPassword"
               tabindex="-1">
@@ -48,21 +48,21 @@
       <form class="auth-form" (ngSubmit)="register()">
         <div class="form-row">
           <div class="form-group">
-            <label> {{ 'first_name' | translate }}</label>
-            <input type="text" [(ngModel)]="registerForm.first_name" name="first_name" required placeholder="Zhao"
+            <label for="register-first-name"> {{ 'first_name' | translate }}</label>
+            <input id="register-first-name" type="text" [(ngModel)]="registerForm.first_name" name="first_name" required placeholder="Zhao"
               [disabled]="isLoading()" />
           </div>
 
           <div class="form-group">
-            <label> {{ 'last_name' | translate }}</label>
-            <input type="text" [(ngModel)]="registerForm.last_name" name="last_name" required placeholder="Lusi"
+            <label for="register-last-name"> {{ 'last_name' | translate }}</label>
+            <input id="register-last-name" type="text" [(ngModel)]="registerForm.last_name" name="last_name" required placeholder="Lusi"
               [disabled]="isLoading()" />
           </div>
         </div>
 
         <div class="form-group">
-          <label> {{ 'email' | translate }}</label>
-          <input type="email" [(ngModel)]="registerForm.email" name="email" required placeholder="you@example.com"
+          <label for="register-email"> {{ 'email' | translate }}</label>
+          <input id="register-email" type="email" [(ngModel)]="registerForm.email" name="email" required placeholder="you@example.com"
             [disabled]="isLoading()" />
         </div>
 

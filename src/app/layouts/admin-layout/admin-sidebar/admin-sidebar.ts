@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, OnInit, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
@@ -63,7 +63,6 @@ export const MENU: MenuItem[] = [
   },
 ];
 
-import { Input } from '@angular/core';
 @Component({
   selector: 'app-admin-sidebar',
   standalone: true,
@@ -79,12 +78,11 @@ import { Input } from '@angular/core';
 })
 export class AdminSidebar implements OnInit {
   @Input() collapsed = false;
-  private router = inject(Router);
   currentUrl = signal('');
   menu!: MenuItem[];
   lastOpenedMenuItem!: MenuItem;
 
-  constructor() {
+  constructor(private readonly router: Router) {
     this.menu = MENU;
     this.navigateRoute();
   }
@@ -102,7 +100,7 @@ export class AdminSidebar implements OnInit {
     if (this.menu.length > 0) {
       if (this.router.url == '/admin/dashboard') {
         if (this.menu[0].children?.length) {
-          this.router.navigate([this.menu[0].children![0].route]);
+          this.router.navigate([this.menu[0].children[0].route]);
         } else {
           this.router.navigate([this.menu[0].route]);
         }
@@ -128,14 +126,21 @@ export class AdminSidebar implements OnInit {
   }
 
   isActive(path: string) {
-    // Use Angular Router's isActive to correctly handle exact vs prefix matches.
+    // Use Angular Router's isActive with UrlTree to correctly handle exact vs prefix matches.
     // For the base dashboard path `/admin` we want an exact match only.
     const exact = path === '/admin';
     try {
-      return this.router.isActive(path, exact);
+      const urlTree = this.router.createUrlTree([path]);
+      return this.router.isActive(urlTree, {
+        paths: exact ? 'exact' : 'subset',
+        queryParams: 'ignored',
+        fragment: 'ignored',
+        matrixParams: 'ignored',
+      });
     } catch (e) {
       // Fallback to previous behavior if router.isActive throws for some reason
       const url = this.currentUrl();
+      console.error(e);
       return (
         url === path ||
         url.startsWith(path + '/') ||

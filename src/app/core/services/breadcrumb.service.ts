@@ -8,8 +8,8 @@ export class BreadcrumbService {
   readonly breadcrumbs = signal<Breadcrumb[]>([]);
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
   ) {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))

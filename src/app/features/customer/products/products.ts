@@ -60,9 +60,9 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
   private priceFilterTimeout: any;
 
   constructor(
-    private productService: ProductService,
-    private wishlistService: WishlistService,
-    private route: ActivatedRoute,
+    private readonly productService: ProductService,
+    private readonly wishlistService: WishlistService,
+    private readonly route: ActivatedRoute,
   ) {
     super();
     // Auto-refresh wishlist on load
@@ -89,13 +89,13 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.queryParams.subscribe((p: any) => {
-      if (p.category !== 'all') {
+      if (p.category === 'all') {
         this.filters.set({
-          category: p['category'],
+          category: undefined,
         });
       } else {
         this.filters.set({
-          category: undefined,
+          category: p['category'],
         });
       }
       this.pagination.set({
@@ -168,7 +168,10 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
 
     // Debounce the filter update
     this.priceFilterTimeout = setTimeout(() => {
-      const min = value && !isNaN(parseFloat(value)) ? parseFloat(value) : 0;
+      const min =
+        value && !Number.isNaN(Number.parseFloat(value))
+          ? Number.parseFloat(value)
+          : 0;
       const max = this.filters().maxPrice || 0;
       this.setPriceRange(min, max);
     }, 500);
@@ -183,7 +186,10 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
     // Debounce the filter update
     this.priceFilterTimeout = setTimeout(() => {
       const min = this.filters().minPrice || 0;
-      const max = value && !isNaN(parseFloat(value)) ? parseFloat(value) : 0;
+      const max =
+        value && !Number.isNaN(Number.parseFloat(value))
+          ? Number.parseFloat(value)
+          : 0;
       this.setPriceRange(min, max);
     }, 500);
   }
@@ -201,18 +207,26 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
       case 'price-low':
         sorted.sort((a: Product, b: Product) => {
           const priceA =
-            typeof a.price === 'number' ? a.price : parseFloat(a.price as any);
+            typeof a.price === 'number'
+              ? a.price
+              : Number.parseFloat(a.price as any);
           const priceB =
-            typeof b.price === 'number' ? b.price : parseFloat(b.price as any);
+            typeof b.price === 'number'
+              ? b.price
+              : Number.parseFloat(b.price as any);
           return priceA - priceB;
         });
         break;
       case 'price-high':
         sorted.sort((a: Product, b: Product) => {
           const priceA =
-            typeof a.price === 'number' ? a.price : parseFloat(a.price as any);
+            typeof a.price === 'number'
+              ? a.price
+              : Number.parseFloat(a.price as any);
           const priceB =
-            typeof b.price === 'number' ? b.price : parseFloat(b.price as any);
+            typeof b.price === 'number'
+              ? b.price
+              : Number.parseFloat(b.price as any);
           return priceB - priceA;
         });
         break;

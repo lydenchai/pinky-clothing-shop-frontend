@@ -1,7 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
-import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -50,8 +49,8 @@ export class AdminOrderDetail implements OnInit {
   ];
 
   constructor(
-    private route: ActivatedRoute,
-    private orderService: OrderService,
+    private readonly route: ActivatedRoute,
+    private readonly orderService: OrderService,
   ) {}
 
   ngOnInit() {
@@ -62,7 +61,7 @@ export class AdminOrderDetail implements OnInit {
   }
 
   fetchOrder(_id: string) {
-    this.orderService.getById(_id!).subscribe({
+    this.orderService.getById(_id).subscribe({
       next: (order) => {
         this.order.set(order.data);
         if (typeof order.data.status === 'string') {
@@ -82,12 +81,14 @@ export class AdminOrderDetail implements OnInit {
     const order = this.order();
     if (!order) return;
     const newStatus = String(value).toLowerCase().trim();
-    const currentStatus =
-      typeof order.status === 'string'
-        ? order.status.toString().toLowerCase().trim()
-        : order.status && typeof order.status === 'object'
-          ? String(Object.values(order.status)[0]).toLowerCase().trim()
-          : '';
+    let currentStatus = '';
+    if (typeof order.status === 'string') {
+      currentStatus = order.status.toString().toLowerCase().trim();
+    } else if (order.status && typeof order.status === 'object') {
+      currentStatus = String(Object.values(order.status)[0])
+        .toLowerCase()
+        .trim();
+    }
     if (newStatus === currentStatus) return;
     this.status = newStatus;
     this.orderService.updateOrderStatus(order._id!, newStatus).subscribe({

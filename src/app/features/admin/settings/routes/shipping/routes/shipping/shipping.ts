@@ -43,9 +43,9 @@ export class Shipping extends PaginationUtil implements OnInit {
   query?: string;
 
   constructor(
-    private shippingService: ShippingService,
-    private translate: TranslateService,
-    private dialogService: DialogService,
+    private readonly shippingService: ShippingService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
   ) {
     super();
   }

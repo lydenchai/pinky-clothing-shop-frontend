@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <title>Pinky Clothing Shop</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="/imgs/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,10 +19,10 @@
   <app-root></app-root>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    globalThis.dataLayer = globalThis.dataLayer || [];
+    function gtag() { globalThis.dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX'); // TODO: Replace with your GA4 Measurement ID
+    gtag('config', 'G-XXXXXXXXXX');  
   </script>
 </body>
 

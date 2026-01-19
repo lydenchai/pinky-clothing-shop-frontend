@@ -47,9 +47,9 @@ export class UserList extends PaginationUtil implements OnInit {
   query?: string;
 
   constructor(
-    private userService: UserService,
-    private dialogService: DialogService,
-    private translateService: TranslateService,
+    private readonly userService: UserService,
+    private readonly dialogService: DialogService,
+    private readonly translateService: TranslateService,
   ) {
     super();
   }
@@ -113,7 +113,7 @@ export class UserList extends PaginationUtil implements OnInit {
         },
       });
     } catch (err) {
-      // Handle error if needed
+      console.error(err);
     }
   }
 }

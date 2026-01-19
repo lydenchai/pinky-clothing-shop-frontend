@@ -8,7 +8,7 @@ export class LocalStorageService {
   constructor() {}
 
   get(key: LocalStorageEnum): string | null {
-    const prefix = btoa(key).replace(/=/g, '');
+    const prefix = btoa(key).replaceAll('=', '');
     const item = localStorage.getItem(key);
     if (!item) {
       return null;
@@ -17,12 +17,13 @@ export class LocalStorageService {
       const base64 = atob(item).replace(prefix, '');
       return atob(base64);
     } catch (error) {
-      return '';
+      console.error(error);
+      return null;
     }
   }
 
   set(key: LocalStorageEnum, value: string) {
-    const prefix = btoa(key).replace(/=/g, '');
+    const prefix = btoa(key).replaceAll('=', '');
     const base64 = btoa(value);
     localStorage.setItem(key, btoa(prefix + base64));
   }

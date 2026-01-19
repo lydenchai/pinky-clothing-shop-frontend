@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
+export class Login implements OnInit {
   showLoginPassword = false;
   showRegisterPassword = false;
   showRegisterConfirmPassword = false;
@@ -34,18 +34,19 @@ export class Login {
   };
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private translate: TranslateService
-  ) {
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly translate: TranslateService,
+  ) {}
+
+  ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
       if (this.route.snapshot.queryParams['returnUrl']) {
         this.router.navigateByUrl(this.route.snapshot.queryParams['returnUrl']);
       } else {
         this.router.navigate(['']);
       }
-      return;
     }
   }
 
@@ -68,7 +69,7 @@ export class Login {
             this.router.navigate(['/admin']);
           } else if (this.route.snapshot.queryParams['returnUrl']) {
             this.router.navigateByUrl(
-              this.route.snapshot.queryParams['returnUrl']
+              this.route.snapshot.queryParams['returnUrl'],
             );
           } else {
             this.router.navigate(['/']);
@@ -78,7 +79,7 @@ export class Login {
           this.isLoading.set(false);
           this.errorMessage.set(
             error.error?.error ||
-              this.translate.instant('message.login_failed_please_try_again')
+              this.translate.instant('message.login_failed_please_try_again'),
           );
         },
       });
@@ -87,7 +88,7 @@ export class Login {
   register() {
     if (this.registerForm.password !== this.registerForm.confirmPassword) {
       this.errorMessage.set(
-        this.translate.instant('message.passwords_do_not_match')
+        this.translate.instant('message.passwords_do_not_match'),
       );
       return;
     }
@@ -100,7 +101,7 @@ export class Login {
         this.registerForm.email,
         this.registerForm.password,
         this.registerForm.first_name,
-        this.registerForm.last_name
+        this.registerForm.last_name,
       )
       .subscribe({
         next: () => {
@@ -112,8 +113,8 @@ export class Login {
           this.errorMessage.set(
             error.error?.error ||
               this.translate.instant(
-                'message.registration_failed_please_try_again'
-              )
+                'message.registration_failed_please_try_again',
+              ),
           );
         },
       });

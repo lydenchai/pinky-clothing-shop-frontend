@@ -1,4 +1,10 @@
-import { Component, computed, HostListener, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  HostListener,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {
   RouterLink,
   RouterLinkActive,
@@ -32,7 +38,7 @@ import { LocalStorageEnum } from '../../../core/types/enums/local-storage.enum';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {
+export class Header implements OnInit {
   user = signal<User | null>(null);
   isAuthenticated = computed(() => !!this.user());
   currentCategory = signal<string>('all');
@@ -60,13 +66,13 @@ export class Header {
 
   constructor(
     public cartService: CartService,
-    private authService: AuthService,
-    private dialogService: DialogService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private translateService: TranslateService,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
+    private readonly authService: AuthService,
+    private readonly dialogService: DialogService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly translateService: TranslateService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
   ) {
     // Keep user signal in sync with AuthService
     this.authService.user$.subscribe((u) => this.user.set(u));
@@ -92,7 +98,7 @@ export class Header {
     // Update current category on navigation
     this.router.events.subscribe(() => {
       const url = this.router.url;
-      const match = url.match(/category=([^&]+)/);
+      const match = new RegExp(/category=([^&]+)/).exec(url);
       this.currentCategory.set(match ? match[1] : 'all');
     });
   }

@@ -21,9 +21,10 @@ import {
   CountryISO,
   PhoneNumberFormat,
   SearchCountryField,
+  NgxIntlTelInputModule,
 } from 'ngx-intl-tel-input';
-import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { DialogService } from '../../../../../core/services/dialog.service';
+
 @Component({
   selector: 'app-site-info',
   imports: [
@@ -81,9 +82,9 @@ export class SiteInfo {
   });
 
   constructor(
-    private siteInfoService: SiteInfoService,
-    private translate: TranslateService,
-    private dialogService: DialogService,
+    private readonly siteInfoService: SiteInfoService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
   ) {
     if (!this.isUpdate()) {
       this.form.disable();
@@ -157,7 +158,7 @@ export class SiteInfo {
 
   onUpdate() {
     this.isUpdate.set(!this.isUpdate());
-    if (!this.isUpdate()) {
+    if (this.form.invalid) {
       this.form.disable();
     } else {
       this.form.enable();

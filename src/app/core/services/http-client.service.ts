@@ -3,7 +3,6 @@ import {
   HttpErrorResponse,
   HttpEventType,
   HttpHeaders,
-  HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
@@ -26,14 +25,14 @@ import { DialogService } from './dialog.service';
 })
 export class HttpClientService {
   constructor(
-    private http: HttpClient,
-    private dialogService: DialogService,
-    private loadingService: LoadingService,
-    private translateService: TranslateService,
+    private readonly http: HttpClient,
+    private readonly dialogService: DialogService,
+    private readonly loadingService: LoadingService,
+    private readonly translateService: TranslateService,
   ) {}
 
   getUrl(path: string, queryParams?: { [key: string]: any }) {
-    let arr = path.split('/').filter((v) => v);
+    let arr = path.split('/').filter(Boolean);
     arr.unshift(environment.apiUrl);
     const urlPath = arr.join('/');
     if (queryParams) {
@@ -166,7 +165,7 @@ export class HttpClientService {
           if (res.type == HttpEventType.UploadProgress) {
             return Math.round((res.loaded / (res.total || 0)) * 100);
           } else {
-            return (res as HttpResponse<T>).body || ({} as T);
+            return res.body as T;
           }
         }),
         catchError((err) => this.handleHttpError(err, request.isAlertError)),
@@ -204,7 +203,7 @@ export class HttpClientService {
           if (res.type == HttpEventType.UploadProgress) {
             return Math.round((res.loaded / (res.total || 0)) * 100);
           } else {
-            return (res as HttpResponse<T>).body || ({} as T);
+            return res.body as T;
           }
         }),
         catchError((err) => this.handleHttpError(err, request.isAlertError)),
@@ -251,8 +250,8 @@ export class HttpClientService {
       ) {
         delete obj[propName];
       } else if (obj[propName] instanceof Date) {
-        (obj[propName] as Date).setMilliseconds(0);
-        obj[propName] = (obj[propName] as Date).toISOString();
+        obj[propName].setMilliseconds(0);
+        obj[propName] = obj[propName].toISOString();
       } else if (
         typeof obj[propName] == 'object' &&
         !(obj[propName] instanceof File)

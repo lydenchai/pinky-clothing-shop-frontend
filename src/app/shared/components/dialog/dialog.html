@@ -1,5 +1,5 @@
 @if (config()) {
-<div class="dialog-overlay" (click)="onOverlayClick($event)">
+<div class="dialog-overlay" (click)="onOverlayClick($event)" (keydown)="onOverlayKeyDown($event)">
   <div class="dialog-container" [attr.data-type]="config()?.type ?? 'info'">
     <div class="dialog-header">
       <div class="dialog-icon">
@@ -37,12 +37,6 @@
         {{ config()?.title | translate }}
       </h2>
       }
-      <!-- <button class="dialog-close" (click)="onCancel()" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </button> -->
     </div>
     <div class="dialog-body">
       <p class="dialog-message">

@@ -1,8 +1,8 @@
 import { Injectable, signal, computed, effect, Injector } from '@angular/core';
-import { forkJoin, of } from 'rxjs';
+
 import { LocalStorageService } from './local-storage.service';
 import { LocalStorageEnum } from '../types/enums/local-storage.enum';
-import { Observable, tap, catchError } from 'rxjs';
+import { Observable, tap, catchError, of } from 'rxjs';
 import { Cart } from '../types/cart';
 import { AuthService } from './auth.service';
 import { CartItem } from '../types/cart-item';
@@ -13,19 +13,24 @@ import { BaseCrudService } from './base-crud.service';
   providedIn: 'root',
 })
 export class CartService extends BaseCrudService<any> {
-  private cartItems = signal<CartItem[]>([]);
+  private readonly cartItems = signal<CartItem[]>([]);
 
   cart = computed<Cart>(() => {
     const items = Array.isArray(this.cartItems()) ? this.cartItems() : [];
     const totalItems = items.reduce(
       (sum, item) => sum + (item?.quantity || 0),
-      0
+      0,
     );
     const subtotal = items.reduce(
       (sum, item) => sum + (item?.product_price ?? 0) * (item?.quantity || 0),
-      0
+      0,
     );
-    const shipping = subtotal > 0 ? (subtotal > 100 ? 0 : 10) : 0;
+
+    let shipping = 0;
+    if (subtotal > 0) {
+      shipping = subtotal > 100 ? 0 : 10;
+    }
+
     const tax = subtotal * 0.08;
     const total = subtotal + shipping + tax;
 
@@ -43,8 +48,8 @@ export class CartService extends BaseCrudService<any> {
 
   constructor(
     injector: Injector,
-    private auth: AuthService,
-    private localStorage: LocalStorageService
+    private readonly auth: AuthService,
+    private readonly localStorage: LocalStorageService,
   ) {
     super(injector);
     this.path = '/cart/';
@@ -63,11 +68,13 @@ export class CartService extends BaseCrudService<any> {
                   item.product_id!,
                   item.quantity,
                   item.size,
-                  item.color
+                  item.color,
                 ).subscribe();
               });
               this.localStorage.delete(LocalStorageEnum.Cart);
-            } catch (e) {}
+            } catch (e) {
+              console.error(e);
+            }
           }
           // Load backend cart
           this.loadCart().subscribe();
@@ -81,7 +88,9 @@ export class CartService extends BaseCrudService<any> {
             try {
               const items: CartItem[] = JSON.parse(savedCart);
               this.cartItems.set(items);
-            } catch (e) {}
+            } catch (e) {
+              console.error(e);
+            }
           }
         }
       });
@@ -95,7 +104,7 @@ export class CartService extends BaseCrudService<any> {
       } else {
         this.localStorage.set(
           LocalStorageEnum.Cart,
-          JSON.stringify(this.cartItems())
+          JSON.stringify(this.cartItems()),
         );
       }
     });
@@ -109,7 +118,7 @@ export class CartService extends BaseCrudService<any> {
       catchError((error) => {
         this.cartItems.set([]);
         return of([]);
-      })
+      }),
     );
   }
 
@@ -117,20 +126,20 @@ export class CartService extends BaseCrudService<any> {
     product_id: string,
     quantity: number,
     size?: string,
-    color?: string
+    color?: string,
   ): Observable<CartItem> {
     const request: CartItemRequest = { product_id, quantity, size, color };
     return this.httpClientService
       .postJSON<any>(`${this.path}/add`, { data: request })
       .pipe(
         tap((res) => {
-          if (res && res.data && Array.isArray(res.data.items)) {
+          if (Array.isArray(res?.data?.items)) {
             this.cartItems.set(res.data.items);
           }
         }),
         catchError((error) => {
           throw error;
-        })
+        }),
       );
   }
 
@@ -151,7 +160,7 @@ export class CartService extends BaseCrudService<any> {
         }),
         catchError((error) => {
           throw error;
-        })
+        }),
       );
   }
 
@@ -162,7 +171,7 @@ export class CartService extends BaseCrudService<any> {
         tap(() => {
           const items = this.cartItems();
           this.cartItems.set(items.filter((i) => i._id !== cartItemId));
-        })
+        }),
       );
   }
 
@@ -173,7 +182,7 @@ export class CartService extends BaseCrudService<any> {
         tap(() => {
           this.cartItems.set([]);
           this.localStorage.delete(LocalStorageEnum.Cart);
-        })
+        }),
       );
   }
 }

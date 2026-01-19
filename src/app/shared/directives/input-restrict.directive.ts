@@ -26,7 +26,7 @@ export class InputRestrictDirective implements OnChanges {
   @Input() inputRestrictCustom?: string;
   private regEx: RegExp | null = null;
 
-  constructor(private elementRef: ElementRef<HTMLInputElement>) {
+  constructor(private readonly elementRef: ElementRef<HTMLInputElement>) {
     elementRef.nativeElement.type = 'text'; // get selectionStart-End only support type text
   }
 
@@ -45,7 +45,7 @@ export class InputRestrictDirective implements OnChanges {
         'n-decimal',
       ].includes(this.inputRestrict)
     ) {
-      value = value.replace(/,/g, '');
+      value = value.replaceAll(',', '');
     }
     if (value && this.regEx && !this.regEx.test(value)) {
       inputEle.value = '';
@@ -70,7 +70,7 @@ export class InputRestrictDirective implements OnChanges {
         ].includes(this.inputRestrict)
       ) {
         // remove format before validate
-        newValue = newValue.replace(/,/g, '');
+        newValue = newValue.replaceAll(',', '');
       }
       if (!this.regEx || this.regEx.test(newValue)) {
         return;
@@ -127,7 +127,7 @@ export class InputRestrictDirective implements OnChanges {
         return;
       }
       // remove format before validate
-      newValue = newValue.replace(/,/g, '');
+      newValue = newValue.replaceAll(',', '');
     }
     if (!newValue || !this.regEx || this.regEx.test(newValue)) {
       return;
@@ -139,65 +139,52 @@ export class InputRestrictDirective implements OnChanges {
   getNewData(newInput: string) {
     const oldValue = this.elementRef.nativeElement.value;
     let newValue = oldValue;
-    if (newInput == 'Delete') {
-      if (this.elementRef.nativeElement.selectionStart !== null) {
-        newValue = oldValue.substring(
-          0,
-          this.elementRef.nativeElement.selectionStart
-        );
-        if (
-          this.elementRef.nativeElement.selectionStart ==
-          this.elementRef.nativeElement.selectionEnd
-        ) {
-          newValue += oldValue.substring(
-            this.elementRef.nativeElement.selectionEnd! + 1,
-            oldValue.length
-          );
-        } else {
-          newValue += oldValue.substring(
-            this.elementRef.nativeElement.selectionEnd!,
-            oldValue.length
-          );
-        }
-      }
-    } else if (newInput == 'Backspace') {
-      if (
-        this.elementRef.nativeElement.selectionStart !== null &&
-        this.elementRef.nativeElement.selectionStart > 0
-      ) {
-        newValue = '';
-        if (
-          this.elementRef.nativeElement.selectionStart ==
-          this.elementRef.nativeElement.selectionEnd
-        ) {
-          newValue += oldValue.substring(
-            0,
-            this.elementRef.nativeElement.selectionStart - 1
-          );
-        } else {
-          newValue += oldValue.substring(
-            0,
-            this.elementRef.nativeElement.selectionStart
-          );
-        }
-        newValue += oldValue.substring(
-          this.elementRef.nativeElement.selectionEnd!,
-          oldValue.length
-        );
-      }
+    const selectionStart = this.elementRef.nativeElement.selectionStart;
+    const selectionEnd = this.elementRef.nativeElement.selectionEnd;
+
+    if (newInput === 'Delete') {
+      newValue = this.handleDelete(oldValue, selectionStart, selectionEnd);
+    } else if (newInput === 'Backspace') {
+      newValue = this.handleBackspace(oldValue, selectionStart, selectionEnd);
+    } else if (selectionStart === null) {
+      newValue += newInput;
     } else {
-      if (this.elementRef.nativeElement.selectionStart !== null) {
-        newValue =
-          oldValue.substring(0, this.elementRef.nativeElement.selectionStart) +
-          newInput +
-          oldValue.substring(
-            this.elementRef.nativeElement.selectionEnd!,
-            oldValue.length
-          );
-      } else {
-        newValue += newInput;
-      }
+      newValue =
+        oldValue.substring(0, selectionStart) +
+        newInput +
+        oldValue.substring(selectionEnd!, oldValue.length);
     }
+    return newValue;
+  }
+
+  private handleDelete(
+    oldValue: string,
+    selectionStart: number | null,
+    selectionEnd: number | null,
+  ): string {
+    if (selectionStart === null) return oldValue;
+    let newValue = oldValue.substring(0, selectionStart);
+    if (selectionStart === selectionEnd) {
+      newValue += oldValue.substring((selectionEnd ?? 0) + 1, oldValue.length);
+    } else {
+      newValue += oldValue.substring(selectionEnd ?? 0, oldValue.length);
+    }
+    return newValue;
+  }
+
+  private handleBackspace(
+    oldValue: string,
+    selectionStart: number | null,
+    selectionEnd: number | null,
+  ): string {
+    if (selectionStart === null || selectionStart <= 0) return oldValue;
+    let newValue = '';
+    if (selectionStart === selectionEnd) {
+      newValue += oldValue.substring(0, selectionStart - 1);
+    } else {
+      newValue += oldValue.substring(0, selectionStart);
+    }
+    newValue += oldValue.substring(selectionEnd ?? 0, oldValue.length);
     return newValue;
   }
 
@@ -220,7 +207,8 @@ export class InputRestrictDirective implements OnChanges {
       case 'khmer':
         return /^(?:[\u1780-\u17FF] ?)+$/;
       case 'date':
-        return /^((([0-3]|0[1-9]|[12][0-9]|3[01])|((0[1-9]|[12][0-9]|3[01])(([01]|0[1-9]|1[0-2])|(0[1-9]|1[0-2])([12]|[12][0-9]{0,3}))))|(([0-3]|0[1-9]|[12][0-9]|3[01])|((0[1-9]|[12][0-9]|3[01])(-|-(([01]|0[1-9]|1[0-2])|(0[1-9]|1[0-2])(-|-([12]|[12][0-9]{0,3}))))))|(([0-3]|0[1-9]|[12][0-9]|3[01])|((0[1-9]|[12][0-9]|3[01])(\/|\/(([01]|0[1-9]|1[0-2])|(0[1-9]|1[0-2])(\/|\/([12]|[12][0-9]{0,3})))))))$/;
+        // Simplified: matches dd-mm-yyyy, dd/mm/yyyy, dd.mm.yyyy, dd mm yyyy, yyyy-mm-dd, yyyy/mm/dd, yyyy.mm.dd, yyyy mm dd
+        return /^(\d{2}[-/. ]\d{2}[-/. ]\d{4}|\d{4}[-/. ]\d{2}[-/. ]\d{2})$/;
       default:
         if (this.inputRestrictCustom) {
           return new RegExp(this.inputRestrictCustom);

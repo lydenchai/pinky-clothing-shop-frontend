@@ -39,7 +39,7 @@ export class Dashboard implements OnInit {
 
   get salesNumber(): number {
     const n = Number(this.sales);
-    return isNaN(n) ? 0 : n;
+    return Number.isNaN(n) ? 0 : n;
   }
 
   conversionRate = 0;
@@ -48,10 +48,10 @@ export class Dashboard implements OnInit {
   topProducts: Product[] = [];
 
   constructor(
-    private userService: UserService,
-    private orderService: OrderService,
-    private productService: ProductService,
-    private analyticsService: AnalyticsService,
+    private readonly userService: UserService,
+    private readonly orderService: OrderService,
+    private readonly productService: ProductService,
+    private readonly analyticsService: AnalyticsService,
   ) {}
 
   ngOnInit() {

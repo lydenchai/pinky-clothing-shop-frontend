@@ -11,9 +11,12 @@ import { DialogService } from '../../../core/services/dialog.service';
   styleUrls: ['./dialog.scss'],
 })
 export class Dialog {
+onOverlayKeyDown($event: KeyboardEvent) {
+throw new Error('Method not implemented.');
+}
   config: any = null;
 
-  constructor(private dialogService: DialogService) {
+  constructor(private readonly dialogService: DialogService) {
     this.config = this.dialogService.config;
   }
 

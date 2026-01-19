@@ -7,7 +7,7 @@ import { LanguageEnum } from '../../core/types/enums/language.enum';
   name: 'plural',
 })
 export class PluralPipe implements PipeTransform {
-  constructor(private translateService: TranslateService) {}
+  constructor(private readonly translateService: TranslateService) {}
   transform(value: string): string {
     return this.translateService.currentLang === LanguageEnum.EN
       ? plural(value)

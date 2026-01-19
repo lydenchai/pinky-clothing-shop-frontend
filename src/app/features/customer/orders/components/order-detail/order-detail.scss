@@ -1,0 +1,68 @@
+.orders-detail {
+  height: auto;
+  max-height: 100vh;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.order-detail-container {
+  padding: 1.5rem 0;
+}
+
+.order-info,
+.shipping-info,
+.order-summary {
+  margin-bottom: 1.5rem;
+  background: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+}
+
+.order-info>div,
+.shipping-info>div,
+.order-summary>div {
+  margin-bottom: 0.5rem;
+}
+
+.order-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.order-items-table th,
+.order-items-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ececec;
+}
+
+.order-items-table th {
+  background: #f1f3f6;
+  font-weight: 600;
+}
+
+.order-items-table tr:last-child td {
+  border-bottom: none;
+}
+
+.order-items-table img {
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mt-6 {
+  margin-top: 2.5rem;
+}

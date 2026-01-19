@@ -25,8 +25,8 @@ export class Wishlist extends PaginationUtil implements OnInit {
         .filter(Boolean) as string[],
   );
   constructor(
-    private wishlistService: WishlistService,
-    private productService: ProductService,
+    private readonly wishlistService: WishlistService,
+    private readonly productService: ProductService,
   ) {
     super();
   }

@@ -6,12 +6,12 @@ import { DialogConfig } from '../types/dialog-config';
   providedIn: 'root',
 })
 export class DialogService {
-  private dialogConfig = signal<DialogConfig | null>(null);
+  private readonly dialogConfig = signal<DialogConfig | null>(null);
   private resolvePromise: ((value: boolean) => void) | null = null;
 
   config = this.dialogConfig.asReadonly();
 
-  constructor(private translate: TranslateService) {}
+  constructor(private readonly translate: TranslateService) {}
 
   show(config: DialogConfig): Promise<boolean> {
     this.dialogConfig.set(config);

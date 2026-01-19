@@ -1,10 +1,12 @@
-import { Output, EventEmitter, Input } from '@angular/core';
 import {
   Component,
   HostListener,
   signal,
   OnInit,
   OnDestroy,
+  Output,
+  EventEmitter,
+  Input,
 } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
@@ -48,11 +50,11 @@ export class AdminNavbar implements OnInit, OnDestroy {
   @Output() menuExtendedChange = new EventEmitter<boolean>();
 
   constructor(
-    public translate: TranslateService,
-    private translateService: TranslateService,
-    private localStorageService: LocalStorageService,
-    private orderService: OrderService,
-    private router: Router,
+    private readonly translate: TranslateService,
+    private readonly translateService: TranslateService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly orderService: OrderService,
+    private readonly router: Router,
   ) {
     // Initialize language from local storage
     const savedLang = this.localStorageService.get(

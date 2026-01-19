@@ -49,12 +49,12 @@ export class InventoryForm implements OnInit {
   products: Product[] = [];
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private productService: ProductService,
-    private translate: TranslateService,
-    private dialogService: DialogService,
-    private inventoryService: InventoryService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly productService: ProductService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
+    private readonly inventoryService: InventoryService,
   ) {}
 
   ngOnInit() {

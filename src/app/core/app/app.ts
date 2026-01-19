@@ -41,17 +41,16 @@ export class App implements OnInit {
   showDefaultLayout = signal(true);
 
   constructor(
-    private authService: AuthService,
-    private cartService: CartService,
-    private translateService: TranslateService,
-    private router: Router,
-    private localStorageService: LocalStorageService,
-    public loadingService: LoadingService
+    private readonly authService: AuthService,
+    private readonly cartService: CartService,
+    private readonly translateService: TranslateService,
+    private readonly router: Router,
+    private readonly localStorageService: LocalStorageService,
+    public readonly loadingService: LoadingService,
   ) {
     this.translateService.addLangs(Object.values(LanguageEnum));
     const savedLang =
       this.localStorageService.get(LocalStorageEnum.lang) || LanguageEnum.EN;
-    this.translateService.setDefaultLang(savedLang);
     this.translateService.use(savedLang);
 
     // Subscribe to router events for loading state
@@ -95,10 +94,17 @@ export class App implements OnInit {
     // Set initial layout visibility to avoid flash on first load
     try {
       // Prefer the browser location (handles direct loads, hash or path-based routing)
-      const path =
-        typeof window !== 'undefined' && window.location
-          ? (window.location.pathname || '') + (window.location.hash || '')
-          : this.router.url || '/';
+      let path = '';
+      if (globalThis.window?.location) {
+        const { pathname = '', hash = '' } = globalThis.window.location;
+        if (hash?.startsWith('#/')) {
+          path = hash.substring(1); // remove leading '#'
+        } else {
+          path = pathname + hash;
+        }
+      } else {
+        path = this.router.url || '/';
+      }
       const cleaned = String(path).replace(/^#/, '');
       const isAdminInitial = cleaned.includes('/admin');
       this.showDefaultLayout.set(!isAdminInitial);
@@ -107,9 +113,12 @@ export class App implements OnInit {
         if (typeof document !== 'undefined') {
           document.body.classList.toggle('no-global-layout', isAdminInitial);
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error(e);
+      }
     } catch (e) {
       this.showDefaultLayout.set(true);
+      console.error(e);
     }
 
     // Scroll to top on every navigation and toggle layout
@@ -121,12 +130,11 @@ export class App implements OnInit {
 
         // Show or hide default header/footer for admin routes.
         // Use both router url and window.location as a fallback (handles hash and direct loads).
-        const routerUrl =
-          (ev as NavigationEnd).urlAfterRedirects || this.router.url || '';
-        const loc =
-          typeof window !== 'undefined' && window.location
-            ? (window.location.pathname || '') + (window.location.hash || '')
-            : '';
+        const routerUrl = ev.urlAfterRedirects || this.router.url || '';
+        const loc = globalThis.window?.location
+          ? (globalThis.window.location.pathname || '') +
+            (globalThis.window.location.hash || '')
+          : '';
         const cleaned = String(routerUrl || loc).replace(/^#/, '');
         const isAdmin = cleaned.includes('/admin');
         this.showDefaultLayout.set(!isAdmin);
@@ -134,7 +142,9 @@ export class App implements OnInit {
           if (typeof document !== 'undefined') {
             document.body.classList.toggle('no-global-layout', isAdmin);
           }
-        } catch (e) {}
+        } catch (e) {
+          console.error(e);
+        }
       });
 
     // Load cart if user is authenticated

@@ -19,8 +19,8 @@ import {
   CountryISO,
   PhoneNumberFormat,
   SearchCountryField,
+  NgxIntlTelInputModule,
 } from 'ngx-intl-tel-input';
-import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { DialogService } from '../../../../../core/services/dialog.service';
 
 @Component({
@@ -82,11 +82,11 @@ export class UserForm {
   });
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private userService: UserService,
-    private translate: TranslateService,
-    private dialogService: DialogService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly userService: UserService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
   ) {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -125,11 +125,6 @@ export class UserForm {
   }
 
   onSubmit() {
-    // if (this.form.invalid) {
-    //   this.form.markAllAsTouched();
-    //   return;
-    // }
-
     const phoneValue = this.form.controls.phone.value;
     const userData = {
       ...this.form.value,

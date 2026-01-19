@@ -12,7 +12,7 @@ import { BaseCrudService } from './base-crud.service';
 export class AuthService extends BaseCrudService<any> {
   userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
-  private tokenSubject: BehaviorSubject<string | null>;
+  private readonly tokenSubject: BehaviorSubject<string | null>;
   token$: Observable<string | null>;
 
   getCurrentUser(): User | null {
@@ -21,7 +21,7 @@ export class AuthService extends BaseCrudService<any> {
 
   constructor(
     injector: Injector,
-    private localStorageService: LocalStorageService
+    private readonly localStorageService: LocalStorageService
   ) {
     super(injector);
     this.path = '/auth/';

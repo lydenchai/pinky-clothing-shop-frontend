@@ -46,9 +46,9 @@ export class ProductList extends PaginationUtil implements OnInit {
   query?: string;
 
   constructor(
-    private productService: ProductService,
-    private dialogService: DialogService,
-    private translateService: TranslateService,
+    private readonly productService: ProductService,
+    private readonly dialogService: DialogService,
+    private readonly translateService: TranslateService,
   ) {
     super();
   }
@@ -67,7 +67,7 @@ export class ProductList extends PaginationUtil implements OnInit {
     this.productService.getCategories().subscribe((res: any) => {
       if (Array.isArray(res)) {
         this.categories = res;
-      } else if (res && res.data) {
+      } else if (res?.data) {
         this.categories = res.data;
       }
     });
@@ -125,6 +125,7 @@ export class ProductList extends PaginationUtil implements OnInit {
           'message.an_error_occurred_please_try_again',
         ),
       );
+      console.error(err);
     }
   }
 }

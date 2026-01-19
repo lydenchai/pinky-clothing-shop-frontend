@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -23,15 +23,14 @@ export class ProductDetail implements OnInit {
   isWishListed = signal<boolean>(false);
   product = signal<Product | null>(null);
 
-  private dialogService = inject(DialogService);
-  private wishlistService = inject(WishlistService);
-
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private productService: ProductService,
-    private cartService: CartService,
-    private translate: TranslateService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly productService: ProductService,
+    private readonly cartService: CartService,
+    private readonly translate: TranslateService,
+    private readonly dialogService: DialogService,
+    private readonly wishlistService: WishlistService,
   ) {}
 
   ngOnInit() {
@@ -173,6 +172,7 @@ export class ProductDetail implements OnInit {
               .then(() => {
                 this.router.navigate(['/login']);
               });
+            console.error(error);
           }
         },
       });
@@ -190,12 +190,12 @@ export class ProductDetail implements OnInit {
     if (typeof prod.price === 'number') {
       return prod.price.toFixed(2);
     }
-    return parseFloat(prod.price as any).toFixed(2);
+    return Number.parseFloat(prod.price as any).toFixed(2);
   }
 
   addToWishlist() {
     const prod = this.product();
-    if (!prod || !prod._id) return;
+    if (!prod?._id) return;
     this.wishlistService.addToWishlist(prod._id).subscribe({
       next: () => {
         this.isWishListed.set(true);
@@ -227,7 +227,7 @@ export class ProductDetail implements OnInit {
 
   removeFromWishlist() {
     const prod = this.product();
-    if (!prod || !prod._id) return;
+    if (!prod?._id) return;
     this.wishlistService.removeFromWishlist(prod._id).subscribe({
       next: () => {
         this.isWishListed.set(false);

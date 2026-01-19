@@ -5,7 +5,7 @@ import { map, startWith } from 'rxjs';
 @Pipe({
   name: 'isRequired$',
 })
-export class IsRequired$Pipe implements PipeTransform {
+export class IsRequiredPipe implements PipeTransform {
   transform(control: FormControl<any>) {
     return control.statusChanges.pipe(
       map(() => control.hasValidator(Validators.required)),

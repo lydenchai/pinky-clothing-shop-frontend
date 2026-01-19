@@ -8,13 +8,14 @@
     <div class="container">
       <div class="header-content">
         <a routerLink="/" class="logo flex items-center gap-3">
-          <img src="/imgs/logo.png" class="w-[65px] h-[65px] md:w-[50px] md:h-[50px] sm:w-[40px] sm:h-[40px]" />
+          <img src="/imgs/logo.png" alt="Pinky Clothing Shop Logo"
+            class="w-[65px] h-[65px] md:w-[50px] md:h-[50px] sm:w-[40px] sm:h-[40px]" />
           <div>
             <h1>PINKY</h1>
             <span class="tagline">{{ 'clothing_shop' | translate }}</span>
           </div>
         </a>
-        <nav class="nav-desktop">
+        <nav class="nav-desktop" aria-label="Main navigation">
           <a routerLink="/products" [queryParams]="{category: 'all'}" routerLinkActive="active">
             {{ 'all' | translate }}
           </a>
@@ -29,21 +30,21 @@
           </a>
         </nav>
         <div class="header-actions">
-          <div class="lang-img" (click)="toggleLangMenu()" tabindex="0" style="position: relative;">
+          <button type="button" class="lang-img" (click)="toggleLangMenu()" style="position: relative;">
             <img class="mat-icon flag" [src]="'/icons/' + currentLang() + '.webp'" [alt]="currentLang()" />
             @if (langMenuOpen) {
             <div class="lang-dropdown">
               @for (lang of availableLangs; track $index) {
-              <div class="lang-option" (click)="onChangeLanguage(lang)" [class]="{'active': currentLang() === lang}"
-                tabindex="0">
-                <img class="mat-icon me-2" [src]="'/icons/' + lang + '.webp'" />
+              <button type="button" class="lang-option" (click)="onChangeLanguage(lang)"
+                [class]="{'active': currentLang() === lang}">
+                <img class="mat-icon me-2" [src]="'/icons/' + lang + '.webp'" [alt]="lang" />
                 <span>{{ lang | translate }}</span>
-              </div>
+              </button>
               }
             </div>
             }
-          </div>
-          <a routerLink="/cart" class="icon-btn cart-btn" aria-label="Shopping cart">
+          </button>
+          <a routerLink="/cart" class="icon-btn cart-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="8" cy="21" r="1"></circle>
@@ -142,7 +143,7 @@
   <!-- Mobile Menu -->
   @if (mobileMenuOpen) {
   <div class="mobile-menu">
-    <nav class="mobile-nav">
+    <nav class="mobile-nav" aria-label="Mobile navigation">
       <a routerLink="/products" [queryParams]="{category: 'all'}" (click)="toggleMobileMenu()">
         {{ 'all' | translate }}
       </a>

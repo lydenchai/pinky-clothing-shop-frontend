@@ -19,6 +19,6 @@ import { PluralPipe } from '../../pipes/plural.pipe';
   templateUrl: './breadcrumb.html',
 })
 export class Breadcrumb {
-  private breadcrumbService = inject(BreadcrumbService);
+  private readonly breadcrumbService = inject(BreadcrumbService);
   breadcrumbs = this.breadcrumbService.breadcrumbs;
 }

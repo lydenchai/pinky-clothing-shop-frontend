@@ -3,7 +3,6 @@ import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
-import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { Pagination } from '../../../../../shared/components/pagination/pagination';
 import { PaginationUtil } from '../../../../../utils/pagination.util';
@@ -17,9 +16,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { InputBouncerDirective } from '../../../../../shared/directives/input-bouncer.directive';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-
-import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -54,9 +51,7 @@ export const MY_DATE_FORMATS = {
   ],
   templateUrl: './orders.html',
   styleUrls: ['./orders.scss'],
-  providers: [
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
-  ]
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class OrdersAdmin extends PaginationUtil implements OnInit {
   orders: Order[] = [];
@@ -66,7 +61,7 @@ export class OrdersAdmin extends PaginationUtil implements OnInit {
   });
   query?: string;
 
-  constructor(private orderService: OrderService) {
+  constructor(private readonly orderService: OrderService) {
     super();
   }
 

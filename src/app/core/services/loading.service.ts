@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class LoadingService {
   private _isLoading = false;
-  private _isLoading$ = new BehaviorSubject(false);
+  private readonly _isLoading$ = new BehaviorSubject(false);
   isLoading$: Observable<boolean> = this._isLoading$;
   counter = 0;
 
@@ -16,7 +16,7 @@ export class LoadingService {
     if (isLoading) {
       this.counter++;
     } else {
-      this.counter = this.counter - 1 < 0 ? 0 : this.counter - 1;
+      this.counter = Math.max(this.counter - 1, 0);
     }
     this._isLoading = this.counter > 0;
     this._isLoading$.next(this._isLoading);

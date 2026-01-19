@@ -7,7 +7,10 @@ import { BaseCrudService } from './base-crud.service';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService extends BaseCrudService<AnalyticsEvent> {
-  constructor(injector: Injector, private router: Router) {
+  constructor(
+    injector: Injector,
+    private readonly router: Router,
+  ) {
     super(injector);
     this.path = '/analytics/';
   }
@@ -22,14 +25,14 @@ export class AnalyticsService extends BaseCrudService<AnalyticsEvent> {
   }
 
   sendPageView(url: string) {
-    if ((window as any).gtag) {
-      (window as any).gtag('event', 'page_view', { page_path: url });
+    if ((globalThis as any).gtag) {
+      (globalThis as any).gtag('event', 'page_view', { page_path: url });
     }
   }
 
   sendEvent(eventName: string, params: Record<string, any> = {}) {
-    if ((window as any).gtag) {
-      (window as any).gtag('event', eventName, params);
+    if ((globalThis as any).gtag) {
+      (globalThis as any).gtag('event', eventName, params);
     }
   }
 
@@ -40,7 +43,7 @@ export class AnalyticsService extends BaseCrudService<AnalyticsEvent> {
       .pipe(
         catchError((error) => {
           throw error;
-        })
+        }),
       );
   }
 

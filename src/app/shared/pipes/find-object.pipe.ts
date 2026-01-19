@@ -9,8 +9,8 @@ export class FindObjectPipe implements PipeTransform {
     array: any[],
     findKey: string | string[],
     option: 'startWith' | 'includes' | 'equal',
-    filterValue: any
-  ): any | null {
+    filterValue: any,
+  ): null {
     let pipe = new FilterObjectPipe();
     return pipe.transform(array, findKey, option, filterValue)?.[0];
   }
