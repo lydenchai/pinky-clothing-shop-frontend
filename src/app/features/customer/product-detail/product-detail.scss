@@ -1,16 +1,5 @@
 @use "../../../../styles/variables" as *;
 
-.product-detail {
-  padding: 2rem 0 4rem;
-  min-height: 100vh;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
 .product-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -118,3 +118,17 @@ button {
     color: rgb(236, 236, 236);
   }
 }
+
+.page-container {
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    letter-spacing: -0.015em;
+  }
+}

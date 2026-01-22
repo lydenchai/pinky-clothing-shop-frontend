@@ -1,5 +1,6 @@
-<div class="orders-page">
-  <h1>{{ 'my_orders' | translate }}</h1>
+<div class="page-container">
+  <h1 class="page-title">{{ 'my_orders' | translate }}</h1>
+  <p class="text-[#6e6e73]">{{ 'order_description' | translate }}</p>
   @if (orders.length === 0) {
   <div class="text-[#6e6e73] mt-[1.5rem]">{{ 'no_orders_yet' | translate }}</div>
   } @else {
