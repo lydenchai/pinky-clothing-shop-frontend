@@ -29,11 +29,11 @@
       <div class="footer-section">
         <h4>{{ 'shop' | translate }}</h4>
         <ul>
-          <li><a routerLink="/products" [queryParams]="{category: 'women'}">{{ 'women' | translate }}</a></li>
-          <li><a routerLink="/products" [queryParams]="{category: 'men'}">{{ 'men' | translate }}</a></li>
-          <li><a routerLink="/products" [queryParams]="{category: 'kids'}">{{ 'kids' | translate }}</a></li>
-          <li><a routerLink="/products">{{ 'new_arrivals' | translate }}</a></li>
-          <li><a routerLink="/products">{{ 'sale' | translate }}</a></li>
+          <li><a routerLink="/products" [queryParams]="{ category: 'women' }">{{ 'women' | translate }}</a></li>
+          <li><a routerLink="/products" [queryParams]="{ category: 'men' }">{{ 'men' | translate }}</a></li>
+          <li><a routerLink="/products" [queryParams]="{ category: 'kids' }">{{ 'kids' | translate }}</a></li>
+          <li><a routerLink="/products" [queryParams]="{ category: 'all' }">{{ 'new_arrivals' | translate }}</a></li>
+          <li><a routerLink="/products" [queryParams]="{ category: 'sale' }">{{ 'sale' | translate }}</a></li>
         </ul>
       </div>
 

@@ -9,7 +9,7 @@
         d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.04 3 12.5 3.99 13 5.36C13.5 3.99 14.96 3 16.5 3C19.5 3 22 5.5 22 8.5C22 13.5 12 21 12 21Z" />
     </svg>
     <h2>{{ 'wishlist_empty' | translate }}</h2>
-    <a routerLink="/products" class="btn-go-shop">{{ 'shop_now' | translate }}</a>
+    <a routerLink="/products" [queryParams]="{ category: 'all' }" class="btn-go-shop">{{ 'shop_now' | translate }}</a>
   </div>
   } @else {
   <div class="products-grid mt-[1.5rem]">

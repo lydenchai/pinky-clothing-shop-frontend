@@ -9,7 +9,7 @@
     </svg>
     <h2>{{ 'empty_cart' | translate }}</h2>
     <p>{{ 'add_products_to_get_started' | translate }}</p>
-    <a routerLink="/products" class="btn-primary">{{ 'continue_shopping' | translate }}</a>
+    <a routerLink="/products" [queryParams]="{ category: 'all' }" class="btn-primary">{{ 'continue_shopping' | translate }}</a>
 </div>
 } @else {
 <div class="cart-layout">
@@ -91,7 +91,7 @@
       <a routerLink="/checkout" class="btn-checkout">
         {{ 'proceed_to_checkout' | translate }}
       </a>
-      <a routerLink="/products" class="btn-continue">
+      <a routerLink="/products" [queryParams]="{ category: 'all' }" class="btn-continue">
         {{ 'continue_shopping' | translate }}
       </a>
   </div>

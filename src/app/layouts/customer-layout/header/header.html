@@ -144,16 +144,16 @@
   @if (mobileMenuOpen) {
   <div class="mobile-menu">
     <nav class="mobile-nav" aria-label="Mobile navigation">
-      <a routerLink="/products" [queryParams]="{category: 'all'}" (click)="toggleMobileMenu()">
+      <a routerLink="/products" [queryParams]="{ category: 'all' }" (click)="toggleMobileMenu()">
         {{ 'all' | translate }}
       </a>
-      <a routerLink="/products" [queryParams]="{category: 'women'}" (click)="toggleMobileMenu()">
+      <a routerLink="/products" [queryParams]="{ category: 'women' }" (click)="toggleMobileMenu()">
         {{ 'women' | translate}}
       </a>
-      <a routerLink="/products" [queryParams]="{category: 'men'}" (click)="toggleMobileMenu()">
+      <a routerLink="/products" [queryParams]="{ category: 'men' }" (click)="toggleMobileMenu()">
         {{ 'men' | translate}}
       </a>
-      <a routerLink="/products" [queryParams]="{category: 'kids'}" (click)="toggleMobileMenu()">
+      <a routerLink="/products" [queryParams]="{ category: 'kids' }" (click)="toggleMobileMenu()">
         {{ 'kids' | translate}}
       </a>
     </nav>

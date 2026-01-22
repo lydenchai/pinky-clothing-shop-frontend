@@ -57,7 +57,7 @@
   @if (cart()?.items?.length === 0 && !orderPlaced()) {
   <div class="empty-message">
     <p>{{ 'empty_cart' | translate }}</p>
-    <a routerLink="/products" class="btn-primary">{{ 'continue_shopping' | translate }}</a>
+    <a routerLink="/products" [queryParams]="{ category: 'all' }" class="btn-primary">{{ 'continue_shopping' | translate }}</a>
   </div>
   } @else if (!orderPlaced()) {
   <div class="checkout-layout">

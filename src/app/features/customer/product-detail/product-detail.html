@@ -12,7 +12,7 @@
     <div class="product-info">
       <div class="breadcrumb">
         <a routerLink="/">{{ 'home' | translate }}</a> /
-        <a routerLink="/products" [queryParams]="{category: prod.category }">{{ prod.category | translate}}</a> /
+        <a routerLink="/products" [queryParams]="{ category: prod.category }">{{ prod.category | translate}}</a> /
         {{ prod.name }}
       </div>
 
