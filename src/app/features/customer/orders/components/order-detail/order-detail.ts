@@ -5,6 +5,7 @@ import { OrderService } from '../../../../../core/services/order.service';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { AddressPipe } from '../../../../../shared/pipes/address.pipe';
 
 @Component({
   selector: 'app-order-detail',
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
     RouterModule,
     RouterLink,
     CurrencyPipe,
+    AddressPipe
   ],
   templateUrl: './order-detail.html',
   styleUrl: './order-detail.scss',

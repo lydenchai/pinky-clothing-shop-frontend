@@ -1,30 +1,30 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
   FormControl,
-} from '@angular/forms';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
-import { RoleEnum } from '../../../../../core/types/enums/role-enum';
-import { UserService } from '../../../../../core/services/user.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
+} from "@angular/forms";
+import { Router, ActivatedRoute, RouterModule } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { MatButtonModule } from "@angular/material/button";
+import { RoleEnum } from "../../../../../core/types/enums/role-enum";
+import { UserService } from "../../../../../core/services/user.service";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { FieldContainer } from "../../../../../shared/components/field-container/field-container";
+import { MatSelectModule } from "@angular/material/select";
+import { MatIconModule } from "@angular/material/icon";
 import {
   CountryISO,
   PhoneNumberFormat,
   SearchCountryField,
   NgxIntlTelInputModule,
-} from 'ngx-intl-tel-input';
-import { DialogService } from '../../../../../core/services/dialog.service';
+} from "ngx-intl-tel-input";
+import { DialogService } from "../../../../../core/services/dialog.service";
 
 @Component({
-  selector: 'app-user-form',
+  selector: "app-user-form",
   imports: [
     ReactiveFormsModule,
     RouterModule,
@@ -42,8 +42,8 @@ import { DialogService } from '../../../../../core/services/dialog.service';
     MatIconModule,
     NgxIntlTelInputModule,
   ],
-  templateUrl: './user-form.html',
-  styleUrls: ['./user-form.scss'],
+  templateUrl: "./user-form.html",
+  styleUrls: ["./user-form.scss"],
 })
 export class UserForm {
   updateId: string | null = null;
@@ -52,9 +52,9 @@ export class UserForm {
   PhoneNumberFormat = PhoneNumberFormat;
   SearchCountryField = SearchCountryField;
   form = new FormGroup({
-    first_name: new FormControl<string | null>('', Validators.required),
-    last_name: new FormControl<string | null>('', Validators.required),
-    email: new FormControl<string | null>('', [
+    first_name: new FormControl<string | null>("", Validators.required),
+    last_name: new FormControl<string | null>("", Validators.required),
+    email: new FormControl<string | null>("", [
       Validators.required,
       Validators.email,
     ]),
@@ -71,14 +71,19 @@ export class UserForm {
       | null
     >(null),
     role: new FormControl<RoleEnum>(RoleEnum.user, Validators.required),
-    password: new FormControl<string | null>('', [
+    password: new FormControl<string | null>("", [
       Validators.required,
       Validators.minLength(6),
     ]),
-    postal_code: new FormControl<string | null>(''),
-    address: new FormControl<string | null>(''),
-    city: new FormControl<string | null>(''),
-    country: new FormControl<string | null>(''),
+    address: new FormGroup({
+      street: new FormControl<string | null>(""),
+      house: new FormControl<string | null>(""),
+      village: new FormControl<string | null>(""),
+      commune: new FormControl<string | null>(""),
+      district: new FormControl<string | null>(""),
+      province: new FormControl<string | null>(""),
+      country: new FormControl<string | null>(""),
+    }),
   });
 
   constructor(
@@ -89,7 +94,7 @@ export class UserForm {
     private readonly dialogService: DialogService,
   ) {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
+      const id = params.get("id");
       this.updateId = id;
       if (id) {
         this.userService.getById(id).subscribe({
@@ -97,25 +102,30 @@ export class UserForm {
             const user = res.data;
             if (user) {
               this.form.patchValue({
-                first_name: user?.first_name || '',
-                last_name: user?.last_name || '',
-                email: user?.email || '',
+                first_name: user?.first_name || "",
+                last_name: user?.last_name || "",
+                email: user?.email || "",
                 role: user?.role as any,
                 phone:
-                  typeof user.phone === 'string'
+                  typeof user.phone === "string"
                     ? {
                         number: user.phone,
                         internationalNumber: user.phone,
                         nationalNumber: user.phone,
                         e164Number: user.phone,
-                        countryCode: '',
-                        dialCode: '',
+                        countryCode: "",
+                        dialCode: "",
                       }
                     : user.phone,
-                address: user?.address || '',
-                city: user?.city || '',
-                postal_code: user?.postal_code || '',
-                country: user?.country || '',
+                address: {
+                  street: user.address?.street || "",
+                  house: user.address?.house || "",
+                  village: user.address?.village || "",
+                  commune: user.address?.commune || "",
+                  district: user.address?.district || "",
+                  province: user.address?.province || "",
+                  country: user.address?.country || "",
+                },
               });
             }
           },
@@ -129,7 +139,7 @@ export class UserForm {
     const userData = {
       ...this.form.value,
       phone:
-        typeof phoneValue === 'object' && phoneValue !== null
+        typeof phoneValue === "object" && phoneValue !== null
           ? phoneValue.e164Number
           : phoneValue,
     } as any;
@@ -143,16 +153,16 @@ export class UserForm {
       next: () => {
         this.form.markAsPristine();
         this.dialogService
-          .success(this.translate.instant('message.saved_successfully'))
+          .success(this.translate.instant("message.saved_successfully"))
           .then(() => {
-            this.router.navigate(['/admin/users']);
+            this.router.navigate(["/admin/users"]);
           });
       },
       error: () => {
         this.dialogService
-          .error(this.translate.instant('message.save_failed'))
+          .error(this.translate.instant("message.save_failed"))
           .then(() => {
-            this.router.navigate(['/admin/users']);
+            this.router.navigate(["/admin/users"]);
           });
       },
     });

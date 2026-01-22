@@ -6,13 +6,15 @@
     @for (item of menu; track $index) {
     <li [class]="{ extended: item.extended }">
       <a class="menu" [routerLink]=" !item.children || item.children.length == 0 ? item.route : null"
-       (click)="item.children?.length && onToggleExtendMenuItem(item)" [class.active]="isActive(item.route)">
-        <mat-icon>{{ item.icon }}</mat-icon>
-        <span class="title">
-          {{ item.title === "dashboard" ? (item.title | translate) : (item.title | translate | plural) }}
-        </span>
+        (click)="item.children?.length && onToggleExtendMenuItem(item)" [class.active]="isActive(item.route)">
+        <div>
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span class="title">
+            {{ item.title === "dashboard" ? (item.title | translate) : (item.title | translate | plural) }}
+          </span>
+        </div>
         @if (item.children && item.children.length > 0) {
-        <mat-icon class="right menu-item-extender">chevron_right</mat-icon>
+        <mat-icon class="menu-item-extender">chevron_right</mat-icon>
         }
       </a>
       @if (item.children && item.children.length > 0) {
@@ -21,7 +23,8 @@
         <li [class.active]="isActive(m.route)">
           <a [routerLink]="m.route" [class.active]="isActive(m.route)">
             <span class="title">
-              {{ m.title === "site_info" || m.title === "payment" ? (m.title | translate) : (m.title | translate | plural) }}
+              {{ m.title === "site_info" || m.title === "payment" ? (m.title | translate) : (m.title | translate |
+              plural) }}
             </span>
             @if (m.badge) {
             <span class="badge">{{ m.badge }}</span>

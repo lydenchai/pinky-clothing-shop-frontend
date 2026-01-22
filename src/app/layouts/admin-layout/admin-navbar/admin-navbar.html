@@ -17,20 +17,20 @@
         @if (newOrders().length === 0) {
         <div class="dropdown-empty">{{ 'no_new_orders' | translate }}</div>
         } @else {
-        <ul class="dropdown-list text-[14px]">
-          @for (order of newOrders(); track order._id) {
-          <li>
-            <button type="button" (click)="goToOrder(order._id)" (keydown.enter)="goToOrder(order._id)" tabindex="0" class="order-list-item w-full text-left">
-              <div>
-                <span class="text-[#666]">{{ $index + 1 }}</span>
-                <span class="text-[#666] mx-2">#{{ order.code }}</span>
-                <span class="text-[#666] mx-2">{{ order.user?.first_name }} {{ order.user?.last_name }}</span>
-              </div>
-              <span class="text-[#aaa]">{{ order.created_at | date: 'dd-MM-yyyy HH:mm a' }}</span>
-            </button>
-          </li>
-          }
-        </ul>
+        <table class="w-full">
+          <tbody>@for (order of newOrders(); track order._id) {
+            <tr class="h-[35px] text-[14px] cursor-pointer hover:bg-gray-100" (click)="goToOrder(order._id)"
+              (keydown.enter)="goToOrder(order._id)" tabindex="0">
+              <td class="text-[#666] px-3">
+                {{ $index + 1 }}
+              </td>
+              <td class="text-[#666] px-3">#{{ order.code }}</td>
+              <td class="text-[#666] px-3">{{ order.user?.first_name }} {{ order.user?.last_name }}</td>
+              <td class="text-[#666] text-end px-3">{{ order.created_at | date: 'dd-MM-yyyy HH:mm a' }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
         }
       </div>
       }
@@ -41,8 +41,8 @@
       @if (langMenuOpen) {
       <div class="lang-dropdown">
         @for (lang of availableLangs; track $index) {
-        <button type="button" class="lang-option" (click)="onChangeLanguage(lang)" [class]="{'active': currentLang() === lang}"
-          tabindex="0" (keydown.enter)="onChangeLanguage(lang)">
+        <button type="button" class="lang-option" (click)="onChangeLanguage(lang)"
+          [class]="{'active': currentLang() === lang}" tabindex="0" (keydown.enter)="onChangeLanguage(lang)">
           <img class="mat-icon me-2" [src]="'/icons/' + lang + '.webp'" [alt]="lang" />
           <span>{{ lang | translate }}</span>
         </button>

@@ -187,6 +187,9 @@ export class ProductDetail implements OnInit {
   getPrice(): string {
     const prod = this.product();
     if (!prod) return '0.00';
+    if (typeof prod.discounted_price === 'number' && prod.discounted_price < prod.price) {
+      return prod.discounted_price.toFixed(2);
+    }
     if (typeof prod.price === 'number') {
       return prod.price.toFixed(2);
     }

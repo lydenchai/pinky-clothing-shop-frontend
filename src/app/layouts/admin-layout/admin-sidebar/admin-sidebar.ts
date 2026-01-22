@@ -65,7 +65,6 @@ export const MENU: MenuItem[] = [
 
 @Component({
   selector: 'app-admin-sidebar',
-  standalone: true,
   templateUrl: './admin-sidebar.html',
   styleUrls: ['./admin-sidebar.scss'],
   imports: [

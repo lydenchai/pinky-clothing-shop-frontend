@@ -25,7 +25,6 @@ import { LocalStorageEnum } from "../../../core/types/enums/local-storage.enum";
 
 @Component({
   selector: "app-header",
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,

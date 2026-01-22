@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto my-8 bg-white rounded-2xl p-6 shadow-[0_2px_8px_#0000000d]">
+<div class="max-w-6xl mx-auto my-8 bg-white rounded-2xl p-6 shadow-[0_2px_8px_#0000000d]">
   <a [routerLink]="'/orders'"
     class="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium mb-6 bg-primary px-3 py-2 rounded-full text-white">
     <mat-icon class="text-[22px] mr-2">arrow_back</mat-icon> <span>Back</span>
@@ -30,8 +30,7 @@
         <div class="text-lg font-semibold mb-2">{{ 'shipping_address' | translate }}</div>
         @if(order()?.shipping_address) {
         <div class="text-gray-700">
-          {{ order()?.shipping_address }}, {{ order()?.shipping_city }}, {{ order()?.shipping_postal_code }}, {{
-          order()?.shipping_country }}
+          {{ order()?.address | address }}
         </div>
         }
       </div>

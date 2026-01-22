@@ -9,7 +9,6 @@ import { Breadcrumb } from '../../../shared/components/breadcrumb/breadcrumb';
 
 @Component({
   selector: 'app-admin-layout',
-  standalone: true,
   imports: [CommonModule, RouterOutlet, AdminSidebar, AdminNavbar, Breadcrumb],
   templateUrl: './admin-layout.html',
   styleUrls: ['./admin-layout.scss'],

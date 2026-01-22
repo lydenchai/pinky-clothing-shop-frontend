@@ -9,7 +9,6 @@ import { SubcategoryEnum } from "../../../core/types/enums/subcategory.enum";
 
 @Component({
   selector: "app-home",
-  standalone: true,
   imports: [CommonModule, RouterLink, ProductCard, TranslateModule],
   templateUrl: "./home.html",
   styleUrl: "./home.scss",

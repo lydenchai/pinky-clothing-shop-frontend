@@ -1,16 +1,16 @@
-import { Injectable, Injector } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Order } from '../types/order';
-import { OrderSummaryRequest } from '../types/order-summary-request';
-import { BaseCrudService } from './base-crud.service';
+import { Injectable, Injector } from "@angular/core";
+import { Observable } from "rxjs";
+import { Order } from "../types/order";
+import { OrderSummaryRequest } from "../types/order-summary-request";
+import { BaseCrudService } from "./base-crud.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class OrderService extends BaseCrudService<Order> {
   constructor(injector: Injector) {
     super(injector);
-    this.path = '/orders/';
+    this.path = "/orders/";
   }
 
   updateOrderStatus(id: string, status: string): Observable<Order> {
@@ -18,7 +18,7 @@ export class OrderService extends BaseCrudService<Order> {
       `${this.path}/update/${id}/status`,
       {
         data: { status },
-      }
+      },
     );
   }
 
@@ -32,7 +32,7 @@ export class OrderService extends BaseCrudService<Order> {
    * Get orders for the current user (calls getMany, backend filters by user)
    */
   getUserOrders(params?: any) {
-    return this.httpClientService.getJSON<any>('/orders/user-orders', {
+    return this.httpClientService.getJSON<any>("/orders/user-orders", {
       data: params,
     });
   }

@@ -1,20 +1,19 @@
 // @ts-ignore
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { Chart, registerables } from 'chart.js';
-import { AnalyticsService } from '../../../core/services/analytics.service';
-import { MatIconModule } from '@angular/material/icon';
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { TranslateModule } from "@ngx-translate/core";
+import { Chart, registerables } from "chart.js";
+import { AnalyticsService } from "../../../core/services/analytics.service";
+import { MatIconModule } from "@angular/material/icon";
 
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
-  selector: 'app-analytic',
-  standalone: true,
+  selector: "app-analytic",
   imports: [CommonModule, TranslateModule, MatIconModule],
-  templateUrl: './analytic.html',
-  styleUrls: ['./analytic.scss'],
+  templateUrl: "./analytic.html",
+  styleUrls: ["./analytic.scss"],
 })
 export class Analytic implements OnInit, AfterViewInit {
   private eventChartInit = false;
@@ -61,36 +60,36 @@ export class Analytic implements OnInit, AfterViewInit {
         }
       },
       error: (err: any) => {
-        this.error = err?.error?.message || 'Failed to load analytics.';
+        this.error = err?.error?.message || "Failed to load analytics.";
       },
     });
   }
 
   renderSalesChart() {
     if (!this.summary?.salesByDay?.length) return;
-    const ctx = document.getElementById('salesChart') as HTMLCanvasElement;
+    const ctx = document.getElementById("salesChart") as HTMLCanvasElement;
     if (!ctx) return;
     // Format date as dd-MM-yyyy
     const labels = this.summary.salesByDay.map((d: any) => {
       const date = new Date(d.date);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
       const year = date.getFullYear();
       return `${day}-${month}-${year}`;
     });
     const data = this.summary.salesByDay.map((d: any) => d.sales);
     if (this.salesChart) this.salesChart.destroy();
     this.salesChart = new Chart(ctx, {
-      type: 'line',
+      type: "line",
       data: {
         labels,
         datasets: [
           {
-            label: 'Sales',
+            label: "Sales",
             data,
             fill: true,
-            backgroundColor: 'rgba(25, 118, 210, 0.08)',
-            borderColor: '#1976d2',
+            backgroundColor: "rgba(25, 118, 210, 0.08)",
+            borderColor: "#1976d2",
             tension: 0.3,
           },
         ],
@@ -105,7 +104,7 @@ export class Analytic implements OnInit, AfterViewInit {
 
   renderEventChart() {
     if (!this.events.length) return;
-    const ctx = document.getElementById('eventTypeChart') as HTMLCanvasElement;
+    const ctx = document.getElementById("eventTypeChart") as HTMLCanvasElement;
     if (!ctx) return;
     const typeCounts: Record<string, number> = {};
     this.events.forEach((e) => {
@@ -118,19 +117,19 @@ export class Analytic implements OnInit, AfterViewInit {
     const values = sortedTypes.map(([, count]) => count);
     // Generate distinct colors
     const colorPalette = [
-      '#1976d2',
-      '#388e3c',
-      '#fbc02d',
-      '#d32f2f',
-      '#7b1fa2',
-      '#0288d1',
-      '#c2185b',
-      '#ffa000',
-      '#388e3c',
-      '#455a64',
+      "#1976d2",
+      "#388e3c",
+      "#fbc02d",
+      "#d32f2f",
+      "#7b1fa2",
+      "#0288d1",
+      "#c2185b",
+      "#ffa000",
+      "#388e3c",
+      "#455a64",
     ];
     const backgroundColor = labels.map(
-      (_, i) => colorPalette[i % colorPalette.length] + '80',
+      (_, i) => colorPalette[i % colorPalette.length] + "80",
     );
     const borderColor = labels.map(
       (_, i) => colorPalette[i % colorPalette.length],
@@ -139,7 +138,7 @@ export class Analytic implements OnInit, AfterViewInit {
       labels,
       datasets: [
         {
-          label: 'Event Count',
+          label: "Event Count",
           data: values,
           backgroundColor,
           borderColor,
@@ -149,7 +148,7 @@ export class Analytic implements OnInit, AfterViewInit {
     };
     if (this.chart) this.chart.destroy();
     this.chart = new Chart(ctx, {
-      type: 'bar',
+      type: "bar",
       data,
       options: {
         responsive: true,
@@ -157,10 +156,10 @@ export class Analytic implements OnInit, AfterViewInit {
           legend: { display: false },
           tooltip: { enabled: true },
           datalabels: {
-            anchor: 'end',
-            align: 'end',
-            color: '#333',
-            font: { weight: 'bold' },
+            anchor: "end",
+            align: "end",
+            color: "#333",
+            font: { weight: "bold" },
             formatter: (value: any) => value,
             display: true,
           },

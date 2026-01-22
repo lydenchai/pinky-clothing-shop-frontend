@@ -57,30 +57,51 @@
       <h5 class="text-primary">{{ "address" | translate }}</h5>
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-3">
-          <app-field-container [label]="'postal_code' | translate" [control]="form.controls.postal_code">
+          <app-field-container [label]="'street' | translate" [control]="form.controls.address.controls.street">
             <mat-form-field appearance="outline">
-              <input matInput name="postal_code" [formControl]="form.controls.postal_code" />
+              <input matInput name="street" [formControl]="form.controls.address.controls.street" />
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
-          <app-field-container [label]="'address' | translate" [control]="form.controls.address">
+          <app-field-container [label]="'house' | translate" [control]="form.controls.address.controls.house">
             <mat-form-field appearance="outline">
-              <input matInput name="address" [formControl]="form.controls.address" />
+              <input matInput name="house" [formControl]="form.controls.address.controls.house" />
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
-          <app-field-container [label]="'city' | translate" [control]="form.controls.city">
+          <app-field-container [label]="'village' | translate" [control]="form.controls.address.controls.village">
             <mat-form-field appearance="outline">
-              <input matInput name="city" [formControl]="form.controls.city" />
+              <input matInput name="village" [formControl]="form.controls.address.controls.village" />
             </mat-form-field>
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
-          <app-field-container [label]="'country' | translate" [control]="form.controls.country">
+          <app-field-container [label]="'commune' | translate" [control]="form.controls.address.controls.commune">
             <mat-form-field appearance="outline">
-              <input matInput name="country" [formControl]="form.controls.country" />
+              <input matInput name="commune" [formControl]="form.controls.address.controls.commune" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'district' | translate" [control]="form.controls.address.controls.district">
+            <mat-form-field appearance="outline">
+              <input matInput name="district" [formControl]="form.controls.address.controls.district" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'province' | translate" [control]="form.controls.address.controls.province">
+            <mat-form-field appearance="outline">
+              <input matInput name="province" [formControl]="form.controls.address.controls.province" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'country' | translate" [control]="form.controls.address.controls.country">
+            <mat-form-field appearance="outline">
+              <input matInput name="country" [formControl]="form.controls.address.controls.country" />
             </mat-form-field>
           </app-field-container>
         </div>

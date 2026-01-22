@@ -5,7 +5,6 @@ import { DialogService } from '../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-dialog',
-  standalone: true,
   imports: [CommonModule, TranslateModule],
   templateUrl: './dialog.html',
   styleUrls: ['./dialog.scss'],

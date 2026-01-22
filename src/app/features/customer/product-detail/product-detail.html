@@ -19,7 +19,14 @@
       <h1 class="product-name">{{ prod.name }}</h1>
 
       <div class="product-pricing">
+        @if (prod.discounted_price && prod.discounted_price < prod.price) { 
+        <div class="price-block price">
+          <span class="original-price">${{ prod.price.toFixed(2) }}</span>
+          <span class="discounted-price">${{ prod.discounted_price.toFixed(2) }}</span>
+        </div>
+        } @else {
         <span class="price">${{ getPrice() }}</span>
+        }
         @if (prod.stock > 0) {
         <span class="stock-badge in-stock">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -32,6 +39,17 @@
         <span class="stock-badge out-of-stock">{{ 'out_of_stock' | translate }}</span>
         }
       </div>
+      
+      <span class="discount-info">
+        @if (prod.discount_type === 'percentage') {
+        ({{ prod.discount_value | number: '1.0-0' }}% {{'off' | translate }})
+        } @else if (prod.discount_type === 'fixed') {
+        (-${{ prod.discount_value | number: '1.0-0' }} {{'off' | translate }})
+        }
+        @if (prod.discount_end) {
+        <span class="discount-end">{{ 'until' | translate }} {{ prod.discount_end | date:'dd-MM-yyyy' }}</span>
+        }
+      </span> 
 
       <p class="product-description">{{ prod.description }}</p>
 
@@ -90,14 +108,14 @@
         <button class="btn-wishlist" [class.active]="isWishListed()"
           (click)="isWishListed() ? removeFromWishlist() : addToWishlist()">
           @if (!isWishListed()) {
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="#ffffff" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff"
+            stroke-width="2">
             <path
               d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.04 3 12.5 3.99 13 5.36C13.5 3.99 14.96 3 16.5 3C19.5 3 22 5.5 22 8.5C22 13.5 12 21 12 21Z" />
           </svg>
           } @else {
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#e0245e"
-            stroke="#e0245e" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#e0245e" stroke="#e0245e"
+            stroke-width="2">
             <path
               d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.04 3 12.5 3.99 13 5.36C13.5 3.99 14.96 3 16.5 3C19.5 3 22 5.5 22 8.5C22 13.5 12 21 12 21Z" />
           </svg>

@@ -6,6 +6,17 @@
           <input matInput name="search" appInputBouncer (keyUpBouncer)="onSearch($event)" />
           <mat-icon matPrefix>search</mat-icon>
         </mat-form-field>
+      </app-field-container> 
+      <app-field-container [label]="'status' | translate" [control]="form.controls.status ">
+        <mat-form-field appearance="outline">
+          <mat-select [formControl]="form.controls.status" [placeholder]="'all' | translate"
+            (selectionChange)="onStatusChange($event.value)">
+            <mat-option [value]="''">{{ 'all' | translate }}</mat-option>
+            @for (status of orderStatusEnums; track $index) {
+            <mat-option [value]="status">{{ status | translate }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </app-field-container>
       <app-field-container [label]="'date' | translate" [control]="form.controls.date">
         <mat-form-field appearance="outline">

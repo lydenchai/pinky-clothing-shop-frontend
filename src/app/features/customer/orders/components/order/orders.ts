@@ -1,20 +1,19 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal } from "@angular/core";
 
-import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { Order } from '../../../../../core/types/order';
-import { OrderService } from '../../../../../core/services/order.service';
-import { AuthService } from '../../../../../core/services/auth.service';
-import { User } from '../../../../../core/types/user';
-import { Pagination } from '../../../../../shared/components/pagination/pagination';
-import { PaginationUtil } from '../../../../../utils/pagination.util';
-import { PaginationType } from '../../../../../core/types/pagination-type';
-import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from "@angular/common";
+import { RouterLink, RouterModule } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
+import { Order } from "../../../../../core/types/order";
+import { OrderService } from "../../../../../core/services/order.service";
+import { AuthService } from "../../../../../core/services/auth.service";
+import { User } from "../../../../../core/types/user";
+import { Pagination } from "../../../../../shared/components/pagination/pagination";
+import { PaginationUtil } from "../../../../../utils/pagination.util";
+import { PaginationType } from "../../../../../core/types/pagination-type";
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
-  selector: 'app-orders',
-  standalone: true,
+  selector: "app-orders",
   imports: [
     CommonModule,
     RouterModule,
@@ -24,8 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
     RouterModule,
     MatIconModule,
   ],
-  templateUrl: './orders.html',
-  styleUrl: './orders.scss',
+  templateUrl: "./orders.html",
+  styleUrl: "./orders.scss",
 })
 export class Orders extends PaginationUtil {
   orders: Order[] = [];
@@ -33,7 +32,7 @@ export class Orders extends PaginationUtil {
 
   isAdmin = computed(() => {
     const u = this.user();
-    return !!u && (u as any).role === 'admin';
+    return !!u && (u as any).role === "admin";
   });
 
   constructor(

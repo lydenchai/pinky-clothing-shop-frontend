@@ -8,7 +8,6 @@ import { PluralPipe } from '../../pipes/plural.pipe';
 
 @Component({
   selector: 'app-breadcrumb',
-  standalone: true,
   imports: [
     CommonModule,
     RouterModule,

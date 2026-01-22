@@ -1,12 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-upload-image',
-  standalone: true,
+  selector: "app-upload-image",
   imports: [TranslateModule],
-  templateUrl: './upload-image.html',
-  styleUrls: ['./upload-image.scss'],
+  templateUrl: "./upload-image.html",
+  styleUrls: ["./upload-image.scss"],
 })
 export class UploadImage {
   @Input() previewUrl: string | null = null;

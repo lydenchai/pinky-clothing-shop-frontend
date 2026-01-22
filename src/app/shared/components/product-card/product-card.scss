@@ -186,6 +186,19 @@
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+.price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 1.1rem;
+  margin-right: 0.25rem;
+}
+
 .price {
   font-size: 1.5rem;
   font-weight: 600;

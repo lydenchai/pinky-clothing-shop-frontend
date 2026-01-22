@@ -1,16 +1,15 @@
-import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CartService } from '../../../core/services/cart.service';
-import { DialogService } from '../../../core/services/dialog.service';
-import { Cart as CartInterface } from '../../../core/types/cart';
+import { Component, signal } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { CartService } from "../../../core/services/cart.service";
+import { DialogService } from "../../../core/services/dialog.service";
+import { Cart as CartInterface } from "../../../core/types/cart";
 @Component({
-  selector: 'app-cart',
-  standalone: true,
+  selector: "app-cart",
   imports: [CommonModule, RouterLink, TranslateModule],
-  templateUrl: './cart.html',
-  styleUrl: './cart.scss',
+  templateUrl: "./cart.html",
+  styleUrl: "./cart.scss",
 })
 export class Cart {
   cart = signal<CartInterface | null>(null);
@@ -32,15 +31,15 @@ export class Cart {
   removeItem(cartItemId: string) {
     this.dialogService
       .ask(
-        this.translate.instant('message.are_you_sure_remove_item'),
-        this.translate.instant('message.remove_item'),
+        this.translate.instant("message.are_you_sure_remove_item"),
+        this.translate.instant("message.remove_item"),
       )
       .then((confirmed) => {
         if (confirmed) {
           this.cartService.removeItem(cartItemId).subscribe({
             next: () => {
               this.dialogService.success(
-                this.translate.instant('message.item_removed_from_cart'),
+                this.translate.instant("message.item_removed_from_cart"),
               );
               this.fetchCart();
             },
@@ -78,7 +77,7 @@ export class Cart {
         this.dialogService.error(
           error
             ? error.error
-            : this.translate.instant('message.failed_to_update_quantity'),
+            : this.translate.instant("message.failed_to_update_quantity"),
         );
       },
     });

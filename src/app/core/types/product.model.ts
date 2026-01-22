@@ -4,6 +4,11 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  discount_type?: 'percentage' | 'fixed' | null;
+  discount_value?: number | null;
+  discount_start?: Date | null;
+  discount_end?: Date | null;
+  discounted_price?: number;
   category: string;
   subcategory?: string;
   image: string;

@@ -72,20 +72,6 @@
         </div>
       </div>
 
-      <!-- ADDRESS -->
-      <div class="w-full">
-        <h5 class="text-primary mb-2">{{ "store_address" | translate }}</h5>
-        <div class="row mt-2">
-          <div class="col-12 col-sm-6">
-            <app-field-container [label]="'address' | translate" [control]="form.controls.address">
-              <mat-form-field appearance="outline">
-                <input matInput name="address" [formControl]="form.controls.address" />
-              </mat-form-field>
-            </app-field-container>
-          </div>
-        </div>
-      </div>
-
       <!-- SOCIAL MEDIA -->
       <div class="w-full">
         <h5 class="text-primary mb-2">{{ "social_media" | translate }}</h5>
@@ -122,6 +108,62 @@
             <app-field-container [label]="'meta_description' | translate" [control]="form.controls.meta_description">
               <mat-form-field appearance="outline">
                 <input matInput name="meta_description" [formControl]="form.controls.meta_description" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="w-full">
+        <h5 class="text-primary mb-2">{{ "store_address" | translate }}</h5>
+        <div class="row mt-2">
+          <div class="col-12 col-sm-6 col-md-3">
+            <app-field-container [label]="'street' | translate" [control]="form.controls.address.controls.street">
+              <mat-form-field appearance="outline">
+                <input matInput name="street" [formControl]="form.controls.address.controls.street" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <app-field-container [label]="'house' | translate" [control]="form.controls.address.controls.house">
+              <mat-form-field appearance="outline">
+                <input matInput name="house" [formControl]="form.controls.address.controls.house" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <app-field-container [label]="'village' | translate" [control]="form.controls.address.controls.village">
+              <mat-form-field appearance="outline">
+                <input matInput name="village" [formControl]="form.controls.address.controls.village" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <app-field-container [label]="'commune' | translate" [control]="form.controls.address.controls.commune">
+              <mat-form-field appearance="outline">
+                <input matInput name="commune" [formControl]="form.controls.address.controls.commune" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <app-field-container [label]="'district' | translate" [control]="form.controls.address.controls.district">
+              <mat-form-field appearance="outline">
+                <input matInput name="district" [formControl]="form.controls.address.controls.district" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <app-field-container [label]="'province' | translate" [control]="form.controls.address.controls.province">
+              <mat-form-field appearance="outline">
+                <input matInput name="province" [formControl]="form.controls.address.controls.province" />
+              </mat-form-field>
+            </app-field-container>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <app-field-container [label]="'country' | translate" [control]="form.controls.address.controls.country">
+              <mat-form-field appearance="outline">
+                <input matInput name="country" [formControl]="form.controls.address.controls.country" />
               </mat-form-field>
             </app-field-container>
           </div>

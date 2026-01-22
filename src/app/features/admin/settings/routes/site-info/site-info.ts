@@ -1,32 +1,32 @@
-import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from "@angular/common";
+import { Component, signal } from "@angular/core";
+import { MatIconModule } from "@angular/material/icon";
+import { RouterModule } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { MatSelectModule } from "@angular/material/select";
+import { MatInputModule } from "@angular/material/input";
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
-import { UploadImage } from '../../../../../shared/components/upload-image/upload-image';
-import { SiteInfoService } from '../../../../../core/services/site-info.service';
+} from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { FieldContainer } from "../../../../../shared/components/field-container/field-container";
+import { UploadImage } from "../../../../../shared/components/upload-image/upload-image";
+import { SiteInfoService } from "../../../../../core/services/site-info.service";
 import {
   CountryISO,
   PhoneNumberFormat,
   SearchCountryField,
   NgxIntlTelInputModule,
-} from 'ngx-intl-tel-input';
-import { DialogService } from '../../../../../core/services/dialog.service';
+} from "ngx-intl-tel-input";
+import { DialogService } from "../../../../../core/services/dialog.service";
 
 @Component({
-  selector: 'app-site-info',
+  selector: "app-site-info",
   imports: [
     CommonModule,
     MatIconModule,
@@ -42,8 +42,8 @@ import { DialogService } from '../../../../../core/services/dialog.service';
     UploadImage,
     NgxIntlTelInputModule,
   ],
-  templateUrl: './site-info.html',
-  styleUrl: './site-info.scss',
+  templateUrl: "./site-info.html",
+  styleUrl: "./site-info.scss",
 })
 export class SiteInfo {
   isUpdate = signal<boolean>(false);
@@ -54,9 +54,9 @@ export class SiteInfo {
   PhoneNumberFormat = PhoneNumberFormat;
   SearchCountryField = SearchCountryField;
   form = new FormGroup({
-    name: new FormControl<string>('', Validators.required),
-    description: new FormControl<string>(''),
-    email: new FormControl<string | null>('', [
+    name: new FormControl<string>("", Validators.required),
+    description: new FormControl<string>(""),
+    email: new FormControl<string | null>("", [
       Validators.required,
       Validators.email,
     ]),
@@ -72,13 +72,21 @@ export class SiteInfo {
         }
       | null
     >(null),
-    store_logo: new FormControl<string | null>(''),
-    favicon: new FormControl<string | null>(''),
-    address: new FormControl<string | null>(''),
-    facebook: new FormControl<string | null>(''),
-    instagram: new FormControl<string | null>(''),
-    tik_tok: new FormControl<string | null>(''),
-    meta_description: new FormControl<string | null>(''),
+    store_logo: new FormControl<string | null>(""),
+    favicon: new FormControl<string | null>(""),
+    facebook: new FormControl<string | null>(""),
+    instagram: new FormControl<string | null>(""),
+    tik_tok: new FormControl<string | null>(""),
+    meta_description: new FormControl<string | null>(""),
+    address: new FormGroup({
+      street: new FormControl<string | null>(""),
+      house: new FormControl<string | null>(""),
+      village: new FormControl<string | null>(""),
+      commune: new FormControl<string | null>(""),
+      district: new FormControl<string | null>(""),
+      province: new FormControl<string | null>(""),
+      country: new FormControl<string | null>(""),
+    }),
   });
 
   constructor(
@@ -100,23 +108,31 @@ export class SiteInfo {
           description: res.data.description,
           email: res.data.email,
           phone:
-            typeof res.data.phone === 'string'
+            typeof res.data.phone === "string"
               ? {
                   number: res.data.phone,
                   internationalNumber: res.data.phone,
                   nationalNumber: res.data.phone,
                   e164Number: res.data.phone,
-                  countryCode: '',
-                  dialCode: '',
+                  countryCode: "",
+                  dialCode: "",
                 }
               : res.data.phone,
           store_logo: res.data.store_logo,
           favicon: res.data.favicon,
-          address: res.data.address,
           facebook: res.data.facebook,
           instagram: res.data.instagram,
           tik_tok: res.data.tik_tok,
           meta_description: res.data.meta_description,
+          address: {
+            street: res.data.address?.street || "",
+            house: res.data.address?.house || "",
+            village: res.data.address?.village || "",
+            commune: res.data.address?.commune || "",
+            district: res.data.address?.district || "",
+            province: res.data.address?.province || "",
+            country: res.data.address?.country || "",
+          },
         });
         this.storeLogoPreviewUrl = res.data.store_logo || null;
         this.faviconPreviewUrl = res.data.favicon || null;
@@ -136,7 +152,7 @@ export class SiteInfo {
       reader.readAsDataURL(file);
     } else {
       this.storeLogoPreviewUrl = null;
-      this.form.patchValue({ store_logo: '' });
+      this.form.patchValue({ store_logo: "" });
     }
   }
 
@@ -152,7 +168,7 @@ export class SiteInfo {
       reader.readAsDataURL(file);
     } else {
       this.faviconPreviewUrl = null;
-      this.form.patchValue({ favicon: '' });
+      this.form.patchValue({ favicon: "" });
     }
   }
 
@@ -172,21 +188,21 @@ export class SiteInfo {
     const payload = {
       ...this.form.value,
       phone:
-        typeof phoneValue === 'object' && phoneValue !== null
+        typeof phoneValue === "object" && phoneValue !== null
           ? phoneValue.e164Number
           : phoneValue,
     } as any;
     this.siteInfoService.updateSiteInfo(payload).subscribe({
       next: () => {
         this.dialogService
-          .success(this.translate.instant('message.saved_successfully'))
+          .success(this.translate.instant("message.saved_successfully"))
           .then(() => {
             this.fetchSiteInfo();
           });
       },
       error: () => {
         this.dialogService
-          .error(this.translate.instant('message.save_failed'))
+          .error(this.translate.instant("message.save_failed"))
           .then(() => {
             this.fetchSiteInfo();
           });

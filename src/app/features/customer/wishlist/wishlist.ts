@@ -1,20 +1,19 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { WishlistService } from '../../../core/services/wishlist.service';
-import { ProductService } from '../../../core/services/product.service';
-import { Product } from '../../../core/types/product.model';
-import { ProductCard } from '../../../shared/components/product-card/product-card';
-import { PaginationType } from '../../../core/types/pagination-type';
-import { PaginationUtil } from '../../../utils/pagination.util';
+import { Component, OnInit, signal, computed } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
+import { WishlistService } from "../../../core/services/wishlist.service";
+import { ProductService } from "../../../core/services/product.service";
+import { Product } from "../../../core/types/product.model";
+import { ProductCard } from "../../../shared/components/product-card/product-card";
+import { PaginationType } from "../../../core/types/pagination-type";
+import { PaginationUtil } from "../../../utils/pagination.util";
 
 @Component({
-  selector: 'app-wishlist',
-  standalone: true,
+  selector: "app-wishlist",
   imports: [CommonModule, RouterLink, TranslateModule, ProductCard],
-  templateUrl: './wishlist.html',
-  styleUrl: './wishlist.scss',
+  templateUrl: "./wishlist.html",
+  styleUrl: "./wishlist.scss",
 })
 export class Wishlist extends PaginationUtil implements OnInit {
   wishlistProducts = signal<Product[]>([]);

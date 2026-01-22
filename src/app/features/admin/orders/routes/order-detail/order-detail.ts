@@ -1,23 +1,24 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, OnInit, signal } from "@angular/core";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 
-import { TranslateModule } from '@ngx-translate/core';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatChipsModule } from '@angular/material/chips';
-import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
-import { Order } from '../../../../../core/types/order';
-import { OrderService } from '../../../../../core/services/order.service';
+import { TranslateModule } from "@ngx-translate/core";
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatChipsModule } from "@angular/material/chips";
+import { CurrencyPipe, DatePipe, TitleCasePipe } from "@angular/common";
+import { PluralPipe } from "../../../../../shared/pipes/plural.pipe";
+import { AddressPipe } from "../../../../../shared/pipes/address.pipe";
+import { Order } from "../../../../../core/types/order";
+import { OrderService } from "../../../../../core/services/order.service";
+import { OrderStatusEnum } from "../../../../../core/types/enums/order-status.enum";
 
 @Component({
-  selector: 'app-order-detail',
-  standalone: true,
+  selector: "app-order-detail",
   imports: [
     TranslateModule,
     FormsModule,
@@ -33,20 +34,15 @@ import { OrderService } from '../../../../../core/services/order.service';
     CurrencyPipe,
     TitleCasePipe,
     PluralPipe,
+    AddressPipe,
   ],
-  templateUrl: './order-detail.html',
-  styleUrls: ['./order-detail.scss'],
+  templateUrl: "./order-detail.html",
+  styleUrls: ["./order-detail.scss"],
 })
 export class AdminOrderDetail implements OnInit {
   order = signal<Order | null>(null);
-  status: string = '';
-  statusOptions: string[] = [
-    'pending',
-    'processing',
-    'shipped',
-    'delivered',
-    'cancelled',
-  ];
+  status: string = "";
+  orderStatusEnums = Object.values(OrderStatusEnum);
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -54,7 +50,7 @@ export class AdminOrderDetail implements OnInit {
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get("id");
     if (id) {
       this.fetchOrder(id);
     }
@@ -64,14 +60,14 @@ export class AdminOrderDetail implements OnInit {
     this.orderService.getById(_id).subscribe({
       next: (order) => {
         this.order.set(order.data);
-        if (typeof order.data.status === 'string') {
+        if (typeof order.data.status === "string") {
           this.status = order.data.status.toString().toLowerCase().trim();
-        } else if (order.data.status && typeof order.data.status === 'object') {
+        } else if (order.data.status && typeof order.data.status === "object") {
           this.status = String(Object.values(order.data.status)[0])
             .toLowerCase()
             .trim();
         } else {
-          this.status = '';
+          this.status = "";
         }
       },
     });
@@ -81,10 +77,10 @@ export class AdminOrderDetail implements OnInit {
     const order = this.order();
     if (!order) return;
     const newStatus = String(value).toLowerCase().trim();
-    let currentStatus = '';
-    if (typeof order.status === 'string') {
+    let currentStatus = "";
+    if (typeof order.status === "string") {
       currentStatus = order.status.toString().toLowerCase().trim();
-    } else if (order.status && typeof order.status === 'object') {
+    } else if (order.status && typeof order.status === "object") {
       currentStatus = String(Object.values(order.status)[0])
         .toLowerCase()
         .trim();

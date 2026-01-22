@@ -21,7 +21,6 @@ import { OrderService } from '../../../core/services/order.service';
 
 @Component({
   selector: 'app-admin-navbar',
-  standalone: true,
   imports: [
     RouterModule,
     TranslateModule,

@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
-import { PluralPipe } from '../../../shared/pipes/plural.pipe';
-import { Order } from '../../../core/types/order';
-import { Product } from '../../../core/types/product.model';
-import { ProductService } from '../../../core/services/product.service';
-import { OrderService } from '../../../core/services/order.service';
-import { UserService } from '../../../core/services/user.service';
-import { AnalyticsService } from '../../../core/services/analytics.service';
+import { Component, OnInit } from "@angular/core";
+import { CurrencyPipe, DatePipe, DecimalPipe } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { TranslateModule } from "@ngx-translate/core";
+import { PluralPipe } from "../../../shared/pipes/plural.pipe";
+import { Order } from "../../../core/types/order";
+import { Product } from "../../../core/types/product.model";
+import { ProductService } from "../../../core/services/product.service";
+import { OrderService } from "../../../core/services/order.service";
+import { UserService } from "../../../core/services/user.service";
+import { AnalyticsService } from "../../../core/services/analytics.service";
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
+  selector: "app-dashboard",
   imports: [
     RouterModule,
     MatButtonModule,
@@ -25,8 +24,8 @@ import { AnalyticsService } from '../../../core/services/analytics.service';
     DatePipe,
     CurrencyPipe,
   ],
-  templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.scss'],
+  templateUrl: "./dashboard.html",
+  styleUrls: ["./dashboard.scss"],
 })
 export class Dashboard implements OnInit {
   totalProducts = 0;
@@ -67,10 +66,10 @@ export class Dashboard implements OnInit {
       .subscribe((res: { data: Order[]; pagination: any }) => {
         const orders = res.data;
         this.pendingOrders = orders.filter(
-          (o) => o.status === 'pending',
+          (o) => o.status === "pending",
         ).length;
         this.completedOrders = orders.filter(
-          (o) => o.status === 'delivered',
+          (o) => o.status === "delivered",
         ).length;
       });
 

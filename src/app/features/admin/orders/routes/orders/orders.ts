@@ -1,38 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { Pagination } from '../../../../../shared/components/pagination/pagination';
-import { PaginationUtil } from '../../../../../utils/pagination.util';
-import { OrderService } from '../../../../../core/services/order.service';
-import { Order } from '../../../../../core/types/order';
-import { PaginationType } from '../../../../../core/types/pagination-type';
-import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
-import { MatFormField } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { InputBouncerDirective } from '../../../../../shared/directives/input-bouncer.directive';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
-
-export const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD-MM-YYYY',
-  },
-  display: {
-    dateInput: 'dd-MM-yyyy',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { Component, OnInit } from "@angular/core";
+import { DatePipe } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { Pagination } from "../../../../../shared/components/pagination/pagination";
+import { PaginationUtil } from "../../../../../utils/pagination.util";
+import { OrderService } from "../../../../../core/services/order.service";
+import { Order } from "../../../../../core/types/order";
+import { PaginationType } from "../../../../../core/types/pagination-type";
+import { FieldContainer } from "../../../../../shared/components/field-container/field-container";
+import { MatFormField } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { MatSelectModule } from "@angular/material/select";
+import { InputBouncerDirective } from "../../../../../shared/directives/input-bouncer.directive";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule, MAT_DATE_FORMATS } from "@angular/material/core";
+import { OrderStatusEnum } from "../../../../../core/types/enums/order-status.enum";
 
 @Component({
-  selector: 'app-orders-admin',
-  standalone: true,
+  selector: "app-orders-admin",
   imports: [
     DatePipe,
     RouterModule,
@@ -49,14 +37,16 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatNativeDateModule,
   ],
-  templateUrl: './orders.html',
-  styleUrls: ['./orders.scss'],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
+  templateUrl: "./orders.html",
+  styleUrl: "./orders.scss",
 })
 export class OrdersAdmin extends PaginationUtil implements OnInit {
   orders: Order[] = [];
+  orderStatusEnums = Object.values(OrderStatusEnum);
+
   form = new FormGroup({
-    name: new FormControl<string | null>(''),
+    name: new FormControl<string | null>(""),
+    status: new FormControl<string | null>(""),
     date: new FormControl<Date | null>(new Date()),
   });
   query?: string;
@@ -71,6 +61,11 @@ export class OrdersAdmin extends PaginationUtil implements OnInit {
 
   onSearch(value: string): void {
     this.query = value;
+    this.getList({ page: 1, limit: this.limit });
+  }
+
+  onStatusChange(value: string): void {
+    this.form.controls.status.setValue(value);
     this.getList({ page: 1, limit: this.limit });
   }
 

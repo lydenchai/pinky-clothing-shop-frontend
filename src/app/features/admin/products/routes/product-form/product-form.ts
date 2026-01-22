@@ -21,10 +21,11 @@ import { ColorEnum } from "../../../../../core/types/enums/color.enum";
 import { MatIconModule } from "@angular/material/icon";
 import { DialogService } from "../../../../../core/services/dialog.service";
 import { SubcategoryEnum } from "../../../../../core/types/enums/subcategory.enum";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @Component({
   selector: "app-product-form",
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     RouterModule,
@@ -37,6 +38,8 @@ import { SubcategoryEnum } from "../../../../../core/types/enums/subcategory.enu
     UploadImage,
     MatSelectModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: "./product-form.html",
   styleUrls: ["./product-form.scss"],
@@ -58,6 +61,10 @@ export class ProductForm implements OnInit {
       Validators.required,
       Validators.min(0),
     ]),
+    discount_type: new FormControl<"percentage" | "fixed" | null>(null),
+    discount_value: new FormControl<number | null>(null, [Validators.min(0)]),
+    discount_start: new FormControl<Date | null>(null),
+    discount_end: new FormControl<Date | null>(null),
     category: new FormControl<string | null>("", Validators.required),
     subcategory: new FormControl<string | null>("", Validators.required),
     image: new FormControl<string | null>("", Validators.required),
@@ -90,6 +97,10 @@ export class ProductForm implements OnInit {
               name: product.name,
               description: product.description,
               price: product.price,
+              discount_type: product.discount_type,
+              discount_value: product.discount_value,
+              discount_start: product.discount_start,
+              discount_end: product.discount_end,
               category: product.category,
               subcategory: product.subcategory,
               image: product.image,
@@ -116,6 +127,15 @@ export class ProductForm implements OnInit {
       ...formValue,
       name: formValue.name,
       description: formValue.description,
+      price: formValue.price,
+      discount_type: formValue.discount_type,
+      discount_value: formValue.discount_value,
+      discount_start: formValue.discount_start
+        ? new Date(formValue.discount_start)
+        : null,
+      discount_end: formValue.discount_end
+        ? new Date(formValue.discount_end)
+        : null,
       category: formValue.category,
       subcategory: formValue.subcategory,
       sizes: formValue.sizes,
@@ -136,9 +156,7 @@ export class ProductForm implements OnInit {
           });
       },
       error: () => {
-        this.dialogService.success(
-          this.translate.instant("message.save_failed"),
-        );
+        this.dialogService.error(this.translate.instant("message.save_failed"));
       },
     });
   }

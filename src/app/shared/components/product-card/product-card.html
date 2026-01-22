@@ -25,15 +25,18 @@
         }
       </button>
   </div>
-
   <div class="product-info">
     <h3 class="product-name">{{ product.name }}</h3>
-
     <p class="product-description">{{ product.description }}</p>
-
     <div class="product-footer">
+      @if (hasDiscount()) {
+      <div class="price-block">
+        <span class="original-price">${{ product.price.toFixed(2) }}</span>
+        <span class="discounted-price price">${{ getPrice() }}</span>
+      </div>
+      }@else {
       <span class="price">${{ getPrice() }}</span>
-
+      }
       @if (product.stock > 0) {
       <span class="stock-status in-stock">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"

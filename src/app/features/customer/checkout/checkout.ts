@@ -1,25 +1,24 @@
-import { Component, signal, OnInit, AfterViewInit } from '@angular/core';
-import { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
-import { CommonModule } from '@angular/common';
+import { Component, signal, OnInit, AfterViewInit } from "@angular/core";
+import { Stripe, StripeElements, StripeCardElement } from "@stripe/stripe-js";
+import { CommonModule } from "@angular/common";
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-} from '@angular/forms';
-import { RouterLink, Router } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Cart } from '../../../core/types/cart';
-import { User } from '../../../core/types/user';
-import { OrderSummary } from '../../../core/types/order-summary';
-import { CartService } from '../../../core/services/cart.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { DialogService } from '../../../core/services/dialog.service';
-import { OrderService } from '../../../core/services/order.service';
+} from "@angular/forms";
+import { RouterLink, Router } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { Cart } from "../../../core/types/cart";
+import { User } from "../../../core/types/user";
+import { OrderSummary } from "../../../core/types/order-summary";
+import { CartService } from "../../../core/services/cart.service";
+import { AuthService } from "../../../core/services/auth.service";
+import { DialogService } from "../../../core/services/dialog.service";
+import { OrderService } from "../../../core/services/order.service";
 
 @Component({
-  selector: 'app-checkout',
-  standalone: true,
+  selector: "app-checkout",
   imports: [
     CommonModule,
     FormsModule,
@@ -27,8 +26,8 @@ import { OrderService } from '../../../core/services/order.service';
     TranslateModule,
     ReactiveFormsModule,
   ],
-  templateUrl: './checkout.html',
-  styleUrl: './checkout.scss',
+  templateUrl: "./checkout.html",
+  styleUrl: "./checkout.scss",
 })
 export class Checkout implements OnInit, AfterViewInit {
   stripe: Stripe | null = null;
@@ -44,23 +43,23 @@ export class Checkout implements OnInit, AfterViewInit {
   orderSummary = signal<OrderSummary | null>(null);
 
   form = new FormGroup({
-    email: new FormControl<string | null>(''),
-    first_name: new FormControl<string | null>(''),
-    last_name: new FormControl<string | null>(''),
-    phone: new FormControl<string | null>(''),
+    email: new FormControl<string | null>(""),
+    first_name: new FormControl<string | null>(""),
+    last_name: new FormControl<string | null>(""),
+    phone: new FormControl<string | null>(""),
     address: new FormGroup({
-      street: new FormControl<string | null>(''),
-      house: new FormControl<string | null>(''),
-      village: new FormControl<string | null>(''),
-      commune: new FormControl<string | null>(''),
-      district: new FormControl<string | null>(''),
-      province: new FormControl<string | null>(''),
-      country: new FormControl<string | null>('Cambodia'),
+      street: new FormControl<string | null>(""),
+      house: new FormControl<string | null>(""),
+      village: new FormControl<string | null>(""),
+      commune: new FormControl<string | null>(""),
+      district: new FormControl<string | null>(""),
+      province: new FormControl<string | null>(""),
+      country: new FormControl<string | null>(""),
     }),
-    paymentMethod: new FormControl<string | null>('credit-card'),
-    cardNumber: new FormControl<string | null>(''),
-    cardExpiry: new FormControl<string | null>(''),
-    cardCVC: new FormControl<string | null>(''),
+    paymentMethod: new FormControl<string | null>("credit-card"),
+    cardNumber: new FormControl<string | null>(""),
+    cardExpiry: new FormControl<string | null>(""),
+    cardCVC: new FormControl<string | null>(""),
   });
 
   constructor(
@@ -81,13 +80,13 @@ export class Checkout implements OnInit, AfterViewInit {
           last_name: res.data.last_name,
           phone: res.data.phone,
           address: {
-            street: '',
-            house: '',
-            village: '',
-            commune: '',
-            district: '',
-            province: '',
-            country: res.data.country || 'Cambodia',
+            street: "",
+            house: "",
+            village: "",
+            commune: "",
+            district: "",
+            province: "",
+            country: res.data.country || "Cambodia",
           },
         });
       }
@@ -95,22 +94,21 @@ export class Checkout implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 
   placeOrder() {
-    // Validate form
     if (
       !this.form.controls.first_name.value ||
       !this.form.controls.last_name.value ||
       !this.form.controls.email.value
     ) {
       this.dialogService.warning(
-        this.translate.instant('message.please_fill_in_all_required_fields'),
+        this.translate.instant("message.please_fill_in_all_required_fields"),
       );
       return;
     }
@@ -124,12 +122,12 @@ export class Checkout implements OnInit, AfterViewInit {
       !addressGroup.value.province
     ) {
       this.dialogService.warning(
-        this.translate.instant('message.please_complete_your_shipping_address'),
+        this.translate.instant("message.please_complete_your_shipping_address"),
       );
       return;
     }
 
-    if (this.form.controls.paymentMethod.value === 'credit-card') {
+    if (this.form.controls.paymentMethod.value === "credit-card") {
       if (
         !this.form.controls.cardNumber.value ||
         !this.form.controls.cardExpiry.value ||
@@ -137,7 +135,7 @@ export class Checkout implements OnInit, AfterViewInit {
       ) {
         this.dialogService.warning(
           this.translate.instant(
-            'message.please_complete_your_payment_information',
+            "message.please_complete_your_payment_information",
           ),
         );
         return;
@@ -150,13 +148,13 @@ export class Checkout implements OnInit, AfterViewInit {
     const address = this.form.controls.address.value;
     const summaryReq: any = {
       address: {
-        house: address.house || '',
-        street: address.street || '',
-        village: address.village || '',
-        commune: address.commune || '',
-        district: address.district || '',
-        province: address.province || '',
-        country: address.country || 'Cambodia',
+        house: address.house || "",
+        street: address.street || "",
+        village: address.village || "",
+        commune: address.commune || "",
+        district: address.district || "",
+        province: address.province || "",
+        country: address.country || "",
       },
     };
     this.orderService.getOrderSummary(summaryReq).subscribe({
@@ -167,7 +165,7 @@ export class Checkout implements OnInit, AfterViewInit {
       error: (err) => {
         this.summaryError.set(
           err?.error?.error ||
-            this.translate.instant('message.failed_to_prepare_order_summary'),
+            this.translate.instant("message.failed_to_prepare_order_summary"),
         );
         this.summaryLoading.set(false);
       },
@@ -179,16 +177,7 @@ export class Checkout implements OnInit, AfterViewInit {
     const cart = this.cart();
     const user = this.user();
     const address = this.form.controls.address.value;
-    const orderReq: any = {
-      address: {
-        house: address.house || '',
-        street: address.street || '',
-        village: address.village || '',
-        commune: address.commune || '',
-        district: address.district || '',
-        province: address.province || '',
-        country: address.country || 'Cambodia',
-      },
+    const payload: any = {
       items:
         cart?.items?.map((item) => ({
           product_id: item.product_id,
@@ -204,24 +193,33 @@ export class Checkout implements OnInit, AfterViewInit {
       first_name: user?.first_name || this.form.controls.first_name.value,
       last_name: user?.last_name || this.form.controls.last_name.value,
       phone: user?.phone || this.form.controls.phone.value,
+      address: {
+        house: address.house || "",
+        street: address.street || "",
+        village: address.village || "",
+        commune: address.commune || "",
+        district: address.district || "",
+        province: address.province || "",
+        country: address.country || "",
+      },
     };
-    this.orderService.create(orderReq).subscribe({
+    this.orderService.create(payload).subscribe({
       next: (order) => {
         this.orderPlaced.set(true);
         this.orderResponse.set(order.data);
         this.dialogService.success(
-          this.translate.instant('message.order_placed_successfully'),
-          this.translate.instant('message.order_confirmed'),
+          this.translate.instant("message.order_placed_successfully"),
+          this.translate.instant("message.order_confirmed"),
         );
         this.cartService.clearCart().subscribe({});
         setTimeout(() => {
           this.orderPlaced.set(false);
-          this.router.navigate(['/orders']);
+          this.router.navigate(["/orders"]);
         }, 2000);
       },
       error: () => {
         this.dialogService.error(
-          this.translate.instant('message.failed_to_place_order'),
+          this.translate.instant("message.failed_to_place_order"),
         );
       },
     });

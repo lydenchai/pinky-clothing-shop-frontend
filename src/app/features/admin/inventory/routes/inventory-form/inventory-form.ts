@@ -1,26 +1,25 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from "@angular/core";
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
-import { Product } from '../../../../../core/types/product.model';
-import { InventoryService } from '../../../../../core/services/inventory.service';
-import { ProductService } from '../../../../../core/services/product.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { DialogService } from '../../../../../core/services/dialog.service';
+} from "@angular/forms";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { MatButtonModule } from "@angular/material/button";
+import { Product } from "../../../../../core/types/product.model";
+import { InventoryService } from "../../../../../core/services/inventory.service";
+import { ProductService } from "../../../../../core/services/product.service";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { FieldContainer } from "../../../../../shared/components/field-container/field-container";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
+import { MatIconModule } from "@angular/material/icon";
+import { DialogService } from "../../../../../core/services/dialog.service";
 
 @Component({
-  selector: 'app-inventory-form',
-  standalone: true,
+  selector: "app-inventory-form",
   imports: [
     ReactiveFormsModule,
     RouterModule,
@@ -33,8 +32,8 @@ import { DialogService } from '../../../../../core/services/dialog.service';
     MatSelectModule,
     MatIconModule,
   ],
-  templateUrl: './inventory-form.html',
-  styleUrls: ['./inventory-form.scss'],
+  templateUrl: "./inventory-form.html",
+  styleUrls: ["./inventory-form.scss"],
 })
 export class InventoryForm implements OnInit {
   form = new FormGroup({
@@ -43,7 +42,7 @@ export class InventoryForm implements OnInit {
       Validators.required,
       Validators.min(0),
     ]),
-    location: new FormControl<string | null>(''),
+    location: new FormControl<string | null>(""),
   });
   updateId = signal<string | null>(null);
   products: Product[] = [];
@@ -59,7 +58,7 @@ export class InventoryForm implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
+      const id = params.get("id");
       this.updateId.set(id);
       if (id) {
         this.inventoryService.getById(id).subscribe({
@@ -67,7 +66,7 @@ export class InventoryForm implements OnInit {
             this.form.patchValue({
               product_id: res.data.product._id || null,
               quantity: res.data.quantity,
-              location: res.data.location || '',
+              location: res.data.location || "",
             });
           },
         });
@@ -97,13 +96,13 @@ export class InventoryForm implements OnInit {
       next: () => {
         this.form.markAsPristine();
         this.dialogService
-          .success(this.translate.instant('message.saved_successfully'))
+          .success(this.translate.instant("message.saved_successfully"))
           .then(() => {
-            this.router.navigate(['/admin/inventory']);
+            this.router.navigate(["/admin/inventory"]);
           });
       },
       error: () => {
-        this.dialogService.error(this.translate.instant('message.save_failed'));
+        this.dialogService.error(this.translate.instant("message.save_failed"));
       },
     });
   }

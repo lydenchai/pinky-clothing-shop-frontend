@@ -31,6 +31,43 @@
           </app-field-container>
         </div>
         <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'discount_type' | translate" [control]="form.controls.discount_type">
+            <mat-form-field appearance="outline">
+              <mat-select [formControl]="form.controls.discount_type">
+                <mat-option [value]="null">None</mat-option>
+                <mat-option value="percentage">Percentage</mat-option>
+                <mat-option value="fixed">Fixed</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'discount_value' | translate" [control]="form.controls.discount_value">
+            <mat-form-field appearance="outline">
+              <input matInput type="number" name="discount_value" [formControl]="form.controls.discount_value"
+                min="0" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'discount_start' | translate" [control]="form.controls.discount_start">
+            <mat-form-field appearance="outline">
+              <input matInput [matDatepicker]="pickerStart" [formControl]="form.controls.discount_start" />
+              <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+              <mat-datepicker #pickerStart></mat-datepicker>
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'discount_end' | translate" [control]="form.controls.discount_end">
+            <mat-form-field appearance="outline">
+              <input matInput [matDatepicker]="pickerEnd" [formControl]="form.controls.discount_end" />
+              <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+              <mat-datepicker #pickerEnd></mat-datepicker>
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'stock' | translate" [control]="form.controls.stock">
             <mat-form-field appearance="outline">
               <input matInput type="number" name="stock" [formControl]="form.controls.stock" />
