@@ -4,28 +4,27 @@ import {
   HostListener,
   OnInit,
   signal,
-} from '@angular/core';
+} from "@angular/core";
 import {
   RouterLink,
   RouterLinkActive,
   ActivatedRoute,
   Router,
-} from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { User } from '../../../core/types/user';
-import { LanguageEnum } from '../../../core/types/enums/language.enum';
-import { CategoryEnum } from '../../../core/types/enums/category.enum';
-import { CartService } from '../../../core/services/cart.service';
-import { DialogService } from '../../../core/services/dialog.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { LocalStorageService } from '../../../core/services/local-storage.service';
-import { LocalStorageEnum } from '../../../core/types/enums/local-storage.enum';
+} from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { MatMenuModule } from "@angular/material/menu";
+import { User } from "../../../core/types/user";
+import { LanguageEnum } from "../../../core/types/enums/language.enum";
+import { CartService } from "../../../core/services/cart.service";
+import { DialogService } from "../../../core/services/dialog.service";
+import { AuthService } from "../../../core/services/auth.service";
+import { LocalStorageService } from "../../../core/services/local-storage.service";
+import { LocalStorageEnum } from "../../../core/types/enums/local-storage.enum";
 
 @Component({
-  selector: 'app-header',
+  selector: "app-header",
   standalone: true,
   imports: [
     CommonModule,
@@ -35,13 +34,13 @@ import { LocalStorageEnum } from '../../../core/types/enums/local-storage.enum';
     TranslateModule,
     MatMenuModule,
   ],
-  templateUrl: './header.html',
-  styleUrl: './header.scss',
+  templateUrl: "./header.html",
+  styleUrl: "./header.scss",
 })
 export class Header implements OnInit {
   user = signal<User | null>(null);
   isAuthenticated = computed(() => !!this.user());
-  currentCategory = signal<string>('all');
+  currentCategory = signal<string>("all");
   currentLang = signal<LanguageEnum>(LanguageEnum.EN);
   availableLangs: LanguageEnum[] = [
     LanguageEnum.KM,
@@ -50,10 +49,10 @@ export class Header implements OnInit {
     LanguageEnum.CH,
     LanguageEnum.VN,
   ];
-  CategoryEnum = CategoryEnum;
+  
   isAdmin = computed(() => {
     const u = this.user();
-    return !!u && (u as any).role === 'admin';
+    return !!u && (u as any).role === "admin";
   });
 
   // UI toggles
@@ -61,7 +60,7 @@ export class Header implements OnInit {
   userMenuOpen = false;
   langMenuOpen = false;
   searchModalOpen = false;
-  searchQuery = '';
+  searchQuery = "";
   showSearchInput = false;
 
   constructor(
@@ -99,19 +98,19 @@ export class Header implements OnInit {
     this.router.events.subscribe(() => {
       const url = this.router.url;
       const match = new RegExp(/category=([^&]+)/).exec(url);
-      this.currentCategory.set(match ? match[1] : 'all');
+      this.currentCategory.set(match ? match[1] : "all");
     });
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
-      this.currentCategory.set(params['category'] || 'all');
+      this.currentCategory.set(params["category"] || "all");
     });
   }
 
   // Navigation actions
   goToAdminDashboard() {
-    this.router.navigate(['/admin']);
+    this.router.navigate(["/admin"]);
     this.closeUserMenu();
   }
 
@@ -141,16 +140,16 @@ export class Header implements OnInit {
   onLogout() {
     this.dialogService
       .ask(
-        this.translate.instant('message.are_you_sure_you_want_to_log_out'),
-        this.translate.instant('message.confirm_logout'),
+        this.translate.instant("message.are_you_sure_you_want_to_log_out"),
+        this.translate.instant("message.confirm_logout"),
       )
       .then((confirmed) => {
         if (confirmed) {
           this.authService.logout();
-          this.router.navigate(['/']);
+          this.router.navigate(["/"]);
           this.dialogService.success(
             this.translate.instant(
-              'message.you_have_been_logged_out_successfully',
+              "message.you_have_been_logged_out_successfully",
             ),
           );
         }
@@ -158,11 +157,11 @@ export class Header implements OnInit {
   }
 
   // Click outside handling
-  @HostListener('document:click', ['$event'])
+  @HostListener("document:click", ["$event"])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    const userMenu = target.closest('.user-menu');
-    const langMenu = target.closest('.lang-img');
+    const userMenu = target.closest(".user-menu");
+    const langMenu = target.closest(".lang-img");
     if (!userMenu && this.userMenuOpen) {
       this.userMenuOpen = false;
     }

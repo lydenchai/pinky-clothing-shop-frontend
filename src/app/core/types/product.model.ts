@@ -5,6 +5,7 @@ export interface Product {
   description: string;
   price: number;
   category: string;
+  subcategory?: string;
   image: string;
   stock: number;
   sizes?: any[];
@@ -15,6 +16,7 @@ export interface Product {
 
 export interface ProductFilter {
   category?: string;
+  subcategory?: string;
   minPrice?: number;
   maxPrice?: number;
   search?: string;
@@ -47,7 +49,7 @@ export interface CheckoutForm {
   state: string;
   zip_code: string;
   country: string;
-  payment_method: 'credit-card' | 'paypal' | 'cash-on-delivery';
+  payment_method: "credit-card" | "paypal" | "cash-on-delivery";
   card_number: string;
   card_expiry: string;
   card_cvc: string;

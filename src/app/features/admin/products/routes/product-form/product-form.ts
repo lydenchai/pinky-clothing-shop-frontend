@@ -1,28 +1,29 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from "@angular/core";
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
-import { ProductService } from '../../../../../core/services/product.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { PluralPipe } from '../../../../../shared/pipes/plural.pipe';
-import { FieldContainer } from '../../../../../shared/components/field-container/field-container';
-import { UploadImage } from '../../../../../shared/components/upload-image/upload-image';
-import { SizeEnum } from '../../../../../core/types/enums/size.enum';
-import { MatSelectModule } from '@angular/material/select';
-import { MainCategoryEnum } from '../../../../../core/types/enums/main-category.enum';
-import { ColorEnum } from '../../../../../core/types/enums/color.enum';
-import { MatIconModule } from '@angular/material/icon';
-import { DialogService } from '../../../../../core/services/dialog.service';
+} from "@angular/forms";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { MatButtonModule } from "@angular/material/button";
+import { ProductService } from "../../../../../core/services/product.service";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { PluralPipe } from "../../../../../shared/pipes/plural.pipe";
+import { FieldContainer } from "../../../../../shared/components/field-container/field-container";
+import { UploadImage } from "../../../../../shared/components/upload-image/upload-image";
+import { SizeEnum } from "../../../../../core/types/enums/size.enum";
+import { MatSelectModule } from "@angular/material/select";
+import { CategoryEnum } from "../../../../../core/types/enums/category.enum";
+import { ColorEnum } from "../../../../../core/types/enums/color.enum";
+import { MatIconModule } from "@angular/material/icon";
+import { DialogService } from "../../../../../core/services/dialog.service";
+import { SubcategoryEnum } from "../../../../../core/types/enums/subcategory.enum";
 
 @Component({
-  selector: 'app-product-form',
+  selector: "app-product-form",
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -37,27 +38,29 @@ import { DialogService } from '../../../../../core/services/dialog.service';
     MatSelectModule,
     MatIconModule,
   ],
-  templateUrl: './product-form.html',
-  styleUrls: ['./product-form.scss'],
+  templateUrl: "./product-form.html",
+  styleUrls: ["./product-form.scss"],
 })
 export class ProductForm implements OnInit {
   imageFile: File | null = null;
   imagePreviewUrl: string | null = null;
   updateId = signal<string | null>(null);
-  MainCategoryEnum = Object.values(MainCategoryEnum);
+  categories = Object.values(CategoryEnum);
+  subcategories = Object.values(SubcategoryEnum);
   SizeEnum = Object.values(SizeEnum);
   ColorEnum = Object.values(ColorEnum);
 
   form = new FormGroup({
-    code: new FormControl<string | null>(''),
-    name: new FormControl<string | null>('', Validators.required),
-    description: new FormControl<string | null>('', Validators.required),
+    code: new FormControl<string | null>(""),
+    name: new FormControl<string | null>("", Validators.required),
+    description: new FormControl<string | null>("", Validators.required),
     price: new FormControl<number | null>(0, [
       Validators.required,
       Validators.min(0),
     ]),
-    category: new FormControl<string | null>('', Validators.required),
-    image: new FormControl<string | null>('', Validators.required),
+    category: new FormControl<string | null>("", Validators.required),
+    subcategory: new FormControl<string | null>("", Validators.required),
+    image: new FormControl<string | null>("", Validators.required),
     stock: new FormControl<number | null>(0, [
       Validators.required,
       Validators.min(0),
@@ -76,7 +79,7 @@ export class ProductForm implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      const id = params['id'];
+      const id = params["id"];
       this.updateId.set(id);
       if (id) {
         this.productService.getById(id).subscribe({
@@ -125,14 +128,14 @@ export class ProductForm implements OnInit {
       next: () => {
         this.form.markAsPristine();
         this.dialogService
-          .success(this.translate.instant('message.saved_successfully'))
+          .success(this.translate.instant("message.saved_successfully"))
           .then(() => {
-            this.router.navigate(['/admin/products']);
+            this.router.navigate(["/admin/products"]);
           });
       },
       error: () => {
         this.dialogService.success(
-          this.translate.instant('message.save_failed'),
+          this.translate.instant("message.save_failed"),
         );
       },
     });
@@ -150,7 +153,7 @@ export class ProductForm implements OnInit {
       reader.readAsDataURL(file);
     } else {
       this.imagePreviewUrl = null;
-      this.form.patchValue({ image: '' });
+      this.form.patchValue({ image: "" });
     }
   }
 }

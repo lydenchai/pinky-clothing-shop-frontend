@@ -1,45 +1,46 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { ProductCard } from '../../../shared/components/product-card/product-card';
-import { Product } from '../../../core/types/product.model';
-import { ProductService } from '../../../core/services/product.service';
-import { CategoryEnum } from '../../../core/types/enums/category.enum';
+import { Component, OnInit, signal } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
+import { ProductCard } from "../../../shared/components/product-card/product-card";
+import { Product } from "../../../core/types/product.model";
+import { ProductService } from "../../../core/services/product.service";
+import { SubcategoryEnum } from "../../../core/types/enums/subcategory.enum";
 
 @Component({
-  selector: 'app-home',
+  selector: "app-home",
   standalone: true,
   imports: [CommonModule, RouterLink, ProductCard, TranslateModule],
-  templateUrl: './home.html',
-  styleUrl: './home.scss',
+  templateUrl: "./home.html",
+  styleUrl: "./home.scss",
 })
 export class Home implements OnInit {
   products = signal<Product[]>([]);
   isLoading = signal(true);
+  SubCategoryEnum = SubcategoryEnum;
 
   categories = [
     {
-      name: 'T-Shirts',
+      name: "T-Shirts",
       image:
-        'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600',
-      link: '/products?category=T-Shirts',
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600",
+      link: "/products?category=T-Shirts",
     },
     {
-      name: 'Jeans',
-      image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=600',
-      link: '/products?category=Jeans',
+      name: "Jeans",
+      image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=600",
+      link: "/products?category=Jeans",
     },
     {
-      name: 'Dresses',
+      name: "Dresses",
       image:
-        'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',
-      link: '/products?category=Dresses',
+        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600",
+      link: "/products?category=Dresses",
     },
     {
-      name: 'Shoes',
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600',
-      link: '/products?category=Shoes',
+      name: "Shoes",
+      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
+      link: "/products?category=Shoes",
     },
   ];
 
@@ -66,6 +67,4 @@ export class Home implements OnInit {
   newArrivals = () => {
     return this.products().slice(4, 8);
   };
-
-  CategoryEnum = CategoryEnum;
 }

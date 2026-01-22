@@ -1,24 +1,25 @@
-import { Component, OnInit, OnDestroy, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatSelectModule } from '@angular/material/select';
-import { ProductCard } from '../../../shared/components/product-card/product-card';
-import { PluralPipe } from '../../../shared/pipes/plural.pipe';
+import { Component, OnInit, OnDestroy, signal, effect } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ActivatedRoute } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { TranslateModule } from "@ngx-translate/core";
+import { MatSelectModule } from "@angular/material/select";
+import { ProductCard } from "../../../shared/components/product-card/product-card";
+import { PluralPipe } from "../../../shared/pipes/plural.pipe";
 import {
   PaginationInfo,
   Product,
   ProductFilter,
-} from '../../../core/types/product.model';
-import { CategoryEnum } from '../../../core/types/enums/category.enum';
-import { ProductService } from '../../../core/services/product.service';
-import { WishlistService } from '../../../core/services/wishlist.service';
-import { PaginationType } from '../../../core/types/pagination-type';
-import { PaginationUtil } from '../../../utils/pagination.util';
+} from "../../../core/types/product.model";
+import { SubcategoryEnum } from "../../../core/types/enums/subcategory.enum";
+import { ProductService } from "../../../core/services/product.service";
+import { WishlistService } from "../../../core/services/wishlist.service";
+import { PaginationType } from "../../../core/types/pagination-type";
+import { PaginationUtil } from "../../../utils/pagination.util";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-products',
+  selector: "app-products",
   imports: [
     CommonModule,
     FormsModule,
@@ -27,8 +28,8 @@ import { PaginationUtil } from '../../../utils/pagination.util';
     TranslateModule,
     MatSelectModule,
   ],
-  templateUrl: './products.html',
-  styleUrl: './products.scss',
+  templateUrl: "./products.html",
+  styleUrl: "./products.scss",
 })
 export class Products extends PaginationUtil implements OnInit, OnDestroy {
   products = signal<Product[]>([]);
@@ -45,6 +46,7 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
 
   filters = signal<ProductFilter>({
     category: undefined,
+    subcategory: undefined,
     minPrice: undefined,
     maxPrice: undefined,
     search: undefined,
@@ -52,20 +54,43 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
     page: 1,
     limit: 15,
   });
-
-  availableCategories = Object.values(CategoryEnum);
+  subcategories = Object.values(SubcategoryEnum);
 
   showFilters = false;
-  sortBy = 'featured';
+  sortBy = "featured";
   private priceFilterTimeout: any;
 
   constructor(
     private readonly productService: ProductService,
     private readonly wishlistService: WishlistService,
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
   ) {
     super();
-    // Auto-refresh wishlist on load
+
+    this.route.queryParams.subscribe((p: any) => {
+      const filter: ProductFilter = {
+        category: p["category"] === "all" ? undefined : p["category"],
+        subcategory: p["subcategory"] || undefined,
+      };
+      this.filters.set({
+        ...this.filters(),
+        ...filter,
+      });
+      this.pagination.set({
+        currentPage: 1,
+        itemsPerPage: 15,
+        totalItems: 0,
+        totalPages: 0,
+        hasNextPage: false,
+        hasPreviousPage: false,
+      });
+      this.sortBy = "featured";
+      this.getList({ page: 1, limit: this.limit });
+    });
+  }
+
+  ngOnInit() {
     effect(() => {
       this.fetchWishlist();
     });
@@ -87,28 +112,17 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
     this.fetchWishlist();
   }
 
-  ngOnInit() {
-    this.route.queryParams.subscribe((p: any) => {
-      if (p.category === 'all') {
-        this.filters.set({
-          category: undefined,
-        });
-      } else {
-        this.filters.set({
-          category: p['category'],
-        });
-      }
-      this.pagination.set({
-        currentPage: 1,
-        itemsPerPage: 15,
-        totalItems: 0,
-        totalPages: 0,
-        hasNextPage: false,
-        hasPreviousPage: false,
-      });
-      this.sortBy = 'featured';
-      this.getList({ page: 1, limit: this.limit });
+  onSubcategoryChange(subcategory: string) {
+    const sub = subcategory && subcategory !== "" ? subcategory : undefined;
+    this.filters.update((f) => ({ ...f, subcategory: sub, page: 1 }));
+    this.router.navigate([], {
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        subcategory: sub,
+      },
+      queryParamsHandling: "merge",
     });
+    this.getList({ page: 1, limit: this.limit });
   }
 
   onSearchChange(value: string) {
@@ -142,7 +156,7 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
   }
 
   setCategory(category: string) {
-    const cat = category && category !== '' ? category : undefined;
+    const cat = category && category !== "" ? category : undefined;
     this.filters.update((f) => ({ ...f, category: cat, page: 1 }));
     this.getList({ page: 1, limit: this.limit });
   }
@@ -204,36 +218,36 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
 
     // Apply sorting
     switch (this.sortBy) {
-      case 'price-low':
+      case "price-low":
         sorted.sort((a: Product, b: Product) => {
           const priceA =
-            typeof a.price === 'number'
+            typeof a.price === "number"
               ? a.price
               : Number.parseFloat(a.price as any);
           const priceB =
-            typeof b.price === 'number'
+            typeof b.price === "number"
               ? b.price
               : Number.parseFloat(b.price as any);
           return priceA - priceB;
         });
         break;
-      case 'price-high':
+      case "price-high":
         sorted.sort((a: Product, b: Product) => {
           const priceA =
-            typeof a.price === 'number'
+            typeof a.price === "number"
               ? a.price
               : Number.parseFloat(a.price as any);
           const priceB =
-            typeof b.price === 'number'
+            typeof b.price === "number"
               ? b.price
               : Number.parseFloat(b.price as any);
           return priceB - priceA;
         });
         break;
-      case 'name':
+      case "name":
         sorted.sort((a: Product, b: Product) => a.name.localeCompare(b.name));
         break;
-      case 'featured':
+      case "featured":
       default:
         // Keep original order for featured
         break;
@@ -248,14 +262,29 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
   }
 
   clearFilters() {
+    const currentCategory = this.route.snapshot.queryParams["category"];
     this.filters.set({
-      category: undefined,
+      category: currentCategory,
+      subcategory: undefined,
       minPrice: undefined,
       maxPrice: undefined,
       search: undefined,
       inStock: undefined,
       page: 1,
       limit: 15,
+    });
+    this.router.navigate([], {
+      queryParams: {
+        category: currentCategory,
+        subcategory: undefined,
+        minPrice: undefined,
+        maxPrice: undefined,
+        search: undefined,
+        inStock: undefined,
+        page: undefined,
+        limit: undefined,
+      },
+      queryParamsHandling: "",
     });
     this.getList({ page: 1, limit: this.limit });
   }
@@ -269,7 +298,7 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
     if (page >= 1 && page <= this.pagination().totalPages) {
       this.filters.update((f) => ({ ...f, page }));
       this.getList({ page, limit: this.limit });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
 
@@ -291,5 +320,5 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
     }
   }
 
-  CategoryEnum = CategoryEnum;
+  CategoryEnum = SubcategoryEnum;
 }

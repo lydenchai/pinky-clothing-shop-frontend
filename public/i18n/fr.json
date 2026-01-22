@@ -306,6 +306,7 @@
   "search_products": "Rechercher des produits",
   "basic_information": "Informations de base",
   "card_details": "Détails de la carte",
+  "subcategory": "Sous-catégorie",
   "message": {
     "item_added_to_cart_successfully": "Article ajouté au panier avec succès !",
     "please_login_to_add_items_to_your_cart": "Veuillez vous connecter pour ajouter des articles à votre panier",

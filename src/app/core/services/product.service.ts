@@ -20,6 +20,7 @@ export class ProductService extends BaseCrudService<Product> {
     let param: any = {};
     if (filter) {
       if (filter.category) param.category = filter.category;
+      if (filter.subcategory) param.subcategory = filter.subcategory;
       if (filter.minPrice !== undefined) param.minPrice = filter.minPrice;
       if (filter.maxPrice !== undefined) param.maxPrice = filter.maxPrice;
       if (filter.search) param.search = filter.search;

@@ -41,8 +41,19 @@
           <app-field-container [label]="'category' | translate" [control]="form.controls.category">
             <mat-form-field appearance="outline">
               <mat-select [formControl]="form.controls.category">
-                @for (category of MainCategoryEnum; track $index) {
+                @for (category of categories; track $index) {
                 <mat-option [value]="category">{{ category | translate }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'category' | translate" [control]="form.controls.subcategory">
+            <mat-form-field appearance="outline">
+              <mat-select [formControl]="form.controls.subcategory">
+                @for (subcategory of subcategories; track $index) {
+                <mat-option [value]="subcategory">{{ subcategory | translate }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
