@@ -19,7 +19,7 @@
         } @else {
         <table class="w-full">
           <tbody>@for (order of newOrders(); track order._id) {
-            <tr class="h-[35px] text-[14px] cursor-pointer hover:bg-gray-100" (click)="goToOrder(order._id)"
+            <tr class="h-[44px] text-[14px] cursor-pointer hover:bg-gray-100" (click)="goToOrder(order._id)"
               (keydown.enter)="goToOrder(order._id)" tabindex="0">
               <td class="text-[#666] px-3">
                 {{ $index + 1 }}
