@@ -6,5 +6,5 @@ import { Component, Input } from "@angular/core";
   styleUrl: "./skeleton-loader.scss",
 })
 export class SkeletonLoader {
-  @Input() count = 4;
+  @Input() count = 3;
 }
