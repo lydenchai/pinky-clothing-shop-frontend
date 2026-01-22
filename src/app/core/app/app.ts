@@ -69,6 +69,7 @@ export class App implements OnInit {
           this.previousUrl = this.router.url.split('?').reverse().pop();
           setTimeout(() => {
             this.loadingService.setLoading(false);
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
           }, 100);
         }
       }

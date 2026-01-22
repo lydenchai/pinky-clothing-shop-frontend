@@ -5,7 +5,6 @@ import { TranslateModule } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDividerModule } from "@angular/material/divider";
@@ -25,7 +24,6 @@ import { OrderStatusEnum } from "../../../../../core/types/enums/order-status.en
     MatButtonModule,
     RouterModule,
     MatIconModule,
-    MatProgressBarModule,
     MatFormFieldModule,
     MatSelectModule,
     MatDividerModule,

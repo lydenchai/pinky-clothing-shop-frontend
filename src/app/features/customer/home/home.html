@@ -37,10 +37,8 @@
         </a>
       </div>
       @if (isLoading()) {
-      <div class="loading">{{ "loading_products" | translate }}</div>
-      } @else if (featuredProducts().length === 0) {
-      <div class="no-products">{{ "no_products" | translate }}</div>
-      } @else {
+      <app-skeleton-loader [count]="3" />
+      } @else if (featuredProducts().length === 0) { } @else {
       <div class="products-grid">
         @for (product of featuredProducts(); track product._id) {
         <app-product-card [product]="product" />
@@ -70,9 +68,8 @@
         </a>
       </div>
       @if (isLoading()) {
-      <div class="loading">{{ "loading_products" | translate }}</div>
+      <app-skeleton-loader [count]="3" />
       } @else if (newArrivals().length === 0) {
-      <div class="no-products">{{ "no_products" | translate }}</div>
       } @else {
       <div class="products-grid">
         @for (product of newArrivals(); track product._id) {

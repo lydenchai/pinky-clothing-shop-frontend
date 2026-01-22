@@ -6,10 +6,11 @@ import { ProductCard } from "../../../shared/components/product-card/product-car
 import { Product } from "../../../core/types/product.model";
 import { ProductService } from "../../../core/services/product.service";
 import { SubcategoryEnum } from "../../../core/types/enums/subcategory.enum";
+import { SkeletonLoader } from "../../../shared/components/skeleton-loader/skeleton-loader";
 
 @Component({
   selector: "app-home",
-  imports: [CommonModule, RouterLink, ProductCard, TranslateModule],
+  imports: [CommonModule, RouterLink, ProductCard, TranslateModule, SkeletonLoader],
   templateUrl: "./home.html",
   styleUrl: "./home.scss",
 })
