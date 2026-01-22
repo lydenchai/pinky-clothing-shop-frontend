@@ -342,6 +342,10 @@
     "added_to_wishlist": "已添加到愿望清单。",
     "removed_from_wishlist": "已从愿望清单中移除。",
     "please_login_to_use_wishlist": "请登录以使用愿望清单。",
-    "unknown_error": "发生未知错误。请重试。"
+    "unknown_error": "发生未知错误。请重试。",
+    "page_not_found": "哎呀！页面未找到",
+    "page_not_found_description": "您正在寻找的页面可能已被移除、更名，或暂时不可用。",
+    "check_url_or_return_home": "请检查网址或返回首页。",
+    "go_home": "返回首页"
   }
 }

@@ -3,7 +3,7 @@
     <div class="d-flex gap-2 align-items-center form">
       <app-field-container [label]="'search' | translate" [control]="form.controls.name">
         <mat-form-field appearance="outline">
-          <input matInput name="q" appInputBouncer (keyUpBouncer)="onSearch($event)" />
+          <input matInput name="search" appInputBouncer (keyUpBouncer)="onSearch($event)" />
           <mat-icon matPrefix>search</mat-icon>
         </mat-form-field>
       </app-field-container>

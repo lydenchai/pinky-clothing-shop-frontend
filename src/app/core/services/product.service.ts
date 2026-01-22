@@ -38,4 +38,10 @@ export class ProductService extends BaseCrudService<Product> {
       data: {},
     });
   }
+
+  getSubcategories(): Observable<Product> {
+    return this.httpClientService.getJSON<Product>(`${this.path}/subcategories`, {
+      data: {},
+    });
+  }
 }

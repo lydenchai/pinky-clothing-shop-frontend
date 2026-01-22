@@ -1,0 +1,25 @@
+<div
+  class="flex flex-col items-center justify-center min-h-[100vh] bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg p-8 text-center">
+  <div class="mb-6 animate-bounce">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="56" stroke="#ef4444" stroke-width="8" fill="#fff" />
+      <text x="50%" y="54%" text-anchor="middle" fill="#ef4444" font-size="48" font-family="inherit"
+        dy=".3em">404</text>
+      <ellipse cx="60" cy="90" rx="28" ry="8" fill="#ef4444" opacity="0.1" />
+    </svg>
+  </div>
+  <h2 class="text-3xl font-extrabold mb-2 text-red-500 tracking-tight drop-shadow">
+    {{ "message.page_not_found" | translate }}
+  </h2>
+  <p class="mb-8 text-gray-500 text-lg max-w-xl mx-auto leading-relaxed">
+    {{ "message.page_not_found_description" | translate }} {{ "message.check_url_or_return_home" | translate }}
+  </p>
+  <a routerLink="/"
+    class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold text-lg shadow-lg hover:from-red-600 hover:to-pink-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-300">
+    <mat-icon>home</mat-icon>
+    {{ "message.go_home" | translate }}
+  </a>
+  <div class="mt-10 flex flex-col items-center gap-2 opacity-70">
+    <span class="text-xs text-gray-400">Error code: <span class="font-mono text-gray-500">404</span></span>
+  </div>
+</div>

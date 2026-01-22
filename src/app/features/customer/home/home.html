@@ -14,7 +14,8 @@
       <h2 class="section-title">{{ "shop_by_category" | translate }}</h2>
       <div class="categories-grid">
         @for (category of categories; track category.name) {
-        <a [routerLink]="['/products']" [queryParams]="{ category: category.name.toLowerCase() }" class="category-card">
+        <a [routerLink]="['/products']" [queryParams]="{ category: 'all', subcategory: category.name.toLowerCase()  }"
+          class="category-card">
           <img [src]="category.image" [alt]="category.name" loading="lazy" />
           <div class="category-overlay">
             <h3>{{ category.name | lowercase | translate }}</h3>
@@ -31,7 +32,9 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">{{ "featured_products" | translate }}</h2>
-        <a routerLink="/products" class="view-all">{{ "view_all" | translate }} →</a>
+        <a routerLink="/products" [queryParams]="{ category: 'all' }" class="view-all">
+          {{ "view_all" | translate }} →
+        </a>
       </div>
       @if (isLoading()) {
       <div class="loading">{{ "loading_products" | translate }}</div>
@@ -52,9 +55,8 @@
     <div class="promo-content">
       <h2>{{ "summer_sale" | translate }}</h2>
       <p>{{ "up_to_50_off" | translate }}</p>
-      <a routerLink="/products" class="btn-secondary">{{
-        "shop_now" | translate
-        }}</a>
+      <a routerLink="/products" [queryParams]="{ category: 'all' }" class="btn-secondary">
+        {{ "shop_now" | translate }}</a>
     </div>
   </section>
 
@@ -63,9 +65,10 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">{{ "new_arrivals" | translate }}</h2>
-        <a routerLink="/products" class="view-all">{{ "view_all" | translate }} →</a>
+        <a routerLink="/products" [queryParams]="{ category: 'all' }" class="view-all">
+          {{ "view_all" | translate }} →
+        </a>
       </div>
-
       @if (isLoading()) {
       <div class="loading">{{ "loading_products" | translate }}</div>
       } @else if (newArrivals().length === 0) {

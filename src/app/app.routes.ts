@@ -1,25 +1,26 @@
-import { Routes } from '@angular/router';
+import { Routes } from "@angular/router";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     loadChildren: () =>
-      import('./layouts/customer-layout/customer.routes').then(
-        (m) => m.customerRoutes
+      import("./layouts/customer-layout/customer.routes").then(
+        (m) => m.customerRoutes,
       ),
   },
   {
-    path: 'admin',
-    loadChildren: () =>
-      import('./layouts/admin-layout/admin.routes').then((m) => m.adminRoutes),
-  },
-  {
-    path: 'login',
+    path: "login",
     loadComponent: () =>
-      import('./features/auth/login/login').then((m) => m.Login),
+      import("./layouts/auth/login/login").then((m) => m.Login),
   },
   {
-    path: '**',
-    redirectTo: '404',
+    path: "admin",
+    loadChildren: () =>
+      import("./layouts/admin-layout/admin.routes").then((m) => m.adminRoutes),
+  },
+  {
+    path: "**",
+    loadComponent: () =>
+      import("./layouts/not-found/not-found").then((m) => m.NotFound),
   },
 ];

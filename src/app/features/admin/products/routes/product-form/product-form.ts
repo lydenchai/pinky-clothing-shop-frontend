@@ -91,6 +91,7 @@ export class ProductForm implements OnInit {
               description: product.description,
               price: product.price,
               category: product.category,
+              subcategory: product.subcategory,
               image: product.image,
               stock: product.stock,
               sizes: product.sizes,
@@ -116,6 +117,7 @@ export class ProductForm implements OnInit {
       name: formValue.name,
       description: formValue.description,
       category: formValue.category,
+      subcategory: formValue.subcategory,
       sizes: formValue.sizes,
       colors: formValue.colors,
     };
