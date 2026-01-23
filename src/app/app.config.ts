@@ -18,6 +18,7 @@ import {
 } from "@ngx-translate/http-loader";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { customBuildInfo } from "../custom-build-info";
+import { provideNativeDateAdapter } from "@angular/material/core";
 
 const httpLoaderConfig = {
   prefix: "/i18n/",
@@ -42,5 +43,6 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideAnimationsAsync(),
+    provideNativeDateAdapter(),
   ],
 };

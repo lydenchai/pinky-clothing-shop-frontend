@@ -1,21 +1,20 @@
 @use "./variables" as *;
 
-// Dialog backdrop with blur effect
-.cdk-overlay-backdrop {
+/* 1. Dialog backdrop ALWAYS wins */
+.cdk-overlay-container:has(.mat-mdc-dialog-panel) .cdk-overlay-backdrop {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
   animation: fadeIn 0.2s ease-out;
 }
 
-// Disable backdrop blur for datepicker popups
-.cdk-overlay-container:has(.mat-datepicker-popup) .cdk-overlay-backdrop {
+/* 2. Datepicker ONLY when no dialog */
+.cdk-overlay-container:has(.mat-datepicker-popup):not(:has(.mat-mdc-dialog-panel)) .cdk-overlay-backdrop {
   background: unset;
   backdrop-filter: unset;
 }
 
-// Disable backdrop blur for select panels
-.cdk-overlay-container:has(.cdk-overlay-pane .mat-mdc-select-panel)
-  .cdk-overlay-backdrop {
+/* 3. Mat-select ONLY when no dialog */
+.cdk-overlay-container:has(.mat-mdc-select-panel):not(:has(.mat-mdc-dialog-panel)) .cdk-overlay-backdrop {
   background: unset;
   backdrop-filter: unset;
 }

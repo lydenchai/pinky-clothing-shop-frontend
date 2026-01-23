@@ -23,6 +23,7 @@ import { DiscountTypeEnum } from "../../../../../core/types/enums/discount-type.
 
 @Component({
   selector: "app-discount-product-dialog",
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslateModule,
@@ -38,6 +39,7 @@ import { DiscountTypeEnum } from "../../../../../core/types/enums/discount-type.
   ],
   templateUrl: "./discount-product-dialog.html",
   styleUrl: "./discount-product-dialog.scss",
+  providers: [MatNativeDateModule],
 })
 export class DiscountProductDialog {
   DiscountTypeEnum = Object.values(DiscountTypeEnum);
