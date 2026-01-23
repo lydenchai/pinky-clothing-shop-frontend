@@ -23,6 +23,7 @@ import { DialogService } from "../../../../../core/services/dialog.service";
 import { SubcategoryEnum } from "../../../../../core/types/enums/subcategory.enum";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { DiscountTypeEnum } from "../../../../../core/types/enums/discount-type.enum";
 
 @Component({
   selector: "app-product-form",
@@ -52,6 +53,7 @@ export class ProductForm implements OnInit {
   subcategories = Object.values(SubcategoryEnum);
   SizeEnum = Object.values(SizeEnum);
   ColorEnum = Object.values(ColorEnum);
+  DiscountTypeEnum = Object.values(DiscountTypeEnum);
 
   form = new FormGroup({
     code: new FormControl<string | null>(""),
@@ -61,7 +63,7 @@ export class ProductForm implements OnInit {
       Validators.required,
       Validators.min(0),
     ]),
-    discount_type: new FormControl<"percentage" | "fixed" | null>(null),
+    discount_type: new FormControl<DiscountTypeEnum | null>(null),
     discount_value: new FormControl<number | null>(null, [Validators.min(0)]),
     discount_start: new FormControl<Date | null>(null),
     discount_end: new FormControl<Date | null>(null),

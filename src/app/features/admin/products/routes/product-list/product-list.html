@@ -1,6 +1,6 @@
 <div class="admin-container scroll-container">
   <section class="table-header d-flex align-items-center justify-content-between">
-    <div class="d-flex gap-2 align-items-center form">
+    <div class="d-flex align-items-center form gap-2">
       <app-field-container [label]="'search' | translate" [control]="form.controls.name">
         <mat-form-field appearance="outline">
           <input matInput name="search" appInputBouncer (keyUpBouncer)="onSearch($event)" />
@@ -11,7 +11,7 @@
         <mat-form-field appearance="outline">
           <mat-select [formControl]="form.controls.category" [placeholder]="'all' | translate"
             (selectionChange)="onCategoryChange($event.value)">
-            <mat-option [value]="''">{{ 'all' | translate }}</mat-option>
+            <mat-option [value]="''">{{ "all" | translate }}</mat-option>
             @for (cat of categories; track $index) {
             <mat-option [value]="cat">{{ cat | translate }}</mat-option>
             }
@@ -22,7 +22,7 @@
         <mat-form-field appearance="outline">
           <mat-select [formControl]="form.controls.subcategory" [placeholder]="'all' | translate"
             (selectionChange)="onSubcategoryChange($event.value)">
-            <mat-option [value]="''">{{ 'all' | translate }}</mat-option>
+            <mat-option [value]="''">{{ "all" | translate }}</mat-option>
             @for (cat of subcategories; track $index) {
             <mat-option [value]="cat">{{ cat | translate }}</mat-option>
             }
@@ -31,9 +31,14 @@
       </app-field-container>
     </div>
     <div class="top-btn ms-auto">
+      <button mat-raised-button color="accent" class="update ms-2" (click)="openDiscountDialog()"
+        [disabled]="selectedProductIds.size === 0">
+        <mat-icon>percent</mat-icon>
+        <span class="ms-1">Set Discount</span>
+      </button>
       <button mat-raised-button color="primary" class="create" routerLink="create">
         <mat-icon>add</mat-icon>
-        <span class="ms-1">{{ 'create' | translate }}</span>
+        <span class="ms-1">{{ "create" | translate }}</span>
       </button>
     </div>
   </section>
@@ -41,25 +46,42 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="number">{{ 'no.' | translate }}</th>
-          <th>{{ 'code' | translate }}</th>
-          <th>{{ 'name' | translate }}</th>
-          <th>{{ 'category' | translate }}</th>
-          <th>{{ 'subcategory' | translate }}</th>
-          <th>{{ 'price' | translate }}</th>
-          <th>{{ 'stock' | translate }}</th>
-          <th class="action">{{ 'action' | translate }}</th>
+          <th class="number">
+            <mat-checkbox [checked]="isAllSelected()" (change)="toggleAllSelection()"></mat-checkbox>
+          </th>
+          <th class="number">{{ "no." | translate }}</th>
+          <th>{{ "code" | translate }}</th>
+          <th>{{ "name" | translate }}</th>
+          <th>{{ "category" | translate }}</th>
+          <th>{{ "subcategory" | translate }}</th>
+          <th>{{ "price" | translate }}</th>
+          <th>{{ "stock" | translate }}</th>
+          <th class="action">{{ "action" | translate }}</th>
         </tr>
       </thead>
       <tbody>
         @for (product of products; track $index) {
         <tr>
-          <td class="number">{{ ($index + 1 + ((page - 1) * limit))}}</td>
+          <td>
+            <mat-checkbox [checked]="selectedProductIds.has(product._id!)"
+              (change)="toggleProductSelection(product._id!)">
+            </mat-checkbox>
+          </td>
+          <td class="number">{{ $index + 1 + (page - 1) * limit }}</td>
           <td>#{{ product.code }}</td>
           <td>{{ product.name }}</td>
-          <td>{{ product.category | translate}}</td>
-          <td>{{ product.subcategory | translate}}</td>
-          <td>{{ product.price | currency }}</td>
+          <td>{{ product.category | translate }}</td>
+          <td>{{ product.subcategory | translate }}</td>
+          <td>
+            @if (product.discounted_price && product.discounted_price < product.price) { <span
+              class="text-decoration-line-through text-muted me-1">{{ product.price | currency }}</span>
+              <span class="fw-bold">{{ product.discounted_price | currency }}</span>
+              }
+              @if (!product.discounted_price || product.discounted_price >= product.price) {<span>
+                {{ product.price | currency }}
+              </span>
+              }
+          </td>
           <td>{{ product.stock }}</td>
           <td class="action">
             <button class="btn" mat-icon-button color="primary" class="edit" [routerLink]="[product._id, 'update']"

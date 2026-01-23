@@ -315,6 +315,7 @@
   "fixed": "固定",
   "off": "折扣",
   "until": "直到",
+  "save": "保存",
   "message": {
     "item_added_to_cart_successfully": "商品已成功加入购物车！",
     "please_login_to_add_items_to_your_cart": "请先登录以将商品加入购物车",
@@ -354,6 +355,7 @@
     "page_not_found": "哎呀！页面未找到",
     "page_not_found_description": "您正在寻找的页面可能已被移除、更名，或暂时不可用。",
     "check_url_or_return_home": "请检查网址或返回首页。",
-    "go_home": "返回首页"
+    "go_home": "返回首页",
+    "discount_applied_successfully": "折扣应用成功！"
   }
 }

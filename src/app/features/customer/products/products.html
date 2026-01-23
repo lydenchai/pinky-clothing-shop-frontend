@@ -98,6 +98,9 @@
 
       <!-- Products Grid -->
       <main class="products-main">
+        @if (loading()) {
+        <app-skeleton-loader [count]="3" />
+        } @else {
         @if (filteredProducts().length > 0) {
         <div class="products-grid">
           @for (product of filteredProducts(); track product._id) {
@@ -145,6 +148,7 @@
           <p>{{ 'try_adjusting_filters' | translate }}</p>
           <button class="btn-primary" (click)="clearFilters()">{{ 'clear_filters' | translate }}</button>
         </div>
+        }
         }
       </main>
     </div>

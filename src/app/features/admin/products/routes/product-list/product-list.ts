@@ -16,6 +16,9 @@ import { MatFormField, MatSelectModule } from "@angular/material/select";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { MatInputModule } from "@angular/material/input";
 import { InputBouncerDirective } from "../../../../../shared/directives/input-bouncer.directive";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDialog } from "@angular/material/dialog";
+import { DiscountProductDialog } from "../../components/discount-product-dialog/discount-product-dialog";
 
 @Component({
   selector: "app-product-list",
@@ -34,6 +37,7 @@ import { InputBouncerDirective } from "../../../../../shared/directives/input-bo
     MatSelectModule,
     InputBouncerDirective,
     MatButtonModule,
+    MatCheckboxModule,
   ],
 })
 export class ProductList extends PaginationUtil implements OnInit {
@@ -48,7 +52,10 @@ export class ProductList extends PaginationUtil implements OnInit {
   });
   query?: string;
 
+  selectedProductIds = new Set<string>();
+
   constructor(
+    private readonly dialog: MatDialog,
     private readonly productService: ProductService,
     private readonly dialogService: DialogService,
     private readonly translateService: TranslateService,
@@ -146,5 +153,52 @@ export class ProductList extends PaginationUtil implements OnInit {
       );
       console.error(err);
     }
+  }
+
+  isAllSelected(): boolean {
+    return (
+      this.products.length > 0 &&
+      this.selectedProductIds.size === this.products.length
+    );
+  }
+
+  toggleAllSelection() {
+    if (this.isAllSelected()) {
+      this.selectedProductIds.clear();
+    } else {
+      this.products.forEach((p) => this.selectedProductIds.add(p._id!));
+    }
+  }
+
+  toggleProductSelection(productId: string) {
+    if (this.selectedProductIds.has(productId)) {
+      this.selectedProductIds.delete(productId);
+    } else {
+      this.selectedProductIds.add(productId);
+    }
+  }
+
+  async openDiscountDialog() {
+    const dialogRef = this.dialog.open(DiscountProductDialog, {
+      width: "35%",
+      maxHeight: "90vh",
+      data: {
+        selectedCount: this.selectedProductIds.size,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.productService
+          .bulkSetDiscount(Array.from(this.selectedProductIds), result)
+          .subscribe(() => {
+            this.dialogService
+              .success("message.discount_applied_successfully")
+              .then(() => {
+                this.getList({ page: this.page, limit: this.limit });
+              });
+            this.selectedProductIds.clear();
+          });
+      }
+    });
   }
 }

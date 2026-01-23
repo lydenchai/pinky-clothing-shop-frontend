@@ -16,6 +16,7 @@ import { ProductService } from "../../../core/services/product.service";
 import { WishlistService } from "../../../core/services/wishlist.service";
 import { PaginationType } from "../../../core/types/pagination-type";
 import { PaginationUtil } from "../../../utils/pagination.util";
+import { SkeletonLoader } from "../../../shared/components/skeleton-loader/skeleton-loader";
 
 @Component({
   selector: "app-products",
@@ -26,6 +27,7 @@ import { PaginationUtil } from "../../../utils/pagination.util";
     PluralPipe,
     TranslateModule,
     MatSelectModule,
+    SkeletonLoader,
   ],
   templateUrl: "./products.html",
   styleUrl: "./products.scss",
@@ -58,6 +60,7 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
   showFilters = false;
   sortBy = "featured";
   private priceFilterTimeout: any;
+  loading = signal(false);
 
   constructor(
     private readonly productService: ProductService,
@@ -130,6 +133,7 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
   }
 
   getList(event: PaginationType) {
+    this.loading.set(true);
     this.productService
       .getAllProducts({
         page: event.page,
@@ -150,6 +154,10 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
               hasPreviousPage: event.page > 1,
             });
           }
+          this.loading.set(false);
+        },
+        complete: () => {
+          this.loading.set(false);
         },
       });
   }

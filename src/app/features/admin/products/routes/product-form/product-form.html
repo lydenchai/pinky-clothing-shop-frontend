@@ -34,9 +34,9 @@
           <app-field-container [label]="'discount_type' | translate" [control]="form.controls.discount_type">
             <mat-form-field appearance="outline">
               <mat-select [formControl]="form.controls.discount_type">
-                <mat-option [value]="null">None</mat-option>
-                <mat-option value="percentage">Percentage</mat-option>
-                <mat-option value="fixed">Fixed</mat-option>
+                @for (item of DiscountTypeEnum; track $index) {
+                <mat-option [value]="item">{{ item | translate }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
           </app-field-container>

@@ -1,0 +1,53 @@
+<mat-dialog-content>
+
+  <h1 class="title text-primary">Set Discount for Products</h1><br />
+  <div>{{ selectedCount() }} products selected</div>
+  <form [formGroup]="form" class="form my-2">
+    <div class="row mt-2">
+      <div class="col-6">
+        <app-field-container [label]="'discount_type' | translate" [control]="form.controls.discount_type">
+          <mat-form-field appearance="outline">
+            <mat-select [formControl]="form.controls.discount_type">
+              @for (item of DiscountTypeEnum; track $index) {
+              <mat-option [value]="item">{{ item | translate }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </app-field-container>
+      </div>
+      <div class="col-6">
+        <app-field-container [label]="'discount_value' | translate" [control]="form.controls.discount_value">
+          <mat-form-field appearance="outline">
+            <input matInput type="number" name="discount_value" [formControl]="form.controls.discount_value" min="0" />
+          </mat-form-field>
+        </app-field-container>
+      </div>
+      <div class="col-6">
+        <app-field-container [label]="'discount_start' | translate" [control]="form.controls.discount_start">
+          <mat-form-field appearance="outline">
+            <input matInput [matDatepicker]="pickerStart" [formControl]="form.controls.discount_start" />
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStart></mat-datepicker>
+          </mat-form-field>
+        </app-field-container>
+      </div>
+      <div class="col-6">
+        <app-field-container [label]="'discount_end' | translate" [control]="form.controls.discount_end">
+          <mat-form-field appearance="outline">
+            <input matInput [matDatepicker]="pickerEnd" [formControl]="form.controls.discount_end" />
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd></mat-datepicker>
+          </mat-form-field>
+        </app-field-container>
+      </div>
+    </div>
+  </form>
+  <div class="dialog-footer">
+    <button type="button" class="cancel" mat-dialog-close>
+      <mat-icon>cancel</mat-icon>{{ 'cancel' | translate }}
+    </button>
+    <button type="button" class="save" (click)="onSubmit()">
+      <mat-icon>save</mat-icon>{{ 'save' | translate }}
+    </button>
+  </div>
+</mat-dialog-content>

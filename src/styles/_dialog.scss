@@ -1,0 +1,105 @@
+@use "./variables" as *;
+
+// Dialog backdrop with blur effect
+.cdk-overlay-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+// Disable backdrop blur for datepicker popups
+.cdk-overlay-container:has(.mat-datepicker-popup) .cdk-overlay-backdrop {
+  background: unset;
+  backdrop-filter: unset;
+}
+
+// Disable backdrop blur for select panels
+.cdk-overlay-container:has(.cdk-overlay-pane .mat-mdc-select-panel)
+  .cdk-overlay-backdrop {
+  background: unset;
+  backdrop-filter: unset;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  max-width: 80vw !important;
+}
+
+.mat-mdc-dialog-surface {
+  width: 100%;
+  background: #fff;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+  animation: slideUp 0.3s ease-out;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+
+  button {
+    height: 44px;
+    padding: 0 24px;
+    border-radius: 25px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    mat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    &.cancel {
+      background-color: $secondary-color;
+      color: $black-color;
+
+      &:hover {
+        background: #e8e8ed;
+      }
+    }
+
+    &.save {
+      background-color: $primary-color;
+      color: $white-color !important;
+
+      &:hover {
+        background: #005bb5;
+      }
+    }
+  }
+}

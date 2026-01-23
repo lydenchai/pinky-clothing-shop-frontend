@@ -1,36 +1,48 @@
-import { Injectable, Injector } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, Injector } from "@angular/core";
+import { Observable } from "rxjs";
 import {
   Product,
   ProductFilter,
   ProductsResponse,
-} from '../types/product.model';
-import { BaseCrudService } from './base-crud.service';
+} from "../types/product.model";
+import { BaseCrudService } from "./base-crud.service";
+import { DiscountProduct } from "../types/discount-product";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ProductService extends BaseCrudService<Product> {
   constructor(injector: Injector) {
     super(injector);
-    this.path = '/products/';
+    this.path = "/products/";
   }
 
   getAllProducts(filter?: ProductFilter): Observable<ProductsResponse> {
-    let param: any = {};
-    if (filter) {
-      if (filter.category) param.category = filter.category;
-      if (filter.subcategory) param.subcategory = filter.subcategory;
-      if (filter.minPrice !== undefined) param.minPrice = filter.minPrice;
-      if (filter.maxPrice !== undefined) param.maxPrice = filter.maxPrice;
-      if (filter.search) param.search = filter.search;
-      if (filter.inStock !== undefined) param.inStock = filter.inStock;
-      if (filter.page !== undefined) param.page = filter.page;
-      if (filter.limit !== undefined) param.limit = filter.limit;
-    }
+    const param = this.buildProductFilterParams(filter);
     return this.httpClientService.getJSON<ProductsResponse>(this.path, {
       data: param,
     });
+  }
+
+  private buildProductFilterParams(filter?: ProductFilter): any {
+    if (!filter) return {};
+    const param: any = {};
+    const filterKeys: (keyof ProductFilter)[] = [
+      "category",
+      "subcategory",
+      "minPrice",
+      "maxPrice",
+      "search",
+      "inStock",
+      "page",
+      "limit",
+    ];
+    filterKeys.forEach((key) => {
+      if (filter[key] !== undefined && filter[key] !== null) {
+        param[key] = filter[key];
+      }
+    });
+    return param;
   }
 
   getCategories(): Observable<Product> {
@@ -40,8 +52,28 @@ export class ProductService extends BaseCrudService<Product> {
   }
 
   getSubcategories(): Observable<Product> {
-    return this.httpClientService.getJSON<Product>(`${this.path}/subcategories`, {
-      data: {},
-    });
+    return this.httpClientService.getJSON<Product>(
+      `${this.path}/subcategories`,
+      {
+        data: {},
+      },
+    );
+  }
+
+  bulkSetDiscount(
+    product_ids: string[],
+    discount: {
+      discount_type: string;
+      discount_value: string;
+      discount_start: string;
+      discount_end: string;
+    },
+  ) {
+    return this.httpClientService.postJSON<DiscountProduct>(
+      `${this.path}/bulk-discount`,
+      {
+        data: { product_ids, discount },
+      },
+    );
   }
 }

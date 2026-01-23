@@ -315,6 +315,7 @@
   "fixed": "Cố định",
   "off": "Giảm",
   "until": "đến",
+  "save": "Lưu",
   "message": {
     "item_added_to_cart_successfully": "Thêm sản phẩm vào giỏ hàng thành công!",
     "please_login_to_add_items_to_your_cart": "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng",
@@ -354,6 +355,7 @@
     "page_not_found": "Rất tiếc! Không tìm thấy trang",
     "page_not_found_description": "Trang bạn đang tìm kiếm có thể đã bị xóa, bị đổi tên hoặc tạm thời không khả dụng.",
     "check_url_or_return_home": "Vui lòng kiểm tra URL hoặc quay lại trang chủ.",
-    "go_home": "Về trang chủ"
+    "go_home": "Về trang chủ",
+    "discount_applied_successfully": "Giảm giá đã được áp dụng thành công!"
   }
 }
