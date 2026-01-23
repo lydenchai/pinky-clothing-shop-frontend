@@ -4,7 +4,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  discount_type?: 'percentage' | 'fixed' | null;
+  discount_type?: "percentage" | "fixed" | null;
   discount_value?: number | null;
   discount_start?: Date | null;
   discount_end?: Date | null;

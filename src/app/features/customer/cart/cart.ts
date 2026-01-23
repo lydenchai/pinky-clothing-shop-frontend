@@ -5,6 +5,7 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { CartService } from "../../../core/services/cart.service";
 import { DialogService } from "../../../core/services/dialog.service";
 import { Cart as CartInterface } from "../../../core/types/cart";
+
 @Component({
   selector: "app-cart",
   imports: [CommonModule, RouterLink, TranslateModule],

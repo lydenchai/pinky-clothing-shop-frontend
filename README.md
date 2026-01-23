@@ -115,7 +115,7 @@ src/app/
 ```typescript
 // Filter by category, price range, search query
 productService.getAllProducts({
-  category: "T-Shirts",
+  category: "Shirts",
   minPrice: 20,
   maxPrice: 50,
   search: "cotton",

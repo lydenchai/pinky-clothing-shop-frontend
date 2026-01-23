@@ -65,7 +65,8 @@
    position: absolute;
    top: 40px;
    right: 0;
-   min-width: 400px;
+   min-width: 450px;
+   max-width: fit-content;
    background: #fff;
    border: 1px solid #eee;
    border-radius: 8px;

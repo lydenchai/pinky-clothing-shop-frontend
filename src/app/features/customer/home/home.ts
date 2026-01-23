@@ -10,7 +10,13 @@ import { SkeletonLoader } from "../../../shared/components/skeleton-loader/skele
 
 @Component({
   selector: "app-home",
-  imports: [CommonModule, RouterLink, ProductCard, TranslateModule, SkeletonLoader],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ProductCard,
+    TranslateModule,
+    SkeletonLoader,
+  ],
   templateUrl: "./home.html",
   styleUrl: "./home.scss",
 })
@@ -21,10 +27,10 @@ export class Home implements OnInit {
 
   categories = [
     {
-      name: "T-Shirts",
+      name: "Shirts",
       image:
         "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600",
-      link: "/products?category=T-Shirts",
+      link: "/products?category=Shirts",
     },
     {
       name: "Jeans",

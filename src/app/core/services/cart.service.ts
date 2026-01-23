@@ -1,16 +1,16 @@
-import { Injectable, signal, computed, effect, Injector } from '@angular/core';
+import { Injectable, signal, computed, effect, Injector } from "@angular/core";
 
-import { LocalStorageService } from './local-storage.service';
-import { LocalStorageEnum } from '../types/enums/local-storage.enum';
-import { Observable, tap, catchError, of } from 'rxjs';
-import { Cart } from '../types/cart';
-import { AuthService } from './auth.service';
-import { CartItem } from '../types/cart-item';
-import { CartItemRequest } from '../types/cart-item-request';
-import { BaseCrudService } from './base-crud.service';
+import { LocalStorageService } from "./local-storage.service";
+import { LocalStorageEnum } from "../types/enums/local-storage.enum";
+import { Observable, tap, catchError, of } from "rxjs";
+import { Cart } from "../types/cart";
+import { AuthService } from "./auth.service";
+import { CartItem } from "../types/cart-item";
+import { CartItemRequest } from "../types/cart-item-request";
+import { BaseCrudService } from "./base-crud.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class CartService extends BaseCrudService<any> {
   private readonly cartItems = signal<CartItem[]>([]);
@@ -22,10 +22,11 @@ export class CartService extends BaseCrudService<any> {
       0,
     );
     const subtotal = items.reduce(
-      (sum, item) => sum + (item?.product_price ?? 0) * (item?.quantity || 0),
+      (sum, item) =>
+        sum +
+        (item.product.discounted_price ?? item.product.price) * item.quantity,
       0,
     );
-
     let shipping = 0;
     if (subtotal > 0) {
       shipping = subtotal > 100 ? 0 : 10;
@@ -52,7 +53,7 @@ export class CartService extends BaseCrudService<any> {
     private readonly localStorage: LocalStorageService,
   ) {
     super(injector);
-    this.path = '/cart/';
+    this.path = "/cart/";
 
     // React to login/logout using effect on signal
     effect(() => {
@@ -63,12 +64,12 @@ export class CartService extends BaseCrudService<any> {
           if (savedCart) {
             try {
               const items: CartItem[] = JSON.parse(savedCart);
-              items.forEach((item) => {
+              items.forEach((item: any) => {
                 this.addToCart(
-                  item.product_id!,
+                  item.product._id,
                   item.quantity,
-                  item.size,
-                  item.color,
+                  item.product.sizes,
+                  item.product.color,
                 ).subscribe();
               });
               this.localStorage.delete(LocalStorageEnum.Cart);

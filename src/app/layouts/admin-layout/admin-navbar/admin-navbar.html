@@ -18,6 +18,11 @@
         <div class="dropdown-empty">{{ 'no_new_orders' | translate }}</div>
         } @else {
         <table class="w-full">
+          <thead>
+            <tr>
+              <th colspan="4"></th>
+            </tr>
+          </thead>
           <tbody>@for (order of newOrders(); track order._id) {
             <tr class="h-[44px] text-[14px] cursor-pointer hover:bg-gray-100" (click)="goToOrder(order._id)"
               (keydown.enter)="goToOrder(order._id)" tabindex="0">

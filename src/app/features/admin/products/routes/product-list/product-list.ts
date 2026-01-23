@@ -58,6 +58,7 @@ export class ProductList extends PaginationUtil implements OnInit {
 
   ngOnInit() {
     this.getCategories();
+    this.getSubcategories();
     this.getList({ page: 1, limit: this.limit });
   }
 
@@ -75,7 +76,7 @@ export class ProductList extends PaginationUtil implements OnInit {
       }
     });
   }
-  
+
   getSubcategories() {
     this.productService.getSubcategories().subscribe((res: any) => {
       if (Array.isArray(res)) {

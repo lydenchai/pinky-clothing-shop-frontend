@@ -23,7 +23,7 @@
           <mat-select [formControl]="form.controls.subcategory" [placeholder]="'all' | translate"
             (selectionChange)="onSubcategoryChange($event.value)">
             <mat-option [value]="''">{{ 'all' | translate }}</mat-option>
-            @for (cat of categories; track $index) {
+            @for (cat of subcategories; track $index) {
             <mat-option [value]="cat">{{ cat | translate }}</mat-option>
             }
           </mat-select>
@@ -45,6 +45,7 @@
           <th>{{ 'code' | translate }}</th>
           <th>{{ 'name' | translate }}</th>
           <th>{{ 'category' | translate }}</th>
+          <th>{{ 'subcategory' | translate }}</th>
           <th>{{ 'price' | translate }}</th>
           <th>{{ 'stock' | translate }}</th>
           <th class="action">{{ 'action' | translate }}</th>
@@ -57,6 +58,7 @@
           <td>#{{ product.code }}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.category | translate}}</td>
+          <td>{{ product.subcategory | translate}}</td>
           <td>{{ product.price | currency }}</td>
           <td>{{ product.stock }}</td>
           <td class="action">

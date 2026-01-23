@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, AfterViewInit } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import { Stripe, StripeElements, StripeCardElement } from "@stripe/stripe-js";
 import { CommonModule } from "@angular/common";
 import {
@@ -29,7 +29,7 @@ import { OrderService } from "../../../core/services/order.service";
   templateUrl: "./checkout.html",
   styleUrl: "./checkout.scss",
 })
-export class Checkout implements OnInit, AfterViewInit {
+export class Checkout {
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   card: StripeCardElement | null = null;
@@ -80,25 +80,17 @@ export class Checkout implements OnInit, AfterViewInit {
           last_name: res.data.last_name,
           phone: res.data.phone,
           address: {
-            street: "",
-            house: "",
-            village: "",
-            commune: "",
-            district: "",
-            province: "",
-            country: res.data.country || "Cambodia",
+            street: res.data.address?.street,
+            house: res.data.address?.house,
+            village: res.data.address?.village,
+            commune: res.data.address?.commune,
+            district: res.data.address?.district,
+            province: res.data.address?.province,
+            country: res.data.address?.country,
           },
         });
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    throw new Error("Method not implemented.");
-  }
-
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
   }
 
   placeOrder() {
@@ -180,11 +172,15 @@ export class Checkout implements OnInit, AfterViewInit {
     const payload: any = {
       items:
         cart?.items?.map((item) => ({
-          product_id: item.product_id,
-          product_name: item.product_name,
-          product_image: item.product_image,
+          product_id: item.product._id,
+          product_name: item.product.name,
+          product_image: item.product.image,
           quantity: item.quantity,
-          price: item.product_price,
+          price:
+            item.product.discounted_price &&
+            item.product.discounted_price < item.product.price
+              ? item.product.discounted_price
+              : item.product.price,
           size: item.size,
           color: item.color,
         })) || [],

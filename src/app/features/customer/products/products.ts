@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, signal, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { MatSelectModule } from "@angular/material/select";
@@ -16,7 +16,6 @@ import { ProductService } from "../../../core/services/product.service";
 import { WishlistService } from "../../../core/services/wishlist.service";
 import { PaginationType } from "../../../core/types/pagination-type";
 import { PaginationUtil } from "../../../utils/pagination.util";
-import { Router } from "@angular/router";
 
 @Component({
   selector: "app-products",

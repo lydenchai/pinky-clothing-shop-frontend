@@ -7,20 +7,20 @@ import {
   Output,
   EventEmitter,
   Input,
-} from '@angular/core';
-import { interval, Subscription } from 'rxjs';
-import { Router, RouterModule } from '@angular/router';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
-import { MatIconModule } from '@angular/material/icon';
-import { DatePipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { LocalStorageService } from '../../../core/services/local-storage.service';
-import { LocalStorageEnum } from '../../../core/types/enums/local-storage.enum';
-import { LanguageEnum } from '../../../core/types/enums/language.enum';
-import { OrderService } from '../../../core/services/order.service';
+} from "@angular/core";
+import { interval, Subscription } from "rxjs";
+import { Router, RouterModule } from "@angular/router";
+import { TranslateService, TranslateModule } from "@ngx-translate/core";
+import { MatIconModule } from "@angular/material/icon";
+import { DatePipe } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { LocalStorageService } from "../../../core/services/local-storage.service";
+import { LocalStorageEnum } from "../../../core/types/enums/local-storage.enum";
+import { LanguageEnum } from "../../../core/types/enums/language.enum";
+import { OrderService } from "../../../core/services/order.service";
 
 @Component({
-  selector: 'app-admin-navbar',
+  selector: "app-admin-navbar",
   imports: [
     RouterModule,
     TranslateModule,
@@ -28,8 +28,8 @@ import { OrderService } from '../../../core/services/order.service';
     DatePipe,
     MatButtonModule,
   ],
-  templateUrl: './admin-navbar.html',
-  styleUrls: ['./admin-navbar.scss'],
+  templateUrl: "./admin-navbar.html",
+  styleUrls: ["./admin-navbar.scss"],
 })
 export class AdminNavbar implements OnInit, OnDestroy {
   langMenuOpen = false;
@@ -49,7 +49,6 @@ export class AdminNavbar implements OnInit, OnDestroy {
   @Output() menuExtendedChange = new EventEmitter<boolean>();
 
   constructor(
-    private readonly translate: TranslateService,
     private readonly translateService: TranslateService,
     private readonly localStorageService: LocalStorageService,
     private readonly orderService: OrderService,
@@ -96,7 +95,7 @@ export class AdminNavbar implements OnInit, OnDestroy {
     this.orderService.getMany().subscribe({
       next: (orders) => {
         const pendingOrders = orders.data.filter(
-          (o: any) => o.status === 'pending',
+          (o: any) => o.status === "pending",
         );
         // Get viewed order IDs from localStorage
         const viewedIds = this.localStorageService.getArray(
@@ -146,7 +145,7 @@ export class AdminNavbar implements OnInit, OnDestroy {
     }
     this.notificationOpen.set(false);
     this.fetchNewOrders();
-    this.router.navigate(['/admin/orders', order_id]);
+    this.router.navigate(["/admin/orders", order_id]);
   }
 
   toggleLangMenu() {
@@ -160,11 +159,11 @@ export class AdminNavbar implements OnInit, OnDestroy {
   }
 
   // Click outside handling
-  @HostListener('document:click', ['$event'])
+  @HostListener("document:click", ["$event"])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    const langMenu = target.closest('.lang-switcher');
-    const notificationDropdown = target.closest('.notification-wrapper');
+    const langMenu = target.closest(".lang-switcher");
+    const notificationDropdown = target.closest(".notification-wrapper");
     if (!langMenu && this.langMenuOpen) {
       this.langMenuOpen = false;
     }
