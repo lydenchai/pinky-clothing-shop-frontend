@@ -61,7 +61,7 @@ export class ProductService extends BaseCrudService<Product> {
   }
 
   bulkSetDiscount(
-    product_ids: string[],
+    productIds: string[],
     discount: {
       discount_type: string;
       discount_value: string;
@@ -72,7 +72,13 @@ export class ProductService extends BaseCrudService<Product> {
     return this.httpClientService.postJSON<DiscountProduct>(
       `${this.path}/bulk-discount`,
       {
-        data: { product_ids, discount },
+        data: {
+          productIds,
+          discountType: discount.discount_type,
+          discountValue: discount.discount_value,
+          discountStart: discount.discount_start,
+          discountEnd: discount.discount_end,
+        },
       },
     );
   }

@@ -55,10 +55,10 @@ export class ProductList extends PaginationUtil implements OnInit {
   selectedProductIds = new Set<string>();
 
   constructor(
-    private readonly dialog: MatDialog,
+    private readonly dialog: MatDialog, 
+    private readonly translate: TranslateService,
     private readonly productService: ProductService,
     private readonly dialogService: DialogService,
-    private readonly translateService: TranslateService,
   ) {
     super();
   }
@@ -127,19 +127,19 @@ export class ProductList extends PaginationUtil implements OnInit {
   async deleteProduct(_id: string) {
     try {
       const confirmed = await this.dialogService.ask(
-        this.translateService.instant(
+        this.translate.instant(
           "message._are_you_sure_you_want_to_delete_this",
           {
             param: "product",
           },
         ),
-        this.translateService.instant("confirm"),
+        this.translate.instant("confirm"),
       );
       if (!confirmed) return;
       this.productService.delete(_id).subscribe(() => {
         this.dialogService
           .success(
-            this.translateService.instant("message.deleted_successfully"),
+            this.translate.instant("message.deleted_successfully"),
           )
           .then(() => {
             this.getList({ page: this.page, limit: this.limit });
@@ -147,7 +147,7 @@ export class ProductList extends PaginationUtil implements OnInit {
       });
     } catch (err) {
       this.dialogService.error(
-        this.translateService.instant(
+        this.translate.instant(
           "message.an_error_occurred_please_try_again",
         ),
       );
@@ -192,7 +192,7 @@ export class ProductList extends PaginationUtil implements OnInit {
           .bulkSetDiscount(Array.from(this.selectedProductIds), result)
           .subscribe(() => {
             this.dialogService
-              .success("message.discount_applied_successfully")
+              .success(this.translate.instant("message.discount_applied_successfully"))
               .then(() => {
                 this.getList({ page: this.page, limit: this.limit });
               });

@@ -66,10 +66,8 @@ export class DiscountProductDialog {
   }
 
   onSubmit() {
-    // if (this.form.valid) {
-      // this.dialogRef.close(this.form.value);
-      console.log(this.form.value);
-      
-    // }
+    if (this.form.valid) {
+      this.dialogRef.close(this.form.value);
+    }
   }
 }
