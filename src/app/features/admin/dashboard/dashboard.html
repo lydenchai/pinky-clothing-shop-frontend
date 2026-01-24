@@ -8,11 +8,11 @@
       <button class="btn" mat-flat-button color="primary" class="post" routerLink="/admin/products/create"
         type="button">
         <mat-icon>add</mat-icon>
-        <span class="ms-1">{{ 'product' | translate }}</span>
+        {{ 'product' | translate }}
       </button>
       <button class="btn" mat-flat-button color="primary" class="post" routerLink="/admin/products" type="button">
         <mat-icon>list</mat-icon>
-        <span class="ms-1">{{ '_list' | translate :{param: ('product' | translate)} }}</span>
+        {{ '_list' | translate :{param: ('product' | translate)} }}
       </button>
     </div>
   </header>
