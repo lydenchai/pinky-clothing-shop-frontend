@@ -22,6 +22,7 @@
         @for (m of item.children; track $index) {
         <li [class.active]="isActive(m.route)">
           <a [routerLink]="m.route" [class.active]="isActive(m.route)">
+            <mat-icon>{{ m.icon }}</mat-icon>
             <span class="title">
               {{ m.title === "site_info" || m.title === "payment" ? (m.title | translate) : (m.title | translate |
               plural) }}
