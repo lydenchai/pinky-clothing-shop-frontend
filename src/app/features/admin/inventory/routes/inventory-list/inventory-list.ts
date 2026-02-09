@@ -1,3 +1,6 @@
+import { InventoryLogService } from "../../../../../core/services/inventory-log.service";
+import { InventoryLogItem } from "../../../../../core/types/inventory-log";
+
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
@@ -43,14 +46,40 @@ export class InventoryList extends PaginationUtil implements OnInit, OnDestroy {
     name: new FormControl<string | null>(""),
   });
   query?: string;
-
+  showLogModal = false;
+  logItems: InventoryLogItem[] = [];
+  logLoading = false;
+  selectedInventoryCode: string | null = null;
+  
   constructor(
     private readonly translate: TranslateService,
     private readonly dialogService: DialogService,
     private readonly inventoryService: InventoryService,
+    private readonly inventoryLogService: InventoryLogService,
     private readonly router: Router,
   ) {
     super();
+  }
+  async openLogModal(item: InventoryItem) {
+    this.showLogModal = true;
+    this.selectedInventoryCode = item.code || null;
+    this.logLoading = true;
+    this.inventoryLogService.getLogs(item._id).subscribe({
+      next: (logs) => {
+        this.logItems = logs;
+        this.logLoading = false;
+      },
+      error: () => {
+        this.logItems = [];
+        this.logLoading = false;
+      },
+    });
+  }
+
+  closeLogModal() {
+    this.showLogModal = false;
+    this.logItems = [];
+    this.selectedInventoryCode = null;
   }
 
   private readonly routerSub: Subscription | null = null;
@@ -119,5 +148,28 @@ export class InventoryList extends PaginationUtil implements OnInit, OnDestroy {
       );
       console.error(err);
     }
+  }
+
+  async adjustStock(item: InventoryItem, amount: number) {
+    if (!item._id) return;
+    try {
+      await this.inventoryService.adjustStock(item._id, amount).toPromise();
+      this.getList({ page: this.page, limit: this.limit });
+    } catch (err) {
+      this.dialogService.error(
+        this.translate.instant("message.an_error_occurred_please_try_again"),
+      );
+    }
+  }
+
+  async openAdjustDialog(item: InventoryItem) {
+    const value = prompt(
+      this.translate.instant("Enter adjustment amount (positive or negative):"),
+      "0",
+    );
+    if (value === null) return;
+    const amount = parseInt(value, 10);
+    if (isNaN(amount) || amount === 0) return;
+    await this.adjustStock(item, amount);
   }
 }

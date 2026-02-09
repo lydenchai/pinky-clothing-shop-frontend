@@ -13,7 +13,11 @@ export interface OrderSummary {
 
 export interface Shipping {
   address: string;
+  postal_code?: string;
+  village?: string;
+  commune?: string;
+  district?: string;
+  province?: string;
   city: string;
-  postal_code: string;
-  country: string;
+  country?: string;
 }

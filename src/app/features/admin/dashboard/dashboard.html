@@ -29,14 +29,14 @@
         <div class="kpi-label">{{ 'low_stock' | translate }} (&le;5)</div>
       </div>
       <div class="kpi orders">
+        <div class="kpi-icon">🧾</div>
+        <div class="kpi-value">{{ totalOrders }}</div>
+        <div class="kpi-label">{{ 'order' | translate }}</div>
+      </div>
+      <div class="kpi orders">
         <div class="kpi-icon">🛒</div>
         <div class="kpi-value">{{ pendingOrders }}</div>
         <div class="kpi-label">{{ 'pending_orders' | translate }}</div>
-      </div>
-      <div class="kpi sales">
-        <div class="kpi-icon">💰</div>
-        <div class="kpi-value">{{ salesNumber | number:'1.0-0' }}</div>
-        <div class="kpi-label">{{ 'total_sales' | translate }}</div>
       </div>
     </section>
     <section class="panels">

@@ -1,17 +1,17 @@
 <div class="admin-container scroll-container">
   <section class="table-header d-flex align-items-center justify-content-between">
-    <div class="d-flex gap-2 align-items-center form">
+    <div class="d-flex align-items-center form gap-2">
       <app-field-container [label]="'search' | translate" [control]="form.controls.name">
         <mat-form-field appearance="outline" class="filter-field">
           <input matInput name="search" appInputBouncer (keyUpBouncer)="onSearch($event)" />
           <mat-icon matPrefix>search</mat-icon>
         </mat-form-field>
-      </app-field-container> 
-      <app-field-container [label]="'status' | translate" [control]="form.controls.status ">
+      </app-field-container>
+      <app-field-container [label]="'status' | translate" [control]="form.controls.status">
         <mat-form-field appearance="outline">
           <mat-select [formControl]="form.controls.status" [placeholder]="'all' | translate"
             (selectionChange)="onStatusChange($event.value)">
-            <mat-option [value]="''">{{ 'all' | translate }}</mat-option>
+            <mat-option [value]="''">{{ "all" | translate }}</mat-option>
             @for (status of orderStatusEnums; track $index) {
             <mat-option [value]="status">{{ status | translate }}</mat-option>
             }
@@ -21,7 +21,7 @@
       <app-field-container [label]="'date' | translate" [control]="form.controls.date">
         <mat-form-field appearance="outline">
           <input matInput [matDatepicker]="datepicker" [formControl]="form.controls.date"
-            (dateChange)="onDateChange($event.value)" [value]="form.controls.date.value | date:'dd-MM-yyyy HH:mm a'" />
+            (dateChange)="onDateChange($event.value)" [value]="form.controls.date.value | date: 'dd-MM-yyyy HH:mm a'" />
           <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
           <mat-datepicker #datepicker></mat-datepicker>
         </mat-form-field>
@@ -32,28 +32,36 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="number">{{ 'no.' | translate }}</th>
-          <th>{{ 'code' | translate }}</th>
-          <th>{{ 'customer' | translate }}</th>
-          <th>{{ 'total' | translate }}</th>
-          <th>{{ 'date' | translate }}</th>
-          <th>{{ 'status' | translate }}</th>
-          <th class="action">{{ 'action' | translate }}</th>
+          <th class="number">{{ "no." | translate }}</th>
+          <th>{{ "code" | translate }}</th>
+          <th>{{ "customer" | translate }}</th>
+          <th>{{ "total" | translate }}</th>
+          <th>{{ "date" | translate }}</th>
+          <th>{{ "status" | translate }}</th>
+          <th class="action">{{ "action" | translate }}</th>
         </tr>
       </thead>
       <tbody>
         @for (order of orders; track order._id) {
         <tr>
-          <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
+          <td class="number">{{ $index + 1 + (page - 1) * limit }}</td>
           <td>#{{ order.code }}</td>
           <td>{{ order.user?.first_name }} {{ order.user?.last_name }}</td>
           <td>${{ order.total_amount }}</td>
-          <td>{{ order.created_at | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ order.created_at | date: "dd-MM-yyyy" }}</td>
           <td class="status" [class]="order.status">
             {{ order.status | translate }}
           </td>
           <td class="action">
             <a mat-icon-button [routerLink]="[order._id]" class="view"><mat-icon>visibility</mat-icon></a>
+            @if (order.status === "pending") {
+            <button mat-icon-button color="primary" (click)="updateOrderStatus(order, 'approved')" title="Approve">
+              <mat-icon>check_circle</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="updateOrderStatus(order, 'rejected')" title="Reject">
+              <mat-icon>cancel</mat-icon>
+            </button>
+            }
           </td>
         </tr>
         } @empty {

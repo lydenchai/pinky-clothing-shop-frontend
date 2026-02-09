@@ -121,6 +121,23 @@
       </div>
       <div class="row mt-2">
         <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'supplier' | translate" [control]="form.controls.supplier">
+            <mat-form-field appearance="outline">
+              <input matInput name="supplier" [formControl]="form.controls.supplier" placeholder="Supplier name or ID" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <app-field-container [label]="'status' | translate" [control]="form.controls.status">
+            <mat-form-field appearance="outline">
+              <mat-select [formControl]="form.controls.status">
+                <mat-option value="active">{{ 'active' | translate }}</mat-option>
+                <mat-option value="inactive">{{ 'inactive' | translate }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
           <app-field-container [label]="'image' | translate" [control]="form.controls.image">
             <app-upload-image [previewUrl]="imagePreviewUrl" (imageSelected)="onImageSelected($event)">
             </app-upload-image>

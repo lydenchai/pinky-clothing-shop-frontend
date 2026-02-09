@@ -6,11 +6,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { MatSelectModule } from "@angular/material/select";
 import { ProductCard } from "../../../shared/components/product-card/product-card";
 import { PluralPipe } from "../../../shared/pipes/plural.pipe";
-import {
-  PaginationInfo,
-  Product,
-  ProductFilter,
-} from "../../../core/types/product.model";
+import { Product } from "../../../core/types/product.model";
 import { SubcategoryEnum } from "../../../core/types/enums/subcategory.enum";
 import { ProductService } from "../../../core/services/product.service";
 import { WishlistService } from "../../../core/services/wishlist.service";
@@ -36,16 +32,16 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
   products = signal<Product[]>([]);
   filteredProducts = signal<Product[]>([]);
   wishlistProductIds = signal<string[]>([]);
-  pagination = signal<PaginationInfo>({
+  pagination = signal<any>({
     currentPage: 1,
     itemsPerPage: 15,
-    totalItems: 0,
+    totalCount: 0,
     totalPages: 0,
     hasNextPage: false,
     hasPreviousPage: false,
   });
 
-  filters = signal<ProductFilter>({
+  filters = signal<any>({
     category: undefined,
     subcategory: undefined,
     minPrice: undefined,
@@ -71,7 +67,7 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
     super();
 
     this.route.queryParams.subscribe((p: any) => {
-      const filter: ProductFilter = {
+      const filter = {
         category: p["category"] === "all" ? undefined : p["category"],
         subcategory: p["subcategory"] || undefined,
       };
@@ -82,7 +78,7 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
       this.pagination.set({
         currentPage: 1,
         itemsPerPage: 15,
-        totalItems: 0,
+        totalCount: 0,
         totalPages: 0,
         hasNextPage: false,
         hasPreviousPage: false,
@@ -148,9 +144,9 @@ export class Products extends PaginationUtil implements OnInit, OnDestroy {
             this.pagination.set({
               currentPage: event.page,
               itemsPerPage: event.limit,
-              totalItems: res.pagination.totalItems,
+              totalItems: res.pagination.totalCount,
               totalPages: res.pagination.totalPages,
-              hasNextPage: event.page < res.pagination.totalPages,
+              hasNextPage: event.page < res.pagination.totalPages!,
               hasPreviousPage: event.page > 1,
             });
           }

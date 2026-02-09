@@ -151,6 +151,21 @@ export class Checkout {
     };
     this.orderService.getOrderSummary(summaryReq).subscribe({
       next: (summary) => {
+        if (summary.data && Array.isArray(summary.data.items)) {
+          summary.data.items = summary.data.items.map((item: any) => ({
+            ...item,
+            name: item.product_name || item.name,
+            image: item.product_image || item.image,
+            discounted_price: item.discounted_price,
+            price: item.price,
+            size: item.size,
+            color: item.color,
+            product: {
+              price: item.price,
+              discounted_price: item.discounted_price,
+            },
+          }));
+        }
         this.orderSummary.set(summary.data);
         this.summaryLoading.set(false);
       },

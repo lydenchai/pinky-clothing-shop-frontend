@@ -94,4 +94,14 @@ export class OrdersAdmin extends PaginationUtil implements OnInit {
         },
       });
   }
+
+  updateOrderStatus(order: Order, status: string) {
+    if (!order || !order._id) return;
+    this.orderService.updateOrderStatus(order._id, status).subscribe({
+      next: () => {
+        this.getList({ page: this.page, limit: this.limit });
+      },
+      error: () => {},
+    });
+  }
 }

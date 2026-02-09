@@ -1,442 +1,332 @@
 <div class="page-container">
   <h1 class="page-title mb-[1.5rem]">{{ "checkout" | translate }}</h1>
   @if (orderPlaced()) {
-    <div class="success-modal">
-      <div class="success-content">
-        <div class="success-icon">✓</div>
-        <h2>{{ "order_placed_successfully" | translate }}</h2>
-        <p>{{ "thank_you_for_your_purchase" | translate }}</p>
-        <h3>
-          {{ "order_number" | translate }}:
-          {{ orderResponse()._id || orderResponse().order_id }}
-        </h3>
-        <div class="order-confirm-items">
-          @for (item of orderResponse().items; track $index) {
-            <div class="order-item">
-              <img
-                [src]="item.product_image || item.product_image"
-                [alt]="item.product_name || item.product_name"
-              />
-              <div class="item-info">
-                <p class="item-name">
-                  {{ item.product_name || item.product_name }}
-                </p>
-                <p class="item-qty">
-                  {{ "quantity" | translate }}: {{ item.quantity || item.qty }}
-                </p>
-              </div>
-              <p class="item-price">
-                ${{
-                  (item.product.discounted_price ?? item.product.price) *
-                    item.quantity | number: "1.2-2"
-                }}
-                <span
-                  *ngIf="
-                    item.product.discounted_price &&
-                    item.product.discounted_price < item.product.price
-                  "
-                  class="discounted"
-                >
-                  <s
-                    >${{
-                      item.product.price * item.quantity | number: "1.2-2"
-                    }}</s
-                  >
-                </span>
-              </p>
-            </div>
-          }
+  <div class="success-modal">
+    <div class="success-content">
+      <div class="success-icon">✓</div>
+      <h2>{{ "order_placed_successfully" | translate }}</h2>
+      <p>{{ "thank_you_for_your_purchase" | translate }}</p>
+      <h3>
+        {{ "order_number" | translate }}:
+        {{ orderResponse()._id || orderResponse().order_id }}
+      </h3>
+      <div class="order-confirm-items">
+        @for (item of orderResponse().items; track $index) {
+        <div class="order-item">
+          <img [src]="item.product.image" [alt]="item.product.name" />
+          <div class="item-info">
+            <p class="item-name">
+              {{ item.product.name }}
+            </p>
+            <p class="item-qty">
+              {{ "quantity" | translate }}: {{ item.quantity || item.qty }}
+            </p>
+          </div>
+          <p class="item-price">
+            ${{
+            (item.product.discounted_price ?? item.product.price) *
+            item.quantity | number: "1.2-2"
+            }}
+            @if (
+            item.product.discounted_price &&
+            item.product.discounted_price < item.product.price ) { <span class="discounted">
+              <s>${{
+                item.product.price * item.quantity | number: "1.2-2"
+                }}</s>
+              </span>
+              }
+          </p>
         </div>
-        <div class="summary-totals">
-          <div class="summary-row">
-            <span>{{ "subtotal" | translate }}</span>
-            <span>
-              ${{
-                orderResponse().subtotal ||
-                  orderResponse().total_amount ||
-                  orderResponse().total | number: "1.2-2"
-              }}
-            </span>
-          </div>
-          <div class="summary-row">
-            <span>{{ "shipping" | translate }}</span>
-            <span>${{ orderResponse().shipping || 0 | number: "1.2-2" }}</span>
-          </div>
-          <div class="summary-total">
-            <span>{{ "total" | translate }}</span>
-            <span>
-              ${{
-                orderResponse().total ||
-                  orderResponse().total_amount ||
-                  orderResponse().subtotal | number: "1.2-2"
-              }}
-            </span>
-          </div>
-          <div class="summary-row">
-            <span>{{ "status" | translate }}</span>
-            <span>{{ orderResponse().status }}</span>
-          </div>
-          <div class="summary-row">
-            <span>{{ "address" | translate }}</span>
-            <span>{{
-              orderResponse().shippingAddress || orderResponse().address
-            }}</span>
-          </div>
-          <div class="summary-row">
-            <span>{{ "created_at" | translate }}</span>
-            <span>{{
-              orderResponse().created_at || orderResponse().created_at
-            }}</span>
-          </div>
+        }
+      </div>
+      <div class="summary-totals">
+        <div class="summary-row">
+          <span>{{ "subtotal" | translate }}</span>
+          <span>
+            ${{
+            orderResponse().subtotal ||
+            orderResponse().total_amount ||
+            orderResponse().total | number: "1.2-2"
+            }}
+          </span>
+        </div>
+        <div class="summary-row">
+          <span>{{ "shipping" | translate }}</span>
+          <span>${{ orderResponse().shipping || 0 | number: "1.2-2" }}</span>
+        </div>
+        <div class="summary-total">
+          <span>{{ "total" | translate }}</span>
+          <span>
+            ${{
+            orderResponse().total ||
+            orderResponse().total_amount ||
+            orderResponse().subtotal | number: "1.2-2"
+            }}
+          </span>
+        </div>
+        <div class="summary-row">
+          <span>{{ "status" | translate }}</span>
+          <span>{{ orderResponse().status }}</span>
+        </div>
+        <div class="summary-row">
+          <span>{{ "address" | translate }}</span>
+          <span>{{ orderResponse().shippingAddress || orderResponse().address }}</span>
+        </div>
+        <div class="summary-row">
+          <span>{{ "created_at" | translate }}</span>
+          <span>{{ orderResponse().created_at || orderResponse().created_at }}</span>
         </div>
       </div>
     </div>
+  </div>
   }
   @if (cart()?.items?.length === 0 && !orderPlaced()) {
-    <div class="empty-message">
-      <p>{{ "empty_cart" | translate }}</p>
-      <a
-        routerLink="/products"
-        [queryParams]="{ category: 'all' }"
-        class="btn-primary"
-        >{{ "continue_shopping" | translate }}</a
-      >
-    </div>
+  <div class="empty-cart flex flex-col items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2">
+      <circle cx="8" cy="21" r="1"></circle>
+      <circle cx="19" cy="21" r="1"></circle>
+      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+    </svg>
+    <h2>{{ "empty_cart" | translate }}</h2>
+    <p>{{ "add_products_to_get_started" | translate }}</p>
+    <a routerLink="/products" [queryParams]="{ category: 'all' }" class="btn-primary">
+      {{ "continue_shopping" | translate }}
+    </a>
+  </div>
   } @else if (!orderPlaced()) {
-    <div class="checkout-layout">
-      <!-- Checkout Form -->
-
-      @if (!orderSummary()) {
-        <form
-          [formGroup]="form"
-          class="checkout-form"
-          (ngSubmit)="placeOrder()"
-        >
-          <!-- Contact Information -->
-          <section class="form-section">
-            <h2>{{ "contact_information" | translate }}</h2>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email-input">{{ "email" | translate }} *</label>
-                <input
-                  id="email-input"
-                  type="email"
-                  [formControl]="form.controls.email"
-                  name="email"
-                  required
-                  placeholder="you@example.com"
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="first-name-input"
-                  >{{ "first_name" | translate }} *</label
-                >
-                <input
-                  id="first-name-input"
-                  type="text"
-                  [formControl]="form.controls.first_name"
-                  name="first_name"
-                  required
-                  placeholder="Lusi"
-                />
-              </div>
-              <div class="form-group">
-                <label for="last-name-input"
-                  >{{ "last_name" | translate }} *</label
-                >
-                <input
-                  id="last-name-input"
-                  type="text"
-                  [formControl]="form.controls.last_name"
-                  name="last_name"
-                  required
-                  placeholder="Zhao"
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="phone-input">{{ "phone" | translate }}</label>
-                <input
-                  id="phone-input"
-                  type="tel"
-                  [formControl]="form.controls.phone"
-                  name="phone"
-                  placeholder="+1 (555) 000-0000"
-                />
-              </div>
-            </div>
-          </section>
-
-          <!-- Shipping Address -->
-          <section class="form-section">
-            <h2>{{ "shipping_address" | translate }}</h2>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="street-input">{{ "street" | translate }} *</label>
-                <input
-                  id="street-input"
-                  type="text"
-                  [formControl]="form.controls.address.controls.street"
-                  name="street"
-                  required
-                  placeholder="123 Main St"
-                />
-              </div>
-              <div class="form-group">
-                <label for="house-input">{{ "house" | translate }} *</label>
-                <input
-                  id="house-input"
-                  type="text"
-                  [formControl]="form.controls.address.controls.house"
-                  name="house"
-                  required
-                  placeholder="House No."
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="village-input">{{ "village" | translate }} *</label>
-                <input
-                  id="village-input"
-                  type="text"
-                  [formControl]="form.controls.address.controls.village"
-                  name="village"
-                  required
-                  placeholder="Village"
-                />
-              </div>
-              <div class="form-group">
-                <label for="commune-input">{{ "commune" | translate }} *</label>
-                <input
-                  id="commune-input"
-                  type="text"
-                  [formControl]="form.controls.address.controls.commune"
-                  name="commune"
-                  required
-                  placeholder="Commune"
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="district-input"
-                  >{{ "district" | translate }} *</label
-                >
-                <input
-                  id="district-input"
-                  type="text"
-                  [formControl]="form.controls.address.controls.district"
-                  name="district"
-                  required
-                  placeholder="District"
-                />
-              </div>
-              <div class="form-group">
-                <label for="province-input"
-                  >{{ "province" | translate }} *</label
-                >
-                <input
-                  id="province-input"
-                  type="text"
-                  [formControl]="form.controls.address.controls.province"
-                  name="province"
-                  required
-                  placeholder="Province"
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="country-input">{{ "country" | translate }} *</label>
-                <input
-                  id="country-input"
-                  type="text"
-                  [formControl]="form.controls.address.controls.country"
-                  name="country"
-                  required
-                  placeholder="Cambodia"
-                />
-              </div>
-            </div>
-          </section>
-
-          <!-- Payment Method -->
-          <section class="form-section">
-            <h2>{{ "payment_method" | translate }}</h2>
-            <div class="payment-options">
-              <label class="payment-option">
-                <input
-                  type="radio"
-                  [formControl]="form.controls.paymentMethod"
-                  name="paymentMethod"
-                  value="credit-card"
-                />
-                <span>💳 {{ "credit_card" | translate }}</span>
-              </label>
-              <label class="payment-option">
-                <input
-                  type="radio"
-                  [formControl]="form.controls.paymentMethod"
-                  name="paymentMethod"
-                  value="paypal"
-                />
-                <span>{{ "paypal" | translate }}</span>
-              </label>
-            </div>
-            @if (form.controls.paymentMethod.value === "credit-card") {
-              <div class="card-details">
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="card-element"
-                      >{{ "card_details" | translate }} *</label
-                    >
-                    <div
-                      id="card-element"
-                      class="rounded-md border border-[#e0e0e0] p-[0.75rem]"
-                    >
-                      {{ "XXXXXXXXXXXXXXXXXXXX" }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            }
-          </section>
-          <button type="submit" class="btn-place-order">
-            {{ "place_order" | translate }} - ${{
-              cart()?.total | number: "1.2-2"
-            }}
-          </button>
-        </form>
-      } @else {
-        <div class="order-summary-confirm">
-          <h2>{{ "order_summary" | translate }}</h2>
-          <div class="order-items my-4">
-            @for (item of orderSummary()?.items; track $index) {
-              <div class="order-item">
-                <img [src]="item.image" [alt]="item.name" />
-                <div class="item-info">
-                  <p class="item-name">{{ item.name }}</p>
-                  <p class="item-qty">
-                    {{ "quantity" | translate }}: {{ item.quantity }}
-                  </p>
-                </div>
-                <p class="item-price">
-                  @if (
-                    item.discounted_price && item.discounted_price < item.price
-                  ) {
-                    <span class="font-normal text-[#888] line-through">
-                      ${{ item.price * item.quantity | number: "1.2-2" }}
-                    </span>
-                  }
-                  <span>
-                    ${{
-                      (item.discounted_price ?? item.price) * item.quantity
-                        | number: "1.2-2"
-                    }}
-                  </span>
-                </p>
-              </div>
-            }
+  <div class="checkout-layout">
+    @if (!orderSummary()) {
+    <form [formGroup]="form" class="checkout-form" (ngSubmit)="placeOrder()">
+      <!-- Contact Information -->
+      <section class="form-section">
+        <h2>{{ "contact_information" | translate }}</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email-input">{{ "email" | translate }} *</label>
+            <input id="email-input" type="email" [formControl]="form.controls.email" name="email" required
+              placeholder="you@example.com" />
           </div>
-          <div class="summary-totals">
-            <div class="summary-row">
-              <span>{{ "subtotal" | translate }}</span>
-              <span>${{ orderSummary()?.subtotal | number: "1.2-2" }}</span>
-            </div>
-            <div class="summary-row">
-              <span>{{ "tax" | translate }}</span>
-              <span>${{ orderSummary()?.tax | number: "1.2-2" }}</span>
-            </div>
-            <div class="summary-row">
-              <span>{{ "shipping" | translate }}</span>
-              <span
-                >{{ orderSummary()?.shipping?.address }},
-                {{ orderSummary()?.shipping?.city }},
-                {{ orderSummary()?.shipping?.country }}</span
-              >
-            </div>
-          </div>
-          <button class="btn-place-order" (click)="confirmOrder()">
-            {{ "confirm_order" | translate }}
-          </button>
         </div>
-      }
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first-name-input">{{ "first_name" | translate }} *</label>
+            <input id="first-name-input" type="text" [formControl]="form.controls.first_name" name="first_name" required
+              placeholder="Lusi" />
+          </div>
+          <div class="form-group">
+            <label for="last-name-input">{{ "last_name" | translate }} *</label>
+            <input id="last-name-input" type="text" [formControl]="form.controls.last_name" name="last_name" required
+              placeholder="Zhao" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone-input">{{ "phone" | translate }}</label>
+            <input id="phone-input" type="tel" [formControl]="form.controls.phone" name="phone"
+              placeholder="+1 (555) 000-0000" />
+          </div>
+        </div>
+      </section>
 
-      <!-- Order Summary -->
-      <div class="order-summary-sidebar">
-        <h2>{{ "order_summary" | translate }}</h2>
+      <!-- Shipping Address -->
+      <section class="form-section">
+        <h2>{{ "shipping_address" | translate }}</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="street-input">{{ "street" | translate }} *</label>
+            <input id="street-input" type="text" [formControl]="form.controls.address.controls.street" name="street"
+              required placeholder="123 Main St" />
+          </div>
+          <div class="form-group">
+            <label for="house-input">{{ "house" | translate }} *</label>
+            <input id="house-input" type="text" [formControl]="form.controls.address.controls.house" name="house"
+              required placeholder="House No." />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="village-input">{{ "village" | translate }} *</label>
+            <input id="village-input" type="text" [formControl]="form.controls.address.controls.village" name="village"
+              required placeholder="Village" />
+          </div>
+          <div class="form-group">
+            <label for="commune-input">{{ "commune" | translate }} *</label>
+            <input id="commune-input" type="text" [formControl]="form.controls.address.controls.commune" name="commune"
+              required placeholder="Commune" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="district-input">{{ "district" | translate }} *</label>
+            <input id="district-input" type="text" [formControl]="form.controls.address.controls.district"
+              name="district" required placeholder="District" />
+          </div>
+          <div class="form-group">
+            <label for="province-input">{{ "province" | translate }} *</label>
+            <input id="province-input" type="text" [formControl]="form.controls.address.controls.province"
+              name="province" required placeholder="Province" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="country-input">{{ "country" | translate }} *</label>
+            <input id="country-input" type="text" [formControl]="form.controls.address.controls.country" name="country"
+              required placeholder="Cambodia" />
+          </div>
+        </div>
+      </section>
 
-        <div class="order-items">
-          @for (item of cart()?.items; track $index) {
-            <div class="order-item">
-              <img [src]="item.product.image" [alt]="item.product.name" />
-              <div class="item-info">
-                <p class="item-name">{{ item.product.name }}</p>
-                <p class="item-details">
-                  @if (item.size) {
-                    {{ item.size }}
-                  }
-                  @if (item.size && item.color) {
-                    /
-                  }
-                  @if (item.color) {
-                    {{ item.color }}
-                  }
-                </p>
-                <p class="item-qty">
-                  {{ "quantity" | translate }}: {{ item.quantity }}
-                </p>
+      <!-- Payment Method -->
+      <section class="form-section">
+        <h2>{{ "payment_method" | translate }}</h2>
+        <div class="payment-options">
+          <label class="payment-option">
+            <input type="radio" [formControl]="form.controls.paymentMethod" name="paymentMethod" value="credit-card" />
+            <span>💳 {{ "credit_card" | translate }}</span>
+          </label>
+          <label class="payment-option">
+            <input type="radio" [formControl]="form.controls.paymentMethod" name="paymentMethod" value="paypal" />
+            <span>{{ "paypal" | translate }}</span>
+          </label>
+        </div>
+        @if (form.controls.paymentMethod.value === "credit-card") {
+        <div class="card-details">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="card-element">{{ "card_details" | translate }} *</label>
+              <div id="card-element" class="rounded-md border border-[#e0e0e0] p-[0.75rem]">
+                {{ "XXXXXXXXXXXXXXXXXXXX" }}
               </div>
-              <p class="item-price flex flex-col text-end">
-                @if (
-                  item.product.discounted_price &&
-                  item.product.discounted_price < item.product.price
-                ) {
-                  <span
-                    class="text-[14px] font-normal text-[#888] line-through"
-                  >
-                    ${{ item.product.price * item.quantity | number: "1.2-2" }}
-                  </span>
-                }
-                <span>
-                  ${{
-                    (item.product.discounted_price ?? item.product.price) *
-                      item.quantity | number: "1.2-2"
-                  }}
-                </span>
+            </div>
+          </div>
+        </div>
+        }
+      </section>
+      <button type="submit" class="btn-place-order">
+        {{ "place_order" | translate }} - ${{
+        cart()?.total | number: "1.2-2"
+        }}
+      </button>
+    </form>
+    } @else {
+    <div class="order-summary-confirm">
+      <h2>{{ "order_summary" | translate }}</h2>
+      <div class="order-items my-4">
+        @if (orderResponse() && orderResponse().items) {
+          @for (item of orderResponse().items; track $index) {
+          <div class="order-item">
+            <img [src]="item.image" [alt]="item.name" />
+            <div class="item-info">
+              <p class="item-name">
+                {{ item.name }}
+              </p>
+              <p class="item-qty">
+                {{ "quantity" | translate }}: {{ item.quantity }}
               </p>
             </div>
+            <p class="item-price">
+              ${{
+              (item.discounted_price ?? item.price) * item.quantity | number: "1.2-2"
+              }}
+              @if (item.discounted_price && item.discounted_price < item.price) { <span class="discounted">
+                <s>${{ item.price * item.quantity | number: "1.2-2" }}</s>
+                </span>
+                }
+            </p>
+          </div>
           }
+        }
+      </div>
+      <div class="summary-totals">
+        <div class="summary-row">
+          <span>{{ "subtotal" | translate }}</span>
+          <span>${{ orderSummary()?.subtotal | number: "1.2-2" }}</span>
         </div>
-        <div class="summary-totals">
-          <div class="summary-row">
-            <span>{{ "subtotal" | translate }}</span>
-            <span>${{ cart()?.subtotal | number: "1.2-2" }}</span>
-          </div>
-          <div class="summary-row">
-            <span>{{ "shipping" | translate }}</span>
-            <span>
-              @if (cart()?.shipping === 0) {
-                <span class="free">{{ "free" | translate }}</span>
-              } @else {
-                ${{ cart()?.shipping | number: "1.2-2" }}
+        <div class="summary-row">
+          <span>{{ "tax" | translate }}</span>
+          <span>${{ orderSummary()?.tax | number: "1.2-2" }}</span>
+        </div>
+        <div class="summary-row">
+          <span>{{ "shipping" | translate }}</span>
+          <span>{{ orderSummary()?.shipping?.address }},
+            {{ orderSummary()?.shipping?.city }},
+            {{ orderSummary()?.shipping?.country }}</span>
+        </div>
+      </div>
+      <button class="btn-place-order" (click)="confirmOrder()">
+        {{ "confirm_order" | translate }}
+      </button>
+    </div>
+    }
+
+    <!-- Order Summary -->
+    <div class="order-summary-sidebar">
+      <h2>{{ "order_summary" | translate }}</h2>
+      <div class="order-items">
+        @for (item of cart()?.items; track $index) {
+        <div class="order-item">
+          <img [src]="item.product.image" [alt]="item.product.name" />
+          <div class="item-info">
+            <p class="item-name">{{ item.product.name }}</p>
+            <p class="item-details">
+              @if (item.size) {
+              {{ item.size }}
               }
-            </span>
+              @if (item.size && item.color) {
+              /
+              }
+              @if (item.color) {
+              {{ item.color }}
+              }
+            </p>
+            <p class="item-qty">
+              {{ "quantity" | translate }}: {{ item.quantity }}
+            </p>
           </div>
-          <div class="summary-row">
-            <span>{{ "tax" | translate }}</span>
-            <span>${{ cart()?.tax | number: "1.2-2" }}</span>
-          </div>
-          <div class="summary-total">
-            <span>{{ "total" | translate }}</span>
-            <span>${{ cart()?.total | number: "1.2-2" }}</span>
-          </div>
+          <p class="item-price flex flex-col text-end">
+            @if (
+            item.product.discounted_price &&
+            item.product.discounted_price < item.product.price ) { <span
+              class="text-[14px] font-normal text-[#888] line-through">
+              ${{ item.product.price * item.quantity | number: "1.2-2" }}
+              </span>
+              }
+              <span>
+                ${{
+                (item.product.discounted_price ?? item.product.price) *
+                item.quantity | number: "1.2-2"
+                }}
+              </span>
+          </p>
+        </div>
+        }
+      </div>
+      <div class="summary-totals">
+        <div class="summary-row">
+          <span>{{ "subtotal" | translate }}</span>
+          <span>${{ cart()?.subtotal | number: "1.2-2" }}</span>
+        </div>
+        <div class="summary-row">
+          <span>{{ "shipping" | translate }}</span>
+          <span>
+            @if (cart()?.shipping === 0) {
+            <span class="free">{{ "free" | translate }}</span>
+            } @else {
+            ${{ cart()?.shipping | number: "1.2-2" }}
+            }
+          </span>
+        </div>
+        <div class="summary-row">
+          <span>{{ "tax" | translate }}</span>
+          <span>${{ cart()?.tax | number: "1.2-2" }}</span>
+        </div>
+        <div class="summary-total">
+          <span>{{ "total" | translate }}</span>
+          <span>${{ cart()?.total | number: "1.2-2" }}</span>
         </div>
       </div>
     </div>
+  </div>
   }
 </div>

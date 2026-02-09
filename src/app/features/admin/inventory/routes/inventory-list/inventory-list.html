@@ -35,7 +35,16 @@
           <td class="number">{{ ($index + 1 + ((page - 1) * limit)) }}</td>
           <td>#{{ item.code }}</td>
           <td>{{ item.product?.name }}</td>
-          <td>{{ item.quantity }}</td>
+          <td>
+            <span
+              [ngClass]="{'text-red-600 font-bold': item.low_stock_threshold !== undefined && item.quantity <= item.low_stock_threshold}">
+              {{ item.quantity }}
+              @if (item.low_stock_threshold !== undefined && item.quantity <= item.low_stock_threshold) { <mat-icon
+                color="warn" style="font-size: 18px; vertical-align: middle;">
+                warning</mat-icon>
+                }
+            </span>
+          </td>
           <td>{{ item.location }}</td>
           <td>{{ item.created_at | date: 'dd-MM-yyyy' }}</td>
           <td>{{ item.updated_at | date: 'dd-MM-yyyy' }}</td>
@@ -44,10 +53,72 @@
               type="button">
               <mat-icon>edit</mat-icon>
             </button>
+            <button mat-icon-button color="accent" (click)="adjustStock(item, 1)" title="Stock In">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="adjustStock(item, -1)" title="Stock Out">
+              <mat-icon>remove</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="openAdjustDialog(item)" title="Adjust">
+              <mat-icon>tune</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="openLogModal(item)" title="Logs">
+              <mat-icon>history</mat-icon>
+            </button>
             <button mat-icon-button class="delete" (click)="onDelete(item._id)">
               <mat-icon>delete_outline</mat-icon>
             </button>
           </td>
+          <!-- Inventory Log Modal -->
+          @if(showLogModal){
+          <div class="modal-backdrop">
+            <div class="modal-content">
+              <div class="modal-header">
+                <span>{{ 'inventory_log' | translate }}
+                  @if(selectedInventoryCode){
+                  <span>#{{ selectedInventoryCode
+                    }}
+                  </span>
+                  }
+                </span>
+                <button mat-icon-button (click)="closeLogModal()"><mat-icon>close</mat-icon></button>
+              </div>
+              <div class="modal-body">
+                @if(logLoading){
+                <div>{{ 'loading' | translate }}</div>
+                }
+                @if(!logLoading && logItems.length > 0){
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>{{ 'date' | translate }}</th>
+                      <th>{{ 'action' | translate }}</th>
+                      <th>{{ 'amount' | translate }}</th>
+                      <th>{{ 'previous_quantity' | translate }}</th>
+                      <th>{{ 'new_quantity' | translate }}</th>
+                      <th>{{ 'note' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (item of logItems; track $index) {
+                    <tr>
+                      <td>{{ item.created_at | date: 'dd-MM-yyyy HH:mm' }}</td>
+                      <td>{{ item.action | translate }}</td>
+                      <td>{{ item.amount }}</td>
+                      <td>{{ item.previous_quantity }}</td>
+                      <td>{{ item.new_quantity }}</td>
+                      <td>{{ item.note }}</td>
+                    </tr>}
+                  </tbody>
+                </table>
+                }
+                @if(!logLoading && logItems.length === 0){
+                <div class="text-center">{{ 'no_logs' | translate }}</div>
+                }
+              </div>
+            </div>
+          </div>
+          }
         </tr>
         } @empty {
         <tr>

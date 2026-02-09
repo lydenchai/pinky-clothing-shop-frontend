@@ -27,6 +27,22 @@
             </mat-form-field>
           </app-field-container>
         </div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <app-field-container [label]="'supplier' | translate" [control]="form.controls.supplier">
+            <mat-form-field appearance="outline">
+              <input matInput name="supplier" [formControl]="form.controls.supplier" placeholder="Supplier name or ID" />
+            </mat-form-field>
+          </app-field-container>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <app-field-container [label]="'expiry_date' | translate" [control]="form.controls.expiry_date">
+            <mat-form-field appearance="outline">
+              <input matInput [matDatepicker]="pickerExpiry" [formControl]="form.controls.expiry_date" />
+              <mat-datepicker-toggle matSuffix [for]="pickerExpiry"></mat-datepicker-toggle>
+              <mat-datepicker #pickerExpiry></mat-datepicker>
+            </mat-form-field>
+          </app-field-container>
+        </div>
       </div>
     </form>
   </div>

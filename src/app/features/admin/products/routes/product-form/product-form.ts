@@ -76,6 +76,8 @@ export class ProductForm implements OnInit {
     ]),
     sizes: new FormControl<string[] | null>(null, Validators.required),
     colors: new FormControl<string[] | null>(null),
+    supplier: new FormControl<string | null>(null),
+    status: new FormControl<'active' | 'inactive'>('active', Validators.required),
   });
 
   constructor(
@@ -109,6 +111,8 @@ export class ProductForm implements OnInit {
               stock: product.stock,
               sizes: product.sizes,
               colors: product.colors,
+              supplier: product.supplier || null,
+              status: product.status || 'active',
             });
             this.imagePreviewUrl = product.image || null;
           },
@@ -142,6 +146,8 @@ export class ProductForm implements OnInit {
       subcategory: formValue.subcategory,
       sizes: formValue.sizes,
       colors: formValue.colors,
+      supplier: formValue.supplier,
+      status: formValue.status,
     };
 
     const request$ = this.updateId()

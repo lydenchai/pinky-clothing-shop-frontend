@@ -1,24 +1,24 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ProductService } from '../../../core/services/product.service';
-import { CartService } from '../../../core/services/cart.service';
-import { Product } from '../../../core/types/product.model';
-import { DialogService } from '../../../core/services/dialog.service';
-import { WishlistService } from '../../../core/services/wishlist.service';
+import { Component, OnInit, signal } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { ProductService } from "../../../core/services/product.service";
+import { CartService } from "../../../core/services/cart.service";
+import { Product } from "../../../core/types/product.model";
+import { DialogService } from "../../../core/services/dialog.service";
+import { WishlistService } from "../../../core/services/wishlist.service";
 
 @Component({
-  selector: 'app-product-detail',
+  selector: "app-product-detail",
   imports: [CommonModule, RouterLink, TranslateModule],
-  templateUrl: './product-detail.html',
-  styleUrl: './product-detail.scss',
+  templateUrl: "./product-detail.html",
+  styleUrl: "./product-detail.scss",
 })
 export class ProductDetail implements OnInit {
   quantity = signal<number>(1);
-  selectedSize = signal<string>('');
-  selectedImage = signal<string>('');
-  selectedColor = signal<string>('');
+  selectedSize = signal<string>("");
+  selectedImage = signal<string>("");
+  selectedColor = signal<string>("");
   addedToCart = signal<boolean>(false);
   isWishListed = signal<boolean>(false);
   product = signal<Product | null>(null);
@@ -35,7 +35,7 @@ export class ProductDetail implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      const product_id = params['id'];
+      const product_id = params["id"];
       // Fetch wishlist first
       this.wishlistService.getMany().subscribe({
         next: (wishlistRes) => {
@@ -66,7 +66,7 @@ export class ProductDetail implements OnInit {
               }
             },
             error: () => {
-              this.router.navigate(['/products']);
+              this.router.navigate(["/products"]);
             },
           });
         },
@@ -79,7 +79,7 @@ export class ProductDetail implements OnInit {
               this.isWishListed.set(false);
             },
             error: () => {
-              this.router.navigate(['/products']);
+              this.router.navigate(["/products"]);
             },
           });
         },
@@ -116,7 +116,7 @@ export class ProductDetail implements OnInit {
     if (!this.selectedSize()) {
       this.dialogService.warning(
         this.translate.instant(
-          'message.please_select_a_size_before_adding_to_cart',
+          "message.please_select_a_size_before_adding_to_cart",
         ),
       );
       return;
@@ -125,7 +125,7 @@ export class ProductDetail implements OnInit {
     if (!this.selectedColor()) {
       this.dialogService.warning(
         this.translate.instant(
-          'message.please_select_a_color_before_adding_to_cart',
+          "message.please_select_a_color_before_adding_to_cart",
         ),
       );
       return;
@@ -140,9 +140,10 @@ export class ProductDetail implements OnInit {
       )
       .subscribe({
         next: () => {
+          this.cartService.loadCart().subscribe();
           this.addedToCart.set(true);
           this.dialogService.success(
-            this.translate.instant('message.item_added_to_cart_successfully'),
+            this.translate.instant("message.item_added_to_cart_successfully"),
           );
           setTimeout(() => this.addedToCart.set(false), 3000);
         },
@@ -151,28 +152,23 @@ export class ProductDetail implements OnInit {
             this.dialogService
               .error(
                 this.translate.instant(
-                  'message.please_login_to_add_items_to_your_cart',
+                  "message.please_login_to_add_items_to_your_cart",
                 ),
               )
               .then(() => {
-                this.router.navigate(['/login']);
+                this.router.navigate(["/login"]);
               });
           } else if (error.status === 400) {
             this.dialogService.error(
               error.error?.error ||
-                this.translate.instant('message.unable_to_add_item_to_cart'),
+                this.translate.instant("message.unable_to_add_item_to_cart"),
             );
           } else {
-            this.dialogService
-              .error(
-                this.translate.instant(
-                  'message.please_login_to_add_items_to_your_cart',
-                ),
-              )
-              .then(() => {
-                this.router.navigate(['/login']);
-              });
-            console.error(error);
+            this.dialogService.error(
+              this.translate.instant(
+                "message.an_error_occurred_please_try_again",
+              ),
+            );
           }
         },
       });
@@ -186,11 +182,14 @@ export class ProductDetail implements OnInit {
 
   getPrice(): string {
     const prod = this.product();
-    if (!prod) return '0.00';
-    if (typeof prod.discounted_price === 'number' && prod.discounted_price < prod.price) {
+    if (!prod) return "0.00";
+    if (
+      typeof prod.discounted_price === "number" &&
+      prod.discounted_price < prod.price
+    ) {
       return prod.discounted_price.toFixed(2);
     }
-    if (typeof prod.price === 'number') {
+    if (typeof prod.price === "number") {
       return prod.price.toFixed(2);
     }
     return Number.parseFloat(prod.price as any).toFixed(2);
@@ -203,7 +202,7 @@ export class ProductDetail implements OnInit {
       next: () => {
         this.isWishListed.set(true);
         this.dialogService.success(
-          this.translate.instant('message.added_to_wishlist'),
+          this.translate.instant("message.added_to_wishlist"),
         );
       },
       error: (error) => {
@@ -211,16 +210,16 @@ export class ProductDetail implements OnInit {
           this.dialogService
             .error(
               this.translate.instant(
-                'message.please_login_to_add_items_to_your_wishlist',
+                "message.please_login_to_add_items_to_your_wishlist",
               ),
             )
             .then(() => {
-              this.router.navigate(['/login']);
+              this.router.navigate(["/login"]);
             });
         } else {
           this.dialogService.error(
             this.translate.instant(
-              'message.an_error_occurred_please_try_again',
+              "message.an_error_occurred_please_try_again",
             ),
           );
         }
@@ -235,12 +234,12 @@ export class ProductDetail implements OnInit {
       next: () => {
         this.isWishListed.set(false);
         this.dialogService.success(
-          this.translate.instant('message.removed_from_wishlist'),
+          this.translate.instant("message.removed_from_wishlist"),
         );
       },
       error: (error) => {
         this.dialogService.error(
-          this.translate.instant('message.an_error_occurred_please_try_again'),
+          this.translate.instant("message.an_error_occurred_please_try_again"),
         );
       },
     });

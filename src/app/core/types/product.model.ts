@@ -1,3 +1,5 @@
+import { PaginationType } from "./pagination-type";
+
 export interface Product {
   _id?: string;
   code?: string;
@@ -19,29 +21,31 @@ export interface Product {
   updated_at?: Date;
 }
 
-export interface ProductFilter {
-  category?: string;
+export interface Product {
+  _id?: string;
+  code?: string;
+  name: string;
+  description: string;
+  price: number;
+  discount_type?: "percentage" | "fixed" | null;
+  discount_value?: number | null;
+  discount_start?: Date | null;
+  discount_end?: Date | null;
+  category: string;
   subcategory?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  search?: string;
-  inStock?: boolean;
-  page?: number;
-  limit?: number;
-}
-
-export interface PaginationInfo {
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
+  image: string;
+  stock: number;
+  sizes?: any[];
+  colors?: any[];
+  supplier?: string; // New: supplier name or id
+  status?: "active" | "inactive"; // New: product status
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 export interface ProductsResponse {
   data: Product[];
-  pagination: PaginationInfo;
+  pagination: PaginationType;
 }
 
 export interface CheckoutForm {

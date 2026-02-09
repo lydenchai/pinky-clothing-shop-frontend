@@ -1,10 +1,6 @@
 import { Injectable, Injector } from "@angular/core";
 import { Observable } from "rxjs";
-import {
-  Product,
-  ProductFilter,
-  ProductsResponse,
-} from "../types/product.model";
+import { Product, ProductsResponse } from "../types/product.model";
 import { BaseCrudService } from "./base-crud.service";
 import { DiscountProduct } from "../types/discount-product";
 
@@ -17,17 +13,17 @@ export class ProductService extends BaseCrudService<Product> {
     this.path = "/products/";
   }
 
-  getAllProducts(filter?: ProductFilter): Observable<ProductsResponse> {
+  getAllProducts(filter?: any): Observable<ProductsResponse> {
     const param = this.buildProductFilterParams(filter);
     return this.httpClientService.getJSON<ProductsResponse>(this.path, {
       data: param,
     });
   }
 
-  private buildProductFilterParams(filter?: ProductFilter): any {
+  private buildProductFilterParams(filter?: any): any {
     if (!filter) return {};
     const param: any = {};
-    const filterKeys: (keyof ProductFilter)[] = [
+    const filterKeys: (keyof any)[] = [
       "category",
       "subcategory",
       "minPrice",

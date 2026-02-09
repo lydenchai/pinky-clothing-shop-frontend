@@ -17,6 +17,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatIconModule } from "@angular/material/icon";
 import { DialogService } from "../../../../../core/services/dialog.service";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
 
 @Component({
   selector: "app-inventory-form",
@@ -31,6 +33,8 @@ import { DialogService } from "../../../../../core/services/dialog.service";
     FieldContainer,
     MatSelectModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: "./inventory-form.html",
   styleUrls: ["./inventory-form.scss"],
@@ -43,6 +47,8 @@ export class InventoryForm implements OnInit {
       Validators.min(0),
     ]),
     location: new FormControl<string | null>(""),
+    supplier: new FormControl<string | null>(null),
+    expiry_date: new FormControl<Date | null>(null),
   });
   updateId = signal<string | null>(null);
   products: Product[] = [];
@@ -67,6 +73,10 @@ export class InventoryForm implements OnInit {
               product_id: res.data.product._id || null,
               quantity: res.data.quantity,
               location: res.data.location || "",
+              supplier: res.data.supplier || null,
+              expiry_date: res.data.expiry_date
+                ? new Date(res.data.expiry_date)
+                : null,
             });
           },
         });

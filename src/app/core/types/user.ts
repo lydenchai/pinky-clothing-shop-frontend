@@ -6,9 +6,11 @@ export interface User {
   email: string;
   first_name: string;
   last_name: string;
-  role: "admin" | "customer";
+  role: "admin" | "staff" | "customer";
   phone?: string;
   address?: Address;
   created_at?: Date;
   avatar?: string;
+  is_active?: boolean;
+  is_blocked?: boolean;
 }

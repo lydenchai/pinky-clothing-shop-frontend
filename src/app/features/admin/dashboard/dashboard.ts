@@ -20,7 +20,6 @@ import { AnalyticsService } from "../../../core/services/analytics.service";
     MatIconModule,
     TranslateModule,
     PluralPipe,
-    DecimalPipe,
     DatePipe,
     CurrencyPipe,
   ],
@@ -32,19 +31,18 @@ export class Dashboard implements OnInit {
   lowStockCount = 0;
   pendingOrders = 0;
   completedOrders = 0;
-  totalCustomers = 0;
-  newCustomers = 0;
+  totalOrders = 0;
   sales = 0;
+  salesToday = 0;
+  salesMonth = 0;
+  recentOrders: Order[] = [];
+  topProducts: Product[] = [];
+  recentActivities: any[] = [];
 
   get salesNumber(): number {
     const n = Number(this.sales);
     return Number.isNaN(n) ? 0 : n;
   }
-
-  conversionRate = 0;
-
-  recentOrders: Order[] = [];
-  topProducts: Product[] = [];
 
   constructor(
     private readonly userService: UserService,
@@ -73,13 +71,29 @@ export class Dashboard implements OnInit {
         ).length;
       });
 
-    // Fetch analytics summary for total sales
+    // Fetch analytics summary for total sales, orders, and sales by day
     this.analyticsService.getSummary().subscribe({
       next: (res) => {
         this.sales = Number(res.data?.totalSales) || 0;
+        this.totalOrders = Number(res.data?.totalOrders) || 0;
+        // Sales summary (today/month)
+        const today = new Date().toISOString().slice(0, 10);
+        const month = new Date().toISOString().slice(0, 7);
+        const salesByDay = res.data?.salesByDay || [];
+        this.salesToday = 0;
+        this.salesMonth = 0;
+        for (const row of salesByDay) {
+          const date = row.date || row["date"];
+          const sales = Number(row.sales || row["sales"]);
+          if (date === today) this.salesToday += sales;
+          if (date && date.startsWith(month)) this.salesMonth += sales;
+        }
       },
       error: () => {
         this.sales = 0;
+        this.totalOrders = 0;
+        this.salesToday = 0;
+        this.salesMonth = 0;
       },
     });
 
@@ -98,19 +112,19 @@ export class Dashboard implements OnInit {
           .slice(0, 6);
       });
 
-    this.userService.getMany({ page: 1, limit: 100 }).subscribe({
-      next: (res) => {
-        this.totalCustomers = res.pagination?.totalItems ?? res.data.length;
-        this.newCustomers = res.data.filter((u) => {
-          if (!u.created_at) return false;
-          const created = new Date(u.created_at).getTime();
-          const thirtyDaysAgo = Date.now() - 1000 * 60 * 60 * 24 * 30;
-          return created >= thirtyDaysAgo;
-        }).length;
+    // Recent activities (last 5 actions)
+    this.analyticsService.getEvents().subscribe({
+      next: (events: any) => {
+        // Handle both array and { data: [] } response
+        const arr = Array.isArray(events)
+          ? events
+          : events && events.data
+            ? events.data
+            : [];
+        this.recentActivities = arr.slice(0, 5);
       },
       error: () => {
-        this.totalCustomers = 0;
-        this.newCustomers = 0;
+        this.recentActivities = [];
       },
     });
 
