@@ -4,6 +4,7 @@ export interface InventoryItem {
   product_id?: any;
   quantity: number;
   location?: string;
+  created_at?: string;
   updated_at?: string;
   product?: any;
   product_name?: string;
